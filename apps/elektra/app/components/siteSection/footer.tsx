@@ -17,9 +17,9 @@ export function Footer() {
   const theme = useTheme();
   return (
     <div>
-      <section>
-        <Container size={"xl"}>
-          <Paper bg="#D9D9D921" py={16} radius="xs">
+      <section className="bg-[#D9D9D941]">
+        <Container size={'xl'}>
+          <div className="py-12">
             <SimpleGrid cols={5}>
               <Group position="center">
                 <TruckDelivery />
@@ -77,7 +77,7 @@ export function Footer() {
                 </div>
               </Group>
             </SimpleGrid>
-          </Paper>
+          </div>
         </Container>
       </section>
       <section>
@@ -97,9 +97,17 @@ export function Footer() {
                 radius={'xs'}
                 size="md"
                 className="px-16"
-                color={'blue'}
+                style={{ color: 'white', borderColor: 'white' }}
                 label="SIGN UP"
-                uppercase
+                styles={{
+                  root: {
+                    color: 'white',
+                    borderColor: 'white',
+                    '&:hover': {
+                      backgroundColor: "unset",
+                    },
+                  },
+                }}
               />
             </Group>
             <Grid className="mt-10">
