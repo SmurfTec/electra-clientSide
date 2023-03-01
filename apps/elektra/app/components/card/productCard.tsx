@@ -75,7 +75,7 @@ export function ProductCard({
     <Card className={cx(classes.card, className)} {...others}>
       <Card.Section>
 
-        <Paper className="bg-[#F5F5F5] p-20 flex justify-center items-center">
+        <Paper bg={theme.other.color.productBackground} className="p-20 flex justify-center items-center">
           <NextImage height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
         </Paper>
       </Card.Section>

@@ -50,14 +50,14 @@ const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
         <Avatar src={image} />
         <div>
           <Text>{value}</Text>
-          {badges.map((item)=><Badge >{item}</Badge>)}
+          {badges.map((item)=><Badge variant="gradient" gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}>{item}</Badge>)}
         </div>
       </Group>
     </div>
   )
 );
 
-export function Demo() {
+export function SearchBox() {
   return (
     <Autocomplete
       label="Search Box"
