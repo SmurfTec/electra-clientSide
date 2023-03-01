@@ -50,7 +50,7 @@ const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
         <Avatar src={image} />
         <div>
           <Text>{value}</Text>
-          {badges.map((item)=><Badge variant="gradient" gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}>{item}</Badge>)}
+          {badges.map((item)=><Badge variant="gradient" mx={5} gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}>{item}</Badge>)}
         </div>
       </Group>
     </div>

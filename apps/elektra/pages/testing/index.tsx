@@ -55,6 +55,10 @@ export default function Index() {
         <HeroImage />
       </div>
 
+    <div>
+      
+    </div>
+
       <div>
         <Footer />
       </div>
