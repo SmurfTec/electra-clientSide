@@ -11,14 +11,7 @@ type FormFieldProps = InputProps & {
   onInputChanged?: (value: string | number) => void;
 };
 
-export const FormField = ({
-  label,
-  type,
-  name,
-  description,
-  onInputChanged,
-  ...rest
-}: FormFieldProps) => {
+export const FormField = ({ label, type, name, description, onInputChanged, ...rest }: FormFieldProps) => {
   const { form, schema } = useFormContext<any>();
   useEffect(() => {
     if (onInputChanged) {
@@ -35,9 +28,7 @@ export const FormField = ({
       required={isRequired(name, schema!)}
       type={type}
       {...form?.getInputProps(name)}
-      error={
-        form?.isTouched(name) && form?.isDirty(name) ? form.errors[name] : ''
-      }
+      error={form?.isTouched(name) && form?.isDirty(name) ? form.errors[name] : ''}
       {...rest}
     />
   );

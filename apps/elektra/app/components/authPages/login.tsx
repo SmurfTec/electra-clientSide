@@ -1,4 +1,4 @@
-import { Button, FacebookButton, Form, GoogleButton, NextImage } from '@elektra/ui';
+import { Button, FacebookButton, Form, GoogleButton, NextImage, Title } from '@elektra/ui';
 import { Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import Joi from 'joi';
@@ -29,9 +29,9 @@ export function Login() {
       <Grid.Col xs={12} sm={5} md={4}>
         <Container className="my-5">
           <Group className="mb-20">
-            <Text size="md" className="font-bold" color={'black'}>
+            <Title className="font-bold" color={'black'}>
               dummy logo
-            </Text>
+            </Title>
           </Group>
           <div>
             <Text size="xl" className="font-bold" color={'black'}>
