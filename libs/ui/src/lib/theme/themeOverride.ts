@@ -20,6 +20,7 @@ enum colorPallete {
   bodyLight = '#B4B4B4',
   backgroundPrimary = '#111111',
   backgroundSecondary = '#3C82D6',
+  productBackground = '#F5F5F5',
   gradientFrom = 'white',
   gradientTo = '#9d9e5a',
   border = '#e5b53b',
@@ -28,6 +29,7 @@ enum colorPallete {
   accent = '#B4B4B4',
   title = 'dark',
   subTitle = '#B4B4B4',
+  lightPrimary = "white",
   lightSecondary = 'skyblue',
   success = 'green',
   danger = 'red',
@@ -49,7 +51,7 @@ declare module '@mantine/core' {
 export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride => {
   const fontfactor = 1;
 
-  let upTheme: MantineTheme = {
+  const upTheme: MantineTheme = {
     ...theme,
     other: {
       color: colorPallete,
@@ -74,7 +76,7 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
       fontWeight: 400,
       sizes: {
         h1: { fontSize: '64px', lineHeight: '69.25px', fontWeight: '700' },
-        h2: { fontSize: '48px', lineHeight: 2.0, fontWeight: undefined },
+        h2: { fontSize: '48px', lineHeight: 1, fontWeight: undefined },
         h3: { fontSize: '36px', lineHeight: 1.5, fontWeight: undefined },
         h4: { fontSize: '24px', lineHeight: 1.5, fontWeight: undefined },
         h5: { fontSize: '16px', lineHeight: 1.5, fontWeight: undefined },

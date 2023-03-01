@@ -1,4 +1,5 @@
 import { HeroImage, ProductCard } from "@elektra/components";
+import { Footer } from "apps/elektra/app/components/siteSection/footer";
 
 
 const productData = [
@@ -95,6 +96,10 @@ export default function Index() {
 
     <div>
      <HeroImage />
+    </div>
+
+    <div>
+      <Footer />
     </div>
     </div>
   );
