@@ -11,23 +11,23 @@ import {
 } from '@mantine/core';
 
 export const colorPallete = {
-  headings: '#ab700a',
-  body: '#5c5577',
+  headings: 'dark',
+  body: 'dark',
 
-  bodyLight: '#918ca4',
-  backgroundPrimary: '#f8f9fa',
-  backgroundSecondary: '#fff',
+  bodyLight: '#B4B4B4',
+  backgroundPrimary: '#111111',
+  backgroundSecondary: '#3C82D6',
 
   gradientFrom: 'white',
   gradientTo: '#9d9e5a',
   border: '#e5b53b',
 
-  primary: '#9d9e5a',
-  secondary: '#c0c253',
-  accent: '#eff0bb',
+  primary: '#111111',
+  secondary: '#3C82D6',
+  accent: '#B4B4B4',
 
-  title: '#ab710a',
-  subTitle: '#656565',
+  title: 'dark',
+  subTitle: '#B4B4B4',
 };
 
 export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride => {
@@ -50,20 +50,20 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
 
       fontWeight: 400,
       sizes: {
-        h1: { fontSize: '3.4rem', lineHeight: 2.5, fontWeight: undefined },
-        h2: { fontSize: '2.6rem', lineHeight: 2.0, fontWeight: undefined },
-        h3: { fontSize: '2.2rem', lineHeight: 1.5, fontWeight: undefined },
-        h4: { fontSize: '1.8rem', lineHeight: 1.5, fontWeight: undefined },
-        h5: { fontSize: '1.6rem', lineHeight: 1.5, fontWeight: undefined },
-        h6: { fontSize: '1.4rem', lineHeight: 1.5, fontWeight: undefined },
+        h1: { fontSize: '64px', lineHeight: '69.25px', fontWeight: '700' },
+        h2: { fontSize: '48px', lineHeight: 2.0, fontWeight: undefined },
+        h3: { fontSize: '36px', lineHeight: 1.5, fontWeight: undefined },
+        h4: { fontSize: '24px', lineHeight: 1.5, fontWeight: undefined },
+        h5: { fontSize: '16px', lineHeight: 1.5, fontWeight: undefined },
+        h6: { fontSize: '12px', lineHeight: 1.5, fontWeight: undefined },
       },
     },
     fontSizes: {
-      xs: 12 * fontfactor, // 0.75rem
-      sm: 14 * fontfactor, // 0.875rem
-      md: 16 * fontfactor, // 1rem
-      lg: 18 * fontfactor, // 1.125rem
-      xl: 20 * fontfactor, // 1.25rem
+      xs: 9 * fontfactor,
+      sm: 13 * fontfactor,
+      md: 16 * fontfactor,
+      lg: 18 * fontfactor,
+      xl: 20 * fontfactor,
     },
 
     defaultGradient: defaultGradient,
@@ -97,7 +97,7 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
 };
 
 const TitleDefaultProps: TitleProps = {
-  order: 1,
+  order: 4,
 };
 
 const TitleDefaultStyles = {
