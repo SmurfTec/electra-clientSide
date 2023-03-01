@@ -1,44 +1,67 @@
 import {
   ButtonProps,
+  DefaultMantineColor,
   MantineGradient,
   MantineTheme,
   MantineThemeOverride,
   PasswordInputProps,
+  TextareaProps,
   TextInputProps,
   TextProps,
   TitleProps,
+  Tuple,
   TypographyStylesProviderProps,
 } from '@mantine/core';
 
-export const colorPallete = {
-  headings: '#ab700a',
-  body: '#5c5577',
+// this color pallette is available through theme.other.color ... choose colorname from intellisence
+enum colorPallete {
+  headings = 'dark',
+  body = 'dark',
+  bodyLight = '#B4B4B4',
+  backgroundPrimary = '#111111',
+  backgroundSecondary = '#3C82D6',
+  gradientFrom = 'white',
+  gradientTo = '#9d9e5a',
+  border = '#e5b53b',
+  primary = '#111111',
+  secondary = '#3C82D6',
+  accent = '#B4B4B4',
+  title = 'dark',
+  subTitle = '#B4B4B4',
+  lightSecondary = 'skyblue',
+  success = 'green',
+  danger = 'red',
+}
 
-  bodyLight: '#918ca4',
-  backgroundPrimary: '#f8f9fa',
-  backgroundSecondary: '#fff',
+declare module '@mantine/core' {
+  export interface MantineThemeColorsOverride {
+    colors: Record<DefaultMantineColor, Tuple<string, 20>>;
+  }
 
-  gradientFrom: 'white',
-  gradientTo: '#9d9e5a',
-  border: '#e5b53b',
-
-  primary: '#9d9e5a',
-  secondary: '#c0c253',
-  accent: '#eff0bb',
-
-  title: '#ab710a',
-  subTitle: '#656565',
-};
+  export interface MantineThemeOther {
+    color: typeof colorPallete;
+    fontSizeBody?: string;
+    lineHeight?: string;
+    fontfactor?: number;
+  }
+}
 
 export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride => {
   const fontfactor = 1;
 
-  return {
+  let upTheme: MantineTheme = {
+    ...theme,
+    other: {
+      color: colorPallete,
+    },
+  };
+
+  const themeOverride: MantineThemeOverride = {
     colorScheme: 'light',
     primaryColor: 'dark',
 
     other: {
-      colors: colorPallete,
+      color: colorPallete,
       fontSizeBody: '1.8rem',
       lineHeight: '1.5',
       fontfactor,
@@ -50,115 +73,162 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
 
       fontWeight: 400,
       sizes: {
-        h1: { fontSize: '3.4rem', lineHeight: 2.5, fontWeight: undefined },
-        h2: { fontSize: '2.6rem', lineHeight: 2.0, fontWeight: undefined },
-        h3: { fontSize: '2.2rem', lineHeight: 1.5, fontWeight: undefined },
-        h4: { fontSize: '1.8rem', lineHeight: 1.5, fontWeight: undefined },
-        h5: { fontSize: '1.6rem', lineHeight: 1.5, fontWeight: undefined },
-        h6: { fontSize: '1.4rem', lineHeight: 1.5, fontWeight: undefined },
+        h1: { fontSize: '64px', lineHeight: '69.25px', fontWeight: '700' },
+        h2: { fontSize: '48px', lineHeight: 2.0, fontWeight: undefined },
+        h3: { fontSize: '36px', lineHeight: 1.5, fontWeight: undefined },
+        h4: { fontSize: '24px', lineHeight: 1.5, fontWeight: undefined },
+        h5: { fontSize: '16px', lineHeight: 1.5, fontWeight: undefined },
+        h6: { fontSize: '12px', lineHeight: 1.5, fontWeight: undefined },
       },
     },
+
     fontSizes: {
-      xs: 12 * fontfactor, // 0.75rem
-      sm: 14 * fontfactor, // 0.875rem
-      md: 16 * fontfactor, // 1rem
-      lg: 18 * fontfactor, // 1.125rem
-      xl: 20 * fontfactor, // 1.25rem
+      xs: 9 * fontfactor,
+      sm: 13 * fontfactor,
+      md: 16 * fontfactor,
+      lg: 18 * fontfactor,
+      xl: 20 * fontfactor,
     },
 
-    defaultGradient: defaultGradient,
+    defaultGradient: defaultGradient(upTheme),
     defaultRadius: '5px',
 
     components: {
       Title: {
         defaultProps: TitleDefaultProps,
-        styles: TitleDefaultStyles,
+        styles: TitleDefaultStyles(upTheme),
       },
 
       TypographyStylesProvider: {
-        defaultProps: TypographyDefaultProps,
-        styles: TypographyDefaultStyles,
+        defaultProps: TypographyDefaultProps(upTheme),
+        styles: TypographyDefaultStyles(upTheme),
       },
 
-      Text: { defaultProps: TextDefaultProps },
-      TextInput: { defaultProps: TextInputDefaultProps },
-      PasswordInput: { defaultProps: PasswordInputDefaultProps },
-      Checkbox: { styles: CheckboxStyles },
+      Text: {
+        defaultProps: TextDefaultProps(upTheme),
+      },
+      TextInput: { defaultProps: TextInputDefaultProps(upTheme) },
+      PasswordInput: { defaultProps: PasswordInputDefaultProps(upTheme) },
+      Checkbox: { styles: CheckboxStyles(upTheme) },
+      Textarea: { defaultProps: TextAreaDefaultProps(upTheme) },
       Button: {
         defaultProps: ButtonDefaultProps,
       },
+
       Select: {
-        defaultProps: {
-          size: 'md',
-        },
+        defaultProps: SelectDefaultProps(upTheme),
+      },
+      MultiSelect: {
+        defaultProps: MultiSelectDefaultProps(upTheme),
       },
     },
   };
+
+  return themeOverride;
 };
 
 const TitleDefaultProps: TitleProps = {
-  order: 1,
+  order: 4,
 };
 
-const TitleDefaultStyles = {
+const TitleDefaultStyles = (theme: MantineTheme): TitleProps['styles'] => ({
   root: {
-    color: colorPallete.headings,
+    color: theme.other.color.headings,
   },
-};
+});
 
-const TypographyDefaultProps: Partial<TypographyStylesProviderProps> = {
-  color: colorPallete.headings,
-};
+const TypographyDefaultProps = (theme: MantineTheme): Partial<TypographyStylesProviderProps> => ({
+  color: theme.other.color.title,
+});
 
-const TypographyDefaultStyles = {
+const TypographyDefaultStyles = (theme: MantineTheme): TypographyStylesProviderProps['styles'] => ({
   root: {
-    color: colorPallete.headings,
+    color: theme.other.color.title,
   },
-};
+});
 
-const TextDefaultProps: TextProps = {
-  color: colorPallete.body,
+const TextDefaultProps = (theme: MantineTheme): Partial<TextProps> => ({
+  color: theme.other.color.title,
   size: 'md',
-};
+});
 
 const ButtonDefaultProps: ButtonProps = {
   variant: 'filled',
 };
-
-const TextInputDefaultProps: TextInputProps = {
+const TextInputDefaultProps = (theme: MantineTheme): TextInputProps => ({
   labelProps: {
     style: {
-      color: colorPallete.body,
+      color: theme.other.color.title,
     },
   },
   descriptionProps: {
     style: {
-      color: colorPallete.bodyLight,
+      color: theme.other.color.bodyLight,
     },
   },
-};
+});
 
-const PasswordInputDefaultProps: PasswordInputProps = {
+const PasswordInputDefaultProps = (theme: MantineTheme): PasswordInputProps => ({
   labelProps: {
     style: {
-      color: colorPallete.body,
+      color: theme.other.color.title,
     },
   },
   descriptionProps: {
     style: {
-      color: colorPallete.body,
+      color: theme.other.color.title,
     },
   },
-};
+});
 
-const CheckboxStyles = {
+const TextAreaDefaultProps = (theme: MantineTheme): TextareaProps => ({
+  labelProps: {
+    style: {
+      color: theme.other.color.title,
+    },
+  },
+  descriptionProps: {
+    style: {
+      color: theme.other.color.bodyLight,
+    },
+  },
+});
+
+const CheckboxStyles = (theme: MantineTheme) => ({
   label: {
-    color: colorPallete.body,
+    color: theme.other.color.title,
   },
-};
+});
 
-const defaultGradient: MantineGradient = {
-  from: colorPallete.gradientFrom,
-  to: colorPallete.gradientTo,
+const SelectDefaultProps = (theme: MantineTheme): TextInputProps => ({
+  labelProps: {
+    style: {
+      color: theme.other.color.title,
+    },
+  },
+  descriptionProps: {
+    style: {
+      color: theme.other.color.bodyLight,
+    },
+  },
+});
+
+const MultiSelectDefaultProps = (theme: MantineTheme): TextInputProps => ({
+  labelProps: {
+    style: {
+      color: theme.other.color.title,
+    },
+  },
+
+  descriptionProps: {
+    style: {
+      color: theme.other.color.bodyLight,
+    },
+  },
+});
+
+const defaultGradient = (theme: MantineTheme): MantineGradient => ({
+  from: theme.other.color.title,
+  to: theme.other.color.bodyLight,
   deg: 60,
-};
+});

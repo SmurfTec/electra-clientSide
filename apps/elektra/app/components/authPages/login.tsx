@@ -1,42 +1,9 @@
+import { Button, FacebookButton, Form, GoogleButton, NextImage } from '@elektra/ui';
 import { Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
-import { Form } from '@elektra/ui';
-import { Button, FacebookButton, GoogleButton } from '@elektra/ui';
 import Joi from 'joi';
+import { useStyles } from './signup';
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    position: 'relative',
-    padding: 0,
-    margin: 0,
-  },
-
-  centerAlign: {
-    margin: 0,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-  topAlign: {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-  },
-
-  bottomAlign: {
-    textAlign: 'center',
-    position: 'absolute',
-    bottom: '3%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-
-  title: {
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-  },
-}));
 
 export function Login() {
   const { classes } = useStyles();
@@ -53,8 +20,8 @@ export function Login() {
   });
 
   const initialValues: any = {
-    email: null,
-    password: null,
+    email: "",
+    password: "",
   };
 
   return (
@@ -66,7 +33,6 @@ export function Login() {
               dummy logo
             </Text>
           </Group>
-
           <div>
             <Text size="xl" className="font-bold" color={'black'}>
               Log in
@@ -84,32 +50,46 @@ export function Login() {
           <div className="mt-10">
             <Form initialValues={initialValues} onFormSubmit={() => console.log('')} schema={schema}>
               <div className="space-y-5">
-                <Form.FormField className="" name="email" description={'Email Address'} />
-                <Form.PasswordField name="password" description={'Password'} />
+                <Form.FormField className="" name="email" label='EMAIL ADDRESS'classNames={{input:classes.input}}/>
+                <Form.PasswordField name="password" label='PASSWORD' classNames={{input:classes.input}}/>
               </div>
               <div className="text-right mt-2">
                 <Button
                   className="bg-white hover:bg-white text-slate-300 px-0"
                   label="Forgot Password ?"
-                  href="/auth/login"
-                  component={NextLink}
+                  // href="/auth/login"
+                  // component={NextLink}
                 />
               </div>
               <div className="space-y-4 mt-10">
-                <Button className="w-full h-24" label="Login" />
+                <Button className="w-full h-24" label="Login" href="/auth/login" component={NextLink} />
                 <Button
                   component={NextLink}
-                  href={"/auth/signup"}
+                  href={'/auth/signup'}
                   className="w-full h-24 bg-[#3C82D6] hover:bg-[#3C82D6]"
                   label="Signup"
                 />
               </div>
             </Form>
           </div>
+          <div className="mt-20 space-x-4">
+            <Text className="inline-block" color="dark">
+              Privacy Policy
+            </Text>
+            <Text className="inline-block" color="dark">
+              Help Center
+            </Text>
+            <Text className="inline-block" color="dark">
+              .
+            </Text>
+            <Text className="inline-block" color="dark">
+              About
+            </Text>
+          </div>
         </Container>
       </Grid.Col>
       <Grid.Col xs={12} sm={7} md={8} className={classes.wrapper}>
-        <Image alt="background-image" height="100vh" className="m-0" src="/images/auth/loginBG.png" />
+        <NextImage alt="background-image" className="m-0 h-screen" layout="fill" src="/images/auth/loginBG.png" />
         <div className={classes.centerAlign}>
           <Image alt="center-image" src="/images/auth/loginCenter.png" />
         </div>

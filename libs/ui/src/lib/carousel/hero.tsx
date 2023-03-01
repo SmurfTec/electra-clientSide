@@ -68,11 +68,7 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     textAlign: 'left',
-    fontWeight: 'bold',
-    fontSize: '5.8rem',
-    letterSpacing: '2px',
     marginTop: '20px',
-    color: 'white',
     lineHeight: 0.8,
     [theme.fn.smallerThan('md')]: {
       textAlign: 'center',
@@ -82,8 +78,6 @@ const useStyles = createStyles((theme) => ({
 
   subtitle: {
     textAlign: 'left',
-    fontWeight: 'bold',
-    fontSize: '5.8rem',
     letterSpacing: '2px',
     marginBottom: '30px',
     color: 'white',
