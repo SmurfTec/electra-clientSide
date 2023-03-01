@@ -1,8 +1,5 @@
-import { Login } from "@elektra/components";
+import { Signup } from '@elektra/components';
 
-
-export default function loginPage(){
-    return (
-        <Login />
-    )
+export default function loginPage() {
+  return <Signup />;
 }

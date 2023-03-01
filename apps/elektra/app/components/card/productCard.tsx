@@ -1,50 +1,5 @@
-// import { Paper, Text } from '@mantine/core';
-// import Image, { StaticImageData } from 'next/image';
-// import { Heart } from 'tabler-icons-react';
-
-// type ProductCardProps = {
-//   name: string;
-//   capacity: string;
-//   image: StaticImageData;
-//   color: string;
-//   carrier: string;
-//   price: number;
-//   wishlist: boolean
-// };
-
-// export function ProductCard({
-//   image,
-//   name,
-//   capacity,
-//   color,
-//   carrier,
-//   price,
-//   wishlist,
-// }: ProductCardProps) {
-//   return (
-//     <Paper className="">
-//       {/* //TODO: need to make color appear from theme */}
-//       <Paper className="bg-[#F5F5F5] p-20 flex justify-center items-center">
-//         <Image src={image} alt={name} className="" />
-//       </Paper>
-//       <Paper className="flex justify-between mt-5">
-//         <Text>{name}</Text>
-// <Heart className='cursor-pointer' size={23} strokeWidth={1.5} fill={wishlist ? "red": "white"} color={wishlist ? "red" : undefined}/>
-//       </Paper>
-//       <Paper className='grid grid-cols-3 gap-3 mt-5'>
-//         <Text size={"xs"}>Capacity <br /> <span className='font-bold'>{capacity}</span> </Text>
-//         <Text size={"xs"}>Color <br /> <span className='font-bold'>{color}</span> </Text>
-//         <Text size={"xs"}>Carrier <br /> <span className='font-bold'>{carrier}</span> </Text>
-//       </Paper>
-//       <Paper className='mt-5'>
-//         <Text size={"xs"} className='inline-block'>Used Starting at</Text> <Text size={"xs"} className='inline-block font-bold'>${price}</Text>
-//       </Paper>
-//     </Paper>
-//   );
-// }
-
-import { Only } from '@elektra/ui';
-import { Badge, Card, createStyles, Group, Image, Text } from '@mantine/core';
+import { NextImage, Only, Title, useTheme } from '@elektra/ui';
+import { Badge, Card, createStyles, Group, Image, Paper, Text } from '@mantine/core';
 import { Heart } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
@@ -67,6 +22,9 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     marginTop: theme.spacing.md,
     marginBottom: theme.spacing.xs / 2,
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "black"
   },
 
   action: {
@@ -89,6 +47,8 @@ type ProductCardProps = {
   description: string;
   rating: string;
   wishlist: boolean;
+  lowestPrice: number | null;
+  highestPrice: number | null;
 };
 
 export function ProductCard({
@@ -99,6 +59,8 @@ export function ProductCard({
   description,
   wishlist,
   rating,
+  lowestPrice,
+  highestPrice,
   ...others
 }: ProductCardProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof ProductCardProps>) {
   const { classes, cx } = useStyles();
@@ -108,12 +70,14 @@ export function ProductCard({
     rel: 'noopener noreferrer',
   };
 
+  const theme = useTheme()
   return (
     <Card className={cx(classes.card, className)} {...others}>
       <Card.Section>
-        <a {...linkProps}>
-          <Image src={image} alt={title} height={180} />
-        </a>
+
+        <Paper className="bg-[#F5F5F5] p-20 flex justify-center items-center">
+          <Image height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
+        </Paper>
       </Card.Section>
 
       <Only when={!!rating}>
@@ -134,9 +98,20 @@ export function ProductCard({
           {/* </ActionIcon> */}
         </Group>
 
-        <Text size="sm" color="dimmed" lineClamp={4}>
+        <Text color={theme.other.subtitle} size="sm" lineClamp={4}>
           Condition : {description}
         </Text>
+
+        <Group className='mt-4'>
+          <div>
+            <Text className='text-[#656565]' size={"xs"}>Lowest Price</Text>
+            <Title order={5}>{lowestPrice ? `$${lowestPrice}` : "--"}</Title>
+          </div>
+          <div>
+          <Text className='text-[#656565]' size={"xs"}>Highest Price</Text>
+            <Title className='font-bold' order={5}>{highestPrice ? `$${highestPrice}` : "--"}</Title>
+          </div>
+        </Group>  
       </Card.Section>
     </Card>
   );
