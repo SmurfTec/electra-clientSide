@@ -1,51 +1,8 @@
 import { HeroImage, ProductCard } from "@elektra/components";
+import { Demo } from "@elektra/ui";
 
 
 const productData = [
-  {
-    id: 1,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500
-  },
-  {
-    id: 2,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500
-  },
-  {
-    id: 3,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500
-  },
-  {
-    id: 3,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: null,
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500
-  },
   {
     id: 4,
     img: '/images/product.png',
@@ -92,7 +49,9 @@ export default function Index() {
       })}
     </div>
     </div>
-
+    <div className="w-96 ml-96">
+     <Demo />
+    </div>
     <div>
      <HeroImage />
     </div>

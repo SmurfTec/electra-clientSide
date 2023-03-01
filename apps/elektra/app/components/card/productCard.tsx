@@ -76,7 +76,7 @@ export function ProductCard({
       <Card.Section>
 
         <Paper className="bg-[#F5F5F5] p-20 flex justify-center items-center">
-          <Image height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
+          <NextImage height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
         </Paper>
       </Card.Section>
 
@@ -98,7 +98,7 @@ export function ProductCard({
           {/* </ActionIcon> */}
         </Group>
 
-        <Text color={theme.other.subtitle} size="sm" lineClamp={4}>
+        <Text color={theme.other.color.subTitle} size="sm" lineClamp={4}>
           Condition : {description}
         </Text>
 
