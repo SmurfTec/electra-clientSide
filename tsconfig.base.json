@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@elektra/ui": ["libs/ui/src/index.ts"],
+      "@elektra/components": ["apps/elektra/app/components/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

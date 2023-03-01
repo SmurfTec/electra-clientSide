@@ -1,18 +1,24 @@
+import { ThemeProvider } from '@elektra/ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
+import '../styles/globals.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function ElektraApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to elektra!</title>
+        <title>Welcome to Elektra!</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
+      <main>
+        <ThemeProvider>
+          {/* <AppShell header={<div>Hey</div>}>
+            <Component {...pageProps} />
+          </AppShell> */}
+          <Component {...pageProps} />
+        </ThemeProvider>
       </main>
     </>
   );
 }
 
-export default CustomApp;
+export default ElektraApp;
