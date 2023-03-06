@@ -1,35 +1,30 @@
-import { createStyles } from '@mantine/core';
+import { Button, createStyles } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import { NextImage } from '../image';
 import { Text, Title } from '../text';
+import { useTheme } from '../theme';
 
 export interface IHerocomponentProps {
   backgroundImage: string;
-  title: React.ReactNode;
-  subTitle?: React.ReactNode;
-  description?: React.ReactNode;
-  controls?: React.ReactNode;
+  title: string;
+  subTitle?: string;
+  href: string;
 }
 
-export const Herocomponent = ({
-  backgroundImage,
-  title,
-  subTitle,
-  description,
-  controls,
-}: IHerocomponentProps) => {
+export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHerocomponentProps) => {
   const { classes } = useStyles();
   return (
     <div className={classes.parent}>
       <NextImage
         alt="background-image"
         className={classes.image}
-        layout='fill'
-        objectFit='cover'
+        layout="fill"
+        objectFit="cover"
         priority
         src={backgroundImage}
       />
       <div className={classes.container}>
-        <Title className={classes.title} order={1}>
+        <Title className={classes.title} color='white' order={1}>
           {title}
         </Title>
         {subTitle && (
@@ -37,10 +32,23 @@ export const Herocomponent = ({
             {subTitle}
           </Title>
         )}
-        {description && (
-          <Text className={classes.description}>{description}</Text>
-        )}
-        {controls && <div className={classes.controls}>{controls}</div>}
+        <div className={classes.controls}>
+          <Button
+            component={NextLink}
+            href={href}
+            size="md"
+            uppercase
+            color='blue'
+            styles={{
+              root: {
+                padding: '0px 25px',
+                borderRadius: 'unset',
+              },
+            }}
+          >
+            Shop Today
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -54,7 +62,7 @@ export default Herocomponent;
 
 const useStyles = createStyles((theme) => ({
   parent: {
-    height: '40vh',
+    height: '50vh',
     width: '100%',
     display: 'flex',
   },
@@ -65,6 +73,7 @@ const useStyles = createStyles((theme) => ({
   },
   container: {
     padding: 20,
+    marginLeft:20
   },
   title: {
     textAlign: 'left',
@@ -88,19 +97,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  description: {
-    display: 'inline-block',
-    width: 800,
-    color: theme.colors?.[theme.primaryColor][1],
-    fontSize: '1.8rem',
-    margin: 15,
-    [theme.fn.smallerThan('md')]: {
-      fontSize: '1.8rem',
-      lineHeight: 1.5,
-      width: 'auto',
-      textAlign: 'center',
-    },
-  },
+  
   controls: {
     display: 'flex',
     placeSelf: 'center',

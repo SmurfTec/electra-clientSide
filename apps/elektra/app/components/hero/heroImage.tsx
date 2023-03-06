@@ -6,29 +6,13 @@ const data:Array<IHerocomponentProps> = [
     backgroundImage: '/images/img.png',
     title: 'New Iphone 14',
     subTitle:" Packages",
-    controls: (
-      <Button
-        component="a"
-        href="#services"
-        label="Read More"
-        size="md"
-        uppercase
-      />
-    ),
+    href:"/"
   },
   {
     backgroundImage: '/images/img.png',
     title: 'New Iphone 12',
     subTitle:" Packages",
-    controls: (
-      <Button
-        component="a"
-        href="#services"
-        label="Read More"
-        size="md"
-        uppercase
-      />
-    ),
+    href:"/"
   },
 ];
 
