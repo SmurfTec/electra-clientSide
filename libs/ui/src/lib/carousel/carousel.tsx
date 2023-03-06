@@ -16,20 +16,20 @@ export const Carousel = ({ hero, delay, ...rest }: ICarouselProps) => {
       styles={{
         indicator: {
           width: 10,
-          border:"unset",
           height: 10,
+          borderRadius: 'unset',
           transition: 'width 250ms ease',
           '&[data-active]': {
             width: 10,
             background: 'gray',
           },
         },
-        indicators:{
-          left:70,
-          right:"unset"
-        }
+        indicators: {
+          left: 70,
+          right: 'unset',
+        },
       }}
-      className='w-full'
+      className="w-full"
     >
       {hero.map((item, index) => (
         <MCarousel.Slide key={index}>
@@ -37,8 +37,7 @@ export const Carousel = ({ hero, delay, ...rest }: ICarouselProps) => {
             backgroundImage={item.backgroundImage}
             title={item.title}
             subTitle={item.subTitle}
-            controls={item.controls}
-            description={item.description}
+            href={item.href}
           />
         </MCarousel.Slide>
       ))}
@@ -48,8 +47,8 @@ export const Carousel = ({ hero, delay, ...rest }: ICarouselProps) => {
 
 Carousel.displayName = 'Carousel';
 Carousel.defaultProps = {
-  loop:false,
-  withIndicators:true,
+  loop: false,
+  withIndicators: true,
   withControls: false,
   height: '100%',
 };

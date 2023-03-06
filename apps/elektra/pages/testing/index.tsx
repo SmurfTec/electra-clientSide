@@ -1,4 +1,4 @@
-import { Footer, HeroImage, ProductCard } from '@elektra/components';
+import { Footer, HeroImage, ProductCard, UserDashboard } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
 
 const productData = [
@@ -56,10 +56,10 @@ export default function Index() {
       </div>
 
     <div>
-      
+      <UserDashboard />
     </div>
 
-      <div>
+      <div className='mt-96'>
         <Footer />
       </div>
     </div>
