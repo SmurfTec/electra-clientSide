@@ -22,9 +22,9 @@ const useStyles = createStyles((theme) => ({
     display: 'block',
     marginTop: theme.spacing.md,
     marginBottom: theme.spacing.xs / 2,
-    fontSize: "16px",
-    fontWeight: "bold",
-    color: "black"
+    fontSize: '16px',
+    fontWeight: 'bold',
+    color: 'black',
   },
 
   action: {
@@ -49,6 +49,7 @@ type ProductCardProps = {
   wishlist: boolean;
   lowestPrice: number | null;
   highestPrice: number | null;
+  price: number | undefined;
 };
 
 export function ProductCard({
@@ -61,6 +62,7 @@ export function ProductCard({
   rating,
   lowestPrice,
   highestPrice,
+  price,
   ...others
 }: ProductCardProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof ProductCardProps>) {
   const { classes, cx } = useStyles();
@@ -70,11 +72,10 @@ export function ProductCard({
     rel: 'noopener noreferrer',
   };
 
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <Card className={cx(classes.card, className)} {...others}>
       <Card.Section>
-
         <Paper bg={theme.other.color.productBackground} className="p-20 flex justify-center items-center">
           <NextImage height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
         </Paper>
@@ -102,16 +103,29 @@ export function ProductCard({
           Condition : {description}
         </Text>
 
-        <Group className='mt-4'>
+        <Group className="mt-4">
           <div>
-            <Text className='text-[#656565]' size={"xs"}>Lowest Price</Text>
-            <Title order={5}>{lowestPrice ? `$${lowestPrice}` : "--"}</Title>
+            <Text className="text-[#656565]" size={'xs'}>
+              Lowest Price
+            </Text>
+            <Title order={5}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
           </div>
           <div>
-          <Text className='text-[#656565]' size={"xs"}>Highest Price</Text>
-            <Title className='font-bold' order={5}>{highestPrice ? `$${highestPrice}` : "--"}</Title>
+            <Text className="text-[#656565]" size={'xs'}>
+              Highest Price
+            </Text>
+            <Title className="font-bold" order={5}>
+              {highestPrice ? `$${highestPrice}` : '--'}
+            </Title>
           </div>
-        </Group>  
+        </Group>
+        <Only when={!!price}>
+          <div className="mt-6">
+            <Title order={6}>
+              Used Starting at <span className="font-bold">${price}</span>
+            </Title>
+          </div>
+        </Only>
       </Card.Section>
     </Card>
   );
