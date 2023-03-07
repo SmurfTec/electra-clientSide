@@ -12,6 +12,7 @@ const productData = [
     wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
+    price: 187
   },
   {
     id: 5,
@@ -23,6 +24,7 @@ const productData = [
     wishlist: false,
     lowestPrice: null,
     highestPrice: 500,
+    price: 187
   },
 ];
 
@@ -43,6 +45,7 @@ export default function Index() {
                 wishlist={product.wishlist}
                 lowestPrice={product.lowestPrice ?? null}
                 highestPrice={product.highestPrice ?? null}
+                price={product.price}  
               />
             );
           })}

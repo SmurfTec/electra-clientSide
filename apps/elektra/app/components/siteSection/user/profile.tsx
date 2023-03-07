@@ -47,9 +47,9 @@ export function Profile() {
             <Text color="black">Huzafa123455</Text>
           </div>
         </SimpleGrid>
-        <Button  leftIcon={<Pencil />} styles={{
+        <Button className='mt-16' leftIcon={<Pencil />} styles={{
           root:{
-            padding:'0px 25px',
+            padding:'0px 28px',
             borderRadius:'unset'
           }
         }}>Edit Profile</Button>
