@@ -1,5 +1,6 @@
-import { Footer, HeroImage, ProductCard, UserDashboard } from '@elektra/components';
+import { Footer, HeroImage, ModalDesign, ProductCard, UserDashboard } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
+import { Button, Group } from '@mantine/core';
 
 const productData = [
   {
@@ -12,7 +13,7 @@ const productData = [
     wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
-    price: 187
+    price: 187,
   },
   {
     id: 5,
@@ -24,7 +25,7 @@ const productData = [
     wishlist: false,
     lowestPrice: null,
     highestPrice: 500,
-    price: 187
+    price: 187,
   },
 ];
 
@@ -45,7 +46,7 @@ export default function Index() {
                 wishlist={product.wishlist}
                 lowestPrice={product.lowestPrice ?? null}
                 highestPrice={product.highestPrice ?? null}
-                price={product.price}  
+                price={product.price}
               />
             );
           })}
@@ -58,11 +59,15 @@ export default function Index() {
         <HeroImage />
       </div>
 
-    <div>
-      <UserDashboard />
-    </div>
-
-      <div className='mt-96'>
+      <div>
+        <UserDashboard />
+      </div>
+      <div>
+        <Group position="center">
+          <ModalDesign />
+        </Group>
+      </div>
+      <div className="mt-96">
         <Footer />
       </div>
     </div>
