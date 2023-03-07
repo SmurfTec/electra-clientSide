@@ -89,7 +89,6 @@ export function Footer() {
                 Place to explore the best products.
               </Title>
 
-              {/* TODO: Button not picking white color */}
               <Button
                 component={NextLink}
                 href="/auth/signup"
@@ -97,7 +96,6 @@ export function Footer() {
                 radius='xs'
                 size="md"
                 className="px-16"
-                style={{ color: 'white', borderColor: 'white' }}
                 styles={{
                   root: {
                     color: 'white',
