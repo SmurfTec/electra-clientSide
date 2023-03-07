@@ -1,5 +1,5 @@
 import { Text, Title, useTheme } from '@elektra/ui';
-import { Grid, Image, SimpleGrid } from '@mantine/core';
+import { Grid, Image, SimpleGrid, useMantineTheme } from '@mantine/core';
 
 type HIWContentProps = {
   image: string;
@@ -8,7 +8,7 @@ type HIWContentProps = {
 };
 
 export function HIWContent({ image, content, title }: HIWContentProps) {
-  const theme = useTheme();
+  const theme = useMantineTheme();
   return (
     <div className="mt-16">
       <Grid

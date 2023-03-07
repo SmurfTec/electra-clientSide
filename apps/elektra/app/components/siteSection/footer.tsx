@@ -1,5 +1,5 @@
-import { Button, Text, Title, useTheme } from '@elektra/ui';
-import { Divider, Grid, Image, Paper, SimpleGrid, Container } from '@mantine/core';
+import {  Text, Title, useTheme } from '@elektra/ui';
+import { Divider, Grid, Image, Paper, SimpleGrid, Container, Button, useMantineTheme } from '@mantine/core';
 import { Group } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 
@@ -14,7 +14,7 @@ import {
 } from 'tabler-icons-react';
 
 export function Footer() {
-  const theme = useTheme();
+  const theme = useMantineTheme();
   return (
     <div>
       <section className="bg-[#D9D9D941]">
@@ -94,11 +94,10 @@ export function Footer() {
                 component={NextLink}
                 href="/auth/signup"
                 variant="outline"
-                radius={'xs'}
+                radius='xs'
                 size="md"
                 className="px-16"
                 style={{ color: 'white', borderColor: 'white' }}
-                label="SIGN UP"
                 styles={{
                   root: {
                     color: 'white',
@@ -108,7 +107,7 @@ export function Footer() {
                     },
                   },
                 }}
-              />
+              >SIGN UP</Button>
             </Group>
             <Grid className="mt-10">
               <Grid.Col xs={12} sm={7}>

@@ -13,11 +13,11 @@ export const useStyles = createStyles((theme) => ({
   input: {
     borderRadius: 'unset',
     border: '1px solid black',
-    height: '52px', 
+    height: '52px',
   },
-  innerInput:{
-      height:"52px"
-  }
+  innerInput: {
+    height: '52px',
+  },
 }));
 
 export default function Signup() {
@@ -58,27 +58,41 @@ export default function Signup() {
             <Logo />
           </Group>
           <TitleHead title="Signup" description="Signup and explore the best products." />
-          <SocialButton title='Signup' />
+          <SocialButton title="Signup" />
           <div className="mt-10">
             <Form initialValues={initialValues} onFormSubmit={() => console.log('hey')} schema={schema}>
               <div className="space-y-5">
-                <Form.FormField name="firstName" label="FIRST NAME" classNames={{ input: classes.input }} />
-                <Form.FormField name="lastName" label="LAST NAME" classNames={{ input: classes.input }} />
-                <Form.FormField name="email" label="EMAIL ADDRESS" classNames={{ input: classes.input }} />
-                <Form.PasswordField name="password" label="PASSWORD" classNames={{ input: classes.input,innerInput:classes.innerInput }} />
+                <Form.FormField
+                  name="firstName"
+                  placeholder="First Name"
+                  label="FIRST NAME"
+                  classNames={{ input: classes.input }}
+                />
+                <Form.FormField
+                  name="lastName"
+                  placeholder="Last Name"
+                  label="LAST NAME"
+                  classNames={{ input: classes.input }}
+                />
+                <Form.FormField
+                  name="email"
+                  placeholder="Email"
+                  label="EMAIL ADDRESS"
+                  classNames={{ input: classes.input }}
+                />
+                <Form.PasswordField
+                  name="password"
+                  placeholder="Password"
+                  label="PASSWORD"
+                  classNames={{ input: classes.input, innerInput: classes.innerInput }}
+                />
               </div>
               <div className="text-right mt-2">
                 <Button className="bg-white hover:bg-white text-slate-300 px-0" label="Forgot Password ?" />
               </div>
               <div className="space-y-4 mt-10">
                 <Form.FormButton type="submit" className="w-full h-24" label="Signup" />
-                <Button
-                  className="w-full h-24 hover:bg-[#3C82D6]"
-                  label="Login"
-                  color='blue'
-                  href="/auth/login"
-                  component={NextLink}
-                />
+                <Button className="w-full h-24" label="Login" color="blue" href="/auth/login" component={NextLink} />
               </div>
             </Form>
           </div>

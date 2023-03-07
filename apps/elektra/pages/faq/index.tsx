@@ -1,9 +1,9 @@
 import { useTheme } from '@elektra/ui';
-import { Accordion, Container, Divider, SimpleGrid, Title } from '@mantine/core';
+import { Accordion, Container, Divider, SimpleGrid, Title, useMantineTheme } from '@mantine/core';
 import { Plus } from 'tabler-icons-react';
 
 export default function FAQ() {
-  const theme = useTheme();
+  const theme = useMantineTheme();
   return (
     <Container size="xl" mt={70}>
       <Title className="font-bold" order={4}>

@@ -39,7 +39,7 @@ export default function Login() {
             <Logo />
           </Group>
           <TitleHead title="Log in" description="Login to buy & sell on our platform." />
-          <SocialButton title='Login' />
+          <SocialButton title="Login" />
           <div className="mt-10">
             <Form initialValues={initialValues} onFormSubmit={() => console.log('')} schema={schema}>
               <div className="space-y-5">
@@ -63,12 +63,7 @@ export default function Login() {
                 <Button className="w-full h-24" href="/auth/login" component={NextLink}>
                   Login
                 </Button>
-                <Button
-                  color='blue'
-                  component={NextLink}
-                  href={'/auth/signup'}
-                  className="w-full h-24 hover:bg-[#3C82D6]"
-                >
+                <Button color="blue" component={NextLink} href={'/auth/signup'} className="w-full h-24">
                   Signup
                 </Button>
               </div>
