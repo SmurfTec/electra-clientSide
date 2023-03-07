@@ -21,8 +21,10 @@ enum colorPallete {
   backgroundPrimary = '#111111',
   backgroundSecondary = '#3C82D6',
   productBackground = '#F5F5F5',
-  gradientFrom = 'white',
-  gradientTo = '#9d9e5a',
+  // gradientFrom = 'white',
+  // gradientTo = '#9d9e5a',
+  tabs = '#D9D9D9',
+  tabTitle = '#656565',
   border = '#e5b53b',
   primary = '#111111',
   secondary = '#3C82D6',
@@ -62,6 +64,8 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
     colorScheme: 'light',
     primaryColor: 'dark',
 
+    fontFamily: "Manrope",
+
     other: {
       color: colorPallete,
       fontSizeBody: '1.8rem',
@@ -71,7 +75,7 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
 
     headings: {
       fontFamily:
-        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+        "Manrope",
 
       fontWeight: 400,
       sizes: {

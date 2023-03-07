@@ -1,4 +1,4 @@
-import { Tabs, TabsProps } from '@mantine/core';
+import { ListProps, TabProps, Tabs, TabsListProps, TabsProps } from '@mantine/core';
 import { ReactNode } from 'react';
 
 type tabViewData = {
@@ -6,12 +6,12 @@ type tabViewData = {
   content: ReactNode;
 };
 
-type tabViewDataProps = { data: Array<tabViewData> } & Omit<TabsProps, 'children'>;
+type tabViewDataProps = { data: Array<tabViewData> } & Omit<TabsProps, 'children'> & Omit<TabsListProps, 'children'>;
 
-export function TabView({ data, ...rest }: tabViewDataProps) {
+export function TabView({ data, position, ...rest }: tabViewDataProps) {
   return (
     <Tabs color="blue" keepMounted={false} defaultValue={data[0].title.toLowerCase()} {...rest}>
-      <Tabs.List className='space-x-16'>
+      <Tabs.List className="space-x-16" position={position}>
         {data.map((item,index) => (
           <Tabs.Tab key={index} value={item.title.toLowerCase()}>{item.title}</Tabs.Tab>
         ))}
