@@ -1,8 +1,7 @@
 import { Button, createStyles } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { NextImage } from '../image';
-import { Text, Title } from '../text';
-import { useTheme } from '../theme';
+import { Title } from '../text';
 
 export interface IHerocomponentProps {
   backgroundImage: string;
@@ -24,7 +23,7 @@ export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHeroc
         src={backgroundImage}
       />
       <div className={classes.container}>
-        <Title className={classes.title} color='white' order={1}>
+        <Title className={classes.title} color="white" order={1}>
           {title}
         </Title>
         {subTitle && (
@@ -33,19 +32,7 @@ export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHeroc
           </Title>
         )}
         <div className={classes.controls}>
-          <Button
-            component={NextLink}
-            href={href}
-            size="md"
-            uppercase
-            color='blue'
-            styles={{
-              root: {
-                padding: '0px 25px',
-                borderRadius: 'unset',
-              },
-            }}
-          >
+          <Button component={NextLink} href={href} size="md" uppercase color="blue">
             Shop Today
           </Button>
         </div>
@@ -73,7 +60,7 @@ const useStyles = createStyles((theme) => ({
   },
   container: {
     padding: 20,
-    marginLeft:20
+    marginLeft: 20,
   },
   title: {
     textAlign: 'left',
@@ -97,7 +84,6 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  
   controls: {
     display: 'flex',
     placeSelf: 'center',

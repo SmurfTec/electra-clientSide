@@ -1,5 +1,5 @@
-import { NextImage, Only, Title, useTheme } from '@elektra/ui';
-import { Badge, Card, createStyles, Group, Image, Paper, Text } from '@mantine/core';
+import { NextImage, Only, Title } from '@elektra/ui';
+import { Badge, Card, createStyles, Group, Paper, Text, useMantineTheme } from '@mantine/core';
 import { Heart } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
@@ -72,7 +72,7 @@ export function ProductCard({
     rel: 'noopener noreferrer',
   };
 
-  const theme = useTheme();
+  const theme = useMantineTheme();
   return (
     <Card className={cx(classes.card, className)} {...others}>
       <Card.Section>

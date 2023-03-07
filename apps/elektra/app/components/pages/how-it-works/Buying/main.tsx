@@ -1,5 +1,5 @@
 import { TabView, tabViewData, useTheme } from '@elektra/ui';
-import { Container } from '@mantine/core';
+import { Container, useMantineTheme } from '@mantine/core';
 import { HIWContent } from '../common/content';
 
 const tabViewData: tabViewData[] = [
@@ -18,7 +18,7 @@ const tabViewData: tabViewData[] = [
 ];
 
 export function Buying() {
-  const theme = useTheme()
+  const theme = useMantineTheme()
   return (
     <section className='mt-24'>
       <Container size="md">
