@@ -1,5 +1,5 @@
-import { PasswordInput, PasswordInputProps } from '../input';
 import { useEffect } from 'react';
+import { PasswordInput, PasswordInputProps } from '../input';
 import { useFormContext } from './formProvider';
 import { isRequired } from './formUtils';
 
@@ -27,8 +27,8 @@ export const PasswordInputField = ({ label, name, description, onInputChanged, .
       description={description}
       label={label}
       required={isRequired(name, schema!)}
-      error={form?.isTouched(name) || form?.isDirty(name) ? form.errors[name] : ''}
       {...form?.getInputProps(name)}
+      error={form?.isDirty(name) ? form.errors[name] : ''}
       {...rest}
     />
   );

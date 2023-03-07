@@ -1,7 +1,7 @@
-import { isRequired } from './formUtils';
 import { useEffect } from 'react';
-import { useFormContext } from './formProvider';
 import { Input, InputProps } from '../input';
+import { useFormContext } from './formProvider';
+import { isRequired } from './formUtils';
 
 type FormFieldProps = InputProps & {
   value?: string;
