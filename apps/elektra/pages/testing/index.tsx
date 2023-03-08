@@ -1,4 +1,4 @@
-import { Footer, HeroImage, ModalDesign, ProductCard, UserDashboard } from '@elektra/components';
+import { CategoryCard, Footer, HeroImage, ModalDesign, ProductCard, UserDashboard } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
 
@@ -29,6 +29,45 @@ const productData = [
   },
 ];
 
+const categoryData = [
+  {
+    id: 1,
+    image: "/images/category.png",
+    title: "Laptops",
+    link: "#"
+  },
+  {
+    id: 2,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 3,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 4,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 5,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 6,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  }
+]
+
 export default function Index() {
   return (
     <div>
@@ -49,6 +88,14 @@ export default function Index() {
                 price={product.price}
               />
             );
+          })}
+        </div>
+
+        <div style={{marginTop: "100px"}} className='grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center'>
+          {categoryData.map((category)=> {
+            return (
+              <CategoryCard image={category.image} id={category.id} title={category.title} link={category.link} />
+            )
           })}
         </div>
       </div>
