@@ -60,10 +60,10 @@ export default function Login() {
                 <Button className="bg-white hover:bg-white text-slate-300 px-0">Forgot Password ?</Button>
               </div>
               <div className="space-y-4 mt-10">
-                <Button className="w-full h-24" href="/auth/login" component={NextLink}>
+                <Button className="w-full h-16" href="/auth/login" component={NextLink}>
                   Login
                 </Button>
-                <Button color="blue" component={NextLink} href={'/auth/signup'} className="w-full h-24">
+                <Button color="blue" component={NextLink} href={'/auth/signup'} className="w-full h-16">
                   Signup
                 </Button>
               </div>
