@@ -1,6 +1,7 @@
-import { CategoryCard, Footer, HeroImage, ModalDesign, ProductCard, UserDashboard } from '@elektra/components';
+import { EmailVerificationModel, CategoryCard, Footer, HeroImage, Modal, PasswordChangeModel, ProductCard, SignUpSuccesfullModal, UserDashboard } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 const productData = [
   {
@@ -69,6 +70,7 @@ const categoryData = [
 ]
 
 export default function Index() {
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
       <div className="p-16">
@@ -109,9 +111,22 @@ export default function Index() {
       <div>
         <UserDashboard />
       </div>
-      <div>
+      {/* <div>
         <Group position="center">
-          <ModalDesign />
+          <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com.'  />} onClose={close} open={opened} />
+          <Button onClick={open} >Email Verfication Model</Button>
+        </Group>
+      </div> */}
+      {/* <div className="mt-16">
+        <Group position="center">
+          <Modal size={500} children={<SignUpSuccesfullModal   />} onClose={close} open={opened} />
+          <Button onClick={open} >SignUp Succesfull Model</Button>
+        </Group>
+      </div> */}
+      <div className="mt-16">
+        <Group position="center">
+          <Modal title='Change Password' children={<PasswordChangeModel   />} onClose={close} open={opened} />
+          <Button onClick={open} >Password Change Model</Button>
         </Group>
       </div>
       <div className="mt-96">

@@ -12,7 +12,7 @@ export const SocialButton = ({ title }: SocialButtonProps) => {
         leftIcon={<GoogleIcon />}
         component={NextLink}
         href="/"
-        className="w-full h-24 font-normal"
+        className="w-full h-16 font-normal"
         variant="default"
         color="gray"
       >
@@ -22,7 +22,7 @@ export const SocialButton = ({ title }: SocialButtonProps) => {
         leftIcon={<FacebookIcon />}
         component={NextLink}
         href="/"
-        className="w-full h-24 font-normal"
+        className="w-full h-16 font-normal"
         variant="default"
         color="gray"
       >
