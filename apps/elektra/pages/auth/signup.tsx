@@ -91,8 +91,8 @@ export default function Signup() {
                 <Button className="bg-white hover:bg-white text-slate-300 px-0" label="Forgot Password ?" />
               </div>
               <div className="space-y-4 mt-10">
-                <Form.FormButton type="submit" className="w-full h-24" label="Signup" />
-                <Button className="w-full h-24" label="Login" color="blue" href="/auth/login" component={NextLink} />
+                <Form.FormButton type="submit" className="w-full h-16" label="Signup" />
+                <Button className="w-full h-16" label="Login" color="blue" href="/auth/login" component={NextLink} />
               </div>
             </Form>
           </div>
