@@ -64,24 +64,24 @@ export default function Index() {
       <div>
         <UserDashboard />
       </div>
-      {/* <div>
+      <div>
         <Group position="center">
           <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com.'  />} onClose={close} open={opened} />
           <Button onClick={open} >Email Verfication Model</Button>
         </Group>
-      </div> */}
+      </div>
       {/* <div className="mt-16">
         <Group position="center">
           <Modal size={500} children={<SignUpSuccesfullModal   />} onClose={close} open={opened} />
           <Button onClick={open} >SignUp Succesfull Model</Button>
         </Group>
       </div> */}
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <Group position="center">
           <Modal title='Change Password' children={<PasswordChangeModel   />} onClose={close} open={opened} />
           <Button onClick={open} >Password Change Model</Button>
         </Group>
-      </div>
+      </div> */}
       <div className="mt-96">
         <Footer />
       </div>

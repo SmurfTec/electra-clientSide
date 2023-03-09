@@ -42,6 +42,13 @@ export const createThemeoverride = (): MantineThemeOverride => {
         h6: { fontSize: '12px', lineHeight: 1.5, fontWeight: undefined },
       },
     },
+    fontSizes: {
+      xs: "9px",
+      sm: "13px",
+      md: "16px",
+      lg: "18px",
+      xl: "20px",
+    },
     components: {
       Button: {
         styles: {
