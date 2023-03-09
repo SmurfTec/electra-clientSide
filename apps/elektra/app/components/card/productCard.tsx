@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     display: 'block',
     marginTop: theme.spacing.md,
-    marginBottom: theme.spacing.xs / 2,
+    marginBottom: theme.spacing.xs,
     fontSize: '16px',
     fontWeight: 'bold',
     color: 'black',
@@ -77,7 +77,7 @@ export function ProductCard({
     <Card className={cx(classes.card, className)} {...others}>
       <Card.Section>
         <Paper bg={theme.other.color.productBackground} className="p-20 flex justify-center items-center">
-          <NextImage height={120} width={100} alt={image} src={image} className="h-2/4 w-2/4" />
+          <NextImage height={120} width={100} alt={image} src={image} className="h-1/2 w-1/2" />
         </Paper>
       </Card.Section>
 
