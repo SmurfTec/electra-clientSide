@@ -1,4 +1,4 @@
-import { EmailVerificationModel, Footer, HeroImage, Modal, PasswordChangeModel, ProductCard, SignUpSuccesfullModal, UserDashboard } from '@elektra/components';
+import { EmailVerificationModel, CategoryCard, Footer, HeroImage, Modal, PasswordChangeModel, ProductCard, SignUpSuccesfullModal, UserDashboard } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -30,6 +30,45 @@ const productData = [
   },
 ];
 
+const categoryData = [
+  {
+    id: 1,
+    image: "/images/category.png",
+    title: "Laptops",
+    link: "#"
+  },
+  {
+    id: 2,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 3,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 4,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 5,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  },
+  {
+    id: 6,
+    image: "/images/category.png",
+    title: "Phones",
+    link: "#"
+  }
+]
+
 export default function Index() {
   const [opened, { open, close }] = useDisclosure(false);
   return (
@@ -53,6 +92,14 @@ export default function Index() {
             );
           })}
         </div>
+
+        <div style={{marginTop: "100px"}} className='grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center'>
+          {categoryData.map((category)=> {
+            return (
+              <CategoryCard image={category.image} id={category.id} title={category.title} link={category.link} />
+            )
+          })}
+        </div>
       </div>
       <div className="w-96 ml-96">
         <SearchBox />
@@ -64,24 +111,24 @@ export default function Index() {
       <div>
         <UserDashboard />
       </div>
-      {/* <div>
+      <div>
         <Group position="center">
           <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com.'  />} onClose={close} open={opened} />
           <Button onClick={open} >Email Verfication Model</Button>
         </Group>
-      </div> */}
+      </div>
       {/* <div className="mt-16">
         <Group position="center">
           <Modal size={500} children={<SignUpSuccesfullModal   />} onClose={close} open={opened} />
           <Button onClick={open} >SignUp Succesfull Model</Button>
         </Group>
       </div> */}
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <Group position="center">
           <Modal title='Change Password' children={<PasswordChangeModel   />} onClose={close} open={opened} />
           <Button onClick={open} >Password Change Model</Button>
         </Group>
-      </div>
+      </div> */}
       <div className="mt-96">
         <Footer />
       </div>
