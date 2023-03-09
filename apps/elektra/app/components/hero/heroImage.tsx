@@ -17,7 +17,7 @@ const data:Array<IHerocomponentProps> = [
 ];
 
 export function HeroImage() {
-  return <div className='p-20'><Carousel hero={data} delay={4000} /></div>;
+  return <div><Carousel hero={data} delay={4000} /></div>;
 }
 
 export default HeroImage;
