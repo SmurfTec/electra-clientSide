@@ -1,4 +1,4 @@
-import { Button, Carousel } from '@elektra/ui';
+import { Carousel } from '@elektra/ui';
 import { IHerocomponentProps } from '@elektra/ui';
 
 const data:Array<IHerocomponentProps> = [
