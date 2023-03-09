@@ -23,7 +23,7 @@ export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
         <Title className="font-[600]" order={5}>
           {title}
         </Title>
-        TODO: Not right behavior but make it right way
+        {/* TODO: Not right behavior but make it right way */}
         <div className="contents" ref={ref}>
           <Button
             className="rounded-3xl px-4 h-7"
