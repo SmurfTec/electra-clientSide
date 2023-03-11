@@ -1,7 +1,17 @@
-import { EmailVerificationModel, CategoryCard, Footer, HeroImage, Modal, PasswordChangeModel, ProductCard, SignUpSuccesfullModal, UserDashboard } from '@elektra/components';
+import {
+  CategoryCard,
+  Footer,
+  HeroImage,
+  Modal,
+  ProductCard,
+  RedeemSuccesfullModal,
+  RedeemUnSuccesfullModal,
+  UserDashboard,
+} from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { PageTitle } from 'apps/elektra/app/components/pageTitle';
 
 const productData = [
   {
@@ -33,41 +43,41 @@ const productData = [
 const categoryData = [
   {
     id: 1,
-    image: "/images/category.png",
-    title: "Laptops",
-    link: "#"
+    image: '/images/category.png',
+    title: 'Laptops',
+    link: '#',
   },
   {
     id: 2,
-    image: "/images/category.png",
-    title: "Phones",
-    link: "#"
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
   },
   {
     id: 3,
-    image: "/images/category.png",
-    title: "Phones",
-    link: "#"
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
   },
   {
     id: 4,
-    image: "/images/category.png",
-    title: "Phones",
-    link: "#"
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
   },
   {
     id: 5,
-    image: "/images/category.png",
-    title: "Phones",
-    link: "#"
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
   },
   {
     id: 6,
-    image: "/images/category.png",
-    title: "Phones",
-    link: "#"
-  }
-]
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+];
 
 export default function Index() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -93,11 +103,17 @@ export default function Index() {
           })}
         </div>
 
-        <div style={{marginTop: "100px"}} className='grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center'>
-          {categoryData.map((category)=> {
+        <div style={{ marginTop: '100px' }} className="grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center">
+          {categoryData.map((category, index) => {
             return (
-              <CategoryCard image={category.image} id={category.id} title={category.title} link={category.link} />
-            )
+              <CategoryCard
+                key={index}
+                image={category.image}
+                id={category.id}
+                title={category.title}
+                link={category.link}
+              />
+            );
           })}
         </div>
       </div>
@@ -111,23 +127,85 @@ export default function Index() {
       <div>
         <UserDashboard />
       </div>
-      <div>
+      {/* <div>
         <Group position="center">
-          <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com.'  />} onClose={close} open={opened} />
+          <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com'  />} onClose={close} open={opened} />
           <Button onClick={open} >Email Verfication Model</Button>
         </Group>
-      </div>
+      </div> */}
+
       {/* <div className="mt-16">
         <Group position="center">
           <Modal size={500} children={<SignUpSuccesfullModal   />} onClose={close} open={opened} />
           <Button onClick={open} >SignUp Succesfull Model</Button>
         </Group>
       </div> */}
+
       {/* <div className="mt-16">
         <Group position="center">
           <Modal title='Change Password' children={<PasswordChangeModel   />} onClose={close} open={opened} />
           <Button onClick={open} >Password Change Model</Button>
         </Group>
+      </div> */}
+
+<div className='my-20'>
+      <PageTitle title='Buying Summary' />
+</div>
+
+
+      {/* <div className="mt-16">
+        <Group position="center">
+          <Modal children={<SignUpUnSuccesfullModal  />} onClose={close} open={opened} />
+          <Button onClick={open} >Signup Unsuccessful Model</Button>
+        </Group>
+      </div> */}
+
+      {/* <div className="mt-16">
+        <Group position="center">
+          <Modal children={<EmailSentModal  email='huzayfahhanif@gmail.com'   />} onClose={close} open={opened} />
+          <Button onClick={open} >Email Sent Model</Button>
+        </Group>
+      </div> */}
+      {/* <div className="mt-16">
+        <Group position="center">
+          <Modal children={<ProductAddedModal />} onClose={close} open={opened} />
+          <Button onClick={open}>Product Added Model</Button>
+        </Group>
+      </div> */}
+
+      <div className="mt-16">
+        <Group position="center">
+          <Modal children={<RedeemUnSuccesfullModal />} onClose={close} open={opened} />
+          <Button onClick={open}>Redeem Model</Button>
+        </Group>
+      </div>
+
+      {/* <div className='ml-32'>
+        <Button leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />} variant='outline' styles={{
+          leftIcon:{
+            marginLeft: 10,
+            textAlign: 'center',
+          },
+          root: {
+            padding: '0px 35px',
+            height:"28px",
+            width:"65px",
+            background:"black", 
+            borderRadius: '30px',
+            '&:hover': {
+              background:"blue",
+              backgroundColor:"blue"
+            },
+          },
+          inner:{
+            background:"black", 
+            '&:hover': {
+              background:"blue",
+            },
+          }
+        }
+        }
+          />
       </div> */}
       <div className="mt-96">
         <Footer />

@@ -37,6 +37,8 @@ export default function FAQ() {
           },
           panel: {
             border: 'none',
+            fontSize: '12px',
+            color: "rgba(101, 101, 101, 1)"
           },
         }}
       >

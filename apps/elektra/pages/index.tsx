@@ -103,10 +103,10 @@ export function Index() {
         </div>
 
         <div className='grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5'>
-        {productData.map((product) => {
+        {productData.map((product,index) => {
             return (
               <ProductCard
-                key={product.id}
+                key={product.id+index}
                 image={product.img}
                 description={product.description}
                 link={product.link}

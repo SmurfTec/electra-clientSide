@@ -19,6 +19,7 @@ enum colorPallete {
   success = 'green',
   danger = 'red',
 }
+
 export const createThemeoverride = (): MantineThemeOverride => {
   return {
     colorScheme: 'light',
@@ -43,11 +44,11 @@ export const createThemeoverride = (): MantineThemeOverride => {
       },
     },
     fontSizes: {
-      xs: "9px",
-      sm: "13px",
-      md: "16px",
-      lg: "18px",
-      xl: "20px",
+      xs: '9px',
+      sm: '13px',
+      md: '16px',
+      lg: '18px',
+      xl: '20px',
     },
     components: {
       Button: {

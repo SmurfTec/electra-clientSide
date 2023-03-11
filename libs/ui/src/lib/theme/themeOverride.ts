@@ -89,11 +89,11 @@ export const createThemeOverride = (theme: MantineTheme): MantineThemeOverride =
     },
 
     fontSizes: {
-      xs: 9 * fontfactor,
-      sm: 13 * fontfactor,
-      md: 16 * fontfactor,
-      lg: 18 * fontfactor,
-      xl: 20 * fontfactor,
+      xs: '9px',
+      sm: '13px',
+      md: '16px',
+      lg: '18px',
+      xl: '20px',
     },
 
     defaultGradient: defaultGradient(upTheme),

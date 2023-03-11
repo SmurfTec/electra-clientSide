@@ -56,8 +56,22 @@ export default function Login() {
                   classNames={{ input: classes.input, innerInput: classes.innerInput }}
                 />
               </div>
-              <div className="text-right mt-2">
-                <Button className="bg-white hover:bg-white text-slate-300 px-0">Forgot Password ?</Button>
+              <div className="text-right -mt-2">
+                <Button
+                  styles={{
+                    root: {
+                      padding: 'unset',
+                      border: 'unset',
+                      borderRadius: 'unset',
+                    },
+                    inner:{
+                      color: '#B4B4B4',
+                      background: 'white',
+                    }
+                  }}
+                >
+                  Forgot Password ?
+                </Button>
               </div>
               <div className="space-y-4 mt-10">
                 <Button className="w-full h-16" href="/auth/login" component={NextLink}>
