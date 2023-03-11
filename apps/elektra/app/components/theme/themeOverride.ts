@@ -9,6 +9,7 @@ enum colorPallete {
   tabs = '#D9D9D9',
   tabTitle = '#656565',
   border = '#e5b53b',
+  borderColor = '#E6E6E6',
   primary = '#111111',
   secondary = '#3C82D6',
   accent = '#B4B4B4',
@@ -43,11 +44,11 @@ export const createThemeoverride = (): MantineThemeOverride => {
       },
     },
     fontSizes: {
-      xs: "9px",
-      sm: "13px",
-      md: "16px",
-      lg: "18px",
-      xl: "20px",
+      xs: '9px',
+      sm: '13px',
+      md: '16px',
+      lg: '18px',
+      xl: '20px',
     },
     components: {
       Button: {
