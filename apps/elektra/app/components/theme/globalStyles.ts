@@ -1,5 +1,5 @@
 import { CSSObject } from '@emotion/react';
-import { MantineTheme } from '@mantine/core';
+import { createStyles, MantineTheme } from '@mantine/core';
 
 export const globalStyles = (theme: MantineTheme): CSSObject => {
   return {
@@ -18,3 +18,16 @@ export const globalStyles = (theme: MantineTheme): CSSObject => {
     },
   };
 };
+
+export const useStylesforInput = createStyles((theme) => ({
+  input: {
+    borderRadius: 'unset',
+    border: '1px solid black',
+    height: '52px',
+    width: '320px',
+  },
+  innerInput: {
+    height: '52px',
+    width: '320px',
+  },
+}));

@@ -1,6 +1,6 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Button, Form } from '@elektra/ui';
-import { Container, createStyles, Grid, Group } from '@mantine/core';
+import { Form } from '@elektra/ui';
+import { Button, Container, createStyles, Grid, Group } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import Joi from 'joi';
 
@@ -87,12 +87,9 @@ export default function Signup() {
                   classNames={{ input: classes.input, innerInput: classes.innerInput }}
                 />
               </div>
-              <div className="text-right mt-2">
-                <Button className="bg-white hover:bg-white text-slate-300 px-0" label="Forgot Password ?" />
-              </div>
               <div className="space-y-4 mt-10">
                 <Form.FormButton type="submit" className="w-full h-16" label="Signup" />
-                <Button className="w-full h-16" label="Login" color="blue" href="/auth/login" component={NextLink} />
+                <Button className="w-full h-16" color="blue" href="/auth/login" component={NextLink} >Login</Button>
               </div>
             </Form>
           </div>
