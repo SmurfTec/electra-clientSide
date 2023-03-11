@@ -11,6 +11,7 @@ import {
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { PageTitle } from 'apps/elektra/app/components/pageTitle';
 
 const productData = [
   {
@@ -146,6 +147,11 @@ export default function Index() {
           <Button onClick={open} >Password Change Model</Button>
         </Group>
       </div> */}
+
+<div className='my-20'>
+      <PageTitle title='Buying Summary' />
+</div>
+
 
       {/* <div className="mt-16">
         <Group position="center">
