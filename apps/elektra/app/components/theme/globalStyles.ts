@@ -19,7 +19,7 @@ export const globalStyles = (theme: MantineTheme): CSSObject => {
   };
 };
 
-export const useStylesforInput = createStyles((theme) => ({
+export const useStylesforGlobal = createStyles((theme) => ({
   input: {
     borderRadius: 'unset',
     border: '1px solid black',
@@ -29,5 +29,20 @@ export const useStylesforInput = createStyles((theme) => ({
   innerInput: {
     height: '52px',
     width: '320px',
+  },
+  leftIcon: {
+    marginLeft: 10,
+    textAlign: 'center',
+  },
+  root: {
+    padding: '0px 35px',
+    height: '28px',
+    width: '65px',
+    borderRadius: '30px',
+    '&:hover': {
+      color: 'white !important',
+      background: `${theme.other.color.secondary} !important`,
+      borderColor: theme.other.color.secondary,
+    },
   },
 }));
