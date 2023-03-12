@@ -46,7 +46,7 @@ type IconWithTextProps = {
 export function IconWithText({text, key}: IconWithTextProps) {
   const theme = useMantineTheme();
   return <Group key={key}>
-    <CircleCheck fill={theme.other.color.secondary} color={"white"} size={30} />
+    <CircleCheck className='-ml-1' fill={theme.other.color.secondary} color={"white"} size={30} />
     <Text size="sm">{text}</Text>
   </Group>;
 }

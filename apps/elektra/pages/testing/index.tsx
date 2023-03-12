@@ -1,17 +1,18 @@
 import {
   CategoryCard,
+  EmailVerificationModel,
   Footer,
   HeroImage,
   Modal,
   ProductCard,
-  RedeemSuccesfullModal,
-  RedeemUnSuccesfullModal,
   UserDashboard,
+  useStylesforGlobal,
 } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
-import { Button, Group } from '@mantine/core';
+import { Button, Group, useMantineTheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { PageTitle } from 'apps/elektra/app/components/pageTitle';
+import { ArrowNarrowRight } from 'tabler-icons-react';
 
 const productData = [
   {
@@ -80,6 +81,7 @@ const categoryData = [
 ];
 
 export default function Index() {
+  const { classes } = useStylesforGlobal();
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
@@ -127,12 +129,17 @@ export default function Index() {
       <div>
         <UserDashboard />
       </div>
-      {/* <div>
+      <div>
         <Group position="center">
-          <Modal title='Email Verification' children={<EmailVerificationModel email='huzayfahhanif@gmail.com'  />} onClose={close} open={opened} />
-          <Button onClick={open} >Email Verfication Model</Button>
+          <Modal
+            title="Email Verification"
+            children={<EmailVerificationModel email="huzayfahhanif@gmail.com" />}
+            onClose={close}
+            open={opened}
+          />
+          <Button onClick={open}>Email Verfication Model</Button>
         </Group>
-      </div> */}
+      </div>
 
       {/* <div className="mt-16">
         <Group position="center">
@@ -148,10 +155,9 @@ export default function Index() {
         </Group>
       </div> */}
 
-<div className='my-20'>
-      <PageTitle title='Buying Summary' />
-</div>
-
+      <div className="my-20">
+        <PageTitle title="Buying Summary" />
+      </div>
 
       {/* <div className="mt-16">
         <Group position="center">
@@ -173,40 +179,20 @@ export default function Index() {
         </Group>
       </div> */}
 
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <Group position="center">
           <Modal children={<RedeemUnSuccesfullModal />} onClose={close} open={opened} />
           <Button onClick={open}>Redeem Model</Button>
         </Group>
-      </div>
-
-      {/* <div className='ml-32'>
-        <Button leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />} variant='outline' styles={{
-          leftIcon:{
-            marginLeft: 10,
-            textAlign: 'center',
-          },
-          root: {
-            padding: '0px 35px',
-            height:"28px",
-            width:"65px",
-            background:"black", 
-            borderRadius: '30px',
-            '&:hover': {
-              background:"blue",
-              backgroundColor:"blue"
-            },
-          },
-          inner:{
-            background:"black", 
-            '&:hover': {
-              background:"blue",
-            },
-          }
-        }
-        }
-          />
       </div> */}
+
+      <div className="ml-32">
+        <Button
+          leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+          variant="outline"
+          classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+        />
+      </div>
       <div className="mt-96">
         <Footer />
       </div>
