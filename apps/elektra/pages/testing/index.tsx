@@ -1,16 +1,7 @@
-import {
-  CategoryCard,
-  EmailVerificationModel,
-  Footer,
-  HeroImage,
-  Modal,
-  ProductCard,
-  UserDashboard,
-  useStylesforGlobal,
-} from '@elektra/components';
+import { CategoryCard, Footer, HeroImage, Modal, ProductCard, UserDashboard, useStylesforGlobal } from '@elektra/components';
+import { useRedeemInputModal } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
-import { Button, Group, useMantineTheme } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Button, Group } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/pageTitle';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -82,7 +73,8 @@ const categoryData = [
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [RedeemInputModal, opened, { open, close }] = useRedeemInputModal();
+  //const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
       <div className="p-16">
@@ -108,13 +100,7 @@ export default function Index() {
         <div style={{ marginTop: '100px' }} className="grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center">
           {categoryData.map((category, index) => {
             return (
-              <CategoryCard
-                key={index}
-                image={category.image}
-                id={category.id}
-                title={category.title}
-                link={category.link}
-              />
+              <CategoryCard key={index} image={category.image} id={category.id} title={category.title} link={category.link} />
             );
           })}
         </div>
@@ -126,10 +112,10 @@ export default function Index() {
         <HeroImage />
       </div>
 
-      <div>
+      <div className="my-32">
         <UserDashboard />
       </div>
-      <div>
+      {/* <div>
         <Group position="center">
           <Modal
             title="Email Verification"
@@ -138,6 +124,13 @@ export default function Index() {
             open={opened}
           />
           <Button onClick={open}>Email Verfication Model</Button>
+        </Group>
+      </div> */}
+
+      <div>
+        <Group position="center">
+          <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
+          <Button onClick={open}>Redeem Model</Button>
         </Group>
       </div>
 

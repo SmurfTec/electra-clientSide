@@ -1,8 +1,143 @@
-import { Form, Only, useFormContext } from '@elektra/ui';
-import { Button, createStyles, Grid, Group, Stack } from '@mantine/core';
-import Joi from 'joi';
+import { Only, Text, Title } from '@elektra/ui';
+import { Button, createStyles, Grid, NumberInput, Stack, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
+
+export function Profile() {
+  const { classes } = useStyles();
+  const form = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      userName: '',
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  return (
+    <>
+      <div className="mt-6">
+        <Stack align="flex-start" justify="space-around" spacing="lg">
+          <Only when={!isEditing}>
+            <Grid gutter={30} m={0}>
+              <Grid.Col xs={4}>
+                <Title order={5} color="black">
+                  FIRST NAME
+                </Title>
+                <Text color="black" className="text-lg">
+                  Huzafa
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={4}>
+                <Title order={5} color="black">
+                  LAST NAME
+                </Title>
+                <Text color="black" className="text-lg">
+                  Hanif
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={4}>
+                <Title order={5} color="black">
+                  EMAIL ADDRESS
+                </Title>
+                <Text color="black" className="text-lg">
+                  huzafy@gmail.com
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={4}>
+                <Title order={5} color="black">
+                  PHONE NO
+                </Title>
+                <Text color="black" className="text-lg">
+                  4523554555
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={4}>
+                <Title order={5} color="black">
+                  USERNAME
+                </Title>
+                <Text color="black" className="text-lg">
+                  Huzafa123455
+                </Text>
+              </Grid.Col>
+              <Grid.Col xs={12}>
+                <Button className="mt-6" leftIcon={<Pencil />} onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </Button>
+              </Grid.Col>
+            </Grid>
+          </Only>
+          <Only when={isEditing}>
+            <form
+              onSubmit={form.onSubmit((values) => {
+                console.log(values);
+              })}
+            >
+              <Grid gutter={30} m={0}>
+                <Grid.Col xs={4}>
+                  <TextInput
+                    classNames={{ input: classes.inputEnabled }}
+                    className="uppercase font-semibold"
+                    label="First Name"
+                    {...form.getInputProps('firstName')}
+                  />
+                </Grid.Col>
+                <Grid.Col xs={4}>
+                  <TextInput
+                    classNames={{ input: classes.inputEnabled }}
+                    className="uppercase font-semibold"
+                    label="Last Name"
+                    {...form.getInputProps('lastName')}
+                  />
+                </Grid.Col>
+                <Grid.Col xs={4}>
+                  <TextInput
+                    classNames={{ input: classes.inputEnabled }}
+                    className="uppercase font-semibold"
+                    label="Email"
+                    {...form.getInputProps('email')}
+                  />
+                </Grid.Col>
+                <Grid.Col xs={4}>
+                  <NumberInput
+                    label="Phone No"
+                    hideControls
+                    className="uppercase font-semibold"
+                    classNames={{ input: classes.inputEnabled }}
+                    {...form.getInputProps('phone')}
+                  />
+                </Grid.Col>
+                <Grid.Col xs={4}>
+                  <TextInput
+                    classNames={{ input: classes.inputEnabled }}
+                    className="uppercase font-semibold"
+                    label="Username"
+                    {...form.getInputProps('userName')}
+                  />
+                </Grid.Col>
+
+                <Grid.Col xs={12} className='space-x-3'>
+                  <Button onClick={() => setIsEditing(false)}>
+                    Cancel
+                  </Button>
+                  <Button type='submit'>
+                    Update
+                  </Button>
+                </Grid.Col>
+              </Grid>
+            </form>
+          </Only>
+        </Stack>
+      </div>
+    </>
+  );
+}
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -15,152 +150,7 @@ const useStyles = createStyles((theme) => ({
     border: '2px solid black',
     height: '45px',
   },
-  inputDisabled: {
-    borderRadius: 'unset',
-    border: 'none',
-    padding: '0',
-    margin: '0',
-    marginTop: '-5px',
-    height: '45px',
-  },
   innerInput: {
     height: '52px',
   },
 }));
-
-type Profile = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: number;
-  username: string;
-};
-
-export function Profile() {
-  const { classes } = useStyles();
-  const [is_editing, setIsEditing] = useState(false);
-
-  const enabledSchema = Joi.object({
-    first_name: Joi.string().required().label('First Name'),
-    last_name: Joi.string().required().label('Last Name'),
-    email: Joi.string()
-      .required()
-      .required()
-      .email({ tlds: { allow: false } })
-      .label('Email'),
-    phone: Joi.number().required(),
-    username: Joi.string().required(),
-  });
-
-  const disabledSchema = Joi.object({
-    first_name: Joi.string().label('First Name'),
-    last_name: Joi.string().label('Last Name'),
-    email: Joi.string()
-      .email({ tlds: { allow: false } })
-      .label('Email'),
-    phone: Joi.number(),
-    username: Joi.string(),
-  });
-
-  const initialValues: Profile = {
-    first_name: 'Huzayfah',
-    last_name: 'Hanif',
-    email: 'huzayfahhanif@gmail.com',
-    phone: null,
-    username: '3423vc',
-  };
-
-  const { form } = useFormContext<Profile>();
-
-  const handleFormSubmit = (values: Profile) => {
-    console.log(values);
-    console.log('HELLOW WORLD');
-    setIsEditing(!is_editing);
-  };
-
-  return (
-    <div className="m-0">
-      <Stack align="flex-start" justify="space-around" spacing="lg">
-        <Form
-          initialValues={initialValues}
-          onFormSubmit={handleFormSubmit}
-          schema={is_editing ? enabledSchema : disabledSchema}
-        >
-          <Grid gutter={30} m={0}>
-            <Grid.Col xs={4}>
-              <Form.FormField
-                classNames={{ input: is_editing ? classes.inputEnabled : classes.inputDisabled }}
-                name="first_name"
-                placeholder="Enter First Name"
-                label="FIRST NAME"
-              />
-            </Grid.Col>
-            <Grid.Col xs={4}>
-              <Form.FormField
-                classNames={{ input: is_editing ? classes.inputEnabled : classes.inputDisabled }}
-                name="last_name"
-                placeholder="Enter Last Name"
-                label="LAST NAME"
-              />
-            </Grid.Col>
-            <Grid.Col xs={4}>
-              <Form.FormField
-                classNames={{ input: is_editing ? classes.inputEnabled : classes.inputDisabled }}
-                name="email"
-                placeholder="Enter Email Address"
-                label="EMAIL ADDRESS"
-              />
-            </Grid.Col>
-            <Grid.Col xs={4}>
-              <Form.FormField
-                classNames={{ input: is_editing ? classes.inputEnabled : classes.inputDisabled }}
-                name="phone"
-                placeholder="Enter Phone no"
-                label="PHONE NO"
-              />
-            </Grid.Col>
-            <Grid.Col xs={4}>
-              <Form.FormField
-                classNames={{ input: is_editing ? classes.inputEnabled : classes.inputDisabled }}
-                name="username"
-                placeholder="Enter Username"
-                label="USERNAME"
-              />
-            </Grid.Col>
-
-            <Grid.Col xs={12}>
-              <Only when={!is_editing}>
-                <Button leftIcon={<Pencil />} onClick={() => setIsEditing(!is_editing)}>
-                  Edit Profile
-                </Button>
-              </Only>
-
-              <Only when={is_editing}>
-                <Group>
-                  <Button
-                    styles={{
-                      root: {
-                        backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                        color: 'black',
-                        '&:hover': {
-                          backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                        },
-                      },
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Form.FormButton
-                    // onClick={() => setIsEditing(!is_editing)}
-                    type="submit"
-                    label="Update"
-                  />
-                </Group>
-              </Only>
-            </Grid.Col>
-          </Grid>
-        </Form>
-      </Stack>
-    </div>
-  );
-}
