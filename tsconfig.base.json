@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@elektra/ui": ["libs/ui/src/index.ts"],
-      "@elektra/components": ["apps/elektra/app/components/index.ts"]
+      "@elektra/components": ["apps/elektra/app/components/index.ts"],
+      "@elektra/hooks": ["apps/elektra/app/hooks/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

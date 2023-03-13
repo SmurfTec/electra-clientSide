@@ -1,8 +1,8 @@
 import { Button, PasswordInput, Stack } from '@mantine/core';
-import { useStylesforInput } from '../theme';
+import { useStylesforGlobal } from '../theme';
 
 export const PasswordChangeModel = () => {
-  const { classes } = useStylesforInput();
+  const { classes } = useStylesforGlobal();
 
   return (
     <>
