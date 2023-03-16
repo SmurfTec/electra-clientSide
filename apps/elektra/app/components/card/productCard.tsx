@@ -40,7 +40,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type ProductCardProps = {
+export type ProductCardProps = {
+  id: number
   image: string;
   link: string;
   title: string;
@@ -53,6 +54,7 @@ type ProductCardProps = {
 };
 
 export function ProductCard({
+  id,
   className,
   image,
   link,
@@ -74,7 +76,7 @@ export function ProductCard({
 
   const theme = useMantineTheme();
   return (
-    <Card className={cx(classes.card, className)} {...others}>
+    <Card key={id} className={cx(classes.card, className)} {...others}>
       <Card.Section>
         <Paper bg={theme.other.color.productBackground} className="p-12 flex justify-center items-center">
           <Image height={120} width={100} alt={image} src={image} className="h-1/4 w-1/2" />

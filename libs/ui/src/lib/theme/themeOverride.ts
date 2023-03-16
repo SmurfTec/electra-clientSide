@@ -21,7 +21,6 @@ enum colorPallete {
   backgroundPrimary = '#111111',
   backgroundSecondary = '#3C82D6',
   productBackground = '#F5F5F5',
-  // gradientFrom = 'white',
   // gradientTo = '#9d9e5a',
   tabs = '#D9D9D9',
   tabTitle = '#656565',
