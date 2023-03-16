@@ -1,7 +1,7 @@
 import { Container, Grid } from '@mantine/core';
 import { ProtectPlan } from 'apps/elektra/app/components/pages/buying-summary';
 import { ProductDetail } from 'apps/elektra/app/components/pages/buying-summary/productDetail';
-import { PageTitle } from 'apps/elektra/app/components/pageTitle';
+import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 
 const productDetailData = {
   image: '/images/product.png',

@@ -1,7 +1,9 @@
-import { TabView, tabViewData, Title, useTheme } from '@elektra/ui';
+import { TabView, tabViewData, Title } from '@elektra/ui';
 import { Profile } from './profile';
+import { Reward } from './reward/reward';
+import { WishList } from './wishlist';
 
-const tabViewData:tabViewData[] = [
+const tabViewData: tabViewData[] = [
   {
     title: 'Profile',
     content: <Profile />,
@@ -16,15 +18,15 @@ const tabViewData:tabViewData[] = [
   },
   {
     title: 'Rewards',
-    content: 'hey',
+    content: <Reward />,
   },
   {
     title: 'Wallet',
-    content: 'hey',
+    content: 'hahas',
   },
   {
     title: 'Wishlist',
-    content: 'hey',
+    content: <WishList />,
   },
   {
     title: 'Settings',
@@ -40,7 +42,7 @@ export function UserDashboard() {
   return (
     <section>
       <div className="ml-16 mb-4">
-        <Title className="font-bold" color='black' order={4}>
+        <Title className="font-bold" color="black" order={4}>
           Huzafa Hanif
         </Title>
       </div>

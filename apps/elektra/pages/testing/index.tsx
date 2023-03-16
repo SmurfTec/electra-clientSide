@@ -1,8 +1,16 @@
-import { CategoryCard, Footer, HeroImage, Modal, ProductCard, UserDashboard, useStylesforGlobal } from '@elektra/components';
+import {
+  CategoryCard,
+  Footer,
+  HeroImage,
+  Modal,
+  ProductCard,
+  UserDashboard,
+  useStylesforGlobal,
+} from '@elektra/components';
 import { useRedeemInputModal } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Button, Group } from '@mantine/core';
-import { PageTitle } from 'apps/elektra/app/components/pageTitle';
+import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 const productData = [
@@ -82,6 +90,7 @@ export default function Index() {
           {productData.map((product) => {
             return (
               <ProductCard
+                id={product.id}
                 key={product.id}
                 image={product.img}
                 description={product.description}
@@ -100,7 +109,13 @@ export default function Index() {
         <div style={{ marginTop: '100px' }} className="grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center">
           {categoryData.map((category, index) => {
             return (
-              <CategoryCard key={index} image={category.image} id={category.id} title={category.title} link={category.link} />
+              <CategoryCard
+                key={index}
+                image={category.image}
+                id={category.id}
+                title={category.title}
+                link={category.link}
+              />
             );
           })}
         </div>
@@ -126,13 +141,6 @@ export default function Index() {
           <Button onClick={open}>Email Verfication Model</Button>
         </Group>
       </div> */}
-
-      <div>
-        <Group position="center">
-          <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
-          <Button onClick={open}>Redeem Model</Button>
-        </Group>
-      </div>
 
       {/* <div className="mt-16">
         <Group position="center">

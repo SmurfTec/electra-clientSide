@@ -6,3 +6,4 @@ export * from './logo';
 export * from './routerTransition';
 export * from './theme';
 export * from './modal';
+export * from "./banner"
