@@ -90,6 +90,7 @@ export default function Index() {
           {productData.map((product) => {
             return (
               <ProductCard
+                id={product.id}
                 key={product.id}
                 image={product.img}
                 description={product.description}
@@ -140,13 +141,6 @@ export default function Index() {
           <Button onClick={open}>Email Verfication Model</Button>
         </Group>
       </div> */}
-
-      <div>
-        <Group position="center">
-          <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
-          <Button onClick={open}>Redeem Model</Button>
-        </Group>
-      </div>
 
       {/* <div className="mt-16">
         <Group position="center">
