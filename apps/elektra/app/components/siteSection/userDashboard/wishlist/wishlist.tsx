@@ -1,4 +1,4 @@
-import { ProductCard } from '../../card';
+import { ProductCard } from '../../../card';
 
 const productData = [
   {

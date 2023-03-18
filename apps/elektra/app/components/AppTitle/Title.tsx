@@ -7,8 +7,8 @@ type PageTitleProps = {
 export function PageTitle({ title }: PageTitleProps) {
   return (
     <div>
-      <Title order={4}>{title}</Title>
-      <Divider className="my-4" />
+      <Title order={4} className='font-medium'>{title}</Title>
+      <Divider className="my-3" />
     </div>
   );
 }
