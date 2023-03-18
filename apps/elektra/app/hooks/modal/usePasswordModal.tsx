@@ -1,10 +1,14 @@
 import { Button, PasswordInput, Stack } from '@mantine/core';
-import { useStylesforGlobal } from '../theme';
+import { useDisclosure } from '@mantine/hooks';
+import { useStylesforGlobal } from '../../components/theme';
 
-export const PasswordChangeModel = () => {
+export const usePasswordChangeModel = ():[React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+
+  const [opened, { open, close }] = useDisclosure(false);
+  
   const { classes } = useStylesforGlobal();
 
-  return (
+  const Modal = (
     <>
       <Stack align="center" spacing="xl" className="mt-6">
         <div className="space-y-5">
@@ -40,4 +44,5 @@ export const PasswordChangeModel = () => {
       </div>
     </>
   );
+  return [Modal, opened, { open, close }];
 };

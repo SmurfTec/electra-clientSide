@@ -1,4 +1,4 @@
-export * from './dashboard';
 export * from './profile';
-export * from './reward/reward';
+export * from './reward';
 export * from './wishlist';
+export * from './setting';

@@ -1,15 +1,6 @@
-import {
-  CategoryCard,
-  Footer,
-  HeroImage,
-  Modal,
-  ProductCard,
-  UserDashboard,
-  useStylesforGlobal,
-} from '@elektra/components';
-import { useRedeemInputModal } from '@elektra/hooks';
+import { CategoryCard, Footer, HeroImage, ProductCard, useStylesforGlobal } from '@elektra/components';
 import { SearchBox } from '@elektra/ui';
-import { Button, Group } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -81,7 +72,6 @@ const categoryData = [
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
-  const [RedeemInputModal, opened, { open, close }] = useRedeemInputModal();
   //const [opened, { open, close }] = useDisclosure(false);
   return (
     <div>
@@ -127,9 +117,6 @@ export default function Index() {
         <HeroImage />
       </div>
 
-      <div className="my-32">
-        <UserDashboard />
-      </div>
       {/* <div>
         <Group position="center">
           <Modal
@@ -156,7 +143,7 @@ export default function Index() {
         </Group>
       </div> */}
 
-      <div className="my-20">
+      <div className="my-40">
         <PageTitle title="Buying Summary" />
       </div>
 
