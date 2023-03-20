@@ -1,10 +1,13 @@
-import { Button, createStyles, Grid, Group, TextInput } from '@mantine/core';
+import { Button, createStyles, Grid, Group, Select, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { CaretDown } from 'tabler-icons-react';
+import { useStylesforGlobal } from '../../components/theme';
 
 export const useShippingChangeModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
+  const { classes: button } = useStylesforGlobal();
 
   const initialValues = {
     address1: '',
@@ -22,7 +25,7 @@ export const useShippingChangeModel = (): [React.ReactNode, boolean, { open: () 
   });
 
   const Modal = (
-    <div className="p-5">
+    <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
           <Grid.Col span={12}>
@@ -30,7 +33,7 @@ export const useShippingChangeModel = (): [React.ReactNode, boolean, { open: () 
               className="uppercase"
               label="Address#1"
               description="(Required)"
-              classNames={{ input: classes.input }}
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               {...form.getInputProps('address1')}
             />
           </Grid.Col>
@@ -38,62 +41,73 @@ export const useShippingChangeModel = (): [React.ReactNode, boolean, { open: () 
             <TextInput
               className="uppercase"
               label="Address#2"
-              classNames={{ input: classes.input }}
-              description="(Optinal)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              description="(Optional)"
               {...form.getInputProps('address2')}
             />
           </Grid.Col>
           <Grid.Col span={6}>
-            <TextInput
+            <Select
+              rightSection={<CaretDown  fill='black' size="1rem" />}
+              rightSectionWidth={30}
               className="uppercase"
-              classNames={{ input: classes.input }}
               label="Country"
+              description="(Required)"
+              searchable
+              nothingFound="No options"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              styles={{ rightSection: { pointerEvents: 'none' } }}
+              data={['Pakistan', 'India', 'China', 'USA']}
               {...form.getInputProps('country')}
             />
           </Grid.Col>
           <Grid.Col span={6}>
-            <TextInput
-              className="uppercase"
-              classNames={{ input: classes.input }}
+          <Select
+              rightSection={<CaretDown fill='black'  size="1rem" />}
+              rightSectionWidth={30}
               label="State/Province"
+              className="uppercase"
+              description="(Required)"
+              searchable
+              nothingFound="No options"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              styles={{ rightSection: { pointerEvents: 'none' } }}
+              data={['Punjab', 'Sindh', 'Balochistan', 'KPK']}
               {...form.getInputProps('state')}
             />
           </Grid.Col>
           <Grid.Col span={6}>
-            <TextInput
-              className="uppercase"
-              classNames={{ input: classes.input }}
+          <Select
+              rightSection={<CaretDown fill='black'  size="1rem" />}
+              rightSectionWidth={30}
               label="City"
+              className="uppercase"
+              description="(Required)"
+              searchable
+              nothingFound="No options"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              styles={{ rightSection: { pointerEvents: 'none' } }}
+              data={['Lahore', 'Islamabad', 'Karachi', 'Multan','Rawalpindi']}
               {...form.getInputProps('city')}
             />
           </Grid.Col>
           <Grid.Col span={6}>
             <TextInput
               className="uppercase"
-              classNames={{ input: classes.input }}
+              description="(Required)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               label="Postal Code"
               {...form.getInputProps('postalCode')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
-            <Group className='ml-55' spacing={'xl'}>
-              <Button
-                onClick={close}
-                className='w-1/3'
-                styles={{
-                  root: {
-                    backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                      color: 'white',
-                    },
-                  },
-                }}
-              >
+          <Grid.Col span={8}>
+            <Group className="ml-55 mt-4" spacing={'xl'}>
+              <Button onClick={close} className="w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
                 Cancel
               </Button>
-              <Button type="submit" className='w-1/3'>Update</Button>
+              <Button type="submit" className="w-1/3" size={'lg'}>
+                Update
+              </Button>
             </Group>
           </Grid.Col>
         </Grid>
@@ -107,5 +121,12 @@ const useStyles = createStyles((theme) => ({
     borderRadius: 'unset',
     border: '2px solid black',
     height: '45px',
+  },
+  description: {
+    display: 'inline-block',
+    marginLeft: '5px',
+  },
+  label: {
+    fontWeight: 'bold',
   },
 }));
