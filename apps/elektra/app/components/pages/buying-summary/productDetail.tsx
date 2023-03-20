@@ -1,5 +1,6 @@
-import { NextImage } from '@elektra/ui';
+import { NextImage, Only } from '@elektra/ui';
 import { Button, Group, Paper, Stack, Text, Title, useMantineTheme } from '@mantine/core';
+import { PencilButton } from '../../buttons';
 
 type ProductDetailProps = {
   image: string;
@@ -38,45 +39,63 @@ export function ProductDetail({
             {title}
           </Text>
           <Group>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={30}>
+            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
               {space}
             </Button>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={30}>
+            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
               {color}
             </Button>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={30}>
+            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
               {company}
             </Button>
           </Group>
         </div>
       </Group>
 
-      <div className='mt-6 space-y-4'>
-        <div>
-          <Title className='font-[600]' order={6}>CONDITION</Title>
-          <Text className='font-bold' size="md">{condition}</Text>
-        </div>
-
-        <div>
-          <Title className='font-[600]' order={6}>OFFER EXPIRATION</Title>
-          <Text className='font-bold' size="md">{expiration}</Text>
-        </div>
-
-        <div>
-          <Title className='font-[600]' order={6}>OFFER EXPIRATION</Title>
-          <Text className='font-bold' size="md">{expiration}</Text>
-        </div>
-
-        <div>
-          <Title className='font-[600]' order={6}>CARD DETAILS</Title>
-          <Text className='font-bold' size="md">{cardDetails}</Text>
-        </div>
-
-        <div>
-          <Title className='font-[600]' order={6}>SHIPPING ADDRESS</Title>
-          <Text className='font-bold' size="md">{address}</Text>
-        </div>
+      <div className="mt-6 space-y-4">
+        <ProductDetails text={'CONDITION'} details={condition} />
+        <ProductDetails text={'CONDITION'} details={condition} />
+        <ProductDetails
+          text={'OFFER EXPIRATION'}
+          details={expiration}
+          iconDisplay={true}
+          onClick={() => console.log('Hello')}
+        />
+        <ProductDetails
+          text={'CARD DETAILS'}
+          details={cardDetails}
+          iconDisplay={true}
+          onClick={() => console.log('Hello')}
+        />
+        <ProductDetails
+          text={'SHIPPING ADDRESS'}
+          details={address}
+          iconDisplay={true}
+          onClick={() => console.log('Hello')}
+        />
       </div>
+    </div>
+  );
+}
+
+type productDetailsProps = {
+  text: string;
+  details: string | number;
+  iconDisplay?: boolean;
+  onClick?: () => void;
+};
+function ProductDetails({ text, details, onClick, iconDisplay }: productDetailsProps) {
+  return (
+    <div>
+      <Title className="font-[600]" order={6}>
+        {text}
+        <Only when={iconDisplay}>
+          <PencilButton onClick={onClick} />
+        </Only>
+      </Title>
+      <Text className="font-bold" size="md">
+        {details}
+      </Text>
     </div>
   );
 }
