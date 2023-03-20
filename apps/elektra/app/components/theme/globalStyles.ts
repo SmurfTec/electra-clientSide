@@ -45,4 +45,9 @@ export const useStylesforGlobal = createStyles((theme) => ({
       borderColor: theme.other.color.secondary,
     },
   },
+  grayButtonRoot: {
+    backgroundColor: 'rgba(180, 180, 180, 0.47)',
+    color: 'black',
+    '&:hover': { backgroundColor: 'rgba(180, 180, 180, 0.47)', color: 'white' },
+  },
 }));
