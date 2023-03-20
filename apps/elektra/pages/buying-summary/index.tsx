@@ -1,5 +1,6 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Container, Grid } from '@mantine/core';
-import { ProtectPlan } from 'apps/elektra/app/components/pages/buying-summary';
+import { BiddingSummary, BiddingSummaryProps, ProtectPlan, SummaryFooter } from 'apps/elektra/app/components/pages/buying-summary';
 import { ProductDetail } from 'apps/elektra/app/components/pages/buying-summary/productDetail';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 
@@ -41,6 +42,15 @@ const protectPlanData2 = {
   ],
 };
 
+const BiddingSummaryData: BiddingSummaryProps = {
+  yourOffer: 437,
+  marketPlaceFee: 5,
+  salesTax: 3,
+  shippingFee: 15,
+  discount: 0,
+  totalPrice: 460,
+};
+
 export default function BuyingSummary() {
   return (
     <Container mt={50} fluid>
@@ -64,6 +74,20 @@ export default function BuyingSummary() {
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>
           <div className="overflow-y-auto h-full">
+            <BiddingSummary
+              yourOffer={BiddingSummaryData.yourOffer}
+              discount={BiddingSummaryData.discount}
+              itemPrice={BiddingSummaryData.itemPrice}
+              marketPlaceFee={BiddingSummaryData.marketPlaceFee}
+              salesTax={BiddingSummaryData.salesTax}
+              shippingFee={BiddingSummaryData.shippingFee}
+              totalPrice={BiddingSummaryData.totalPrice}
+            />
+          </div>
+        </Grid.Col>
+
+        <Grid.Col xs={12} sm={6}>
+          <div className="overflow-y-auto h-full">
             <ProtectPlan
               title={protectPlanData.title}
               content={protectPlanData.content}
@@ -80,6 +104,8 @@ export default function BuyingSummary() {
           />
         </Grid.Col>
       </Grid>
+
+      <SummaryFooter />
     </Container>
   );
 }

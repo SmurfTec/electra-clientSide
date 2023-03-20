@@ -3,6 +3,7 @@ import { Button, createStyles, Grid, Group, Stack, TextInput } from '@mantine/co
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
+import { useStylesforGlobal } from '../../../theme';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -43,6 +44,7 @@ type Profile = {
 
 export function Profile() {
   const { classes } = useStyles();
+  const  { classes:button } = useStylesforGlobal();
   const [isEditing, setIsEditing] = useState(false);
 
   const initialValues = {
@@ -128,16 +130,7 @@ export function Profile() {
                 <Group>
                   <Button
                     onClick={() => setIsEditing(false)}
-                    styles={{
-                      root: {
-                        backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                        color: 'black',
-                        '&:hover': {
-                          backgroundColor: 'rgba(180, 180, 180, 0.47)',
-                          color: 'white',
-                        },
-                      },
-                    }}
+                    classNames={{root: button.grayButtonRoot}}
                   >
                     Cancel
                   </Button>

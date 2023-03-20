@@ -1,6 +1,7 @@
-import { CategoryCard, Footer, HeroImage, ProductCard, useStylesforGlobal } from '@elektra/components';
+import { CategoryCard, Footer, HeroImage, Modal, ProductCard, useStylesforGlobal } from '@elektra/components';
+import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
-import { Button } from '@mantine/core';
+import { Button, Group } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -73,6 +74,7 @@ const categoryData = [
 export default function Index() {
   const { classes } = useStylesforGlobal();
   //const [opened, { open, close }] = useDisclosure(false);
+  const [offerModal, offerOpened, offerHandler] = useOfferModel();
   return (
     <div>
       <div className="p-16">
@@ -115,6 +117,18 @@ export default function Index() {
       </div>
       <div>
         <HeroImage />
+      </div>
+      
+      <div>
+        <Group position="center">
+          <Modal
+            title="Offer Expiration"
+            children={offerModal}
+            onClose={offerHandler.close}
+            open={offerOpened}
+          />
+          <Button onClick={offerHandler.open}>Email Verfication Model</Button>
+        </Group>
       </div>
 
       {/* <div>

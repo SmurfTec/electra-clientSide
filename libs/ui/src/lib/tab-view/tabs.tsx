@@ -10,7 +10,7 @@ type tabViewDataProps = { data: Array<tabViewData> } & Omit<TabsProps, 'children
 
 export function TabView({ data, position, ...rest }: tabViewDataProps) {
   return (
-    <Tabs color="blue" keepMounted={false} defaultValue={data[0].title.toLowerCase()} {...rest}>
+    <Tabs color="blue" defaultValue={data[0].title.toLowerCase()} {...rest}>
       <Tabs.List className="space-x-16" position={position}>
         {data.map((item,index) => (
           <Tabs.Tab key={index} value={item.title.toLowerCase()}>{item.title}</Tabs.Tab>

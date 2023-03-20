@@ -51,6 +51,8 @@ export function Security() {
         <Modal
           size={800}
           title="Shipping Address"
+          className='mx-10 mb-7 mt-4'
+          titlePosition='left'
           children={ShippingChangeModal}
           onClose={ShippingHandler.close}
           open={ShippingOpened}
