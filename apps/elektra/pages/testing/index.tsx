@@ -194,6 +194,7 @@ export default function Index() {
           classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
         />
       </div>
+
       <div className="mt-96">
         <Footer />
       </div>
