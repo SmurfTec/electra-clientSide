@@ -1,5 +1,5 @@
-import { CSSObject } from '@emotion/react';
-import { createStyles, MantineTheme } from '@mantine/core';
+
+import { createStyles, CSSObject, MantineTheme } from '@mantine/core';
 
 export const globalStyles = (theme: MantineTheme): CSSObject => {
   return {

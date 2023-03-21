@@ -24,7 +24,7 @@ enum colorPallete {
   // gradientTo = '#9d9e5a',
   tabs = '#D9D9D9',
   tabTitle = '#656565',
-  border = '#e5b53b',
+  border = 'rgba(230, 230, 230, 1)',
   primary = '#111111',
   secondary = '#3C82D6',
   accent = '#B4B4B4',
