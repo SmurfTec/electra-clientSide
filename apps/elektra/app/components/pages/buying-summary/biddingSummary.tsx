@@ -1,7 +1,7 @@
 import { useDiscountModel } from '@elektra/hooks';
 import { Only } from '@elektra/ui';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
-import { PencilButton } from '../../buttons';
+import { PencilButton, TransparentButton } from '../../buttons';
 import { Modal } from '../../modal';
 import { useStylesforGlobal } from '../../theme';
 
@@ -27,7 +27,7 @@ export function BiddingSummary({
   const theme = useMantineTheme();
   const { classes } = useStylesforGlobal();
   return (
-    <div style={{ border: '1px solid', }} className="p-8 rounded-xl space-y-2">
+    <div style={{ border: '1px solid', borderColor: theme.other.color.subTitle }} className="p-8 rounded-xl space-y-2">
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           {yourOffer ? 'Your Offer' : 'Item Price'}
@@ -85,9 +85,9 @@ function PositionApart({ text, number, discount, numberColor, key }: PositionApa
       <Text className="font-bold uppercase" size="sm">
         {text}
         <Only when={discount}>
-          <Button variant="outline" onClick={discountHandler.open} className="font-bold rounded-2xl ml-4" px="20" h={25}>
-            +Add Code
-          </Button>
+          <span className='ml-4'>  
+          <TransparentButton label={"+Add Code"} onClick={discountHandler.open} />
+          </span>
         </Only>
       </Text>
       <Text className="font-bold" color={numberColor ?? 'black'} size="xl">
