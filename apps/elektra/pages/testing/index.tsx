@@ -1,7 +1,8 @@
 import { CategoryCard, Footer, HeroImage, Modal, ProductCard, useStylesforGlobal } from '@elektra/components';
 import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
-import { Button, Group } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
+import { Button, Group, Image, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -118,17 +119,70 @@ export default function Index() {
       <div>
         <HeroImage />
       </div>
-      
+
       <div>
         <Group position="center">
-          <Modal
-            title="Offer Expiration"
-            children={offerModal}
-            onClose={offerHandler.close}
-            open={offerOpened}
-          />
+          <Modal title="Offer Expiration" children={offerModal} onClose={offerHandler.close} open={offerOpened} />
           <Button onClick={offerHandler.open}>Email Verfication Model</Button>
         </Group>
+      </div>
+
+      <div>
+        <Carousel
+          // withIndicators
+          height={400}
+          slideSize="33.333333%"
+          slideGap="md"
+          loop={true}
+          align="start"
+          slidesToScroll={1}
+          // speed={300}
+        >
+          <Carousel.Slide>
+            <Image height={"300px"} src="/images/carousel/leftLaptop.png" />
+            <Group position='center'>
+              <Text size="xl">Razor Blade 15</Text>
+              <Button
+                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                variant="outline"
+                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+              />
+            </Group>
+          </Carousel.Slide>
+          <Carousel.Slide className='relative'>
+            <Image height={"300px"} src="/images/carousel/centerLaptop.png" />
+            <Group position='center'>
+              <Text size="xl">Razor Blade 15</Text>
+              <Button
+                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                variant="outline"
+                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+              />
+            </Group>
+          </Carousel.Slide>
+          <Carousel.Slide className='relative'>
+            <Image height={"300px"} src="/images/carousel/rightLaptop.png" />
+            <Group position='center'>
+              <Text size="xl">Razor Blade 15</Text>
+              <Button
+                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                variant="outline"
+                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+              />
+            </Group>
+          </Carousel.Slide>
+          <Carousel.Slide className='relative'>
+            <Image height={"300px"} src="/images/carousel/rightLaptop.png" />
+            <Group position='center'>
+              <Text size="xl">Razor Blade 15</Text>
+              <Button
+                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                variant="outline"
+                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+              />
+            </Group>
+          </Carousel.Slide>
+        </Carousel>
       </div>
 
       {/* <div>

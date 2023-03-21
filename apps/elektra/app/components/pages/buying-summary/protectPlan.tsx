@@ -13,7 +13,7 @@ export function ProtectPlan({ title, price, content }: ProtectPlanProps) {
   const theme = useMantineTheme();
   const [checked, setChecked] = useState(false);
   return (
-    <div style={{ border: '1px solid', borderColor: theme.other.color.borderColor! }} className="p-8 rounded-xl space-y-10">
+    <div style={{ border: '1px solid', borderColor: theme.other.color.subTitle }} className="p-8 rounded-xl space-y-10">
       <Group position="apart">
         <Group className="space-x-4">
           <Radio color={theme.other.color.primary} checked={checked} onClick={() => setChecked(!checked)} />

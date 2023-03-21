@@ -1,7 +1,7 @@
 import { useOfferModel, useShippingChangeModel } from '@elektra/hooks';
 import { NextImage, Only } from '@elektra/ui';
 import { Button, Group, Paper, Stack, Text, Title, useMantineTheme } from '@mantine/core';
-import { PencilButton } from '../../buttons';
+import { PencilButton, TransparentButton } from '../../buttons';
 import { Modal } from '../../modal';
 
 type ProductDetailProps = {
@@ -31,7 +31,7 @@ export function ProductDetail({
   const [OfferModal, offerOpened, offerHandler] = useOfferModel();
   const theme = useMantineTheme();
   return (
-    <div style={{ border: '1px solid',  }} className="p-8 rounded-xl">
+    <div style={{ border: '1px solid', borderColor: theme.other.color.subTitle  }} className="p-8 rounded-xl">
       <Group className="space-x-4">
         <div>
           <Paper bg={theme.other.color.productBackground} className="py-2 px-6 flex justify-center items-center">
@@ -43,15 +43,9 @@ export function ProductDetail({
             {title}
           </Text>
           <Group>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
-              {space}
-            </Button>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
-              {color}
-            </Button>
-            <Button variant="outline" className="font-bold rounded-2xl" px="20" h={25}>
-              {company}
-            </Button>
+            <TransparentButton label={space} />
+            <TransparentButton label={color} />
+            <TransparentButton label={company} />
           </Group>
         </div>
       </Group>

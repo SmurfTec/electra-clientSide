@@ -5,6 +5,7 @@ import { NextLink } from '@mantine/next';
 import Image, { StaticImageData } from 'next/image';
 import { useRef } from 'react';
 import { ArrowNarrowRight, Heart } from 'tabler-icons-react';
+import { useStylesforGlobal } from '../theme';
 
 type CategoryCardProps = {
   id: number;
@@ -14,8 +15,7 @@ type CategoryCardProps = {
 };
 
 export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
-  const theme = useMantineTheme();
-  const { hovered, ref } = useHover();
+  const {classes} = useStylesforGlobal()
   return (
     <Paper className="">
       <NextImage src={image} height="250px" width="250px" />
@@ -24,8 +24,8 @@ export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
           {title}
         </Title>
         {/* TODO: Not right behavior but make it right way */}
-        <div className="contents" ref={ref}>
-          <Button
+        <div className="contents">
+          {/* <Button
             className="rounded-3xl px-4 h-7"
             styles={{
               root: {
@@ -43,25 +43,14 @@ export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
             variant="outline"
             component={NextLink}
             href={link}
-          />
+          /> */}
+          <Button
+          leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+          variant="outline"
+          classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+        />
         </div>
 
-        {/* <Button
-          className="rounded-3xl px-10 h-12"
-          styles={{
-            root: {
-              '&:hover': {
-                backgroundColor: theme.other.color.secondary,
-                borderColor: theme.other.color.secondary,
-              },
-            },
-          }}
-          variant="outline"
-          component={NextLink}
-          href={link}
-        >
-          <ArrowNarrowRight size={30} strokeWidth={1} />
-        </Button> */}
       </Group>
     </Paper>
   );
