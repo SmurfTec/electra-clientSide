@@ -1,12 +1,13 @@
+import '../styles/globals.css';
+
 import { createThemeoverride, globalStyles, RouterTransition } from '@elektra/components';
 import { createEmotionCache, Global, MantineProvider } from '@mantine/core';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import '../styles/globals.css';
 
+export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
   const themeOverride = createThemeoverride();
-  const cache = createEmotionCache({ key: 'elektra', prepend: true });
   return (
     <>
       <Head>
