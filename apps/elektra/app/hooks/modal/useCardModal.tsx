@@ -1,5 +1,5 @@
 import { useStylesforGlobal } from '@elektra/components';
-import { Button, Chip, createStyles, Grid, Group, Image, Paper, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Chip, createStyles, Grid, Group, Image, Paper, Select, Stack, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { CaretDown } from 'tabler-icons-react';
@@ -8,6 +8,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();
+  const theme = useMantineTheme()
 
   const initialValues = {
     cardType: '',
@@ -143,6 +144,9 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
             </Paper>
           </Grid.Col>
 
+          <Grid.Col mb={"-25px"} mt={"10px"}  span={12}>
+            <Text className='bg-red font-[300]' color={theme.other.color.body} size="xl">Credit Card Info</Text>
+          </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
               className="uppercase"
