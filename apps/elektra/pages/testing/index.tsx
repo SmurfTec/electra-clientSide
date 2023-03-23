@@ -2,8 +2,10 @@ import { CategoryCard, Footer, HeroImage, Modal, ProductCard, useStylesforGlobal
 import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
-import { Button, Group, Image, Text } from '@mantine/core';
+import { Button, createStyles, Group, Image, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
+import Autoplay from 'embla-carousel-autoplay';
+import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 const productData = [
@@ -72,10 +74,42 @@ const categoryData = [
   },
 ];
 
+const carouselData = [
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 13',
+  },
+  {
+    imgSrc: '/images/carousel/centerLaptop.png',
+    title: 'Razer Blade 14',
+  },
+  {
+    imgSrc: '/images/carousel/rightLaptop.png',
+    title: 'Razer Blade 15',
+  },
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 16',
+  },
+];
+
+const useStyles = createStyles((theme) => ({
+  onSlideActive: {
+    height: '600px',
+  },
+  onSlideInActive: {
+    height: '300px',
+  },
+}));
+
 export default function Index() {
   const { classes } = useStylesforGlobal();
+  const { classes: slideClasses } = useStyles();
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
   //const [opened, { open, close }] = useDisclosure(false);
+  const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModel();
+
   return (
     <div>
       <div className="p-16">
@@ -129,59 +163,38 @@ export default function Index() {
 
       <div>
         <Carousel
-          // withIndicators
-          height={400}
+          withIndicators
+          height={600}
           slideSize="33.333333%"
           slideGap="md"
           loop={true}
           align="start"
           slidesToScroll={1}
-          // speed={300}
+          dragFree
+          plugins={[autoplay.current]}
+          withKeyboardEvents
+          onMouseEnter={autoplay.current.stop}
+          onMouseLeave={autoplay.current.reset}
+          onSlideChange={(index) => {
+            carouselData.length === index + 1 ? setValue(0) : setValue(index + 1);
+          }}
         >
-          <Carousel.Slide>
-            <Image height={"300px"} src="/images/carousel/leftLaptop.png" />
-            <Group position='center'>
-              <Text size="xl">Razor Blade 15</Text>
-              <Button
-                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                variant="outline"
-                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-              />
-            </Group>
-          </Carousel.Slide>
-          <Carousel.Slide className='relative'>
-            <Image height={"300px"} src="/images/carousel/centerLaptop.png" />
-            <Group position='center'>
-              <Text size="xl">Razor Blade 15</Text>
-              <Button
-                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                variant="outline"
-                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-              />
-            </Group>
-          </Carousel.Slide>
-          <Carousel.Slide className='relative'>
-            <Image height={"300px"} src="/images/carousel/rightLaptop.png" />
-            <Group position='center'>
-              <Text size="xl">Razor Blade 15</Text>
-              <Button
-                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                variant="outline"
-                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-              />
-            </Group>
-          </Carousel.Slide>
-          <Carousel.Slide className='relative'>
-            <Image height={"300px"} src="/images/carousel/rightLaptop.png" />
-            <Group position='center'>
-              <Text size="xl">Razor Blade 15</Text>
-              <Button
-                leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                variant="outline"
-                classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-              />
-            </Group>
-          </Carousel.Slide>
+          {carouselData.map((item, index) => {
+            
+            console.log(carouselData.length, index, value);
+            return(
+            <Carousel.Slide key={index}>
+              <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+              <Group position="center">
+                <Text size="xl">{item.title}</Text>
+                <Button
+                  leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                  variant="outline"
+                  classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+                />
+              </Group>
+            </Carousel.Slide>
+          )})}
         </Carousel>
       </div>
 
