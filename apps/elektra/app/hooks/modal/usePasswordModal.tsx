@@ -22,12 +22,13 @@ export const usePasswordChangeModel = ():[React.ReactNode, boolean, { open: () =
           />
         </div>
       </Stack>
-      <div className="text-right mr-[100px]  -mt-[10px]">
+      <div className="text-right -mt-2">
         <Button
           styles={{
             root: {
               padding: 'unset',
               border: 'unset',
+              marginRight:'100px',
               borderRadius: 'unset',
             },
             inner: {

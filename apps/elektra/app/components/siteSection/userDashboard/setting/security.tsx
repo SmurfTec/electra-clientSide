@@ -1,12 +1,13 @@
 import { Modal, useStylesforGlobal } from '@elektra/components';
-import { usePasswordChangeModel, useShippingChangeModel } from '@elektra/hooks';
+import { useCardModel, usePasswordChangeModel, useShippingChangeModel } from '@elektra/hooks';
 import { Button, Divider, Group, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
 
 export function Security() {
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModel();
-  const [ShippingChangeModal, ShippingOpened, ShippingHandler] = useShippingChangeModel();
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModel();
+  const [CardModal, cardOpened, cardHandler] = useCardModel()
   const { classes } = useStylesforGlobal();
   return (
     <div>
@@ -44,7 +45,7 @@ export function Security() {
           </div>
           <Button
             leftIcon={<Pencil />}
-            onClick={ShippingHandler.open}
+            onClick={shippingHandler.open}
             classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
           ></Button>
         </Group>
@@ -54,8 +55,8 @@ export function Security() {
           className='mx-10 mb-7 mt-4'
           titlePosition='left'
           children={ShippingChangeModal}
-          onClose={ShippingHandler.close}
-          open={ShippingOpened}
+          onClose={shippingHandler.close}
+          open={shippingOpened}
         />
         <Group position="apart">
           <div>
@@ -75,8 +76,17 @@ export function Security() {
               </Text>
             </Group>
           </div>
-          <Button leftIcon={<Pencil />} classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}></Button>
+          <Button leftIcon={<Pencil />} onClick={cardHandler.open} classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}></Button>
         </Group>
+        <Modal
+          size={800}
+          title="Buying Info"
+          className='mx-10 mb-7 mt-4'
+          titlePosition='left'
+          children={CardModal}
+          onClose={cardHandler.close}
+          open={cardOpened}
+        />
         <Group position="apart">
           <div>
             <Text size="lg" className="uppercase font-medium">
