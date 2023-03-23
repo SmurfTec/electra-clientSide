@@ -17,7 +17,7 @@ export const Modal = ({ title,size, children, open, onClose,className ,titlePosi
       <MantineModel.Root size={size??550} opened={open} onClose={onClose} centered >
         <MantineModel.Overlay />
         <MantineModel.Content className="rounded-none">
-          <MantineModel.Header className={title ? 'h-20' : ''}>
+          <MantineModel.Header sx={{zIndex:100}} className={title ? 'h-20' : ''}>
             <MantineModel.Title className={titlePosition==='center'?"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-lg uppercase":'font-bold text-lg uppercase ml-7'}>
               {title}
             </MantineModel.Title>
@@ -27,7 +27,7 @@ export const Modal = ({ title,size, children, open, onClose,className ,titlePosi
               size="md"
             />
           </MantineModel.Header>
-          {title && <Divider />}
+          {title && <Divider  />}
           <MantineModel.Body className={className}>{children}</MantineModel.Body>
         </MantineModel.Content>
       </MantineModel.Root>
