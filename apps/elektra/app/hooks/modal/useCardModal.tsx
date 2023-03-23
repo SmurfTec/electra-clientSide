@@ -1,5 +1,18 @@
 import { useStylesforGlobal } from '@elektra/components';
-import { Button, Chip, createStyles, Grid, Group, Image, Paper, Select, Stack, Text, TextInput, useMantineTheme } from '@mantine/core';
+import {
+  Button,
+  Chip,
+  createStyles,
+  Grid,
+  Group,
+  Image,
+  Paper,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+  useMantineTheme,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { CaretDown } from 'tabler-icons-react';
@@ -8,7 +21,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();
-  const theme = useMantineTheme()
+  const theme = useMantineTheme();
 
   const initialValues = {
     cardType: '',
@@ -33,7 +46,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
           <Grid.Col span={7}>
             <Text className="text-lg mb-4">Choose billing method</Text>
             <Chip.Group onChange={(v) => console.log(v)} {...form.getInputProps('cardType')}>
-              <Group position="left">
+              <Group position="apart">
                 <Chip
                   color="blue"
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
@@ -144,10 +157,12 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
             </Paper>
           </Grid.Col>
 
-          <Grid.Col mb={"-25px"} mt={"10px"}  span={12}>
-            <Text className='bg-red font-[300]' color={theme.other.color.body} size="xl">Credit Card Info</Text>
+          <Grid.Col mb={'-25px'} mt={'10px'} span={12}>
+            <Text className="bg-red font-[300]" color={theme.other.color.body} size="xl">
+              Credit Card Info
+            </Text>
           </Grid.Col>
-          <Grid.Col span={12}>
+          <Grid.Col span={6}>
             <TextInput
               className="uppercase"
               label="Address#1"
@@ -156,7 +171,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
               {...form.getInputProps('address1')}
             />
           </Grid.Col>
-          <Grid.Col span={12}>
+          <Grid.Col span={6}>
             <TextInput
               className="uppercase"
               label="Address#2"
@@ -165,6 +180,55 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
               {...form.getInputProps('address2')}
             />
           </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              className="uppercase"
+              label="Address#2"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              description="(Optional)"
+              {...form.getInputProps('address2')}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}></Grid.Col>
+
+          <Grid.Col mb={'-25px'} mt={'10px'} span={12}>
+            <Text className="bg-red font-[300]" color={theme.other.color.body} size="xl">
+              Billing Info
+            </Text>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              className="uppercase"
+              label="Enter First Name ( Required)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              {...form.getInputProps('address2')}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              className="uppercase"
+              label="Enter Last Name ( Required)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              {...form.getInputProps('address2')}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <TextInput
+              className="uppercase"
+              label="Enter Last Name ( Required)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              {...form.getInputProps('address2')}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <TextInput
+              className="uppercase"
+              label="Enter Last Name ( Required)"
+              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              {...form.getInputProps('address2')}
+            />
+          </Grid.Col>
+
           <Grid.Col span={6}>
             <Select
               rightSection={<CaretDown fill="black" size="1rem" />}
