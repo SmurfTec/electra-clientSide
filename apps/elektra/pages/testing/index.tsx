@@ -104,7 +104,6 @@ const useStyles = createStyles((theme) => ({
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
-  const { classes: slideClasses } = useStyles();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   //const [opened, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState(0);
