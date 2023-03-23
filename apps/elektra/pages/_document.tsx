@@ -4,8 +4,8 @@ import { createStylesServer, ServerStyles } from '@mantine/next';
 import { cache } from './_app';
 
 
-//TODO: need to add cache in styles server to cache styles,
-const stylesServer = createStylesServer();
+//TODO: need to add cache in styles server to cache styles, 
+const stylesServer = createStylesServer(cache);
 export default class _Document extends Document {
   static getInitialProps = async (ctx: DocumentContext) => {
     const initialProps = await Document.getInitialProps(ctx);

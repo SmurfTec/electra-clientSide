@@ -42,7 +42,7 @@ export function Footer() {
   return (
     <div>
       <section className="my-14">
-        <Grid>
+        <Grid m={0}>
           {footerCardData.map((item, key) => {
             return (
               <Grid.Col xs={12} md={3} sm={3} key={key}>
