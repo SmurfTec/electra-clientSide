@@ -1,13 +1,13 @@
 import { Modal, useStylesforGlobal } from '@elektra/components';
 import { useCardModel, usePasswordChangeModel, useShippingChangeModel } from '@elektra/hooks';
-import { Button, Divider, Group, Text } from '@mantine/core';
+import { Button, Divider, Group, Switch, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
 
 export function Security() {
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModel();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModel();
-  const [CardModal, cardOpened, cardHandler] = useCardModel()
+  const [CardModal, cardOpened, cardHandler] = useCardModel();
   const { classes } = useStylesforGlobal();
   return (
     <div>
@@ -52,8 +52,8 @@ export function Security() {
         <Modal
           size={800}
           title="Shipping Address"
-          className='mx-10 mb-7 mt-4'
-          titlePosition='left'
+          className="mx-10 mb-7 mt-4"
+          titlePosition="left"
           children={ShippingChangeModal}
           onClose={shippingHandler.close}
           open={shippingOpened}
@@ -76,13 +76,17 @@ export function Security() {
               </Text>
             </Group>
           </div>
-          <Button leftIcon={<Pencil />} onClick={cardHandler.open} classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}></Button>
+          <Button
+            leftIcon={<Pencil />}
+            onClick={cardHandler.open}
+            classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
+          ></Button>
         </Group>
         <Modal
           size={800}
           title="Buying Info"
-          className='mx-10 mb-7 mt-4'
-          titlePosition='left'
+          className="mx-10 mb-7 mt-4"
+          titlePosition="left"
           children={CardModal}
           onClose={cardHandler.close}
           open={cardOpened}
@@ -107,6 +111,19 @@ export function Security() {
           </div>
           <Button leftIcon={<Pencil />} classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}></Button>
         </Group>
+        <Switch
+          size="md"
+          styles={{
+            label: {
+              [`@media (min-width: 768px)`]: {
+                marginRight: '17rem',
+              },
+            },
+          }}
+          labelPosition="left"
+          className="text-black font-semibold"
+          label="Enable two factor authentication on your account."
+        />
       </div>
     </div>
   );
