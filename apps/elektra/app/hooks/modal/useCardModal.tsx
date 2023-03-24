@@ -2,6 +2,7 @@ import { useStylesforGlobal } from '@elektra/components';
 import { Button, Chip, createStyles, Grid, Group, Image, Paper, Select, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 import { CaretDown } from 'tabler-icons-react';
 
 export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -10,7 +11,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
   const { classes: button } = useStylesforGlobal();
 
   const initialValues = {
-    cardType: '',
+    cardType: 'visa',
     address1: '',
     address2: '',
     country: '',
@@ -25,13 +26,14 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
     validate: {},
   });
 
+
   const Modal = (
     <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
           <Grid.Col span={7}>
             <Text className="text-lg mb-4">Choose billing method</Text>
-            <Chip.Group onChange={(v) => console.log(v)} {...form.getInputProps('cardType')}>
+            <Chip.Group defaultValue={'visa'}  {...form.getInputProps('cardType', { type: 'checkbox' })}  >
               <Group position="left">
                 <Chip
                   color="blue"
@@ -75,16 +77,16 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
             <Paper radius={0} className="mt-4" bg="black">
               <Stack align="flex-start" h={200}>
                 <Image
-                  height={60}
-                  width={60}
-                  sx={{ marginTop: '0.25rem', marginLeft: '1.5rem' }}
+                  height={50}
+                  width={50}
+                  sx={{ marginTop: '0.45rem', marginLeft: '1.5rem' }}
                   fit="contain"
-                  src={'/images/visa.png'}
+                  src={`/images/${form.values.cardType}.png`}
                 />
                 <Image
                   height={50}
                   width={50}
-                  sx={{ marginTop: '-25px', marginLeft: '1.5rem' }}
+                  sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}
                   fit="contain"
                   src={'/images/sim.png'}
                 />
