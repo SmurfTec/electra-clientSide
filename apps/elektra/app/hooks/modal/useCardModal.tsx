@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import { CaretDown } from 'tabler-icons-react';
+import { ChevronDown } from 'tabler-icons-react';
 
 export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -24,7 +24,12 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
   const theme = useMantineTheme();
 
   const initialValues = {
-    cardType: '',
+    cardType: 'visa',
+    cardNo: '',
+    cvc: '',
+    expiry: '',
+    fistName: '',
+    lastName: '',
     address1: '',
     address2: '',
     country: '',
@@ -45,7 +50,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
         <Grid>
           <Grid.Col span={7}>
             <Text className="text-lg mb-4">Choose billing method</Text>
-            <Chip.Group onChange={(v) => console.log(v)} {...form.getInputProps('cardType')}>
+            <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">
                 <Chip
                   color="blue"
@@ -89,16 +94,16 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
             <Paper radius={0} className="mt-4" bg="black">
               <Stack align="flex-start" h={200}>
                 <Image
-                  height={60}
-                  width={60}
-                  sx={{ marginTop: '0.25rem', marginLeft: '1.5rem' }}
+                  height={50}
+                  width={50}
+                  sx={{ marginTop: '0.45rem', marginLeft: '1.5rem' }}
                   fit="contain"
-                  src={'/images/visa.png'}
+                  src={`/images/${form.values.cardType}.png`}
                 />
                 <Image
                   height={50}
                   width={50}
-                  sx={{ marginTop: '-25px', marginLeft: '1.5rem' }}
+                  sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}
                   fit="contain"
                   src={'/images/sim.png'}
                 />
@@ -109,49 +114,53 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group spacing={'xl'}>
-                  <Text
-                    color={'white'}
-                    className="text-lg uppercase tracking-wider font-medium"
-                    sx={{ marginLeft: '1.5rem' }}
-                  >
-                    0000 0000 0000 0000
-                  </Text>
-                  <Text
-                    color={'white'}
-                    className="text-lg uppercase tracking-wider font-medium"
-                    sx={{ marginLeft: '1.5rem' }}
-                  >
-                    -/-
-                  </Text>
-                  <Text
-                    color={'white'}
-                    className="text-lg uppercase tracking-wider font-medium"
-                    sx={{ marginLeft: '1.5rem' }}
-                  >
-                    000
-                  </Text>
-                </Group>
-                <Group sx={{ marginTop: '-18px' }} spacing={55}>
-                  <Text
-                    color={'white'}
-                    fz="sm"
-                    className=" uppercase tracking-wider font-semibold"
-                    sx={{ marginLeft: '1.5rem' }}
-                  >
-                    Card Number
-                  </Text>
-                  <Text
-                    color={'white'}
-                    fz="sm"
-                    className="uppercase tracking-wider font-semibold"
-                    sx={{ marginLeft: '4.5rem' }}
-                  >
-                    expiry
-                  </Text>
-                  <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold">
-                    cvc
-                  </Text>
+                <Group position='apart' spacing={35}>
+                  <div>
+                    <Text
+                      color={'white'}
+                      className="text-lg uppercase tracking-wider font-medium"
+                      sx={{ marginLeft: '1.5rem' }}
+                    >
+                      {form.values.cardNo !== '' ? form.values.cardNo : '0000 0000 0000 0000'}
+                    </Text>
+                    <Text
+                      color={'white'}
+                      fz="sm"
+                      className=" uppercase tracking-wider font-semibold"
+                      sx={{ marginLeft: '1.5rem' }}
+                    >
+                      Card Number
+                    </Text>
+                  </div>
+                  <div>
+                    <Text
+                      color={'white'}
+                      className="text-lg uppercase tracking-wider font-medium"
+                      //sx={{ marginLeft: '1.5rem' }}
+                    >
+                      {form.values.expiry !== '' ? form.values.expiry : '-/-'}
+                    </Text>
+                    <Text
+                      color={'white'}
+                      fz="sm"
+                      className="uppercase tracking-wider font-semibold"
+                      //sx={{ marginLeft: '4.5rem' }}
+                    >
+                      expiry
+                    </Text>
+                  </div>
+                  <div>
+                    <Text
+                      color={'white'}
+                      className="text-lg uppercase tracking-wider font-medium"
+                     // sx={{ marginLeft: '1.5rem' }}
+                    >
+                      {form.values.cvc !== '' ? form.values.cvc : '000'}
+                    </Text>
+                    <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold">
+                      cvc
+                    </Text>
+                  </div>
                 </Group>
               </Stack>
             </Paper>
@@ -162,31 +171,21 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
               Credit Card Info
             </Text>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={6} mt={'20px'}>
             <TextInput
-              className="uppercase"
-              label="Address#1"
-              description="(Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              {...form.getInputProps('address1')}
+              placeholder="Enter Card No"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('cardNo')}
             />
+          </Grid.Col>
+          <Grid.Col span={6} mt={'20px'}>
+            <TextInput placeholder="CVC" classNames={{ input: classes.input }} {...form.getInputProps('cvc')} />
           </Grid.Col>
           <Grid.Col span={6}>
             <TextInput
-              className="uppercase"
-              label="Address#2"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              description="(Optional)"
-              {...form.getInputProps('address2')}
-            />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <TextInput
-              className="uppercase"
-              label="Address#2"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              description="(Optional)"
-              {...form.getInputProps('address2')}
+              placeholder="Expiry Date"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('expiry')}
             />
           </Grid.Col>
           <Grid.Col span={6}></Grid.Col>
@@ -196,49 +195,43 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
               Billing Info
             </Text>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={6} mt={'20px'}>
             <TextInput
-              className="uppercase"
-              label="Enter First Name ( Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              {...form.getInputProps('address2')}
+              placeholder="Enter First Name (Required)"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('fistName')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={6} mt={'20px'}>
             <TextInput
-              className="uppercase"
-              label="Enter Last Name ( Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              {...form.getInputProps('address2')}
-            />
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <TextInput
-              className="uppercase"
-              label="Enter Last Name ( Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              {...form.getInputProps('address2')}
+              placeholder="Enter Last Name (Required)"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('lastName')}
             />
           </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
-              className="uppercase"
-              label="Enter Last Name ( Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              placeholder="Search Address"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('address1')}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <TextInput
+              placeholder="Search Address (Optional)"
+              classNames={{ input: classes.input }}
               {...form.getInputProps('address2')}
             />
           </Grid.Col>
 
           <Grid.Col span={6}>
             <Select
-              rightSection={<CaretDown fill="black" size="1rem" />}
-              rightSectionWidth={30}
-              className="uppercase"
-              label="Country"
-              description="(Required)"
+              rightSection={<ChevronDown strokeWidth={3} size="1.2rem" />}
+              rightSectionWidth={60}
+              placeholder="Country (Required)"
               searchable
               nothingFound="No options"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              classNames={{ input: classes.input }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
               data={['Pakistan', 'India', 'China', 'USA']}
               {...form.getInputProps('country')}
@@ -246,14 +239,12 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
           <Grid.Col span={6}>
             <Select
-              rightSection={<CaretDown fill="black" size="1rem" />}
-              rightSectionWidth={30}
-              label="State/Province"
-              className="uppercase"
-              description="(Required)"
+              rightSection={<ChevronDown strokeWidth={3} size="1.2rem" />}
+              rightSectionWidth={60}
               searchable
+              placeholder="State/Province (Required)"
               nothingFound="No options"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              classNames={{ input: classes.input }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
               data={['Punjab', 'Sindh', 'Balochistan', 'KPK']}
               {...form.getInputProps('state')}
@@ -261,14 +252,12 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
           <Grid.Col span={6}>
             <Select
-              rightSection={<CaretDown fill="black" size="1rem" />}
-              rightSectionWidth={30}
-              label="City"
-              className="uppercase"
-              description="(Required)"
+              rightSection={<ChevronDown strokeWidth={3} size="1.2rem" />}
+              rightSectionWidth={60}
               searchable
+              placeholder="City (Required)"
               nothingFound="No options"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
+              classNames={{ input: classes.input }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
               data={['Lahore', 'Islamabad', 'Karachi', 'Multan', 'Rawalpindi']}
               {...form.getInputProps('city')}
@@ -276,10 +265,8 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
           <Grid.Col span={6}>
             <TextInput
-              className="uppercase"
-              description="(Required)"
-              classNames={{ input: classes.input, description: classes.description, label: classes.label }}
-              label="Postal Code"
+              placeholder="Postal (Required)"
+              classNames={{ input: classes.input }}
               {...form.getInputProps('postalCode')}
             />
           </Grid.Col>
@@ -304,6 +291,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: 'unset',
     border: '2px solid black',
     height: '45px',
+    backgroundColor: '#F1F1F1',
   },
   description: {
     display: 'inline-block',
