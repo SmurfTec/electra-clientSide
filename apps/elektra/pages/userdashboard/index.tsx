@@ -1,4 +1,4 @@
-import { Profile, Reward, Settings, WishList } from "@elektra/components";
+import { Profile, Purchasing, Reward, Settings, WishList } from "@elektra/components";
 import { TabView, tabViewData } from "@elektra/ui";
 import { Title } from "@mantine/core";
 
@@ -13,7 +13,7 @@ const tabViewData: tabViewData[] = [
     },
     {
       title: 'Purchasing',
-      content: 'hey',
+      content: <Purchasing />,
     },
     {
       title: 'Rewards',

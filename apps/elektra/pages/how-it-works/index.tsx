@@ -13,6 +13,11 @@ export default function HowItWorks() {
       <Divider my={'sm'}></Divider>
 
       <SegmentedControl
+        styles={{
+          control: {
+            border: 'none !important',
+          },
+        }}
         size="md"
         className="w-1/3"
         value={value}
