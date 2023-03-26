@@ -6,15 +6,14 @@ import { ArrowNarrowRight } from 'tabler-icons-react';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
+import { BannerCarousel } from '../app/components/carosuels';
 import { HeroImage } from '../app/components/hero';
 import { Footer } from '../app/components/siteSection';
 import { useStylesforGlobal } from '../app/components/theme';
 
 export function Index() {
-  const { classes } = useStylesforGlobal();
-  const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));
-
-  const [value, setValue] = useState(0);
+ 
+  
   const carouselData = [
     {
       imgSrc: '/images/carousel/leftLaptop.png',
@@ -332,41 +331,8 @@ export function Index() {
           </div>
         </section>
 
-        <section className='mt-20'>
-        <div>
-        <Carousel
-          withIndicators
-          height={600}
-          slideSize="33.333333%"
-          slideGap="md"
-          loop={true}
-          align="start"
-          slidesToScroll={1}
-          dragFree
-          plugins={[autoplay.current]}
-          withKeyboardEvents
-          onMouseEnter={autoplay.current.stop}
-          onMouseLeave={autoplay.current.reset}
-          onSlideChange={(index) => {
-            carouselData.length === index + 1 ? setValue(0) : setValue(index + 1);
-          }}
-        >
-          {carouselData.map((item, index) => {
-            return(
-            <Carousel.Slide key={index}>
-              <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
-              <Group position="center">
-                <Text size="xl">{item.title}</Text>
-                <Button
-                  leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                  variant="outline"
-                  classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-                />
-              </Group>
-            </Carousel.Slide>
-          )})}
-        </Carousel>
-      </div>
+        <section className="mt-20">
+            <BannerCarousel carouselData={carouselData} />
         </section>
 
         <section className="">
@@ -386,13 +352,13 @@ export function Index() {
               );
             })}
           </Grid>
-        </section>     
+        </section>
 
+        <section></section>
       </Container>
-      <section className='mt-48'>
-      <Footer />
+      <section className="mt-48">
+        <Footer />
       </section>
-      
     </div>
   );
 }
