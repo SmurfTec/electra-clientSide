@@ -90,7 +90,6 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                 </Chip>
               </Group>
             </Chip.Group>
-
             <Paper radius={0} className="mt-4" bg="black">
               <Stack align="flex-start" h={200}>
                 <Image
@@ -114,8 +113,8 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group position='apart' spacing={35}>
-                  <div>
+                <Group position='apart' spacing={35} >
+                  <div >
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
@@ -132,7 +131,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                       Card Number
                     </Text>
                   </div>
-                  <div>
+                  <div >
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
@@ -149,7 +148,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                       expiry
                     </Text>
                   </div>
-                  <div>
+                  <div >
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"

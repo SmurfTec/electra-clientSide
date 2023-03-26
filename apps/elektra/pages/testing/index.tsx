@@ -1,12 +1,13 @@
 import {
   CategoryCard,
+  DataTable,
   Footer,
   HeroImage,
   Modal,
   ProductCard,
   SimpleStatCardProps,
   SimpleStateCard,
-  useStylesforGlobal,
+  useStylesforGlobal
 } from '@elektra/components';
 import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
@@ -125,14 +126,7 @@ const carouselViewData = [
     imgSrc: '/images/carousel/iphonefull.png',
   },
 ];
-const useStyles = createStyles((theme) => ({
-  onSlideActive: {
-    height: '600px',
-  },
-  onSlideInActive: {
-    height: '300px',
-  },
-}));
+
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
@@ -241,6 +235,8 @@ export default function Index() {
           })}
         </Carousel>
       </div>
+  
+     
 
       {/* <div>
         <Group position="center">
