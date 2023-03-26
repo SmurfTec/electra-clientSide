@@ -6,6 +6,7 @@ import {
   Grid,
   Group,
   Image,
+  NumberInput,
   Paper,
   Select,
   Stack,
@@ -41,8 +42,40 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
   const form = useForm({
     initialValues: initialValues,
 
-    validate: {},
+    validate: {
+      cardNo: (value) => (value.length < 16 ? 'Invalid card number' : null),
+    },
   });
+
+  const getCardNumber = (value: string): string => {
+    //  const regexp = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+    // if(regexp.test(value)){
+    //   console.log(true)
+    // }
+    let data = value.toString();
+    while (data.length < 16) {
+      data += '0';
+    }
+    return data
+      .match(/.{1,4}/g)
+      .toString()
+      .replaceAll(',', ' ')
+      .substring(0, 19);
+  };
+
+  const getCvcNumber = (value: string): string => {
+    let data = value.toString();
+    while (data.length < 3) {
+      data += '0';
+    }
+    return data;
+  };
+
+  const getExpiryNumber = (value: string): string => {
+    let data = value.toString();
+    console.log(data);
+    return data;
+  };
 
   const Modal = (
     <div>
@@ -113,14 +146,14 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group position='apart' spacing={35} >
+                <Group position="apart" spacing={35} >
                   <div >
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
                       sx={{ marginLeft: '1.5rem' }}
                     >
-                      {form.values.cardNo !== '' ? form.values.cardNo : '0000 0000 0000 0000'}
+                      {getCardNumber(form.values.cardNo)}
                     </Text>
                     <Text
                       color={'white'}
@@ -137,7 +170,7 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                       className="text-lg uppercase tracking-wider font-medium"
                       //sx={{ marginLeft: '1.5rem' }}
                     >
-                      {form.values.expiry !== '' ? form.values.expiry : '-/-'}
+                      {getExpiryNumber(form.values.expiry)}
                     </Text>
                     <Text
                       color={'white'}
@@ -152,9 +185,9 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
-                     // sx={{ marginLeft: '1.5rem' }}
+                      // sx={{ marginLeft: '1.5rem' }}
                     >
-                      {form.values.cvc !== '' ? form.values.cvc : '000'}
+                      {getCvcNumber(form.values.cvc)}
                     </Text>
                     <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold">
                       cvc
@@ -171,20 +204,71 @@ export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; c
             </Text>
           </Grid.Col>
           <Grid.Col span={6} mt={'20px'}>
-            <TextInput
+            <NumberInput
+              hideControls
               placeholder="Enter Card No"
               classNames={{ input: classes.input }}
               {...form.getInputProps('cardNo')}
+              parser={(value) => {
+                if (Number(value) > 9999999999999999) {
+                  return value.slice(0, value.length - 1);
+                }
+                return value;
+              }}
+              formatter={(value) => value}
             />
           </Grid.Col>
           <Grid.Col span={6} mt={'20px'}>
-            <TextInput placeholder="CVC" classNames={{ input: classes.input }} {...form.getInputProps('cvc')} />
+            <NumberInput
+              hideControls
+              placeholder="CVC"
+              classNames={{ input: classes.input }}
+              {...form.getInputProps('cvc')}
+              parser={(value) => {
+                if (Number(value) > 999) {
+                  return value.slice(0, value.length - 1);
+                }
+                return value;
+              }}
+              formatter={(value) => value}
+            />
           </Grid.Col>
           <Grid.Col span={6}>
-            <TextInput
+            <NumberInput
               placeholder="Expiry Date"
               classNames={{ input: classes.input }}
               {...form.getInputProps('expiry')}
+              formatter={(value) =>
+                value
+                  .replace(
+                    /^([1-9]\/|[2-9])$/g,
+                    '0$1/' // 3 > 03/
+                  )
+                  .replace(
+                    /^(0[1-9]|1[0-2])$/g,
+                    '$1/' // 11 > 11/
+                  )
+                  .replace(
+                    /^([0-1])([3-9])$/g,
+                    '0$1/$2' // 13 > 01/3
+                  )
+                  .replace(
+                    /^(0?[1-9]|1[0-2])([0-9]{2})$/g,
+                    '$1/$2' // 141 > 01/41
+                  )
+                  .replace(
+                    /^([0]+)\/|[0]+$/g,
+                    '0' // 0/ > 0 and 00 > 0
+                  )
+                  .replace(
+                    /[^\d\/]|^[\/]*$/g,
+                    '' // To allow only digits and `/`
+                  )
+                  .replace(
+                    /\/\//g,
+                    '/' // Prevent entering more than 1 `/`
+                  )
+              }
             />
           </Grid.Col>
           <Grid.Col span={6}></Grid.Col>

@@ -10,43 +10,57 @@ import { getHeaderColumn } from './tableColumns';
 
 const pendingTileData: SimpleStatCardProps[] = [
   {
-    title: 'Total Value',
-    value: 3000,
+    title: 'Pending Sales',
+    value: 5,
+    type: 'N/A',
+  },
+  {
+    title: 'Gross Value',
+    value: 2000,
     type: '$',
   },
   {
-    title: 'Pending Orders',
-    value: 5,
-    type: 'N/A',
+    title: 'Net Value',
+    value: 2100,
+    type: '$',
   },
 ];
 const completedTileData: SimpleStatCardProps[] = [
   {
-    title: 'Total Spent',
-    value: 3000,
+    title: 'Total Sale',
+    value: 20,
+    type: 'N/A',
+  },
+  {
+    title: 'Gross Value',
+    value: 3,
     type: '$',
   },
   {
-    title: 'No of Purchase',
-    value: 5,
-    type: 'N/A',
+    title: 'Net Value',
+    value: 17,
+    type: '$',
   },
   {
-    title: 'Points Eared',
-    value: 2500,
+    title: 'Total Points Eared',
+    value: 17,
     type: 'N/A',
   },
 ];
-
 const activeTileData: SimpleStatCardProps[] = [
   {
-    title: 'Active Offers',
-    value: 10,
+    title: 'No of Listings',
+    value: 20,
     type: 'N/A',
   },
   {
-    title: 'Total Value',
+    title: 'Gross Value',
     value: 2000,
+    type: '$',
+  },
+  {
+    title: 'Net Value',
+    value: 1900,
     type: '$',
   },
 ];
@@ -54,102 +68,94 @@ const activetabledata = [
   {
     id: '#1',
     itemName: 'Iphone Unlocked',
+    askPrice: '$100',
     highestOffer: '$500',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
   },
   {
     id: '#2',
     itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
+    askPrice: '$100',
+    highestOffer: '$500',
   },
   {
     id: '#3',
     itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
+    askPrice: '$100',
+    highestOffer: '$500',
   },
   {
     id: '#4',
     itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
+    askPrice: '$100',
+    highestOffer: '$500',
   },
 ];
 const pendingtabledata = [
   {
     id: '#11',
     itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
+    salePrice: '$500',
     trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
+    saleDate: '20 Aug,2022',
+    orderStatus: 'Shipped Pending',
   },
   {
     id: '#22',
     itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
+    salePrice: '$500',
     trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
+    saleDate: '20 Aug,2022',
+    orderStatus: 'Shipped',
   },
   {
     id: '#33',
     itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
+    salePrice: '$500',
     trackingNo: '123452',
-    orderStatus: 'Declined',
-    offerDate: '20 Aug,2022',
+    saleDate: '20 Aug,2022',
+    orderStatus: 'Shipped',
   },
   {
     id: '#44',
     itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
+    salePrice: '$500',
     trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
+    saleDate: '20 Aug,2022',
+    orderStatus: 'Shipped',
   },
 ];
 const completedtabledata = [
   {
     id: '#111',
     itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan:'None',
-    orderNo:'12'
+    saleDate: '20 Aug,2022',
+    orderNo:'12',
+    status:true,
   },
   {
     id: '#222',
     itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan:'None',
-    orderNo:'42'
+    saleDate: '20 Aug,2022',
+    orderNo:'12',
+    status:false,
   },
   {
     id: '#333',
     itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan:'None',
-    orderNo:'132'
+    saleDate: '20 Aug,2022',
+    orderNo:'12',
+    status:true,
   },
   {
-    id: '#444',
+    id: '444',
     itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan:'None',
-    orderNo:'122'
+    saleDate: '20 Aug,2022',
+    orderNo:'12',
+    status:true,
   },
 ];
 
-export function Purchasing() {
+export function Selling() {
   const [value, setValue] = useState('active');
   const [search, setSearch] = useState(undefined);
   const [selectedRows, setSelectedRows] = useState({});
