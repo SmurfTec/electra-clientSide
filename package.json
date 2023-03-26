@@ -17,6 +17,7 @@
     "@mantine/next": "^5.10.5",
     "@mantine/nprogress": "^6.0.1",
     "@nrwl/next": "14.8.3",
+    "@tanstack/react-table": "^8.8.2",
     "core-js": "^3.6.5",
     "embla-carousel-autoplay": "^7.0.9",
     "joi": "^17.8.3",
