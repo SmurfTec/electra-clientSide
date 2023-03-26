@@ -1,7 +1,7 @@
 import { MantineThemeOverride } from '@mantine/core';
 enum colorPallete {
-  headings = 'dark',
-  body = '#000000',
+ 
+ 
   bodyLight = '#B4B4B4',
   backgroundPrimary = '#111111',
   backgroundSecondary = '#3C82D6',
@@ -19,6 +19,7 @@ enum colorPallete {
   success = 'green',
   danger = 'red',
 }
+
 
 export const createThemeoverride = (): MantineThemeOverride => {
   return {

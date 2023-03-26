@@ -1,4 +1,4 @@
-import { Text, Title, useMantineTheme } from '@mantine/core';
+import { Paper, Text, useMantineTheme } from '@mantine/core';
 
 export type SimpleStatCardProps = {
   title: string;
@@ -7,20 +7,21 @@ export type SimpleStatCardProps = {
 };
 
 export function SimpleStateCard({ title, value, type }: SimpleStatCardProps) {
-  const theme = useMantineTheme()
+  const theme = useMantineTheme();
   const assignValue = () => {
     if (type === '$') return `$ ${value}`;
     if (type === '%') return `${value} %`;
     return value.toString();
   };
 
-  const amount: string = assignValue();
   return (
-    <div className="p-4" style={{ border: '1px solid', borderColor: 'rgba(101, 101, 101, 0.29)' }}>
-      <Text color={theme.other.color.tabTitle} size="sm">{title}</Text>
-      <Title  mt={16} className="font-bold" order={3}>
-        {amount}
-      </Title>
-    </div>
+    <Paper withBorder className="p-4"  radius={0}>
+      <Text color={theme.other.color.tabTitle} size="sm">
+        {title}
+      </Text>
+      <Text mt={16} size={32} className="font-bold">
+        {assignValue() as string}
+      </Text>
+    </Paper>
   );
 }
