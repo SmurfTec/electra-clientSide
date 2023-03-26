@@ -92,7 +92,17 @@ const carouselData = [
     title: 'Razer Blade 16',
   },
 ];
-
+const carouselViewData = [
+  {
+    imgSrc: '/images/carousel/iphoneblack.png',
+  },
+  {
+    imgSrc: '/images/carousel/iphonefront.png',
+  },
+  {
+    imgSrc: '/images/carousel/iphonefull.png',
+  },
+];
 const useStyles = createStyles((theme) => ({
   onSlideActive: {
     height: '600px',
@@ -105,7 +115,6 @@ const useStyles = createStyles((theme) => ({
 export default function Index() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
-  //const [opened, { open, close }] = useDisclosure(false);
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModel();
 
@@ -169,7 +178,7 @@ export default function Index() {
           loop={true}
           align="start"
           slidesToScroll={1}
-          dragFree
+          draggable={false}
           plugins={[autoplay.current]}
           withKeyboardEvents
           onMouseEnter={autoplay.current.stop}
@@ -179,21 +188,35 @@ export default function Index() {
           }}
         >
           {carouselData.map((item, index) => {
-            
-            console.log(carouselData.length, index, value);
-            return(
-            <Carousel.Slide key={index}>
-              <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
-              <Group position="center">
-                <Text size="xl">{item.title}</Text>
-                <Button
-                  leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                  variant="outline"
-                  classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-                />
-              </Group>
-            </Carousel.Slide>
-          )})}
+            return (
+              <Carousel.Slide key={index}>
+                <div>
+                  {/* <Image  src={item.imgSrc} /> */}
+                  <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+                  <Group position="center">
+                    <Text size="xl">{item.title}</Text>
+                    <Button
+                      leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                      variant="outline"
+                      classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+                    />
+                  </Group>
+                </div>
+              </Carousel.Slide>
+            );
+          })}
+        </Carousel>
+      </div>
+
+      <div className="m-96">
+        <Carousel maw={320} mx="auto" withIndicators height={200}>
+          {carouselViewData.map((item, index) => {
+            return (
+              <Carousel.Slide key={index}>
+                <Image fit="cover" src={item.imgSrc} />
+              </Carousel.Slide>
+            );
+          })}
         </Carousel>
       </div>
 

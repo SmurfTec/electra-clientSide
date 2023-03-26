@@ -352,8 +352,6 @@ export function Index() {
           }}
         >
           {carouselData.map((item, index) => {
-            
-            console.log(carouselData.length, index, value);
             return(
             <Carousel.Slide key={index}>
               <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
