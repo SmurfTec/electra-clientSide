@@ -1,8 +1,17 @@
-import { CategoryCard, Footer, HeroImage, Modal, ProductCard, useStylesforGlobal } from '@elektra/components';
+import {
+  CategoryCard,
+  Footer,
+  HeroImage,
+  Modal,
+  ProductCard,
+  SimpleStatCardProps,
+  SimpleStateCard,
+  useStylesforGlobal,
+} from '@elektra/components';
 import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
-import { Button, createStyles, Group, Image, Text } from '@mantine/core';
+import { Button, Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
@@ -93,6 +102,19 @@ const carouselData = [
   },
 ];
 
+const SimpleStatCardData: SimpleStatCardProps[] = [
+  {
+    title: 'Total Value',
+    value: 3000,
+    type: '$',
+  },
+  {
+    title: 'Pending Orders',
+    value: 5,
+    type: 'N/A',
+  },
+];
+
 const useStyles = createStyles((theme) => ({
   onSlideActive: {
     height: '600px',
@@ -179,21 +201,21 @@ export default function Index() {
           }}
         >
           {carouselData.map((item, index) => {
-            
             console.log(carouselData.length, index, value);
-            return(
-            <Carousel.Slide key={index}>
-              <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
-              <Group position="center">
-                <Text size="xl">{item.title}</Text>
-                <Button
-                  leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                  variant="outline"
-                  classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-                />
-              </Group>
-            </Carousel.Slide>
-          )})}
+            return (
+              <Carousel.Slide key={index}>
+                <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+                <Group position="center">
+                  <Text size="xl">{item.title}</Text>
+                  <Button
+                    leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                    variant="outline"
+                    classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+                  />
+                </Group>
+              </Carousel.Slide>
+            );
+          })}
         </Carousel>
       </div>
 
@@ -262,6 +284,15 @@ export default function Index() {
         />
       </div>
 
+      <Container>
+        <Grid>
+          {SimpleStatCardData.map((item, key) => (
+            <Grid.Col span={3}>
+              <SimpleStateCard key={key} title={item.title} value={item.value} type={item.type} />
+            </Grid.Col>
+          ))}
+        </Grid>
+      </Container>
       <div className="mt-96">
         <Footer />
       </div>
