@@ -6,7 +6,7 @@ export type ItemCardProps = {
   status?: string;
   sale?: boolean;
   price?: number;
-  date?: Date;
+  date?: string;
   title: string;
   image: string;
   space: string;
@@ -54,7 +54,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Group>
           <Only when={!!date}>
           <Text color="#656565" size="sm">
-              {date?.toLocaleDateString()}
+              {date}
             </Text>
             </Only>
         </Group>

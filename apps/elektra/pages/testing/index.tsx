@@ -17,6 +17,7 @@ import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { ItemCard, ItemCardProps } from 'apps/elektra/app/components/card/itemCard';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
+import { Carousel as ShowTime } from 'react-responsive-carousel';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 type condition = 'New' | 'Used';
@@ -29,7 +30,7 @@ const itemCardData: ItemCardProps = {
   title: 'Iphone 14 Pro Max',
   status: 'Sold',
   price: 1000,
-  date: new Date(),
+  date: '29/10/10',
   sale: true,
 };
 
@@ -298,13 +299,30 @@ export default function Index() {
             className="bg-transparent"
             keepMounted={false}
             closeButtonProps={{ radius: '100%', size: 'lg' }}
-            children={<></>}
+            children={carouselModal}
             onClose={carouselHandler.close}
             opened={carouselOpened}
           />
 
           <Button onClick={carouselHandler.open}>Image Model</Button>
         </Group>
+      </div>
+      <div className="m-96">
+      <ShowTime autoPlay>
+        <div>
+            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+            <p className="legend">Legend 1</p>
+        </div>
+        <div>
+            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+            <p className="legend">Legend 2</p>
+        </div>
+        <div>
+            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+            <p className="legend">Legend 3</p>
+        </div>
+    
+    </ShowTime>
       </div>
 
       <div className="m-96">
