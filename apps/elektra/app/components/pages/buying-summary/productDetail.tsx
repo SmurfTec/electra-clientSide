@@ -1,7 +1,7 @@
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { useOfferModel, useShippingChangeModel } from '@elektra/hooks';
 import { NextImage, Only } from '@elektra/ui';
-import { Group, Paper, Text, Title, useMantineTheme } from '@mantine/core';
+import { Grid, Group, Paper, Text, Title, useMantineTheme } from '@mantine/core';
 import { PencilButton, TransparentButton } from '../../buttons';
 import { Modal } from '../../modal';
 
@@ -15,6 +15,8 @@ type ProductDetailProps = {
   expiration: string;
   cardDetails: string;
   address: string;
+  status?: string;
+  saleDate: string;
 };
 
 export function ProductDetail({
@@ -27,6 +29,8 @@ export function ProductDetail({
   expiration,
   cardDetails,
   address,
+  saleDate,
+  status,
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModel();
   const [OfferModal, offerOpened, offerHandler] = useOfferModel();
@@ -52,8 +56,25 @@ export function ProductDetail({
       </Group>
 
       <div className="mt-6 space-y-4">
-        <ProductDetails text={'CONDITION'} details={condition} />
-        <ProductDetails text={'CONDITION'} details={condition} />
+        <Grid m={0}>
+          <Grid.Col p={0} span={4}>
+            <ProductDetails text={'CONDITION'} details={condition} />
+          </Grid.Col>
+          <Grid.Col p={0} span={4}>
+            <ProductDetails text={'Status'} details={'Pending'} />
+          </Grid.Col>
+          <Grid.Col p={0} span={4}>
+            <ProductDetails text={'Protection Plan'} details={'13 Months'} />
+          </Grid.Col>
+        </Grid>
+        <Grid>
+          <Grid.Col p={0} span={4}>
+            <ProductDetails text={'Sale Date'} details={saleDate} />
+          </Grid.Col>
+          <Grid.Col p={0} span={4}>
+            <ProductDetails text={'Order No'} details={"14"} color={theme.other.color.secondary} />
+          </Grid.Col>
+        </Grid>
         <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={true} onClick={offerHandler.open} />
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
         <ProductDetails
@@ -82,8 +103,9 @@ type productDetailsProps = {
   details: string | number;
   iconDisplay?: boolean;
   onClick?: () => void;
+  color?: string;
 };
-function ProductDetails({ text, details, onClick, iconDisplay }: productDetailsProps) {
+export function ProductDetails({ text, details, onClick, iconDisplay, color }: productDetailsProps) {
   return (
     <div>
       <Title className="font-[600]" order={6}>
@@ -92,7 +114,7 @@ function ProductDetails({ text, details, onClick, iconDisplay }: productDetailsP
           <PencilButton onClick={onClick} />
         </Only>
       </Title>
-      <Text className="font-bold" size="md">
+      <Text color={color} className="font-bold" size="md">
         {details}
       </Text>
     </div>
