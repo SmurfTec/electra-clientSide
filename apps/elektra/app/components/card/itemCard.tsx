@@ -1,5 +1,6 @@
 import { NextImage, Only } from '@elektra/ui';
-import { Grid, Group, Paper, Text, useMantineTheme } from '@mantine/core';
+import { Grid, Group, Modal, Paper, Text } from '@mantine/core';
+import { useCarouselModal } from '../../hooks/modal';
 import { TransparentButton } from '../buttons';
 
 export type ItemCardProps = {
@@ -15,12 +16,55 @@ export type ItemCardProps = {
 };
 
 export function ItemCard({ title, image, space, color, company, date, price, sale, status }: ItemCardProps) {
-  const theme = useMantineTheme();
+  const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
+
   return (
     <Grid>
       <Grid.Col span={2}>
         <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
-          <NextImage height={70} width={60} alt={title} src={image} />
+          <NextImage height={70} width={60} alt={title} src={image} onClick={carouselHandler.open} />
+          <Modal
+            fullScreen
+            overlayProps={{
+              color: 'black',
+              opacity: 0.6,
+              blur: 2,
+            }}
+            styles={{
+              root: {
+                // position: 'relative',
+              },
+              content: {
+                background: 'transparent',
+                zIndex: 10
+              },
+              header: {
+                background: 'transparent',
+                position: "relative",
+                height: "12vh"
+              },
+              close: {
+                position: 'absolute',
+                top: 30,
+                right: 20,
+                zIndex: 1000,
+                borderRadius: "unset",
+                "&:hover": {
+                  backgroundColor: 'unset',
+                  color:"white",
+
+                },
+                
+
+              }
+            }}
+            className="bg-transparent"
+            keepMounted={false}
+            closeButtonProps={{size: 'lg' }}
+            children={carouselModal}
+            onClose={carouselHandler.close}
+            opened={carouselOpened}
+          />
           <Only when={!!status}>
             <Text align="center" className="absolute bottom-0 w-full" bg={'black'} color={'white'} size="sm">
               {status}
@@ -46,19 +90,20 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
             </Text>
           </Only>
         </Group>
-        <Group position='apart'>
+        <Group position="apart">
           <Group>
             <TransparentButton label={space} />
             <TransparentButton label={color} />
             <TransparentButton label={company} />
           </Group>
           <Only when={!!date}>
-          <Text color="#656565" size="sm">
+            <Text color="#656565" size="sm">
               {date?.toLocaleDateString()}
             </Text>
-            </Only>
+          </Only>
         </Group>
       </Grid.Col>
     </Grid>
   );
 }
+
