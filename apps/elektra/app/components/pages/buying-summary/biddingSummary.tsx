@@ -80,7 +80,7 @@ type PositionApartProps = {
 function PositionApart({ text, number, discount, numberColor, key }: PositionApartProps) {
   const [discountModal, discountOpened, discountHandler] = useDiscountModal()
   return (
-    <Group key={key} className="space-x-4" position="apart">
+    <Group className="space-x-4" position="apart">
       <Modal title="Discount" children={discountModal} onClose={discountHandler.close} open={discountOpened} />
       <Text className="font-bold uppercase" size="sm">
         {text}
