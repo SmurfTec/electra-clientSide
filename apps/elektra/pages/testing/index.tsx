@@ -1,22 +1,24 @@
 import {
   CategoryCard,
-  DataTable,
   Footer,
   HeroImage,
   Modal,
   ProductCard,
+  ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
-  useStylesforGlobal
+  useStylesforGlobal,
 } from '@elektra/components';
 import { useOfferModel } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
-import { Button, Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
+import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
+
+type condition = 'New' | 'Used';
 
 const productData = [
   {
@@ -30,6 +32,7 @@ const productData = [
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
+    condition: 'New',
   },
   {
     id: 5,
@@ -127,6 +130,42 @@ const carouselViewData = [
   },
 ];
 
+const productSpecification = [
+  //NEW PRODUCT
+  {
+    title: "Iphone 14 Pro Max",
+    condition: 'New',
+    colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
+    color: 'Blue',
+    capacityData: ['16GB', '64Gb', '128Gb', '256GB'],
+    capacity: '128GB',
+    carrierData: ['AT&T', 'T-Mobile', 'Verizon', 'Factory Unlocked'],
+    carrier: 'Verizon',
+
+    lowestAsk: 169,
+    highestAsk: 179,
+    price: 400,
+  },
+  //USED PRODUCT
+  {
+    title: "Iphone 14 Pro Max",
+    condition: 'Used',
+    colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
+    color: 'Blue',
+    capacityData: ['16GB', '64Gb', '128Gb', '256GB'],
+    capacity: '128GB',
+    carrierData: ['AT&T', 'T-Mobile', 'Verizon', 'Factory Unlocked'],
+    carrier: 'Verizon',
+
+    sellerCondition: 'Used/Fair',
+    sellerColor: 'Black',
+    sellerCapacity: '128GB',
+    sellerCarrier: 'Verizon',
+    lowestAsk: 169,
+    highestAsk: 179,
+    price: 400,
+  },
+];
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
@@ -235,8 +274,6 @@ export default function Index() {
           })}
         </Carousel>
       </div>
-  
-     
 
       {/* <div>
         <Group position="center">
@@ -302,6 +339,45 @@ export default function Index() {
           classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
         />
       </div>
+      <Container my={100} fluid>
+        <Grid grow gutterXl={20}>
+          <Grid.Col p={0} span={6}>
+            <ProductSpecification
+            title={productSpecification[0].title}
+              condition={productSpecification[0].condition as condition}
+              capacity={productSpecification[0].capacity}
+              capacityData={productSpecification[0].capacityData}
+              carrier={productSpecification[0].carrier}
+              carrierData={productSpecification[0].carrierData}
+              color={productSpecification[0].color}
+              colorData={productSpecification[0].colorData}
+              highestAsk={productSpecification[0].highestAsk}
+              lowestAsk={productSpecification[0].lowestAsk}
+              price={productSpecification[0].price}
+
+            />
+          </Grid.Col>
+          <Grid.Col p={0} span={6}>
+          <ProductSpecification
+          title={productSpecification[0].title}
+              condition={productSpecification[0].condition as condition}
+              capacity={productSpecification[0].capacity}
+              capacityData={productSpecification[0].capacityData}
+              carrier={productSpecification[0].carrier}
+              carrierData={productSpecification[0].carrierData}
+              color={productSpecification[0].color}
+              colorData={productSpecification[0].colorData}
+              highestAsk={productSpecification[0].highestAsk}
+              lowestAsk={productSpecification[0].lowestAsk}
+              price={productSpecification[0].price}
+              sellerCapacity={productSpecification[0].sellerCapacity}
+              sellerCarrier={productSpecification[0].sellerCarrier}
+              sellerColor={productSpecification[0].sellerColor}
+              sellerCondition={productSpecification[0].sellerCondition}
+            />
+          </Grid.Col>
+        </Grid>
+      </Container>
 
       <Container>
         <Grid>

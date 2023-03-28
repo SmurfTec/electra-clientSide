@@ -72,7 +72,7 @@ export function ProductDetail({
             <ProductDetails text={'Sale Date'} details={saleDate} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Order No'} details={"14"} />
+            <ProductDetails text={'Order No'} details={"14"} color={theme.other.color.secondary} />
           </Grid.Col>
         </Grid>
         <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={true} onClick={offerHandler.open} />
@@ -103,8 +103,9 @@ type productDetailsProps = {
   details: string | number;
   iconDisplay?: boolean;
   onClick?: () => void;
+  color?: string;
 };
-function ProductDetails({ text, details, onClick, iconDisplay }: productDetailsProps) {
+export function ProductDetails({ text, details, onClick, iconDisplay, color }: productDetailsProps) {
   return (
     <div>
       <Title className="font-[600]" order={6}>
@@ -113,7 +114,7 @@ function ProductDetails({ text, details, onClick, iconDisplay }: productDetailsP
           <PencilButton onClick={onClick} />
         </Only>
       </Title>
-      <Text className="font-bold" size="md">
+      <Text color={color} className="font-bold" size="md">
         {details}
       </Text>
     </div>
