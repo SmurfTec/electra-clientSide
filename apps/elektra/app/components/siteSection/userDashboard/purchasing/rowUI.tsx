@@ -1,4 +1,5 @@
 import { ActionIcon, Badge, Button, Text } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { Pencil } from 'tabler-icons-react';
 
@@ -47,6 +48,8 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
             },
           }}
           radius="xl"
+          component={NextLink}
+          href='/order-detail'
         >
           View Details
         </Button>

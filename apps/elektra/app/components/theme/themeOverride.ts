@@ -1,9 +1,9 @@
 import { MantineThemeOverride } from '@mantine/core';
 
 enum colorPallete {
-
-  headings="black",
-  body='black',
+ 
+  headings = "#000000",
+  body = "#ffffff",
   bodyLight = '#B4B4B4',
   backgroundPrimary = '#111111',
   backgroundSecondary = '#3C82D6',

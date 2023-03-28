@@ -1,4 +1,4 @@
-import { useDiscountModel } from '@elektra/hooks';
+import { useDiscountModal } from '@elektra/hooks';
 import { Only } from '@elektra/ui';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
 import { PencilButton, TransparentButton } from '../../buttons';
@@ -78,7 +78,7 @@ type PositionApartProps = {
   key: number;
 };
 function PositionApart({ text, number, discount, numberColor, key }: PositionApartProps) {
-  const [discountModal, discountOpened, discountHandler] = useDiscountModel()
+  const [discountModal, discountOpened, discountHandler] = useDiscountModal()
   return (
     <Group key={key} className="space-x-4" position="apart">
       <Modal title="Discount" children={discountModal} onClose={discountHandler.close} open={discountOpened} />
