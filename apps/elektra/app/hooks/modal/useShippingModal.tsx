@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { CaretDown } from 'tabler-icons-react';
 import { useStylesforGlobal } from '../../components/theme';
 
-export const useShippingChangeModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();

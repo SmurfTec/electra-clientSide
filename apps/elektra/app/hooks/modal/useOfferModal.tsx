@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { CaretDown } from 'tabler-icons-react';
 
-export const useOfferModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {

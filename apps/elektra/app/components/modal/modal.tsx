@@ -1,7 +1,7 @@
-import { Divider, MantineNumberSize, Modal as MantineModel } from '@mantine/core';
+import { Divider, MantineNumberSize, Modal as MantineModel,ModalProps as MantineModalProps } from '@mantine/core';
 import { ReactNode } from 'react';
 
-type ModelProps = {
+type ModalProps = {
   title?: string;
   titlePosition?: 'center' | 'left' ;
   children: ReactNode;
@@ -9,12 +9,12 @@ type ModelProps = {
   open: boolean;
   className?: string;
   onClose: () => void;
-};
+} & Omit<MantineModalProps,'opened'>;
 
-export const Modal = ({ title,size, children, open, onClose,className ,titlePosition='center' }: ModelProps) => {
+export const Modal = ({ title,size, children, open, onClose,className ,titlePosition='center',...rest }: ModalProps) => {
   return (
     <>
-      <MantineModel.Root size={size??550} opened={open} onClose={onClose} centered >
+      <MantineModel.Root  keepMounted={false}  size={size??550} opened={open} onClose={onClose} centered {...rest}>
         <MantineModel.Overlay />
         <MantineModel.Content className="rounded-none">
           <MantineModel.Header sx={{zIndex:100}} className={title ? 'h-20' : ''}>

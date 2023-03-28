@@ -1,18 +1,17 @@
 import {
   CategoryCard,
-  DataTable,
   Footer,
   HeroImage,
   Modal,
   ProductCard,
   SimpleStatCardProps,
   SimpleStateCard,
-  useStylesforGlobal
+  useStylesforGlobal,
 } from '@elektra/components';
-import { useOfferModel } from '@elektra/hooks';
+import { useCarouselModal, useOfferModal } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
-import { Button, Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
+import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
@@ -127,13 +126,12 @@ const carouselViewData = [
   },
 ];
 
-
 export default function Index() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
-  const [offerModal, offerOpened, offerHandler] = useOfferModel();
-
+  const [offerModal, offerOpened, offerHandler] = useOfferModal();
+  const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   return (
     <div>
       <div className="p-16">
@@ -225,7 +223,39 @@ export default function Index() {
       </div>
 
       <div className="m-96">
-        <Carousel maw={320} mx="auto" withIndicators height={200}>
+        <Group position="center">
+          <MantineModal
+            fullScreen
+            overlayProps={{
+              color: 'black',
+              opacity: 0.5,
+              blur: 2,
+            }}
+            styles={{
+              root: {
+                backgroundColor: 'blue !important',
+              },
+              content: {
+                background: 'transparent',
+              },
+              header: {
+                background: 'transparent',
+              },
+            }}
+            className="bg-transparent"
+            keepMounted={false}
+            closeButtonProps={{ radius: '100%', size: 'lg' }}
+            children={<></>}
+            onClose={carouselHandler.close}
+            opened={carouselOpened}
+          />
+
+          <Button onClick={carouselHandler.open}>Image Model</Button>
+        </Group>
+      </div>
+
+      <div className="m-96">
+        <Carousel maw={1000} mx="auto" withIndicators height={200}>
           {carouselViewData.map((item, index) => {
             return (
               <Carousel.Slide key={index}>
@@ -235,8 +265,6 @@ export default function Index() {
           })}
         </Carousel>
       </div>
-  
-     
 
       {/* <div>
         <Group position="center">
