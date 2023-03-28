@@ -1,7 +1,8 @@
 import { useOfferModal, useShippingChangeModal } from '@elektra/hooks';
-import { NextImage, Only } from '@elektra/ui';
-import { Grid, Group, Paper, Text, Title, useMantineTheme } from '@mantine/core';
-import { PencilButton, TransparentButton } from '../../buttons';
+import { Only } from '@elektra/ui';
+import { Grid, Text, Title, useMantineTheme } from '@mantine/core';
+import { PencilButton } from '../../buttons';
+import { ItemCard } from '../../card';
 import { Modal } from '../../modal';
 
 type ProductDetailProps = {
@@ -36,23 +37,7 @@ export function ProductDetail({
   const theme = useMantineTheme();
   return (
     <div style={{ border: '1px solid', borderColor: theme.other.color.subTitle }} className="p-8 rounded-xl">
-      <Group className="space-x-4">
-        <div>
-          <Paper bg={theme.other.color.productBackground} className="py-2 px-6 flex justify-center items-center">
-            <NextImage height={40} width={35} alt={title} src={image} />
-          </Paper>
-        </div>
-        <div className="space-y-4">
-          <Text className="font-bold" size="xl">
-            {title}
-          </Text>
-          <Group>
-            <TransparentButton label={space} />
-            <TransparentButton label={color} />
-            <TransparentButton label={company} />
-          </Group>
-        </div>
-      </Group>
+      <ItemCard color={color} company={company} image={image} space={space} title={title} key={title} />
 
       <div className="mt-6 space-y-4">
         <Grid m={0}>
@@ -71,7 +56,7 @@ export function ProductDetail({
             <ProductDetails text={'Sale Date'} details={saleDate} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Order No'} details={"14"} color={theme.other.color.secondary} />
+            <ProductDetails text={'Order No'} details={'14'} color={theme.other.color.secondary} />
           </Grid.Col>
         </Grid>
         <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={true} onClick={offerHandler.open} />

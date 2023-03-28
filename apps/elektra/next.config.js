@@ -13,6 +13,9 @@ const nextConfig = {
     svgr: false,
   },
   assetPrefix: '/',
+  images: {
+    domains: ['images.unsplash.com'],
+}
 };
 
 module.exports = withNx(nextConfig);
