@@ -1,3 +1,4 @@
+import { Only } from '@elektra/ui';
 import { Accordion, Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { BiddingInput } from '../../inputs';
 
@@ -49,6 +50,7 @@ export function ProductSpecification({
       <form>
         <div>
           <Accordion
+          defaultValue={condition}
             styles={{
               item: {
                 border: 'none',
@@ -67,7 +69,7 @@ export function ProductSpecification({
               },
             }}
           >
-            <Accordion.Item value="technicalSpecification">
+            <Accordion.Item value="New">
               <Accordion.Control py={24}>Technical Specifications</Accordion.Control>
               <Accordion.Panel m={0} px={0} py={30}>
                 <div className="space-y-5">
@@ -100,6 +102,47 @@ export function ProductSpecification({
                 </div>
               </Accordion.Panel>
             </Accordion.Item>
+            <Only when={condition === 'Used'}>
+              <Accordion.Item mt={10} value="Used">
+                <Accordion.Control py={24}>Details From Seller</Accordion.Control>
+                <Accordion.Panel m={0} px={0} py={30}>
+                  <div className="space-y-5">
+                    <div>
+                      <Title className="uppercase font-[600]" order={6}>
+                        CONDITION
+                      </Title>
+                      <Text size="sm" mt={4}>
+                        {sellerCondition}
+                      </Text>
+                    </div>
+                    <div>
+                      <Title className="uppercase font-[600]" order={6}>
+                        Color
+                      </Title>
+                      <Text size="sm" mt={4}>
+                        {sellerColor}
+                      </Text>
+                    </div>
+                    <div>
+                      <Title className="uppercase font-[600]" order={6}>
+                        Capacity
+                      </Title>
+                      <Text size="sm" mt={4}>
+                        {sellerCapacity}
+                      </Text>
+                    </div>
+                    <div>
+                      <Title className="uppercase font-[600]" order={6}>
+                        Carrier
+                      </Title>
+                      <Text size="sm" mt={4}>
+                        {sellerCarrier}
+                      </Text>
+                    </div>
+                  </div>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Only>
           </Accordion>
         </div>
 
@@ -130,7 +173,13 @@ export function ProductSpecification({
               <Button size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
                 Shop used starting at $400
               </Button>
-              <Text mt={14} size="md" color='rgba(101, 101, 101, 0.55)'> First Time buying click to see <Text component='a' size="md" color="black" href="/how-it-works">how it works</Text> </Text>
+              <Text mt={14} size="md" color="rgba(101, 101, 101, 0.55)">
+                {' '}
+                First Time buying click to see{' '}
+                <Text component="a" size="md" color="black" href="/how-it-works">
+                  how it works
+                </Text>{' '}
+              </Text>
             </Grid.Col>
           </Grid>
         </div>

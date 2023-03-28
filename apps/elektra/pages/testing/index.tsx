@@ -14,11 +14,24 @@ import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
+import { ItemCard, ItemCardProps } from 'apps/elektra/app/components/card/itemCard';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 type condition = 'New' | 'Used';
+
+const itemCardData: ItemCardProps = {
+  color: 'black',
+  company: 'AT&T',
+  image: '/images/product.png',
+  space: '128GB',
+  title: 'Iphone 14 Pro Max',
+  status: 'Sold',
+  price: 1000,
+  date: new Date(),
+  sale: true,
+};
 
 const productData = [
   {
@@ -133,7 +146,7 @@ const carouselViewData = [
 const productSpecification = [
   //NEW PRODUCT
   {
-    title: "Iphone 14 Pro Max",
+    title: 'Iphone 14 Pro Max',
     condition: 'New',
     colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
     color: 'Blue',
@@ -148,7 +161,7 @@ const productSpecification = [
   },
   //USED PRODUCT
   {
-    title: "Iphone 14 Pro Max",
+    title: 'Iphone 14 Pro Max',
     condition: 'Used',
     colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
     color: 'Blue',
@@ -343,23 +356,26 @@ export default function Index() {
         <Grid grow gutterXl={20}>
           <Grid.Col p={0} span={6}>
             <ProductSpecification
-            title={productSpecification[0].title}
-              condition={productSpecification[0].condition as condition}
-              capacity={productSpecification[0].capacity}
-              capacityData={productSpecification[0].capacityData}
-              carrier={productSpecification[0].carrier}
-              carrierData={productSpecification[0].carrierData}
-              color={productSpecification[0].color}
-              colorData={productSpecification[0].colorData}
-              highestAsk={productSpecification[0].highestAsk}
-              lowestAsk={productSpecification[0].lowestAsk}
-              price={productSpecification[0].price}
-
+              title={productSpecification[1].title}
+              condition={productSpecification[1].condition as condition}
+              capacity={productSpecification[1].capacity}
+              capacityData={productSpecification[1].capacityData}
+              carrier={productSpecification[1].carrier}
+              carrierData={productSpecification[1].carrierData}
+              color={productSpecification[1].color}
+              colorData={productSpecification[1].colorData}
+              highestAsk={productSpecification[1].highestAsk}
+              lowestAsk={productSpecification[1].lowestAsk}
+              price={productSpecification[1].price}
+              sellerCondition={productSpecification[1].sellerCondition}
+              sellerColor={productSpecification[1].sellerColor}
+              sellerCapacity={productSpecification[1].sellerCapacity}
+              sellerCarrier={productSpecification[1].sellerCarrier}
             />
           </Grid.Col>
           <Grid.Col p={0} span={6}>
-          <ProductSpecification
-          title={productSpecification[0].title}
+            <ProductSpecification
+              title={productSpecification[0].title}
               condition={productSpecification[0].condition as condition}
               capacity={productSpecification[0].capacity}
               capacityData={productSpecification[0].capacityData}
@@ -377,6 +393,21 @@ export default function Index() {
             />
           </Grid.Col>
         </Grid>
+      </Container>
+
+      <Container mb={100}>
+        <ItemCard
+          color={itemCardData.color}
+          company={itemCardData.company}
+          image={itemCardData.image}
+          space={itemCardData.space}
+          title={itemCardData.title}
+          date={itemCardData.date}
+          price={itemCardData.price}
+          key={itemCardData.title}
+          sale={itemCardData.sale}
+          status={itemCardData.status}
+        />
       </Container>
 
       <Container>
