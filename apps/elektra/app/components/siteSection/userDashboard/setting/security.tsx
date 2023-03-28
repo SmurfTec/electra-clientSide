@@ -1,13 +1,13 @@
 import { Modal, useStylesforGlobal } from '@elektra/components';
-import { useCardModel, usePasswordChangeModel, useShippingChangeModel } from '@elektra/hooks';
+import { useCardModal, usePasswordChangeModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Divider, Group, Switch, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
 
 export function Security() {
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModel();
-  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModel();
-  const [CardModal, cardOpened, cardHandler] = useCardModel();
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
+  const [CardModal, cardOpened, cardHandler] = useCardModal();
   const { classes } = useStylesforGlobal();
   return (
     <div>

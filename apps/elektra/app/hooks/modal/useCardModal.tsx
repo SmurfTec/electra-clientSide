@@ -18,7 +18,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { ChevronDown } from 'tabler-icons-react';
 
-export const useCardModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();

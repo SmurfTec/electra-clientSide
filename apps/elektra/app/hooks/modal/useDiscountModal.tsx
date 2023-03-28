@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 
-export const useDiscountModel = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState<boolean>(false);
   const form = useForm({

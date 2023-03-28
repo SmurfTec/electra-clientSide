@@ -1,22 +1,37 @@
 import {
   CategoryCard,
-  DataTable,
   Footer,
   HeroImage,
   Modal,
   ProductCard,
+  ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
-  useStylesforGlobal
+  useStylesforGlobal,
 } from '@elektra/components';
-import { useOfferModel } from '@elektra/hooks';
+import { useCarouselModal, useOfferModal } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
-import { Button, Container, createStyles, Grid, Group, Image, Text } from '@mantine/core';
+import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
+import { ItemCard, ItemCardProps } from 'apps/elektra/app/components/card/itemCard';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
+
+type condition = 'New' | 'Used';
+
+const itemCardData: ItemCardProps = {
+  color: 'black',
+  company: 'AT&T',
+  image: '/images/product.png',
+  space: '128GB',
+  title: 'Iphone 14 Pro Max',
+  status: 'Sold',
+  price: 1000,
+  date: new Date(),
+  sale: true,
+};
 
 const productData = [
   {
@@ -30,6 +45,7 @@ const productData = [
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
+    condition: 'New',
   },
   {
     id: 5,
@@ -126,14 +142,49 @@ const carouselViewData = [
     imgSrc: '/images/carousel/iphonefull.png',
   },
 ];
+const productSpecification = [
+  //NEW PRODUCT
+  {
+    title: 'Iphone 14 Pro Max',
+    condition: 'New',
+    colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
+    color: 'Blue',
+    capacityData: ['16GB', '64Gb', '128Gb', '256GB'],
+    capacity: '128GB',
+    carrierData: ['AT&T', 'T-Mobile', 'Verizon', 'Factory Unlocked'],
+    carrier: 'Verizon',
 
+    lowestAsk: 169,
+    highestAsk: 179,
+    price: 400,
+  },
+  //USED PRODUCT
+  {
+    title: 'Iphone 14 Pro Max',
+    condition: 'Used',
+    colorData: ['Black', 'Blue', 'Purple', 'Matte Black', 'White'],
+    color: 'Blue',
+    capacityData: ['16GB', '64Gb', '128Gb', '256GB'],
+    capacity: '128GB',
+    carrierData: ['AT&T', 'T-Mobile', 'Verizon', 'Factory Unlocked'],
+    carrier: 'Verizon',
+
+    sellerCondition: 'Used/Fair',
+    sellerColor: 'Black',
+    sellerCapacity: '128GB',
+    sellerCarrier: 'Verizon',
+    lowestAsk: 169,
+    highestAsk: 179,
+    price: 400,
+  },
+];
 
 export default function Index() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
-  const [offerModal, offerOpened, offerHandler] = useOfferModel();
-
+  const [offerModal, offerOpened, offerHandler] = useOfferModal();
+  const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   return (
     <div>
       <div className="p-16">
@@ -225,7 +276,39 @@ export default function Index() {
       </div>
 
       <div className="m-96">
-        <Carousel maw={320} mx="auto" withIndicators height={200}>
+        <Group position="center">
+          <MantineModal
+            fullScreen
+            overlayProps={{
+              color: 'black',
+              opacity: 0.5,
+              blur: 2,
+            }}
+            styles={{
+              root: {
+                backgroundColor: 'blue !important',
+              },
+              content: {
+                background: 'transparent',
+              },
+              header: {
+                background: 'transparent',
+              },
+            }}
+            className="bg-transparent"
+            keepMounted={false}
+            closeButtonProps={{ radius: '100%', size: 'lg' }}
+            children={<></>}
+            onClose={carouselHandler.close}
+            opened={carouselOpened}
+          />
+
+          <Button onClick={carouselHandler.open}>Image Model</Button>
+        </Group>
+      </div>
+
+      <div className="m-96">
+        <Carousel maw={1000} mx="auto" withIndicators height={200}>
           {carouselViewData.map((item, index) => {
             return (
               <Carousel.Slide key={index}>
@@ -235,8 +318,6 @@ export default function Index() {
           })}
         </Carousel>
       </div>
-  
-     
 
       {/* <div>
         <Group position="center">
@@ -302,6 +383,63 @@ export default function Index() {
           classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
         />
       </div>
+      <Container my={100} fluid>
+        <Grid grow gutterXl={20}>
+          <Grid.Col p={0} span={6}>
+            <ProductSpecification
+              title={productSpecification[1].title}
+              condition={productSpecification[1].condition as condition}
+              capacity={productSpecification[1].capacity}
+              capacityData={productSpecification[1].capacityData}
+              carrier={productSpecification[1].carrier}
+              carrierData={productSpecification[1].carrierData}
+              color={productSpecification[1].color}
+              colorData={productSpecification[1].colorData}
+              highestAsk={productSpecification[1].highestAsk}
+              lowestAsk={productSpecification[1].lowestAsk}
+              price={productSpecification[1].price}
+              sellerCondition={productSpecification[1].sellerCondition}
+              sellerColor={productSpecification[1].sellerColor}
+              sellerCapacity={productSpecification[1].sellerCapacity}
+              sellerCarrier={productSpecification[1].sellerCarrier}
+            />
+          </Grid.Col>
+          <Grid.Col p={0} span={6}>
+            <ProductSpecification
+              title={productSpecification[0].title}
+              condition={productSpecification[0].condition as condition}
+              capacity={productSpecification[0].capacity}
+              capacityData={productSpecification[0].capacityData}
+              carrier={productSpecification[0].carrier}
+              carrierData={productSpecification[0].carrierData}
+              color={productSpecification[0].color}
+              colorData={productSpecification[0].colorData}
+              highestAsk={productSpecification[0].highestAsk}
+              lowestAsk={productSpecification[0].lowestAsk}
+              price={productSpecification[0].price}
+              sellerCapacity={productSpecification[0].sellerCapacity}
+              sellerCarrier={productSpecification[0].sellerCarrier}
+              sellerColor={productSpecification[0].sellerColor}
+              sellerCondition={productSpecification[0].sellerCondition}
+            />
+          </Grid.Col>
+        </Grid>
+      </Container>
+
+      <Container mb={100}>
+        <ItemCard
+          color={itemCardData.color}
+          company={itemCardData.company}
+          image={itemCardData.image}
+          space={itemCardData.space}
+          title={itemCardData.title}
+          date={itemCardData.date}
+          price={itemCardData.price}
+          key={itemCardData.title}
+          sale={itemCardData.sale}
+          status={itemCardData.status}
+        />
+      </Container>
 
       <Container>
         <Grid>

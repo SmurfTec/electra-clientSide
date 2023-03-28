@@ -14,6 +14,7 @@ const productDetailData = {
   expiration: '23/10/2023',
   cardDetails: '3646 **** **** ****',
   address: '16 Street , Town Abc, City, USA , 213434',
+  saleDate: "23/10/2023"
 };
 
 const protectPlanData = {
