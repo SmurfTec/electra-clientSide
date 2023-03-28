@@ -53,6 +53,7 @@ const BiddingSummaryData: BiddingSummaryProps = {
 };
 
 export default function BuyingSummary() {
+  
   return (
     <Container mt={50} fluid>
       <PageTitle title="Buying Summary" />

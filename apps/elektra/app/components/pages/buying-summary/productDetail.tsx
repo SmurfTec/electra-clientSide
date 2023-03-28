@@ -1,4 +1,4 @@
-import { useOfferModal, useShippingChangeModal } from '@elektra/hooks';
+import { useCardModal, useOfferModal, useShippingChangeModal } from '@elektra/hooks';
 import { Only } from '@elektra/ui';
 import { Grid, Text, Title, useMantineTheme } from '@mantine/core';
 import { PencilButton } from '../../buttons';
@@ -34,6 +34,7 @@ export function ProductDetail({
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler] = useOfferModal();
+  const [CardModal, cardOpened, cardHandler] = useCardModal();
   const theme = useMantineTheme();
   return (
     <div style={{ border: '1px solid', borderColor: theme.other.color.subTitle }} className="p-8 rounded-xl">
@@ -61,12 +62,10 @@ export function ProductDetail({
         </Grid>
         <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={true} onClick={offerHandler.open} />
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
-        <ProductDetails
-          text={'CARD DETAILS'}
-          details={cardDetails}
-          iconDisplay={true}
-          onClick={() => console.log('Hello')}
-        />
+
+        <ProductDetails text={'CARD DETAILS'} details={cardDetails} iconDisplay={true} onClick={cardHandler.open} />
+
+        <Modal className="mx-10 mb-7 mt-4" title={"Buying INFO"} titlePosition="left" size={800} children={CardModal} onClose={cardHandler.close} open={cardOpened} />
 
         <ProductDetails text={'SHIPPING ADDRESS'} details={address} iconDisplay={true} onClick={shippingHandler.open} />
         <Modal
