@@ -1,5 +1,5 @@
 import { NextImage, Only } from '@elektra/ui';
-import { Grid, Group, Modal, Paper, Text } from '@mantine/core';
+import { Grid, Group, Modal, Paper, ScrollArea, Text } from '@mantine/core';
 import { useCarouselModal } from '../../hooks/modal';
 import { TransparentButton } from '../buttons';
 
@@ -24,6 +24,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
         <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
           <NextImage height={70} width={60} alt={title} src={image} onClick={carouselHandler.open} />
           <Modal
+          scrollAreaComponent={ScrollArea}
             fullScreen
             overlayProps={{
               color: 'black',
@@ -31,9 +32,6 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
               blur: 2,
             }}
             styles={{
-              root: {
-                // position: 'relative',
-              },
               content: {
                 background: 'transparent',
                 zIndex: 10
@@ -41,13 +39,19 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
               header: {
                 background: 'transparent',
                 position: "relative",
-                height: "12vh"
+                // height: "12vh"
+              },
+              body: {
+                  marginTop: "85px",
+                  scrollbarColor: "transparent !important",
+                  overflow: "invisible !important",
               },
               close: {
                 position: 'absolute',
                 top: 30,
-                right: 20,
+                right: 40,
                 zIndex: 1000,
+                color:"white",
                 borderRadius: "unset",
                 "&:hover": {
                   backgroundColor: 'unset',

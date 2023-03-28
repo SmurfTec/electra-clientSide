@@ -1,29 +1,46 @@
-
-import { Overlay } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+// import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
+const imageData = [
+  '/images/carousel/iphone.png',
+  '/images/carousel/iphonehalf.png',
+  '/images/carousel/iphoneback.png',
+];
 export const useCarouselModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const Modal = (
-    <>
-      <Carousel showArrows={true}>
-        <div>
-          <img src="/images/carousel/iphonefull.png" />
+    <div className="truncate">
+      <Carousel
+        centerMode={true}
+        centerSlidePercentage={50}
+        dynamicHeight={false}
+        axis="horizontal"
+        showStatus={false}
+        infiniteLoop
+        showArrows={false}
+      >
+        {imageData.map((image) => (
+          <div>
+            <img src={image} />
+          </div>
+        ))}
+
+        {/* <div>
+          <img src={imageData[0]} />
         </div>
         <div>
-          <img src="/images/carousel/iphoneblack.png" />
+          <img src={imageData[1]} />
         </div>
         <div>
-          <img src="/images/carousel/iphonefront.png" />
+          <img src={imageData[2]} />
         </div>
         <div>
-          <img src="/images/carousel/centerLaptop.png" />
-        </div>
+          <img src={imageData[3]} />
+        </div> */}
       </Carousel>
-    </>
+    </div>
   );
   return [Modal, opened, { open, close }];
 };
