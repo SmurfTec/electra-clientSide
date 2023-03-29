@@ -1,37 +1,50 @@
-import { ActionIcon, Button, Group, Stack, Text, Title } from '@mantine/core';
+import { ActionIcon, Button, Group, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import { CircleCheck, CircleX, Minus, Plus } from 'tabler-icons-react';
 
-export const useRedeemInputModal = ():[React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [count, handlers] = useCounter(0, { min: 0 });
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">
-      <Group position="center" spacing={35} className="mt-6">
+      <Group position="center" spacing={0} className="mt-6">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>
-        <Text>{count}</Text>
+        <NumberInput
+          hideControls
+          value={count}
+          maw={100}
+          onChange={handlers.set}
+          styles={{
+            input: {
+              border: 'unset',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+            },
+          }}
+        />
         <ActionIcon component="button" size="lg" radius={0} color="dark" variant="filled" onClick={handlers.increment}>
           <Plus size={16} color="white" />
         </ActionIcon>
       </Group>
-      <Text size={20}>
+      <Text size={20} className="font-semibold my-3">
         {count} = ${count / 100}
       </Text>
       <Group position="center">
-        <Button size={'md'} uppercase>
+        <Button size={'lg'} uppercase>
           Redeem
         </Button>
-        <Button size={'md'} color="blue" uppercase>
+        <Button size={'lg'} color="blue" uppercase>
           Redeem All
         </Button>
       </Group>
     </Stack>
   );
-  return [Modal, opened, { open, close }];
+  return [Modal, count, opened, { open, close }];
 };
 
 export const useRedeemSuccesfullModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -63,7 +76,7 @@ export const useRedeemSuccesfullModal = (): [React.ReactNode, boolean, { open: (
   return [Modal, opened, { open, close }];
 };
 
-export const useRedeemUnSuccesfullModal = ():[React.ReactNode, boolean, { open: () => void; close: () => void }]  => {
+export const useRedeemUnSuccesfullModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">

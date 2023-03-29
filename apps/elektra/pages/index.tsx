@@ -11,186 +11,187 @@ import { HeroImage } from '../app/components/hero';
 import { Footer } from '../app/components/siteSection';
 import { useStylesforGlobal } from '../app/components/theme';
 
+
+const carouselData = [
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 13',
+  },
+  {
+    imgSrc: '/images/carousel/centerLaptop.png',
+    title: 'Razer Blade 14',
+  },
+  {
+    imgSrc: '/images/carousel/rightLaptop.png',
+    title: 'Razer Blade 15',
+  },
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 16',
+  },
+];
+const bannerData: BannerProps[] = [
+  {
+    id: 0,
+    image: '/images/banner/headphone.png',
+    link: '#',
+    title: 'Trending Beats',
+    heading: 'Headphones',
+    label: 'Shop Today',
+  },
+  {
+    id: 1,
+    image: '/images/banner/Iphone.png',
+    link: '#',
+    title: 'NEW APPLE',
+    heading: 'Iphone 14 Pro',
+    label: 'Shop Today',
+  },
+];
+
+const productData: ProductCardProps[] = [
+  {
+    id: 4,
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone X',
+    description: '9/10 condition with charger and box',
+    rating: 'New',
+    wishlist: true,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    id: 5,
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    rating: null,
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    id: 5,
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    rating: null,
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    id: 5,
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    rating: null,
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    id: 5,
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    rating: null,
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+];
+
+const categoryData = [
+  {
+    id: 1,
+    image: '/images/category.png',
+    title: 'Laptops',
+    link: '#',
+  },
+  {
+    id: 2,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+  {
+    id: 3,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+  {
+    id: 4,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+  {
+    id: 5,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+  {
+    id: 6,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '#',
+  },
+];
+
+const brandData = [
+  {
+    id: 1,
+    image: '/images/brands/brand.png',
+    title: 'Apple',
+    link: '#',
+  },
+  {
+    id: 2,
+    image: '/images/brands/brand.png',
+    title: 'HP',
+    link: '#',
+  },
+  {
+    id: 3,
+    image: '/images/brands/brand.png',
+    title: 'Razor',
+    link: '#',
+  },
+  {
+    id: 4,
+    image: '/images/brands/brand.png',
+    title: 'Dell',
+    link: '#',
+  },
+  {
+    id: 5,
+    image: '/images/brands/brand.png',
+    title: 'Nvidia',
+    link: '#',
+  },
+  {
+    id: 6,
+    image: '/images/brands/brand.png',
+    title: 'AMD',
+    link: '#',
+  },
+];
+
 export function Index() {
- 
   
-  const carouselData = [
-    {
-      imgSrc: '/images/carousel/leftLaptop.png',
-      title: 'Razer Blade 13',
-    },
-    {
-      imgSrc: '/images/carousel/centerLaptop.png',
-      title: 'Razer Blade 14',
-    },
-    {
-      imgSrc: '/images/carousel/rightLaptop.png',
-      title: 'Razer Blade 15',
-    },
-    {
-      imgSrc: '/images/carousel/leftLaptop.png',
-      title: 'Razer Blade 16',
-    },
-  ];
-  const bannerData: BannerProps[] = [
-    {
-      id: 0,
-      image: '/images/banner/headphone.png',
-      link: '#',
-      title: 'Trending Beats',
-      heading: 'Headphones',
-      label: 'Shop Today',
-    },
-    {
-      id: 1,
-      image: '/images/banner/Iphone.png',
-      link: '#',
-      title: 'NEW APPLE',
-      heading: 'Iphone 14 Pro',
-      label: 'Shop Today',
-    },
-  ];
-
-  const productData: ProductCardProps[] = [
-    {
-      id: 4,
-      image: '/images/product.png',
-      link: '#',
-      title: 'Iphone X',
-      description: '9/10 condition with charger and box',
-      rating: 'New',
-      wishlist: true,
-      lowestPrice: null,
-      highestPrice: 500,
-      price: 187,
-    },
-    {
-      id: 5,
-      image: '/images/product.png',
-      link: '#',
-      title: 'Iphone 14 Pro max',
-      description: '9/10 condition with charger and box',
-      rating: null,
-      wishlist: false,
-      lowestPrice: null,
-      highestPrice: 500,
-      price: 187,
-    },
-    {
-      id: 5,
-      image: '/images/product.png',
-      link: '#',
-      title: 'Iphone 14 Pro max',
-      description: '9/10 condition with charger and box',
-      rating: null,
-      wishlist: false,
-      lowestPrice: null,
-      highestPrice: 500,
-      price: 187,
-    },
-    {
-      id: 5,
-      image: '/images/product.png',
-      link: '#',
-      title: 'Iphone 14 Pro max',
-      description: '9/10 condition with charger and box',
-      rating: null,
-      wishlist: false,
-      lowestPrice: null,
-      highestPrice: 500,
-      price: 187,
-    },
-    {
-      id: 5,
-      image: '/images/product.png',
-      link: '#',
-      title: 'Iphone 14 Pro max',
-      description: '9/10 condition with charger and box',
-      rating: null,
-      wishlist: false,
-      lowestPrice: null,
-      highestPrice: 500,
-      price: 187,
-    },
-  ];
-
-  const categoryData = [
-    {
-      id: 1,
-      image: '/images/category.png',
-      title: 'Laptops',
-      link: '#',
-    },
-    {
-      id: 2,
-      image: '/images/category.png',
-      title: 'Phones',
-      link: '#',
-    },
-    {
-      id: 3,
-      image: '/images/category.png',
-      title: 'Phones',
-      link: '#',
-    },
-    {
-      id: 4,
-      image: '/images/category.png',
-      title: 'Phones',
-      link: '#',
-    },
-    {
-      id: 5,
-      image: '/images/category.png',
-      title: 'Phones',
-      link: '#',
-    },
-    {
-      id: 6,
-      image: '/images/category.png',
-      title: 'Phones',
-      link: '#',
-    },
-  ];
-
-  const brandData = [
-    {
-      id: 1,
-      image: '/images/brands/brand.png',
-      title: 'Apple',
-      link: '#',
-    },
-    {
-      id: 2,
-      image: '/images/brands/brand.png',
-      title: 'HP',
-      link: '#',
-    },
-    {
-      id: 3,
-      image: '/images/brands/brand.png',
-      title: 'Razor',
-      link: '#',
-    },
-    {
-      id: 4,
-      image: '/images/brands/brand.png',
-      title: 'Dell',
-      link: '#',
-    },
-    {
-      id: 5,
-      image: '/images/brands/brand.png',
-      title: 'Nvidia',
-      link: '#',
-    },
-    {
-      id: 6,
-      image: '/images/brands/brand.png',
-      title: 'AMD',
-      link: '#',
-    },
-  ];
   return (
     <div>
       <Container fluid>

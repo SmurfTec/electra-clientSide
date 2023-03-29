@@ -1,4 +1,4 @@
-import { Button, Text, Title } from '@mantine/core';
+import { Badge, Text, Title } from '@mantine/core';
 type BoxProps = {
   label: string;
   title: string;
@@ -7,18 +7,12 @@ type BoxProps = {
 export function Box({ label, title, description }: BoxProps) {
   return (
     <div className="flex flex-row">
-      <Button
-        className="mt-1"
-        styles={{
-          root: {
-            padding: '0px 15px',
-            borderRadius: 'unset',
-          },
-        }}
-      >
-        {label}
-      </Button>
-      <div className="ml-3">
+      <div className='-mt-2'>
+        <Badge size={'xl'} radius={0} color={'black'} variant="filled">
+          {label}
+        </Badge>
+      </div>
+      <div className="ml-4">
         <Title order={5} className="font-bold">
           {title}
         </Title>
