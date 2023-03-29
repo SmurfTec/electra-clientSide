@@ -1,5 +1,5 @@
 1. Wallet Page with Cashout flow
-2. Unavailable Item
+2. Unavailable Item (Done)
 3. Full Screen Photo Carousel (Done)
 4. Redeem Page Table (Done)
 5. Product page entire flow
