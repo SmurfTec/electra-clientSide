@@ -1,7 +1,17 @@
-import { Divider, Group, List, Stack, Text, TextInput, Title } from '@mantine/core';
+import { ListItem } from '@elektra/customComponents';
+import { Divider, Group, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Check, CircleCheck, Search } from 'tabler-icons-react';
 
+const description = [
+  'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
+  'Fully functional with no operational problems',
+  'No chips or cracks in front or back glass',
+  'Above 80 percent battery health with no Service alert in Settings',
+  'All devices must be free of any lock, carrier blacklist, or financial obligations',
+  'Absolutely no Ghost Image',
+  'No LCD or display defects (aftermarket, burns, damage or no display)',
+];
 export const useSellerDetailDrawer = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -25,7 +35,7 @@ export const useSellerDetailDrawer = (): [React.ReactNode, boolean, { open: () =
           <CircleCheck size={20} strokeWidth={1} color={'white'} fill="black" />
           <Text size={'sm'}>Original Box</Text>
         </Group>
-        <Divider className="mt-2" />
+        <Divider mt={15} />
       </div>
       <div>
         <Title order={5} className="font-medium">
@@ -35,36 +45,23 @@ export const useSellerDetailDrawer = (): [React.ReactNode, boolean, { open: () =
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tincidunt elit. Nunc euismod odio sit amet
           lorem lobortis, vel lacinia libero tristique. Nunc porttitor arcu accumsan,
         </Text>
-        <Divider className="mt-2" />
+        <Divider mt={15} />
       </div>
       <div>
         <Title order={5} className="font-medium">
           What best describes overall condition of your item?
         </Title>
-        <Text size={'md'} color='black' my={10}>
-           Great
+        <Text size={'md'} color="black" my={10}>
+          Great
         </Text>
-        <List
+        <ListItem
+          data={description}
           size={'sm'}
           className="space-y-2"
           icon={<Check size={12} />}
-          styles={{
-            item: {
-              color: '#656565',
-            },
-          }}
-        >
-          <List.Item>
-            Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching
-          </List.Item>
-          <List.Item>Fully functional with no operational problems</List.Item>
-          <List.Item>No chips or cracks in front or back glass</List.Item>
-          <List.Item>Above 80 percent battery health with no Service alert in Settings</List.Item>
-          <List.Item>All devices must be free of any lock, carrier blacklist, or financial obligations</List.Item>
-          <List.Item>Absolutely no Ghost Image</List.Item>
-          <List.Item>No LCD or display defects (aftermarket, burns, damage or no display)</List.Item>
-        </List>
-        <Divider className="mt-2" />
+          styles={{ item: { color: '#656565' } }}
+        />
+        <Divider mt={15} />
       </div>
       <div>
         <Title order={5} className="font-medium">

@@ -1,22 +1,21 @@
 import {
   CategoryCard,
-  Drawer,
   Footer,
   Header,
   HeroImage,
-  Modal,
+  ItemCard,
+  ItemCardProps,
   ProductCard,
   ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
-  useStylesforGlobal,
 } from '@elektra/components';
+import { Drawer, Modal, useStylesforGlobal } from '@elektra/customComponents';
 import { useCarouselModal, useOfferModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
-import { ItemCard, ItemCardProps } from 'apps/elektra/app/components/card/itemCard';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { Carousel as ShowTime } from 'react-responsive-carousel';
@@ -182,23 +181,24 @@ const productSpecification = [
   },
 ];
 
-export default function Index() {
+export default function Testing() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
-  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] = useTechinalSpecificationDrawer();
+  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
+    useTechinalSpecificationDrawer();
   return (
     <div>
       <Header />
       <div className="p-16">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center">
-          {productData.map((product) => {
+          {productData.map((product, index) => {
             return (
               <ProductCard
-                id={product.id}
+                id={product.id + index}
                 key={product.id}
                 image={product.img}
                 description={product.description}
@@ -215,17 +215,15 @@ export default function Index() {
         </div>
 
         <div style={{ marginTop: '100px' }} className="grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center">
-          {categoryData.map((category, index) => {
-            return (
-              <CategoryCard
-                key={index}
-                image={category.image}
-                id={category.id}
-                title={category.title}
-                link={category.link}
-              />
-            );
-          })}
+          {categoryData.map((category, index) => (
+            <CategoryCard
+              key={index}
+              image={category.image}
+              id={category.id}
+              title={category.title}
+              link={category.link}
+            />
+          ))}
         </div>
       </div>
       <div className="w-96 ml-96">
@@ -235,20 +233,30 @@ export default function Index() {
         <HeroImage />
       </div>
 
-      <div className='my-96'>
+      <div className="my-96">
         <Group position="center">
-          <Drawer title="Details from seller" children={SellerDetailModal} onClose={sellerDetailHandler.close} open={sellerDetailOpened} />
+          <Drawer
+            title="Details from seller"
+            children={SellerDetailModal}
+            onClose={sellerDetailHandler.close}
+            open={sellerDetailOpened}
+          />
           <Button onClick={sellerDetailHandler.open}>Seller Drawer</Button>
         </Group>
       </div>
-      <div className='my-96'>
+      <div className="my-96">
         <Group position="center">
-          <Drawer title="Technical Specification" children={TechinalSpecificationModal} onClose={techinalSpecificationHandler.close} open={techinalSpecificationOpened} />
+          <Drawer
+            title="Technical Specification"
+            children={TechinalSpecificationModal}
+            onClose={techinalSpecificationHandler.close}
+            open={techinalSpecificationOpened}
+          />
           <Button onClick={techinalSpecificationHandler.open}>Drawer</Button>
         </Group>
       </div>
 
-      <div className='my-96'>
+      <div className="my-96">
         <Group position="center">
           <Modal title="Offer Expiration" children={offerModal} onClose={offerHandler.close} open={offerOpened} />
           <Button onClick={offerHandler.open}>Email Verfication Model</Button>
@@ -277,7 +285,6 @@ export default function Index() {
             return (
               <Carousel.Slide key={index}>
                 <div>
-                  {/* <Image  src={item.imgSrc} /> */}
                   <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
                   <Group position="center">
                     <Text size="xl">{item.title}</Text>
@@ -326,21 +333,29 @@ export default function Index() {
         </Group>
       </div>
       <div className="m-96">
-      <ShowTime autoPlay>
-        <div>
-            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+        <ShowTime autoPlay>
+          <div>
+            <img
+              alt=""
+              src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
+            />
             <p className="legend">Legend 1</p>
-        </div>
-        <div>
-            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+          </div>
+          <div>
+            <img
+              alt=""
+              src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
+            />
             <p className="legend">Legend 2</p>
-        </div>
-        <div>
-            <img alt="" src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80" />
+          </div>
+          <div>
+            <img
+              alt=""
+              src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80"
+            />
             <p className="legend">Legend 3</p>
-        </div>
-    
-    </ShowTime>
+          </div>
+        </ShowTime>
       </div>
 
       <div className="m-96">
@@ -384,8 +399,6 @@ export default function Index() {
       <div className="my-40">
         <PageTitle title="Buying Summary" />
       </div>
-
-      
 
       {/* <div className="mt-16">
         <Group position="center">
@@ -466,8 +479,8 @@ export default function Index() {
           title={itemCardData.title}
           date={itemCardData.date}
           price={itemCardData.price}
-          key={itemCardData.title}
           sale={itemCardData.sale}
+          key={1}
           status={itemCardData.status}
         />
       </Container>
@@ -475,8 +488,8 @@ export default function Index() {
       <Container>
         <Grid>
           {SimpleStatCardData.map((item, key) => (
-            <Grid.Col span={3}>
-              <SimpleStateCard key={key} title={item.title} value={item.value} type={item.type} />
+            <Grid.Col span={3} key={key}>
+              <SimpleStateCard title={item.title} value={item.value} type={item.type} />
             </Grid.Col>
           ))}
         </Grid>

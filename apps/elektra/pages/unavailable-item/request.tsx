@@ -1,4 +1,4 @@
-import { Modal } from '@elektra/components';
+import { Modal } from '@elektra/customComponents';
 import { useRequestItemModal } from '@elektra/hooks';
 import { Button, createStyles, Image, Stack, Textarea, TextInput, Title } from '@mantine/core';
 import { ArrowUpRight } from 'tabler-icons-react';

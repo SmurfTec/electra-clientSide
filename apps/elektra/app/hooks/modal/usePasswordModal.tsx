@@ -1,11 +1,10 @@
 import { Button, PasswordInput, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useStylesforGlobal } from '../../components/theme';
+import { useStylesforGlobal } from '../../customComponents/theme';
 
-export const usePasswordChangeModal = ():[React.ReactNode, boolean, { open: () => void; close: () => void }] => {
-
+export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  
+
   const { classes } = useStylesforGlobal();
 
   const Modal = (
@@ -28,7 +27,7 @@ export const usePasswordChangeModal = ():[React.ReactNode, boolean, { open: () =
             root: {
               padding: 'unset',
               border: 'unset',
-              marginRight:'100px',
+              marginRight: '100px',
               borderRadius: 'unset',
             },
             inner: {

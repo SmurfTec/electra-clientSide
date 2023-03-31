@@ -1,4 +1,3 @@
-import { NextImage } from '@elektra/ui';
 import { Container, Image, Text, useMantineTheme } from '@mantine/core';
 
 export type FooterCardProps = {
@@ -16,7 +15,7 @@ export function FooterCard({ icon, heading, description }: FooterCardProps) {
           {heading}
         </Text>
 
-        <Text color={theme.other.color.subTitle} size="sm">
+        <Text color={'#B4B4B4'} size="sm">
           {description}
         </Text>
       </div>
@@ -27,13 +26,13 @@ export function FooterCard({ icon, heading, description }: FooterCardProps) {
         className="h-28 w-28 bg-white rounded-full absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         {/* <div className="relative"> */}
-          <Image
-            className="absolute -top-1 left-1/2 -translate-x-1/2 translate-y-1/2"
-            src={icon}
-            width="60px"
-            height="60px"
-            alt={icon}
-          />
+        <Image
+          className="absolute -top-1 left-1/2 -translate-x-1/2 translate-y-1/2"
+          src={icon}
+          width="60px"
+          height="60px"
+          alt={icon}
+        />
         {/* </div> */}
       </div>
     </Container>

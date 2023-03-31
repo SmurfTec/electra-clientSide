@@ -3,7 +3,7 @@ import { Button, Group, Image, Text } from '@mantine/core';
 import emblaCarouselAutoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
-import { useStylesforGlobal } from '../theme';
+import { useStylesforGlobal } from '../../customComponents/theme';
 
 export type BannerCarousel = {
   carouselData: carouselData[];
@@ -14,7 +14,7 @@ type carouselData = {
   title: string;
 };
 
-export function BannerCarousel({carouselData} : BannerCarousel) {
+export function BannerCarousel({ carouselData }: BannerCarousel) {
   const [value, setValue] = useState(0);
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));

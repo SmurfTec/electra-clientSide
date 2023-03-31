@@ -2,7 +2,7 @@ import { Button, createStyles, Grid, Group, Select, TextInput } from '@mantine/c
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { CaretDown } from 'tabler-icons-react';
-import { useStylesforGlobal } from '../../components/theme';
+import { useStylesforGlobal } from '../../customComponents/theme';
 
 export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -48,7 +48,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
           </Grid.Col>
           <Grid.Col span={6}>
             <Select
-              rightSection={<CaretDown  fill='black' size="1rem" />}
+              rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
               className="uppercase"
               label="Country"
@@ -62,8 +62,8 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
             />
           </Grid.Col>
           <Grid.Col span={6}>
-          <Select
-              rightSection={<CaretDown fill='black'  size="1rem" />}
+            <Select
+              rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
               label="State/Province"
               className="uppercase"
@@ -77,8 +77,8 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
             />
           </Grid.Col>
           <Grid.Col span={6}>
-          <Select
-              rightSection={<CaretDown fill='black'  size="1rem" />}
+            <Select
+              rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
               label="City"
               className="uppercase"
@@ -87,7 +87,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               nothingFound="No options"
               classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
-              data={['Lahore', 'Islamabad', 'Karachi', 'Multan','Rawalpindi']}
+              data={['Lahore', 'Islamabad', 'Karachi', 'Multan', 'Rawalpindi']}
               {...form.getInputProps('city')}
             />
           </Grid.Col>

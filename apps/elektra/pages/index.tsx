@@ -1,16 +1,10 @@
-import { Carousel } from '@mantine/carousel';
-import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
-import emblaCarouselAutoplay from 'embla-carousel-autoplay';
-import { useRef, useState } from 'react';
-import { ArrowNarrowRight } from 'tabler-icons-react';
+import { Container, Grid } from '@mantine/core';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
 import { BannerCarousel } from '../app/components/carosuels';
 import { HeroImage } from '../app/components/hero';
 import { Footer } from '../app/components/siteSection';
-import { useStylesforGlobal } from '../app/components/theme';
-
 
 const carouselData = [
   {
@@ -191,7 +185,6 @@ const brandData = [
 ];
 
 export function Index() {
-  
   return (
     <div>
       <Container fluid>
@@ -224,7 +217,7 @@ export function Index() {
         </section>
 
         <section className="mt-20">
-          <SectionTitle title="Trending Now" label="View All" />
+          <SectionTitle key={1} title="Trending Now" label="View All" />
 
           <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
@@ -333,7 +326,7 @@ export function Index() {
         </section>
 
         <section className="mt-20">
-            <BannerCarousel carouselData={carouselData} />
+          <BannerCarousel carouselData={carouselData} />
         </section>
 
         <section className="">

@@ -1,7 +1,6 @@
 import { BurgerProps, Burger as MBurger } from '@mantine/core';
 
 import { forwardRef } from 'react';
-import { withTooltip } from '../HOC';
 
 export const BurgerRef = forwardRef<HTMLButtonElement, BurgerProps>(
   (props, ref) => {
@@ -9,4 +8,3 @@ export const BurgerRef = forwardRef<HTMLButtonElement, BurgerProps>(
   }
 );
 
-export const Burger = withTooltip(BurgerRef);

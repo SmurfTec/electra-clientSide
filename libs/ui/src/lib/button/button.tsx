@@ -7,7 +7,6 @@ import {
 
 import Group from './buttonGroup';
 import { forwardRef } from 'react';
-import { withTooltip } from '../HOC/withTooltip';
 
 export type ButtonType = React.ElementType &
   typeof ButtonComponent & {
@@ -32,9 +31,7 @@ export const ButtonComponent = createPolymorphicComponent<
   })
 );
 
-export const TooltipButton = withTooltip(
-  MButton as React.ComponentType<ButtonProps>
-);
+
 
 export const Button = ButtonComponent as ButtonType;
 Button.Group = Group;

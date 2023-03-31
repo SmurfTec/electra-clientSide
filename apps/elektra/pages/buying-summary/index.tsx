@@ -1,8 +1,5 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail, ProtectPlan, SummaryFooter } from '@elektra/components';
 import { Container, Grid } from '@mantine/core';
-import { BiddingSummary, BiddingSummaryProps, ProtectPlan, SummaryFooter } from 'apps/elektra/app/components/pages/buying-summary';
-import { ProductDetail } from 'apps/elektra/app/components/pages/buying-summary/productDetail';
-import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -98,7 +95,6 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>
-          {' '}
           <ProtectPlan
             title={protectPlanData2.title}
             content={protectPlanData2.content}

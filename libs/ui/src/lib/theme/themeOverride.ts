@@ -1,16 +1,16 @@
 import {
-  ButtonProps,
-  DefaultMantineColor,
-  MantineGradient,
-  MantineTheme,
-  MantineThemeOverride,
-  PasswordInputProps,
-  TextareaProps,
-  TextInputProps,
-  TextProps,
-  TitleProps,
-  Tuple,
-  TypographyStylesProviderProps,
+    ButtonProps,
+    DefaultMantineColor,
+    MantineGradient,
+    MantineTheme,
+    MantineThemeOverride,
+    PasswordInputProps,
+    TextareaProps,
+    TextInputProps,
+    TextProps,
+    TitleProps,
+    Tuple,
+    TypographyStylesProviderProps,
 } from '@mantine/core';
 
 // this color pallette is available through theme.other.color ... choose colorname from intellisence
@@ -168,7 +168,7 @@ const TextInputDefaultProps = (theme: MantineTheme): TextInputProps => ({
   },
   descriptionProps: {
     style: {
-      color: theme.other.color.bodyLight,
+      color: "white",
     },
   },
 });
@@ -194,7 +194,7 @@ const TextAreaDefaultProps = (theme: MantineTheme): TextareaProps => ({
   },
   descriptionProps: {
     style: {
-      color: theme.other.color.bodyLight,
+      color: "white",
     },
   },
 });
@@ -213,7 +213,7 @@ const SelectDefaultProps = (theme: MantineTheme): TextInputProps => ({
   },
   descriptionProps: {
     style: {
-      color: theme.other.color.bodyLight,
+      color: "white",
     },
   },
 });
@@ -227,13 +227,13 @@ const MultiSelectDefaultProps = (theme: MantineTheme): TextInputProps => ({
 
   descriptionProps: {
     style: {
-      color: theme.other.color.bodyLight,
+      color: "white",
     },
   },
 });
 
 const defaultGradient = (theme: MantineTheme): MantineGradient => ({
   from: theme.other.color.title,
-  to: theme.other.color.bodyLight,
+  to: "white",
   deg: 60,
 });

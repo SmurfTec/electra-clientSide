@@ -1,7 +1,7 @@
 import { NextImage, Only } from '@elektra/ui';
 import { Grid, Group, Modal, Paper, ScrollArea, Text } from '@mantine/core';
-import { useCarouselModal } from '../../hooks/modal';
-import { TransparentButton } from '../buttons';
+import { useCarouselModal } from '@elektra/hooks';
+import { TransparentButton } from '@elektra/customComponents';
 
 export type ItemCardProps = {
   status?: string;
@@ -15,16 +15,16 @@ export type ItemCardProps = {
   company: string;
 };
 
-export function ItemCard({ title, image, space, color, company, date, price, sale, status }: ItemCardProps) {
+export function ItemCard({ title, image, space, color, company, date, price, sale, status, ...rest}: ItemCardProps) {
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
 
   return (
-    <Grid>
+    <Grid {...rest}>
       <Grid.Col span={2}>
         <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
           <NextImage height={70} width={60} alt={title} src={image} onClick={carouselHandler.open} />
           <Modal
-          scrollAreaComponent={ScrollArea}
+            scrollAreaComponent={ScrollArea}
             fullScreen
             overlayProps={{
               color: 'black',
@@ -34,37 +34,34 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
             styles={{
               content: {
                 background: 'transparent',
-                zIndex: 10
+                zIndex: 10,
               },
               header: {
                 background: 'transparent',
-                position: "relative",
+                position: 'relative',
                 // height: "12vh"
               },
               body: {
-                  marginTop: "85px",
-                  scrollbarColor: "transparent !important",
-                  overflow: "invisible !important",
+                marginTop: '85px',
+                scrollbarColor: 'transparent !important',
+                overflow: 'invisible !important',
               },
               close: {
                 position: 'absolute',
                 top: 30,
                 right: 40,
                 zIndex: 1000,
-                color:"white",
-                borderRadius: "unset",
-                "&:hover": {
+                color: 'white',
+                borderRadius: 'unset',
+                '&:hover': {
                   backgroundColor: 'unset',
-                  color:"white",
-
+                  color: 'white',
                 },
-                
-
-              }
+              },
             }}
             className="bg-transparent"
             keepMounted={false}
-            closeButtonProps={{size: 'lg' }}
+            closeButtonProps={{ size: 'lg' }}
             children={carouselModal}
             onClose={carouselHandler.close}
             opened={carouselOpened}
@@ -101,7 +98,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
             <TransparentButton label={company} />
           </Group>
           <Only when={!!date}>
-          <Text color="#656565" size="sm">
+            <Text color="#656565" size="sm">
               {date}
             </Text>
           </Only>
@@ -110,4 +107,3 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
     </Grid>
   );
 }
-

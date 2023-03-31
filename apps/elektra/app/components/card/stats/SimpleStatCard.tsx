@@ -15,8 +15,8 @@ export function SimpleStateCard({ title, value, type }: SimpleStatCardProps) {
   };
 
   return (
-    <Paper withBorder className="p-4"  radius={0}>
-      <Text color={theme.other.color.tabTitle} size="sm">
+    <Paper withBorder className="p-4" radius={0}>
+      <Text color={'#656565'} size="sm">
         {title}
       </Text>
       <Text mt={16} size={32} className="font-bold">

@@ -1,5 +1,5 @@
 import { Only, Title } from '@elektra/ui';
-import { Badge, Card, clsx, Group, Image, Paper, Text, useMantineTheme } from '@mantine/core';
+import { Badge, Card, Group, Image, Paper, Text, clsx, useMantineTheme } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { Heart } from 'tabler-icons-react';
 
@@ -41,7 +41,7 @@ export function ProductCard({
   return (
     <Card key={id} className={clsx('relative rounded-none', className)} {...others}>
       <Card.Section>
-        <Paper bg={theme.other.color.productBackground} className="p-12 flex justify-center items-center">
+        <Paper bg={'#F5F5F5'} className="p-12 flex justify-center items-center">
           <Image height={120} width={100} alt={image} src={image} className="h-1/4 w-1/2" />
         </Paper>
       </Card.Section>
@@ -49,7 +49,7 @@ export function ProductCard({
       <Only when={!!rating}>
         <Badge
           className={clsx(
-            rating === 'Used' ? `bg-[${theme.other.color.secondary}]` : `bg-[${theme.colors.dark}]`,
+            rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
             'absolute text-white pointer-events-none bg-black top-2 right-2'
           )}
         >
@@ -76,7 +76,7 @@ export function ProductCard({
           {/* </ActionIcon> */}
         </Group>
 
-        <Text color={theme.other.color.subTitle} size="sm" lineClamp={4}>
+        <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
           Condition : {description}
         </Text>
 

@@ -31,9 +31,6 @@ export const FormMultiSelect = ({
       searchable
       placeholder={placeholder}
       {...form?.getInputProps(name)}
-      transition="pop-top-left"
-      transitionDuration={80}
-      transitionTimingFunction="ease"
       error={
         form?.isTouched(name) && form.isDirty(name)
           ? form?.getInputProps(name).error

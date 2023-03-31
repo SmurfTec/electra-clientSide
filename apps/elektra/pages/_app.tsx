@@ -1,9 +1,8 @@
 import '../styles/globals.css';
-
-import { createThemeoverride, globalStyles, RouterTransition } from '@elektra/components';
-import { createEmotionCache, Global, MantineProvider } from '@mantine/core';
+import { Container, createEmotionCache, Global, MantineProvider } from '@mantine/core';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { createThemeoverride, globalStyles, RouterTransition } from '@elektra/customComponents';
 
 export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
@@ -17,7 +16,9 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
+          <Container size="lg">
           <Component {...pageProps} />
+          </Container>
         </MantineProvider>
         {/* <ThemeProvider>
           <AppShell header={<div>Hey</div>}>

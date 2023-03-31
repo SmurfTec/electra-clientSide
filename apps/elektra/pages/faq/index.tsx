@@ -1,4 +1,3 @@
-import { useTheme } from '@elektra/ui';
 import { Accordion, Container, Divider, SimpleGrid, Title, useMantineTheme } from '@mantine/core';
 import { Plus } from 'tabler-icons-react';
 
@@ -16,13 +15,13 @@ export default function FAQ() {
       <Accordion
         className="space-y-10"
         multiple={true}
-        chevron={<Plus size="1.8rem" color={theme.other.color.secondary} />}
+        chevron={<Plus size="1.8rem" color={'#3C82D6'} />}
         styles={{
           control: {
             border: '1px solid black',
             height: '70px',
             '&[data-active]': {
-              backgroundColor: theme.other.color.primary,
+              backgroundColor: 'black',
               color: '#fff',
             },
           },
@@ -38,7 +37,7 @@ export default function FAQ() {
           panel: {
             border: 'none',
             fontSize: '12px',
-            color: "rgba(101, 101, 101, 1)"
+            color: 'rgba(101, 101, 101, 1)',
           },
         }}
       >

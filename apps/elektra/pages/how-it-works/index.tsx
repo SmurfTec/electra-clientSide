@@ -1,6 +1,6 @@
+import { Buying, SellingComp } from '@elektra/components';
 import { Only, Title } from '@elektra/ui';
 import { Container, Divider, SegmentedControl } from '@mantine/core';
-import { Buying, Selling } from 'apps/elektra/app/components/pages';
 import { useState } from 'react';
 
 export default function HowItWorks() {
@@ -31,7 +31,7 @@ export default function HowItWorks() {
         <Buying />
       </Only>
       <Only when={value === 'S'}>
-        <Selling />
+        <SellingComp />
       </Only>
     </Container>
   );

@@ -1,4 +1,3 @@
-import { useStylesforGlobal } from '@elektra/components';
 import {
   Button,
   Chip,
@@ -16,6 +15,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { useStylesforGlobal } from '@elektra/customComponents';
 import { ChevronDown } from 'tabler-icons-react';
 
 export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -146,8 +146,8 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group position="apart" spacing={35} >
-                  <div >
+                <Group position="apart" spacing={35}>
+                  <div>
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
@@ -164,7 +164,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                       Card Number
                     </Text>
                   </div>
-                  <div >
+                  <div>
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
@@ -181,7 +181,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                       expiry
                     </Text>
                   </div>
-                  <div >
+                  <div>
                     <Text
                       color={'white'}
                       className="text-lg uppercase tracking-wider font-medium"
@@ -199,7 +199,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
 
           <Grid.Col mb={'-25px'} mt={'10px'} span={12}>
-            <Text className="bg-red font-[300]" color={theme.other.color.body} size="xl">
+            <Text className="bg-red font-[300]" color={'white'} size="xl">
               Credit Card Info
             </Text>
           </Grid.Col>
@@ -274,7 +274,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
           <Grid.Col span={6}></Grid.Col>
 
           <Grid.Col mb={'-25px'} mt={'10px'} span={12}>
-            <Text className="bg-red font-[300]" color={theme.other.color.body} size="xl">
+            <Text className="bg-red font-[300]" color={'white'} size="xl">
               Billing Info
             </Text>
           </Grid.Col>

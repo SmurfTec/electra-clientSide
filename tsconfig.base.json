@@ -10,14 +10,15 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom","ES2021.String"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@elektra/ui": ["libs/ui/src/index.ts"],
       "@elektra/components": ["apps/elektra/app/components/index.ts"],
-      "@elektra/hooks": ["apps/elektra/app/hooks/index.ts"]
+      "@elektra/hooks": ["apps/elektra/app/hooks/index.ts"],
+      "@elektra/customComponents": ["apps/elektra/app/customComponents/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

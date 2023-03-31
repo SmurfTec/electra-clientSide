@@ -1,7 +1,6 @@
 import { HTMLAttributes, forwardRef } from 'react';
 
 import { NextImage } from '../image';
-import { withTooltip } from '../HOC';
 
 interface ImageButtonProps extends HTMLAttributes<HTMLDivElement> {
   imageSource: string;
@@ -18,6 +17,5 @@ export const ButtonWithImage = forwardRef<HTMLDivElement, ImageButtonProps>(
   }
 );
 
-export const ImageButton = withTooltip(ButtonWithImage);
 
 export type { ImageButtonProps };

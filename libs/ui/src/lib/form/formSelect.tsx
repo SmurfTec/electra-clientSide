@@ -50,9 +50,6 @@ export const FormSelect = ({
           ? form?.getInputProps(name).error
           : ''
       }
-      transition="pop-top-left"
-      transitionDuration={80}
-      transitionTimingFunction="ease"
       {...rest}
     />
   );

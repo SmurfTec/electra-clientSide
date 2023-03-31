@@ -1,35 +1,24 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Form } from '@elektra/ui';
-import { Button, Container, Grid, Group } from '@mantine/core';
+import { Button, Container, Grid, Group, PasswordInput, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
-import Joi from 'joi';
 import { useStyles } from './signup';
 
 export default function Login() {
   const { classes } = useStyles();
 
-  //TODO: Need to properly typecast this
-  const schema = Joi.object({
-    email: Joi.string()
-      .required()
-      .email({ tlds: { allow: false } })
-      .label('Email'),
-    password: Joi.string()
-      .min(8)
-      .regex(/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,30}$/)
-      .required()
-      .label('Password')
-      .messages({
-        'string.min': 'Must have at least 8 characters',
-        'object.regex': 'Must have at least 8 characters',
-        'string.pattern.base': 'User Password must have at least 8 characters one uppercase and special character',
-      }),
-  });
-
-  const initialValues: any = {
+  const initialValues = {
     email: '',
     password: '',
   };
+
+  const form = useForm({
+    initialValues: initialValues,
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
 
   return (
     <Grid m={0}>
@@ -41,19 +30,19 @@ export default function Login() {
           <TitleHead title="Log in" description="Login to buy & sell on our platform." />
           <SocialButton title="Login" />
           <div className="mt-10">
-            <Form initialValues={initialValues} onFormSubmit={() => console.log('')} schema={schema}>
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
               <div className="space-y-5">
-                <Form.FormField
-                  name="email"
+                <TextInput
                   placeholder="Enter Email"
                   label="EMAIL ADDRESS"
                   classNames={{ input: classes.input }}
+                  {...form.getInputProps('email')}
                 />
-                <Form.PasswordField
-                  name="password"
+                <PasswordInput
                   placeholder="Password Here"
                   label="PASSWORD"
                   classNames={{ input: classes.input, innerInput: classes.innerInput }}
+                  {...form.getInputProps('password')}
                 />
               </div>
               <div className="text-right -mt-2">
@@ -64,24 +53,24 @@ export default function Login() {
                       border: 'unset',
                       borderRadius: 'unset',
                     },
-                    inner:{
+                    inner: {
                       color: '#B4B4B4',
                       background: 'white',
-                    }
+                    },
                   }}
                 >
                   Forgot Password ?
                 </Button>
               </div>
               <div className="space-y-4 mt-10">
-                <Button className="w-full h-16" href="/auth/login" component={NextLink}>
+                <Button type="submit" className="w-full h-16 font-medium text-base"  uppercase>
                   Login
                 </Button>
-                <Button color="blue" component={NextLink} href={'/auth/signup'} className="w-full h-16">
+                <Button color="blue" uppercase component={NextLink} href={'/auth/signup'} className="w-full h-16  text-base font-medium">
                   Signup
                 </Button>
               </div>
-            </Form>
+            </form>
           </div>
           <BottomLine />
         </Container>

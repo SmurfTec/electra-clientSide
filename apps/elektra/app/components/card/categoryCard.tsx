@@ -1,11 +1,7 @@
 import { NextImage } from '@elektra/ui';
-import { ActionIcon, Button, Group, Paper, Text, Title, useMantineTheme } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
-import Image, { StaticImageData } from 'next/image';
-import { useRef } from 'react';
-import { ArrowNarrowRight, Heart } from 'tabler-icons-react';
-import { useStylesforGlobal } from '../theme';
+import { Button, Group, Paper, Title } from '@mantine/core';
+import { ArrowNarrowRight } from 'tabler-icons-react';
+import { useStylesforGlobal } from '../../customComponents/theme';
 
 type CategoryCardProps = {
   id: number;
@@ -14,10 +10,10 @@ type CategoryCardProps = {
   link: string;
 };
 
-export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
-  const {classes} = useStylesforGlobal()
+export function CategoryCard({ id, image, title, link ,...rest }: CategoryCardProps) {
+  const { classes } = useStylesforGlobal();
   return (
-    <Paper className="">
+    <Paper {...rest}>
       <NextImage src={image} height="250px" width="250px" />
       <Group position="apart">
         <Title className="font-[600]" order={5}>
@@ -30,8 +26,8 @@ export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
             styles={{
               root: {
                 '&:not([data-disabled]):hover': {
-                  backgroundColor: theme.other.color.secondary,
-                  borderColor: theme.other.color.secondary,
+                  backgroundColor: "#3C82D6",
+                  borderColor: "#3C82D6",
                 },
               },
               rightIcon: {
@@ -45,12 +41,11 @@ export function CategoryCard({ id, image, title, link }: CategoryCardProps) {
             href={link}
           /> */}
           <Button
-          leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-          variant="outline"
-          classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-        />
+            leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+            variant="outline"
+            classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+          />
         </div>
-
       </Group>
     </Paper>
   );

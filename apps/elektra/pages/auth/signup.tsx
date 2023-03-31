@@ -1,8 +1,7 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Form } from '@elektra/ui';
-import { Button, Container, createStyles, Grid, Group } from '@mantine/core';
+import { Button, Container, Grid, Group, PasswordInput, Text, TextInput, createStyles } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
-import Joi from 'joi';
 
 export const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -23,32 +22,20 @@ export const useStyles = createStyles((theme) => ({
 export default function Signup() {
   const { classes } = useStyles();
 
-  //TODO: Need to properly typecast this
-  const schema = Joi.object({
-    firstName: Joi.string().required().label('First Name'),
-    lastName: Joi.string().required().label('Last Name'),
-    email: Joi.string()
-      .required()
-      .email({ tlds: { allow: false } })
-      .label('Email'),
-    password: Joi.string()
-      .min(8)
-      .regex(/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,30}$/)
-      .required()
-      .label('Password')
-      .messages({
-        'string.min': 'Must have at least 8 characters',
-        'object.regex': 'Must have at least 8 characters',
-        'string.pattern.base': 'User Password must have at least 8 characters one uppercase and special character',
-      }),
-  });
-
-  const initialValues: any = {
+  const initialValues = {
     email: '',
     firstName: '',
     lastName: '',
     password: '',
   };
+
+  const form = useForm({
+    initialValues: initialValues,
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
 
   return (
     <Grid m={0}>
@@ -60,38 +47,51 @@ export default function Signup() {
           <TitleHead title="Signup" description="Signup and explore the best products." />
           <SocialButton title="Signup" />
           <div className="mt-10">
-            <Form initialValues={initialValues} onFormSubmit={() => console.log('hey')} schema={schema}>
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
               <div className="space-y-5">
-                <Form.FormField
-                  name="firstName"
+                <TextInput
                   placeholder="First Name"
                   label="FIRST NAME"
                   classNames={{ input: classes.input }}
+                  {...form.getInputProps('email')}
                 />
-                <Form.FormField
-                  name="lastName"
+                <TextInput
                   placeholder="Last Name"
                   label="LAST NAME"
                   classNames={{ input: classes.input }}
+                  {...form.getInputProps('email')}
                 />
-                <Form.FormField
-                  name="email"
+                <TextInput
                   placeholder="Email"
                   label="EMAIL ADDRESS"
                   classNames={{ input: classes.input }}
+                  {...form.getInputProps('email')}
                 />
-                <Form.PasswordField
-                  name="password"
+                <PasswordInput
                   placeholder="Password"
                   label="PASSWORD"
                   classNames={{ input: classes.input, innerInput: classes.innerInput }}
+                  {...form.getInputProps('password')}
                 />
               </div>
-              <div className="space-y-4 mt-10">
-                <Form.FormButton type="submit" className="w-full h-16" label="Signup" />
-                <Button className="w-full h-16" color="blue" href="/auth/login" component={NextLink} >Login</Button>
+              <div className="text-right mt-1">
+                <Text size={'sm'}>Password Length must be between 6-15</Text>
               </div>
-            </Form>
+              <div className="space-y-4 mt-10">
+                <Button type="submit" className="w-full h-16 font-medium text-base" uppercase>
+                  SignUp
+                </Button>
+                <Button
+                  className="w-full h-16 font-medium text-base"
+                  color="blue"
+                  href="/auth/login"
+                  uppercase
+                  component={NextLink}
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
           </div>
           <BottomLine />
         </Container>

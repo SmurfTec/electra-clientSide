@@ -1,8 +1,6 @@
 import { ActionIcon, ActionIconProps, createPolymorphicComponent, MantineNumberSize } from '@mantine/core';
 import React, { ReactNode } from 'react';
 import { Icon, IconProps } from 'tabler-icons-react';
-
-import { withTooltip } from '../HOC';
 import { useTheme } from '../theme/useTheme';
 
 interface IconButtonProps extends ActionIconProps {
@@ -35,6 +33,4 @@ IconButtonComponent.defaultProps = {
 
 export const IconButtonNoTooltip = createPolymorphicComponent<'button', IconButtonProps>(IconButtonComponent);
 
-export const IconButton = withTooltip(IconButtonNoTooltip as React.ComponentType<IconButtonProps>);
 
-export default IconButton;
