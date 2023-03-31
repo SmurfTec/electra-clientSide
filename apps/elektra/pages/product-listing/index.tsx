@@ -1,5 +1,6 @@
-import { ListingDescription } from '@elektra/components';
-import { Container, Grid } from '@mantine/core';
+import { ListingDescription, UsedProductListing } from '@elektra/components';
+import { Only } from '@elektra/ui';
+import { Container, Divider, Grid } from '@mantine/core';
 import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { useState } from 'react';
 
@@ -29,14 +30,28 @@ const ListingDescriptionData = {
   averageSalePrice: 200,
 };
 
+const usedProductListingData = {
+  accessories: ['Charger Cable', 'Original Box', 'Charging Cube'],
+  itemConditions: ['Poor', 'Good', 'Fair', 'Great', 'Flawless', 'New'],
+  description: [
+    'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
+    'Fully functional with no operational problems',
+    'No chips or cracks in front or back glass',
+    'Above 80 percent battery health with no Service alert in Settings',
+    'All devices must be free of any lock, carrier blacklist, or financial obligations',
+    'Absolutely no Ghost Image',
+    'No LCD or display defects (aftermarket, burns, damage or no display)',
+  ],
+};
+
 export default function ProductListingPage() {
-  const [condition, setCondition] = useState<string>('New');
+  const [condition, setCondition] = useState<string>('Used');
   return (
     <Container fluid>
-      <div className='my-10'>
-        <PageTitle  title="Listing Item" />
+      <div className="my-10">
+        <PageTitle title="Listing Item" />
       </div>
-      <Grid className="my-20">
+      <Grid className="my-10">
         <Grid.Col span={6}></Grid.Col>
         <Grid.Col span={6}>
           <ListingDescription
@@ -44,6 +59,7 @@ export default function ProductListingPage() {
             carrierData={ListingDescriptionData.carrierData}
             color={ListingDescriptionData.color}
             condition={condition}
+            setCondition={setCondition}
             description={ListingDescriptionData.description}
             discount={ListingDescriptionData.discount}
             highestAsk={ListingDescriptionData.highestAsk}
@@ -57,6 +73,16 @@ export default function ProductListingPage() {
             storageData={ListingDescriptionData.storageData}
           />
         </Grid.Col>
+        <Only when={condition === 'Used'}>
+          <Grid.Col span={12}>
+            <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
+            <UsedProductListing
+              accessories={usedProductListingData.accessories}
+              description={usedProductListingData.description}
+              itemConditions={usedProductListingData.itemConditions}
+            />
+          </Grid.Col>
+        </Only>
       </Grid>
     </Container>
   );
