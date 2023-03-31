@@ -11,10 +11,10 @@ type ModalProps = {
   onClose: () => void;
 } & Omit<MantineModalProps,'opened'>;
 
-export const Modal = ({ title,size, children, open, onClose,className ,titlePosition='center',...rest }: ModalProps) => {
+export const Modal = ({ title,size=550, children, open, onClose,className ,titlePosition='center',...rest }: ModalProps) => {
   return (
     <>
-      <MantineModel.Root  keepMounted={false}  size={size??550} opened={open} onClose={onClose} centered {...rest}>
+      <MantineModel.Root  keepMounted={false}  size={size} opened={open} onClose={onClose} centered {...rest}>
         <MantineModel.Overlay />
         <MantineModel.Content className="rounded-none">
           <MantineModel.Header sx={{zIndex:100}} className={title ? 'h-20' : ''}>

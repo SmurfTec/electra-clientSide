@@ -62,6 +62,16 @@ export const createThemeoverride = (): MantineThemeOverride => {
           },
         },
       },
+      Text:{
+        defaultProps:{
+          color:"#656565"
+        }
+      },
+      Title:{
+        defaultProps:{
+          color:"black"
+        }
+      }
     },
   };
 };

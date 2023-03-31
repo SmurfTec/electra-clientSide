@@ -1,6 +1,8 @@
 import {
   CategoryCard,
+  Drawer,
   Footer,
+  Header,
   HeroImage,
   Modal,
   ProductCard,
@@ -9,7 +11,7 @@ import {
   SimpleStateCard,
   useStylesforGlobal,
 } from '@elektra/components';
-import { useCarouselModal, useOfferModal } from '@elektra/hooks';
+import { useCarouselModal, useOfferModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { SearchBox } from '@elektra/ui';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
@@ -186,8 +188,11 @@ export default function Index() {
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
+  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
+  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] = useTechinalSpecificationDrawer();
   return (
     <div>
+      <Header />
       <div className="p-16">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center">
           {productData.map((product) => {
@@ -230,7 +235,20 @@ export default function Index() {
         <HeroImage />
       </div>
 
-      <div>
+      <div className='my-96'>
+        <Group position="center">
+          <Drawer title="Details from seller" children={SellerDetailModal} onClose={sellerDetailHandler.close} open={sellerDetailOpened} />
+          <Button onClick={sellerDetailHandler.open}>Seller Drawer</Button>
+        </Group>
+      </div>
+      <div className='my-96'>
+        <Group position="center">
+          <Drawer title="Technical Specification" children={TechinalSpecificationModal} onClose={techinalSpecificationHandler.close} open={techinalSpecificationOpened} />
+          <Button onClick={techinalSpecificationHandler.open}>Drawer</Button>
+        </Group>
+      </div>
+
+      <div className='my-96'>
         <Group position="center">
           <Modal title="Offer Expiration" children={offerModal} onClose={offerHandler.close} open={offerOpened} />
           <Button onClick={offerHandler.open}>Email Verfication Model</Button>
@@ -367,12 +385,7 @@ export default function Index() {
         <PageTitle title="Buying Summary" />
       </div>
 
-      {/* <div className="mt-16">
-        <Group position="center">
-          <Modal children={<SignUpUnSuccesfullModal  />} onClose={close} open={opened} />
-          <Button onClick={open} >Signup Unsuccessful Model</Button>
-        </Group>
-      </div> */}
+      
 
       {/* <div className="mt-16">
         <Group position="center">
