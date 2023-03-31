@@ -4,3 +4,4 @@ export * from './contact'
 export * from "./buying-summary"
 export * from "./product"
 export * from "./userDashboard"
+export * from "./productListing"

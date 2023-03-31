@@ -38,9 +38,6 @@ export function BiddingSummary({
         </Text>
       </Group>
 
-      <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-
-      <PositionApart key={0} text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
       <PositionApart key={1} text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart key={3} text={'SHIPPING FEE'} number={shippingFee} />
       <PositionApart key={4} text={'DISCOUNT'} number={discount} discount={true} />
@@ -77,7 +74,7 @@ type PositionApartProps = {
   discount?: boolean;
   key: number;
 };
-function PositionApart({ text, number, discount, numberColor, key }: PositionApartProps) {
+export function PositionApart({ text, number, discount, numberColor, key }: PositionApartProps) {
   const [discountModal, discountOpened, discountHandler] = useDiscountModal()
   return (
     <Group className="space-x-4" position="apart">
