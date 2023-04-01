@@ -1,9 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './apps/elektra/pages/**/*.{js,ts,jsx,tsx}',
-    './apps/elektra/app/components/**/*.{js,ts,jsx,tsx}',
-    './libs/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},
