@@ -1,3 +1,4 @@
+import { useStylesforGlobal } from '@elektra/customComponents';
 import {
   Button,
   Chip,
@@ -15,7 +16,6 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import { useStylesforGlobal } from '@elektra/customComponents';
 import { ChevronDown } from 'tabler-icons-react';
 
 export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -56,8 +56,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     while (data.length < 16) {
       data += '0';
     }
-    return data
-      .match(/.{1,4}/g)
+    return String(data.match(/.{1,4}/g))
       .toString()
       .replaceAll(',', ' ')
       .substring(0, 19);
@@ -91,7 +90,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   value="visa"
                 >
                   <Group position="center" sx={{ marginTop: '10px' }}>
-                    <Image height={50} width={50} fit="contain" src={'/images/visa.png'} />
+                    <Image alt="" height={50} width={50} fit="contain" src={'/images/visa.png'} />
                   </Group>
                 </Chip>
                 <Chip
@@ -100,7 +99,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
                   <Group position="center" sx={{ marginTop: '10px' }}>
-                    <Image height={50} width={50} fit="contain" src={'/images/master.png'} />
+                    <Image alt="" height={50} width={50} fit="contain" src={'/images/master.png'} />
                   </Group>
                 </Chip>
                 <Chip
@@ -109,7 +108,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
                   <Group position="center" sx={{ marginTop: '10px' }}>
-                    <Image height={50} width={50} fit="contain" src={'/images/discover.png'} />
+                    <Image alt="" height={50} width={50} fit="contain" src={'/images/discover.png'} />
                   </Group>
                 </Chip>
                 <Chip
@@ -118,7 +117,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
                   <Group position="center" sx={{ marginTop: '10px' }}>
-                    <Image height={50} width={50} fit="contain" src={'/images/paypal.png'} />
+                    <Image alt="" height={50} width={50} fit="contain" src={'/images/paypal.png'} />
                   </Group>
                 </Chip>
               </Group>
@@ -126,6 +125,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
             <Paper radius={0} className="mt-4" bg="black">
               <Stack align="flex-start" h={200}>
                 <Image
+                  alt=""
                   height={50}
                   width={50}
                   sx={{ marginTop: '0.45rem', marginLeft: '1.5rem' }}
@@ -133,6 +133,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   src={`/images/${form.values.cardType}.png`}
                 />
                 <Image
+                  alt=""
                   height={50}
                   width={50}
                   sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}

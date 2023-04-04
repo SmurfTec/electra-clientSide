@@ -8,7 +8,7 @@ export default function ContactUs() {
       <div>
         <Title order={4} className="font-bold mt-10 inline-block w-1/4">
           Hi User feel free to get in touch with us !
-          <Image className="inline-block ml-3" height={30} width={30} src="/images/clap.png" />
+          <Image alt='Contact Us' className="inline-block ml-3" height={30} width={30} src="/images/clap.png" />
         </Title>
       </div>
       <ContactUsForm />

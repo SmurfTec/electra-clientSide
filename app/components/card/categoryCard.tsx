@@ -14,7 +14,7 @@ export function CategoryCard({ id, image, title, link ,...rest }: CategoryCardPr
   const { classes } = useStylesforGlobal();
   return (
     <Paper {...rest}>
-      <Image src={image} height="250px" width="250px" />
+      <Image alt='' src={image} height="250px" width="250px" />
       <Group position="apart">
         <Title className="font-[600]" order={5}>
           {title}

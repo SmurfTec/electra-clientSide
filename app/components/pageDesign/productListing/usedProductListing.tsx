@@ -1,3 +1,4 @@
+import { ListItem } from '@elektra/customComponents';
 import {
   ActionIcon,
   Badge,
@@ -14,9 +15,8 @@ import {
   createStyles,
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
-import { ListItem } from '@elektra/customComponents';
 
 type UsedProductListingProps = {
   accessories: string[];
@@ -39,10 +39,11 @@ export function UsedProductListing({ accessories, description, itemConditions }:
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
-      <div className="relative">
+      <div className="relative" key={index}>
         <Image
           height="155px"
           m={0}
+          alt=''
           key={index}
           src={imageUrl}
           imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
@@ -67,7 +68,6 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           }}
           radius="xl"
         >
-          {' '}
           Additional Details
         </Badge>
 
@@ -77,10 +77,11 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               What accessories are included?
             </Text>
             <Group>
-              {accessories.map((item) => {
+              {accessories.map((item, key) => {
                 return (
                   <Checkbox
-                    icon={Check}
+                    key={key}
+                    icon={Check as FC<{ indeterminate: boolean; className: string; }>}
                     styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }}
                     value={item}
                     label={item}
@@ -97,8 +98,8 @@ export function UsedProductListing({ accessories, description, itemConditions }:
 
             <Radio.Group>
               <Group>
-                {['Yes', 'No'].map((item) => {
-                  return <Radio icon={Check} classNames={classes} value={item} label={item} />;
+                {['Yes', 'No'].map((item,index) => {
+                  return <Radio key={index} icon={Check} classNames={classes} value={item} label={item} />;
                 })}
               </Group>
             </Radio.Group>
@@ -118,8 +119,8 @@ export function UsedProductListing({ accessories, description, itemConditions }:
             </Text>{' '}
             <Radio.Group>
               <Group>
-                {itemConditions.map((item) => {
-                  return <Radio icon={Check} classNames={classes} value={item} label={item} />;
+                {itemConditions.map((item,index) => {
+                  return <Radio key={index} icon={Check} classNames={classes} value={item} label={item} />;
                 })}
               </Group>
             </Radio.Group>

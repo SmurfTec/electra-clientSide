@@ -157,7 +157,7 @@ const completedtabledata = [
 
 export function Selling() {
   const [value, setValue] = useState('active');
-  const [search, setSearch] = useState(undefined);
+  const [search, setSearch] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
 
   const tableData: tableDataType = {

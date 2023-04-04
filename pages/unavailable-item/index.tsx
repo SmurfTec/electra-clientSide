@@ -5,7 +5,7 @@ import { ArrowNarrowLeft, ArrowNarrowRight } from 'tabler-icons-react';
 export default function UnavailableItem() {
   return (
     <Stack align="center" className="py-24">
-      <Image mah={400} maw={400} src={'/images/cancelbox.png'} />
+      <Image alt='' mah={400} maw={400} src={'/images/cancelbox.png'} />
       <Title mt={20} order={4} className="font-bold">
         This item is unavailable at the moment!
       </Title>

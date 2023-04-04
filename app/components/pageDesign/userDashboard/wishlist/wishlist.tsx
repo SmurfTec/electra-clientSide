@@ -99,7 +99,7 @@ export function WishList() {
             description={product.description}
             link={product.link}
             title={product.title}
-            rating={product.rating}
+            rating={String(product.rating)}
             wishlist={product.wishlist}
             lowestPrice={product.lowestPrice ?? null}
             highestPrice={product.highestPrice ?? null}
