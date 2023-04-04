@@ -284,7 +284,7 @@ export default function Testing() {
             return (
               <Carousel.Slide key={index}>
                 <div>
-                  <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+                  <Image alt='' height={index === value ? '500px' : '300px'} src={item.imgSrc} />
                   <Group position="center">
                     <Text size="xl">{item.title}</Text>
                     <Button

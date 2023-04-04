@@ -1,7 +1,6 @@
-import { ListingDescription, UsedProductListing } from '@elektra/components';
-import { Only } from '@elektra/ui';
+import { ListingDescription, PageTitle, UsedProductListing } from '@elektra/components';
+import { Only } from '@elektra/customComponents';
 import { Container, Divider, Grid } from '@mantine/core';
-import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 import { useState } from 'react';
 
 const ListingDescriptionData = {
