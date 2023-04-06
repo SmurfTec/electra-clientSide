@@ -8,7 +8,7 @@ export default function RequestItem() {
   const [RequestModal, requestOpened, requestHandler] = useRequestItemModal();
   return (
     <Stack align="center" className="py-24">
-      <Image mah={100} maw={100} src={'/images/plainbox.png'} />
+      <Image alt='' mah={100} maw={100} src={'/images/plainbox.png'} />
       <Title order={4} className="font-semibold">
         Requesting product to be added
       </Title>

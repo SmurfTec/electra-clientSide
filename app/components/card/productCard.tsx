@@ -10,7 +10,7 @@ export type ProductCardProps = {
   link: string;
   title: string;
   description: string;
-  rating: string;
+  rating?: string;
   wishlist: boolean;
   lowestPrice: number | null;
   highestPrice: number | null;

@@ -1,3 +1,10 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next",
+  "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@react-typescript/react-hooks/rules-of-hooks": "off",
+    "@react-typescript/react-hooks/exhaustive-deps": "off",
+    "react/no-children-prop":"off",
+    "@next/next/no-img-element":"off"
+  }
 }

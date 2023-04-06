@@ -55,7 +55,7 @@ export function ProductDetail({
         </Grid>
         <Grid>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Sale Date'} details={saleDate} />
+            <ProductDetails text={'Sale Date'} details={String(saleDate)} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
             <ProductDetails text={'Order No'} details={'14'} color={'#3C82D6'} />
@@ -102,7 +102,7 @@ export function ProductDetails({ text, details, onClick, iconDisplay, color }: p
     <div>
       <Title className="font-[600]" order={6}>
         {text}
-        <Only when={iconDisplay}>
+        <Only when={!!iconDisplay}>
           <PencilButton onClick={onClick} />
         </Only>
       </Title>

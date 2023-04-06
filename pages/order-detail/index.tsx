@@ -1,6 +1,5 @@
-import { BiddingSummary, BiddingSummaryProps, ProductDetail } from '@elektra/components';
+import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
 import { Container, Grid, Text, useMantineTheme } from '@mantine/core';
-import { PageTitle } from 'apps/elektra/app/components/AppTitle';
 
 const productDetailData = {
   image: '/images/product.png',
