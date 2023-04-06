@@ -13,7 +13,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS theme={themeOverride}>
+        <MantineProvider withGlobalStyles withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
           <Container size="lg">
