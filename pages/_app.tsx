@@ -1,4 +1,4 @@
-import { AppShell, Header } from '@elektra/components';
+import { AppShell, Footer, Header } from '@elektra/components';
 import { RouterTransition, createThemeoverride, globalStyles } from '@elektra/customComponents';
 import { Global, MantineProvider, createEmotionCache } from '@mantine/core';
 import { AppProps } from 'next/app';
@@ -14,10 +14,10 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS theme={themeOverride}>
+        <MantineProvider withGlobalStyles withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
-          <AppShell header={<Header />} footer={<div>Hey</div>}>
+          <AppShell header={<Header />} footer={<Footer/>}>
             <Component {...pageProps} />
           </AppShell>
         </MantineProvider>

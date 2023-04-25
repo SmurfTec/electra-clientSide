@@ -1,7 +1,7 @@
+import { Modal, Only, PencilButton } from '@elektra/customComponents';
 import { useCardModal, useOfferModal, useShippingChangeModal } from '@elektra/hooks';
 import { Grid, Text, Title, useMantineTheme } from '@mantine/core';
 import { ItemCard } from '../../card';
-import { Modal, Only, PencilButton } from '@elektra/customComponents';
 
 type ProductDetailProps = {
   image: string;
@@ -35,7 +35,10 @@ export function ProductDetail({
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const theme = useMantineTheme();
   return (
-    <div style={{ border: '1px solid', borderColor: '#B4B4B4' }} className="p-8 rounded-xl">
+    <div
+      style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto', scrollbarWidth: "2px" }}
+      className="p-8 rounded-xl"
+    >
       <ItemCard color={color} company={company} image={image} space={space} title={title} key={title} />
 
       <div className="mt-6 space-y-4">
