@@ -1,5 +1,6 @@
 import { ProductCard, ProductCardProps, ProductSpecification, SectionTitle } from '@elektra/components';
-import { Container, Divider, Grid } from '@mantine/core';
+import { ActionIcon, Container, Divider, Grid, Text } from '@mantine/core';
+import { ArrowDown } from 'tabler-icons-react';
 
 const productSpecification = [
   //NEW PRODUCT
@@ -200,6 +201,11 @@ export default function ProductPage() {
                 />
               );
             })}
+          </div>
+
+          <div className='my-20 flex justify-center'>
+            <Text>View More</Text>
+          <ActionIcon variant="transparent"><ArrowDown /></ActionIcon>
           </div>
     </Container>
   );
