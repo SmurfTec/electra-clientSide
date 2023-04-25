@@ -5,3 +5,4 @@ export * from './logo';
 export * from './pageDesign';
 export * from './siteSection';
 export * from './AppTitle';
+export * from './appShell';

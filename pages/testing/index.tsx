@@ -191,7 +191,6 @@ export default function Testing() {
     useTechinalSpecificationDrawer();
   return (
     <div>
-      <Header />
       <div className="p-16">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center">
           {productData.map((product, index) => {
@@ -300,7 +299,7 @@ export default function Testing() {
         </Carousel>
       </div>
 
-      <div className="m-96">
+      {/* <div className="m-96">
         <Group position="center">
           <MantineModal
             fullScreen
@@ -330,8 +329,8 @@ export default function Testing() {
 
           <Button onClick={carouselHandler.open}>Image Model</Button>
         </Group>
-      </div>
-      <div className="m-96">
+      </div> */}
+      {/* <div className="m-96">
         <ShowTime autoPlay>
           <div>
             <img
@@ -355,9 +354,9 @@ export default function Testing() {
             <p className="legend">Legend 3</p>
           </div>
         </ShowTime>
-      </div>
+      </div> */}
 
-      <div className="m-96">
+      {/* <div className="m-96">
         <Carousel maw={1000} mx="auto" withIndicators height={200}>
           {carouselViewData.map((item, index) => {
             return (
@@ -367,7 +366,7 @@ export default function Testing() {
             );
           })}
         </Carousel>
-      </div>
+      </div> */}
 
       {/* <div>
         <Group position="center">
