@@ -25,7 +25,7 @@ export function BiddingSummary({
   const theme = useMantineTheme();
   const { classes } = useStylesforGlobal();
   return (
-    <div style={{ border: '1px solid', borderColor: '#B4B4B4' }} className="p-8 rounded-xl space-y-2">
+    <div style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: "65vh !important", overflowY: "auto" }} className="p-8 rounded-xl space-y-4">
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           {yourOffer ? 'Your Offer' : 'Item Price'}
@@ -35,7 +35,7 @@ export function BiddingSummary({
           ${yourOffer ?? itemPrice}
         </Text>
       </Group>
-
+      <PositionApart key={1} text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart key={1} text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart key={3} text={'SHIPPING FEE'} number={shippingFee} />
       <PositionApart key={4} text={'DISCOUNT'} number={discount} discount={true} />
@@ -55,7 +55,7 @@ export function BiddingSummary({
         </Grid.Col>
       </Grid>
 
-      <Group className="pt-6">
+      <Group className="">
         <Avatar src="images/coin.png" size={'xs'} radius="lg" />
         <Text className="font-bold uppercase" size="sm">
           earn 1500 points for this purchase
