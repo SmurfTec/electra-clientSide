@@ -28,7 +28,6 @@ const footerCardData: FooterCardProps[] = [
 ];
 
 export function Footer() {
-  const theme = useMantineTheme();
   return (
     <div>
       <section className="my-14">

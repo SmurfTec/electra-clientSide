@@ -2,13 +2,16 @@ import { ActionIcon, Avatar, Group, Menu, Title, createStyles } from '@mantine/c
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Bell, CaretDown, CaretUp, Search, Settings, User } from 'tabler-icons-react';
+import { HeaderTopBar } from './topBar';
+import { HeaderMenu } from './menuBar';
 
 export const Header = () => {
   const [isMenuOpen, toggle] = useToggle<boolean>([false, true]);
   const { classes } = useStyles();
   return (
     <header>
-      <div className="px-12">
+      <HeaderTopBar />
+      <div className="md:px-8 px-4">
         <Group position="apart">
           <Menu classNames={classes} width={150} position="bottom-start" offset={0} keepMounted={false}>
             <Menu.Target>
@@ -29,8 +32,8 @@ export const Header = () => {
               <Menu.Item component={NextLink} href={'/contact'}>Help</Menu.Item>
             </Menu.Dropdown>
           </Menu>
-          <Title order={3}>Dummay Logo</Title>
-          <Group>
+          <Title order={3} className='font-bold ml-6 md:ml-3'>Elektra</Title>
+          <Group spacing={8}>
             <ActionIcon variant="transparent" size={'sm'}>
               <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                 <Search size={15} strokeWidth={1} />
@@ -49,6 +52,7 @@ export const Header = () => {
           </Group>
         </Group>
       </div>
+      <HeaderMenu />
     </header>
   );
 };
