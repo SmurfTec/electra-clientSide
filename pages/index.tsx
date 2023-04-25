@@ -346,9 +346,6 @@ export function Index() {
 
         <section></section>
       </Container>
-      <section className="mt-48">
-        <Footer />
-      </section>
     </div>
   );
 }
