@@ -1,6 +1,9 @@
-import { Accordion, Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
+import { Drawer, Only } from '@elektra/customComponents';
+import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
+import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
+import { ChevronRight } from 'tabler-icons-react';
 import { BiddingInput } from '../../inputs';
-import { Only } from '@elektra/customComponents';
+import { NextLink } from '@mantine/next';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -39,6 +42,9 @@ export function ProductSpecification({
   sellerCondition,
 }: ProductSpecificationProps) {
   const theme = useMantineTheme();
+  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
+  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
+    useTechinalSpecificationDrawer();
   return (
     <div>
       <Title className="uppercase" color={'#656565'} order={6}>
@@ -48,14 +54,19 @@ export function ProductSpecification({
         {title}
       </Title>
       <form>
-        <div>
-          <Accordion
-            defaultValue={condition}
+        <div className="space-y-4">
+          <Drawer
+            title="Technical Specification"
+            children={TechinalSpecificationModal}
+            onClose={techinalSpecificationHandler.close}
+            open={techinalSpecificationOpened}
+          />
+          <Button
+            onClick={techinalSpecificationHandler.open}
+            className="w-full h-24"
+            rightIcon={<ChevronRight />}
             styles={{
-              item: {
-                border: 'none',
-              },
-              control: {
+              root: {
                 backgroundColor: 'black',
                 color: 'white',
                 borderRadius: '6px',
@@ -64,86 +75,118 @@ export function ProductSpecification({
                   color: 'white',
                 },
               },
-              content: {
-                padding: '0',
+              label: {
+                fontSize: '16px',
+                fontWeight: 'lighter',
+              },
+              inner: {
+                justifyContent: 'space-between',
               },
             }}
+            bg="black"
           >
-            <Accordion.Item value="New">
-              <Accordion.Control py={24}>Technical Specifications</Accordion.Control>
-              <Accordion.Panel m={0} px={0} py={30}>
-                <div className="space-y-5">
-                  <div>
-                    <Title className="uppercase font-[600]" order={6}>
-                      CONDITION
-                    </Title>
-                    <Text size="sm" mt={4}>
-                      {condition}
-                    </Text>
-                  </div>
-                  <div>
-                    <Title className="uppercase font-[600]" order={6}>
-                      Color
-                    </Title>
-                    <ChipDisplay data={colorData} item={color} />
-                  </div>
-                  <div>
-                    <Title className="uppercase font-[600]" order={6}>
-                      Capacity
-                    </Title>
-                    <ChipDisplay data={capacityData} item={capacity} />
-                  </div>
-                  <div>
-                    <Title className="uppercase font-[600]" order={6}>
-                      Carrier
-                    </Title>
-                    <ChipDisplay data={carrierData} item={carrier} />
-                  </div>
-                </div>
-              </Accordion.Panel>
-            </Accordion.Item>
-            <Only when={condition === 'Used'}>
-              <Accordion.Item mt={10} value="Used">
-                <Accordion.Control py={24}>Details From Seller</Accordion.Control>
-                <Accordion.Panel m={0} px={0} py={30}>
-                  <div className="space-y-5">
-                    <div>
-                      <Title className="uppercase font-[600]" order={6}>
-                        CONDITION
-                      </Title>
-                      <Text size="sm" mt={4}>
-                        {sellerCondition}
-                      </Text>
-                    </div>
-                    <div>
-                      <Title className="uppercase font-[600]" order={6}>
-                        Color
-                      </Title>
-                      <Text size="sm" mt={4}>
-                        {sellerColor}
-                      </Text>
-                    </div>
-                    <div>
-                      <Title className="uppercase font-[600]" order={6}>
-                        Capacity
-                      </Title>
-                      <Text size="sm" mt={4}>
-                        {sellerCapacity}
-                      </Text>
-                    </div>
-                    <div>
-                      <Title className="uppercase font-[600]" order={6}>
-                        Carrier
-                      </Title>
-                      <Text size="sm" mt={4}>
-                        {sellerCarrier}
-                      </Text>
-                    </div>
-                  </div>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Only>
-          </Accordion>
+            Technical Specifications
+          </Button>
+          <Drawer
+            title="Details from seller"
+            children={SellerDetailModal}
+            onClose={sellerDetailHandler.close}
+            open={sellerDetailOpened}
+          />
+          <Button
+            onClick={sellerDetailHandler.open}
+            className="w-full h-24"
+            rightIcon={<ChevronRight />}
+            styles={{
+              root: {
+                backgroundColor: 'black',
+                color: 'white',
+                borderRadius: '6px',
+                '&:hover': {
+                  backgroundColor: 'black',
+                  color: 'white',
+                },
+              },
+              label: {
+                fontSize: '16px',
+                fontWeight: 'lighter',
+              },
+              inner: {
+                justifyContent: 'space-between',
+              },
+            }}
+            bg="black"
+          >
+            Details From Seller
+          </Button>
+
+          <Only when={condition === 'Used'}>
+            <div className="space-y-5">
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  CONDITION
+                </Title>
+                <Text size="sm" mt={4}>
+                  {sellerCondition}
+                </Text>
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Color
+                </Title>
+                <Text size="sm" mt={4}>
+                  {sellerColor}
+                </Text>
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Capacity
+                </Title>
+                <Text size="sm" mt={4}>
+                  {sellerCapacity}
+                </Text>
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Carrier
+                </Title>
+                <Text size="sm" mt={4}>
+                  {sellerCarrier}
+                </Text>
+              </div>
+            </div>
+          </Only>
+
+          <Only when={condition === 'New'}>
+            <div className="space-y-5">
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  CONDITION
+                </Title>
+                <Text size="sm" mt={4}>
+                  {condition}
+                </Text>
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Color
+                </Title>
+                <ChipDisplay data={colorData} item={color} />
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Capacity
+                </Title>
+                <ChipDisplay data={capacityData} item={capacity} />
+              </div>
+              <div>
+                <Title className="uppercase font-[600]" order={6}>
+                  Carrier
+                </Title>
+                <ChipDisplay data={carrierData} item={carrier} />
+              </div>
+            </div>
+          </Only>
         </div>
 
         <div>
@@ -160,12 +203,12 @@ export function ProductSpecification({
         <div>
           <Grid>
             <Grid.Col span={6}>
-              <Button size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href="/buying-summary"  size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
                 BUY NOW
               </Button>
             </Grid.Col>
             <Grid.Col span={6}>
-              <Button size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href="/product-listing" size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
                 PLACE OFFER
               </Button>
             </Grid.Col>

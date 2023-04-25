@@ -16,9 +16,9 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <MantineProvider withGlobalStyles withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
-          <Container size="lg">
+          {/* <Container size="lg"> */}
           <Component {...pageProps} />
-          </Container>
+          {/* </Container> */}
         </MantineProvider>
         {/* <ThemeProvider>
           <AppShell header={<div>Hey</div>}>
