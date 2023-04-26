@@ -1,10 +1,9 @@
-import { Container, Grid } from '@mantine/core';
+import { Container, Grid, Image } from '@mantine/core';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
 import { BannerCarousel } from '../app/components/carosuels';
 import { HeroImage } from '../app/components/hero';
-import { Footer } from '../app/components/siteSection';
 
 const carouselData = [
   {
@@ -24,11 +23,26 @@ const carouselData = [
     title: 'Razer Blade 16',
   },
 ];
+
+const ProductCarouselData = [
+  {
+    imgSrc: '/images/carousel/mouse.png',
+    // title: 'Razer Blade 13',
+  },
+  {
+    imgSrc: '/images/carousel/headphone.png',
+    // title: 'Razer Blade 14',
+  },
+  {
+    imgSrc: '/images/carousel/ram.png',
+    // title: 'Razer Blade 15',
+  },
+];
 const bannerData: BannerProps[] = [
   {
     id: 0,
     image: '/images/banner/headphone.png',
-    link: '#',
+    link: '/shop',
     title: 'Trending Beats',
     heading: 'Headphones',
     label: 'Shop Today',
@@ -36,7 +50,7 @@ const bannerData: BannerProps[] = [
   {
     id: 1,
     image: '/images/banner/Iphone.png',
-    link: '#',
+    link: '/shop',
     title: 'NEW APPLE',
     heading: 'Iphone 14 Pro',
     label: 'Shop Today',
@@ -107,37 +121,37 @@ const categoryData = [
     id: 1,
     image: '/images/category.png',
     title: 'Laptops',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 2,
     image: '/images/category.png',
     title: 'Phones',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 3,
     image: '/images/category.png',
     title: 'Phones',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 4,
     image: '/images/category.png',
     title: 'Phones',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 5,
     image: '/images/category.png',
     title: 'Phones',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 6,
     image: '/images/category.png',
     title: 'Phones',
-    link: '#',
+    link: '/shop',
   },
 ];
 
@@ -146,37 +160,37 @@ const brandData = [
     id: 1,
     image: '/images/brands/brand.png',
     title: 'Apple',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 2,
     image: '/images/brands/brand.png',
     title: 'HP',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 3,
     image: '/images/brands/brand.png',
     title: 'Razor',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 4,
     image: '/images/brands/brand.png',
     title: 'Dell',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 5,
     image: '/images/brands/brand.png',
     title: 'Nvidia',
-    link: '#',
+    link: '/shop',
   },
   {
     id: 6,
     image: '/images/brands/brand.png',
     title: 'AMD',
-    link: '#',
+    link: '/shop',
   },
 ];
 
@@ -238,7 +252,7 @@ export function Index() {
 
         <section className="mt-20">
           <SectionTitle title="Categories" />
-          <Grid>
+          <Grid gutter={40}>
             {categoryData.map((category, index) => {
               return (
                 <Grid.Col span={2} key={index}>
@@ -322,12 +336,13 @@ export function Index() {
         </section>
 
         <section className="mt-20">
-          <BannerCarousel carouselData={carouselData} />
+          <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
+          <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
         </section>
 
         <section className="">
-          <SectionTitle title="Categories" />
-          <Grid>
+          <SectionTitle title="Brands" />
+          <Grid gutter={40}>
             {brandData.map((category, index) => {
               return (
                 <Grid.Col span={2} key={index}>
@@ -344,7 +359,9 @@ export function Index() {
           </Grid>
         </section>
 
-        <section></section>
+        <section>
+          <BannerCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" />
+        </section>
       </Container>
     </div>
   );

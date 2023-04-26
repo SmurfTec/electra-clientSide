@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Group, Menu, Title, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Group, Menu, Text, Title, createStyles } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Bell, CaretDown, CaretUp, Search, Settings, User } from 'tabler-icons-react';
@@ -12,7 +12,7 @@ export const Header = () => {
     <header>
       <HeaderTopBar />
       <div className="md:px-8 px-4">
-        <Group position="apart">
+        <Group position="apart" className='py-4'>
           <Menu classNames={classes} width={150} position="bottom-start" offset={0} keepMounted={false}>
             <Menu.Target>
               <ActionIcon onClick={() => toggle()} size={'xl'} className="space-x-1" variant="transparent">
@@ -32,7 +32,7 @@ export const Header = () => {
               <Menu.Item component={NextLink} href={'/contact'}>Help</Menu.Item>
             </Menu.Dropdown>
           </Menu>
-          <Title order={3} className='font-bold ml-6 md:ml-3'>Elektra</Title>
+          <Text component={NextLink} href="/" color='black' className='font-bold ml-6 md:ml-3'>Elektra</Text>
           <Group spacing={8}>
             <ActionIcon variant="transparent" size={'sm'}>
               <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>

@@ -33,7 +33,7 @@ export function SectionTitle({ title, label }: SectionTitleProps) {
               rightIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
               variant="outline"
               component={NextLink}
-              href="#"
+              href="/shop"
             />
           </Group>
         </div>

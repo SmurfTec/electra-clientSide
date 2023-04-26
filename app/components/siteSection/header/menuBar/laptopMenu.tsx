@@ -3,8 +3,8 @@ import { Container, Flex, Group, List, Text } from '@mantine/core';
 
 export const LaptopMenu = () => {
   return (
-    <Container size={800} px={200} py={40}>
-      <Group spacing={100}>
+    // <Container py={40}>
+      <Group spacing={100} position='center'>
         <Flex gap="xs" justify="center" align="center" direction="column" wrap="wrap">
           <Text color="black" className="text-sm font-medium">
             Laptops
@@ -34,6 +34,6 @@ export const LaptopMenu = () => {
         <CategoryCard id={1} image={'/images/category.png'} title={'Laptops'} link={'#'} />
         <CategoryCard id={1} image={'/images/category.png'} title={'Laptops'} link={'#'} />
       </Group>
-    </Container>
+    // </Container>
   );
 };

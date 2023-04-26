@@ -157,7 +157,7 @@ export type condition = 'New' | 'Used';
 
 export default function ProductPage() {
   return (
-    <Container size="lg"  mt={50} fluid>
+    <Container size="lg" mt={50} fluid>
       <Grid>
         <Grid.Col sm={6}></Grid.Col>
         <Grid.Col sm={6}>
@@ -184,29 +184,33 @@ export default function ProductPage() {
       <Divider className="my-10" />
       <SectionTitle title="Used iPhone 14 Pro Max" label="View All" />
       <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
-              return (
-                <ProductCard
-                  key={product.id + index}
-                  id={product.id}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  rating={product.rating}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </div>
+        {productData.map((product, index) => {
+          return (
+            <ProductCard
+              key={product.id + index}
+              id={product.id}
+              image={product.image}
+              description={product.description}
+              link={product.link}
+              title={product.title}
+              rating={product.rating}
+              wishlist={product.wishlist}
+              lowestPrice={product.lowestPrice ?? null}
+              highestPrice={product.highestPrice ?? null}
+              price={product.price}
+            />
+          );
+        })}
+      </div>
 
-          <div className='my-20 flex justify-center'>
-            <Text>View More</Text>
-          <ActionIcon variant="transparent"><ArrowDown /></ActionIcon>
-          </div>
+      <div className="my-20 flex justify-center space-x-4">
+        <Text size={16} className="font-[600]" color="black">
+          View More
+        </Text>
+        <ActionIcon variant="outline" className='rounded-xl w-9 border-black'>
+          <ArrowDown size={20} color='black' />
+        </ActionIcon>
+      </div>
     </Container>
   );
 }
