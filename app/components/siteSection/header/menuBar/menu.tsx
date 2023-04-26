@@ -60,12 +60,11 @@ export const HeaderMenu = () => {
         <HoverCard
           shadow={undefined}
           radius={0}
-          position="bottom-end"
-          withinPortal={false}
+          withinPortal
           styles={{
             dropdown: {
-               width: '100vw',
-               backgroundColor:'blue',
+               width: '100% !important',
+               backgroundColor:'#e8e8e8 !important',
                opacity:1,
             },
           }}

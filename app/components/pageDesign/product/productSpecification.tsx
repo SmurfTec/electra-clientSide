@@ -213,7 +213,7 @@ export function ProductSpecification({
               </Button>
             </Grid.Col>
             <Grid.Col span={12}>
-              <Button size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
+              <Button component={NextLink} href="/shop" size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
                 Shop used starting at $400
               </Button>
               <Text mt={14} size="md" color="rgba(101, 101, 101, 0.55)">
