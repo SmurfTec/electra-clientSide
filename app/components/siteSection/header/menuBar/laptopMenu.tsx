@@ -34,6 +34,6 @@ export const LaptopMenu = () => {
         <CategoryCard id={1} image={'/images/menu/lptpimg.png'} title={'Laptops'} link={'#'} />
         <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'#'} />
       </Group>
-    </Container>
+     </Container>
   );
 };
