@@ -70,7 +70,7 @@ export function ProductDetail({
           className="mx-10 mb-7 mt-4"
           title={'Buying INFO'}
           titlePosition="left"
-          size={800}
+          size={900}
           children={CardModal}
           onClose={cardHandler.close}
           open={cardOpened}

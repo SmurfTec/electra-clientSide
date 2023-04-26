@@ -359,9 +359,9 @@ export function Index() {
           </Grid>
         </section>
 
-        <section>
+        {/* <section>
           <FooterProductCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" withControls={false} />
-        </section>
+        </section> */}
       </Container>
     </div>
   );
