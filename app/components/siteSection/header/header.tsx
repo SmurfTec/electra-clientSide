@@ -2,8 +2,8 @@ import { ActionIcon, Avatar, Group, Menu, Title, createStyles } from '@mantine/c
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Bell, CaretDown, CaretUp, Search, Settings, User } from 'tabler-icons-react';
-import { HeaderTopBar } from './topBar';
 import { HeaderMenu } from './menuBar';
+import { HeaderTopBar } from './topBar';
 
 export const Header = () => {
   const [isMenuOpen, toggle] = useToggle<boolean>([false, true]);
@@ -25,14 +25,22 @@ export const Header = () => {
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item component={NextLink} href={'/faq'}>FAQs</Menu.Item>
+              <Menu.Item component={NextLink} href={'/faq'}>
+                FAQs
+              </Menu.Item>
               <Menu.Divider />
-              <Menu.Item component={NextLink} href={'/how-it-works'}>How it works</Menu.Item>
+              <Menu.Item component={NextLink} href={'/how-it-works'}>
+                How it works
+              </Menu.Item>
               <Menu.Divider />
-              <Menu.Item component={NextLink} href={'/contact'}>Help</Menu.Item>
+              <Menu.Item component={NextLink} href={'/contact'}>
+                Help
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
-          <Title order={3} className='font-bold ml-6 md:ml-3'>Elektra</Title>
+          <Title order={3} className="font-bold ml-6 md:ml-3">
+            Elektra
+          </Title>
           <Group spacing={8}>
             <ActionIcon variant="transparent" size={'sm'}>
               <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
@@ -44,11 +52,24 @@ export const Header = () => {
                 <Bell size={15} strokeWidth={1} />
               </Avatar>
             </ActionIcon>
-            <ActionIcon variant="transparent" size={'sm'}>
-              <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-                <User size={15} strokeWidth={1} />
-              </Avatar>
-            </ActionIcon>
+            
+              <Menu classNames={classes} width={100} closeOnClickOutside={true} position="bottom-end" withArrow arrowPosition='center' offset={3} keepMounted={false}>
+                <Menu.Target>
+                  <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
+                    <User size={15} strokeWidth={1} />
+                  </Avatar>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item component={NextLink} className='uppercase' href={'/auth/login'}>
+                    Login
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item component={NextLink}  className='uppercase' href={'/auth/signup'}>
+                    Signup
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            
           </Group>
         </Group>
       </div>
@@ -68,9 +89,12 @@ const useStyles = createStyles((theme) => ({
   dropdown: {
     backgroundColor: 'black',
     border: 'unset',
-    padding:'unset'
+    padding: 'unset',
   },
-  divider:{
-    borderColor:'#B4B4B4',
+  divider: {
+    borderColor: '#B4B4B4',
+  },
+  arrow:{
+    border: 'unset',
   }
 }));
