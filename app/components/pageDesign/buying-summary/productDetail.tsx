@@ -36,7 +36,7 @@ export function ProductDetail({
   const theme = useMantineTheme();
   return (
     <div
-      style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto', scrollbarWidth: "2px" }}
+      style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
       className="p-8 rounded-xl"
     >
       <ItemCard color={color} company={company} image={image} space={space} title={title} key={title} />

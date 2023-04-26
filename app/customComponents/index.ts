@@ -7,3 +7,5 @@ export * from './theme';
 export * from './routerTransition';
 export * from './buttons'
 export * from './tabView'
+export * from './hoverCard'
+

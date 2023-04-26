@@ -3,11 +3,13 @@ import { RouterTransition, createThemeoverride, globalStyles } from '@elektra/cu
 import { Global, MantineProvider, createEmotionCache } from '@mantine/core';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import '../styles/globals.css';
 
 export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
   const themeOverride = createThemeoverride();
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -17,9 +19,13 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <MantineProvider withGlobalStyles withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
-          <AppShell header={<Header />} footer={<Footer/>}>
+          {router.pathname === '/auth/login' || router.pathname === '/auth/signup' ? (
             <Component {...pageProps} />
-          </AppShell>
+          ) : (
+            <AppShell header={<Header />} footer={<Footer />}>
+              <Component {...pageProps} />
+            </AppShell>
+          )}
         </MantineProvider>
       </main>
     </>
