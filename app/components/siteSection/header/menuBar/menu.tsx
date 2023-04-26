@@ -1,6 +1,8 @@
-import { Burger, Container, Flex, HoverCard, Menu, Text, clsx, createStyles } from '@mantine/core';
+import { HoverCard } from '@elektra/customComponents';
+import { Burger, Flex, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { LaptopMenu } from './laptopMenu';
+import { PhoneMenu } from './phoneMenu';
 
 const useStyles = createStyles((theme) => ({
   burger: {
@@ -26,7 +28,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: 40,
     fontSize: 22,
     height: 72,
-    textAlign:'center',
+    textAlign: 'center',
     color: 'white',
     border: 'unset',
     '&[data-hovered]': {
@@ -57,33 +59,32 @@ export const HeaderMenu = () => {
         direction="row"
         wrap="nowrap"
       >
-        <HoverCard
-          shadow={undefined}
-          radius={0}
-          position="bottom-end"
-          withinPortal={false}
-          styles={{
-            dropdown: {
-               width: '100vw',
-               backgroundColor:'blue',
-               opacity:1,
-            },
-          }}
-        >
-          <HoverCard.Target>
-            <Text className="uppercase text-base cursor-pointer">Laptops</Text>
-          </HoverCard.Target>
-          <HoverCard.Dropdown mt={5} bg="rgba(217, 217, 217, 0.35)">
-            <LaptopMenu/>
-          </HoverCard.Dropdown>
-          <Text className="uppercase text-base cursor-pointer">Phones</Text>
-          <Text className="uppercase text-base cursor-pointer">Accessories</Text>
-          <Text className="uppercase text-base cursor-pointer">GPUs</Text>
-          <Text className="uppercase text-base cursor-pointer">Motherboards</Text>
-          <Text className="uppercase text-base cursor-pointer">CPUs</Text>
-          <Text className="uppercase text-base cursor-pointer">Cameras</Text>
-          <Text className="uppercase text-base cursor-pointer">Consoles</Text>
-          <Text className="uppercase text-base cursor-pointer">Brands</Text>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Laptops</Text>}>
+          <LaptopMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Phones</Text>}>
+          <PhoneMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Accessories</Text>}>
+        <LaptopMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">GPUs</Text>}>
+          <PhoneMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Motherboards</Text>}>
+        <LaptopMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">CPUs</Text>}>
+          <PhoneMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Cameras</Text>}>
+        <LaptopMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Consoles</Text>}>
+          <PhoneMenu />
+        </HoverCard>
+        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Brands</Text>}>
+        <LaptopMenu />
         </HoverCard>
       </Flex>
       <div className="text-center" style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>

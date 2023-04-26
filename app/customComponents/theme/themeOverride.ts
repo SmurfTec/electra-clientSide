@@ -56,6 +56,11 @@ export const createThemeoverride = (): MantineThemeOverride => {
           },
         },
       },
+      Grid: {
+        defaultProps: {
+          m: 0
+        }
+      }
     },
   };
 };

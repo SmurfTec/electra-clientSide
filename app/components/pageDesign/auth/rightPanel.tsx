@@ -8,7 +8,7 @@ export const RightPanel = () => {
     <Fragment>
       <Image alt="background-image" className="m-0 h-screen" layout="fill" src="/images/auth/loginBG.png" />
       <div className={classes.centerAlign}>
-        <Image alt="center-image" src="/images/auth/loginCenter.png" />
+        <MantineImage alt="center-image" src="/images/auth/loginCenter.png" />
       </div>
       <div>
         <Image

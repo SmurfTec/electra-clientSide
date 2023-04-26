@@ -1,5 +1,5 @@
 import { useStylesforGlobal } from '@elektra/customComponents';
-import { Carousel } from '@mantine/carousel';
+import { Carousel, CarouselProps } from '@mantine/carousel';
 import { Button, Group, Image, Text } from '@mantine/core';
 import emblaCarouselAutoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
@@ -7,14 +7,14 @@ import { ArrowNarrowRight } from 'tabler-icons-react';
 
 export type BannerCarousel = {
   carouselData: carouselData[];
-};
+} & CarouselProps;
 
 type carouselData = {
   imgSrc: string;
-  title: string;
+  title?: string;
 };
 
-export function BannerCarousel({ carouselData }: BannerCarousel) {
+export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
   const [value, setValue] = useState(0);
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));
@@ -24,7 +24,6 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
       <Carousel
         withIndicators
         height={600}
-        slideSize="33.333333%"
         slideGap="md"
         loop={true}
         align="start"
@@ -37,18 +36,28 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
         onSlideChange={(index) => {
           carouselData.length === index + 1 ? setValue(0) : setValue(index + 1);
         }}
+        {...rest}
       >
         {carouselData.map((item, index) => {
           return (
             <Carousel.Slide key={index}>
-              <Image height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+              <Image
+                height={index === value ? '500px' : '300px'}
+                mt={index === value ? '0' : '70px'}
+                src={item.imgSrc}
+                alt="carousel"
+              />
               <Group position="center">
-                <Text size="xl">{item.title}</Text>
-                <Button
-                  leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                  variant="outline"
-                  classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-                />
+                {item.title && (
+                  <>
+                    <Text size="xl">{item.title}</Text>{' '}
+                    <Button
+                      leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                      variant="outline"
+                      classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+                    />
+                  </>
+                )}
               </Group>
             </Carousel.Slide>
           );
