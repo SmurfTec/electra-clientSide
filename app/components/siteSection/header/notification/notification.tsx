@@ -1,18 +1,16 @@
-import { Badge, Flex, Group, Image, Stack, Text } from '@mantine/core';
+import { Badge, Flex, Image, Text } from '@mantine/core';
 
 export const Notification = () => {
   return (
     <>
-      <Flex wrap={'nowrap'} gap={5} ml={10} >
+      <Flex wrap={'nowrap'} gap={20} ml={15}>
         <Badge bg="#B9EF0E" size="xs" variant="filled" />
-        <Stack align="flex-start" spacing={5}>
-          <Text className="text-sm font-medium">
-            Buy new iphone 14 today. <strong className="text-sm font-medium text-white">View product now</strong>
-          </Text>
-          <Text>{new Date().toDateString()}</Text>
-        </Stack>
-        <Image src={'/images/notification/product.png'} width={150} height={55} fit="contain" alt="pi"></Image>
+        <Text className="text-sm font-medium -ml-1">
+          Buy new iphone 14 today. <strong className="text-sm font-medium text-white">View product now</strong>
+        </Text>
+        <Image src={'/images/notification/product.png'} width={70} height={55} fit="contain" alt="pi"></Image>
       </Flex>
+      <Text className="ml-11 -mt-5 text-left">{new Date().toDateString()}</Text>
     </>
   );
 };

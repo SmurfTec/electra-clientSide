@@ -80,15 +80,15 @@ export function Footer() {
               </Grid.Col>
             </Grid>
           </Paper>
-          <Divider my="sm" className="mt-40" />
-          <Paper className="px-20 pb-8" bg={'black'}>
+          <Divider my="sm" className="mt-16" />
+          <Paper className="px-20 pb-4" bg={'black'}>
             <div className="border-2 border-red relative">
               <Grid>
                 <Grid.Col sm={6}>
                   <Group position="left" className="space-x-20">
                     <Group>
                       <Title color={'white'} order={4}>
-                        Logo
+                        Elektra
                       </Title>
                     </Group>
                     <div className="space-x-2">
