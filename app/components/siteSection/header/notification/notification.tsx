@@ -4,7 +4,7 @@ export const Notification = () => {
   return (
     <>
       <Flex wrap={'nowrap'} gap={20} ml={15}>
-        <Badge bg="#B9EF0E" size="xs" variant="filled" />
+        <Badge bg="#B9EF0E" size="xs" className='mt-1' variant="filled" />
         <Text className="text-sm font-medium -ml-1">
           Buy new iphone 14 today. <strong className="text-sm font-medium text-white">View product now</strong>
         </Text>
