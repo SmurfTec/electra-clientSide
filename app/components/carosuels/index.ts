@@ -1,1 +1,2 @@
-export * from "./bannerCarousel"
+export * from './FooterProductCarousel';
+export * from './bannerCarousel';
