@@ -14,12 +14,12 @@ export const Header = () => {
       <HeaderTopBar />
       <div className="md:px-8 px-4">
         <Group position="apart" className="py-4">
-          <Menu classNames={classes} width={150} position="bottom-start" offset={0} keepMounted={false}>
+          <Menu onClose={toggle} classNames={classes} width={150} position="bottom-start" offset={0} keepMounted={false}>
             <Menu.Target>
               <ActionIcon onClick={() => toggle()} size={'xl'} className="space-x-1" variant="transparent">
                 <Settings size={35} color="black" strokeWidth={1} />
                 {isMenuOpen ? (
-                  <CaretUp color="black" fill="black" size={10} />
+                 <CaretUp color="black" fill="black" size={10} />
                 ) : (
                   <CaretDown color="black" fill="black" size={10} />
                 )}

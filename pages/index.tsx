@@ -2,7 +2,7 @@ import { Container, Grid, Image } from '@mantine/core';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
-import { BannerCarousel } from '../app/components/carosuels';
+import { BannerCarousel, FooterProductCarousel } from '../app/components/carosuels';
 import { HeroImage } from '../app/components/hero';
 
 const carouselData = [
@@ -366,9 +366,9 @@ export function Index() {
           </Grid>
         </section>
 
-        <section>
-          <BannerCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" />
-        </section>
+        {/* <section>
+          <FooterProductCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" withControls={false} />
+        </section> */}
       </Container>
     </div>
   );

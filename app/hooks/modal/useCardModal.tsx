@@ -52,6 +52,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     // if(regexp.test(value)){
     //   console.log(true)
     // }
+    console.log(value);
     let data = value.toString();
     while (data.length < 16) {
       data += '0';
@@ -206,6 +207,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
           <Grid.Col span={6} mt={'20px'}>
             <NumberInput
+              name="cardNo"
               hideControls
               placeholder="Enter Card No"
               classNames={{ input: classes.input }}
