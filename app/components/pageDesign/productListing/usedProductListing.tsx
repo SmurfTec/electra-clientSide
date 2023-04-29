@@ -15,6 +15,7 @@ import {
   createStyles,
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { NextLink } from '@mantine/next';
 import { FC, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
 
@@ -219,6 +220,8 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
+              component={NextLink}
+              href="/buying-summary"
             >
               Place Ask
             </Button>

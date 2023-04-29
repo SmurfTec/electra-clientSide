@@ -2,7 +2,7 @@ import { Container, Grid, Image } from '@mantine/core';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
-import { BannerCarousel } from '../app/components/carosuels';
+import { BannerCarousel, FooterProductCarousel } from '../app/components/carosuels';
 import { HeroImage } from '../app/components/hero';
 
 const carouselData = [
@@ -17,6 +17,10 @@ const carouselData = [
   {
     imgSrc: '/images/carousel/rightLaptop.png',
     title: 'Razer Blade 15',
+  },
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 16',
   },
   {
     imgSrc: '/images/carousel/leftLaptop.png',
@@ -337,8 +341,11 @@ export function Index() {
 
         <section className="mt-20">
           <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
+          
           <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
         </section>
+
+       
 
         <section className="">
           <SectionTitle title="Brands" />
@@ -359,9 +366,9 @@ export function Index() {
           </Grid>
         </section>
 
-        <section>
-          <BannerCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" />
-        </section>
+        {/* <section>
+          <FooterProductCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" withControls={false} />
+        </section> */}
       </Container>
     </div>
   );

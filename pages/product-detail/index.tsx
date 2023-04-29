@@ -1,5 +1,5 @@
 import { ProductCard, ProductCardProps, ProductSpecification, SectionTitle } from '@elektra/components';
-import { ActionIcon, Container, Divider, Grid, Text } from '@mantine/core';
+import { ActionIcon, Container, Divider, Grid, Image, Text } from '@mantine/core';
 import { ArrowDown } from 'tabler-icons-react';
 
 const productSpecification = [
@@ -159,7 +159,9 @@ export default function ProductPage() {
   return (
     <Container size="lg" mt={50} fluid>
       <Grid>
-        <Grid.Col sm={6}></Grid.Col>
+        <Grid.Col sm={6}>
+          <Image src="/images/IphoneImage.png" alt="product" width={500} height={500} />
+        </Grid.Col>
         <Grid.Col sm={6}>
           <ProductSpecification
             title={productSpecification[0].title}

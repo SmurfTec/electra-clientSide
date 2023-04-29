@@ -18,7 +18,6 @@ export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHeroc
         className={classes.image}
         layout="fill"
         objectFit="cover"
-        priority
         src={backgroundImage}
       />
       <div className={classes.container}>

@@ -4,17 +4,11 @@ import { Button, Group, Image, Text } from '@mantine/core';
 import emblaCarouselAutoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
+import { BannerCarousel } from './bannerCarousel';
 
-export type BannerCarousel = {
-  carouselData: carouselData[];
-} & CarouselProps;
 
-type carouselData = {
-  imgSrc: string;
-  title?: string;
-};
 
-export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
+export function FooterProductCarousel({ carouselData, ...rest }: BannerCarousel) {
   const [value, setValue] = useState(0);
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));
@@ -28,7 +22,7 @@ export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
         loop={true}
         align="start"
         slidesToScroll={1}
-        draggable={false}
+        dragFree
         plugins={[autoplay.current]}
         withKeyboardEvents
         onMouseEnter={autoplay.current.stop}

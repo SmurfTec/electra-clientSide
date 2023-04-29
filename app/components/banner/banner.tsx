@@ -1,4 +1,5 @@
 import { Button, Image, Title, useMantineTheme } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 
 export type BannerProps = {
   id: number;
@@ -13,7 +14,7 @@ export function Banner({ id, image, link, title, heading, label }: BannerProps) 
   const theme = useMantineTheme();
   return (
     <div className="relative">
-      <Image src={image} />
+      <Image src={image} alt="banner" />
       <div className="absolute bottom-10 left-5">
         <Title color={'white'} order={3} transform="uppercase">
           {title}
@@ -24,6 +25,8 @@ export function Banner({ id, image, link, title, heading, label }: BannerProps) 
       </div>
       <div className="absolute bottom-10 right-5">
         <Button
+        component={NextLink}
+        href={link}
           uppercase
           size="lg"
           bg={'white'}
