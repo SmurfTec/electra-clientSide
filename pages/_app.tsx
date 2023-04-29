@@ -16,7 +16,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <MantineProvider withGlobalStyles withNormalizeCSS theme={themeOverride}>
+        <MantineProvider withGlobalStyles  emotionCache={cache} withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
           {router.pathname === '/auth/login' || router.pathname === '/auth/signup' ? (

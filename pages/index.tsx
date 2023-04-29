@@ -22,6 +22,10 @@ const carouselData = [
     imgSrc: '/images/carousel/leftLaptop.png',
     title: 'Razer Blade 16',
   },
+  {
+    imgSrc: '/images/carousel/leftLaptop.png',
+    title: 'Razer Blade 16',
+  },
 ];
 
 const ProductCarouselData = [
@@ -337,8 +341,11 @@ export function Index() {
 
         <section className="mt-20">
           <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
+          
           <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
         </section>
+
+       
 
         <section className="">
           <SectionTitle title="Brands" />

@@ -28,7 +28,7 @@ export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
         loop={true}
         align="start"
         slidesToScroll={1}
-        dragFree
+        draggable={false}
         plugins={[autoplay.current]}
         withKeyboardEvents
         onMouseEnter={autoplay.current.stop}
