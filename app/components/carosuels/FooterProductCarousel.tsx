@@ -15,9 +15,9 @@ const carosuelData = [
     subimgs: ['/images/carousel/headphone.png', '/images/carousel/headphone.png', '/images/carousel/headphone.png'],
   },
   {
-    imgsrc: '/images/brands/iphoneImagefull.png',
+    imgsrc: '/images/brands/iphone.png',
     subimgs: [
-      '/images/brands/iphoneImagefull.png','/images/brands/iphoneImagefull.png','/images/brands/iphoneImagefull.png',],
+      '/images/brands/iphone.png','/images/brands/iphone.png','/images/brands/iphone.png',],
   },
 ];
 export const FooterProductCarousel = () => {
