@@ -1,4 +1,4 @@
-import { ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { FooterProductCarousel, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
 import { BackgroundImage, Button, Container, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { useState } from 'react';
@@ -302,6 +302,9 @@ export default function ShopPage() {
           </Button>
         </div>
       </BackgroundImage>
+      <div className="mt-10">
+        <FooterProductCarousel />
+      </div>
     </Container>
   );
 }

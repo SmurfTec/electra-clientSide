@@ -1,7 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
-// import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 const imageData = [
   '/images/carousel/iphone.png',
   '/images/carousel/iphonehalf.png',

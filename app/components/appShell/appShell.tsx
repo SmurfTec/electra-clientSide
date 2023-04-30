@@ -1,3 +1,4 @@
+import { Container } from '@mantine/core';
 import { ReactNode } from 'react';
 
 type AppShellProps = {
@@ -10,7 +11,7 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
   return (
     <>
       {header}
-      {children}
+      <Container size={1300}>{children}</Container>
       {footer}
     </>
   );

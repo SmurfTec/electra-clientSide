@@ -1,4 +1,4 @@
-import { ListingDescription, PageTitle, UsedProductListing } from '@elektra/components';
+import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
 import { Container, Divider, Grid, Image } from '@mantine/core';
 import { useState } from 'react';
@@ -52,7 +52,9 @@ export default function ProductListingPage() {
       </div>
       <Grid className="my-10">
         <Grid.Col span={6}>
-        <Image src="/images/IphoneImage.png" alt="product" width={500} height={500} />
+          <div className='ml-10'>
+        <ProductCarousel />
+        </div>
         </Grid.Col>
         <Grid.Col span={6}>
           <ListingDescription
