@@ -48,7 +48,7 @@ export const FooterProductCarousel = () => {
   return (
     <Stack align="center">
       <Carousel
-        maw={1500}
+        maw={1200}
         loop
         slideGap={100}
         nextControlIcon={
@@ -61,7 +61,7 @@ export const FooterProductCarousel = () => {
             <Image src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
           </div>
         }
-        withIndicators
+        withIndicators={false}
         classNames={classes}
         height={450}
         slideSize="43.3%"
