@@ -33,7 +33,6 @@ export function ProductDetail({
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler] = useOfferModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
-  const theme = useMantineTheme();
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}

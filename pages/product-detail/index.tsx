@@ -1,7 +1,18 @@
-import { ProductCard, ProductCardProps, ProductFilter, ProductSpecification, SectionTitle } from '@elektra/components';
+import {
+  ProductCard,
+  ProductCardProps,
+  ProductCarousel,
+  ProductCharts,
+  ProductFilter,
+  ProductSpecification,
+  ProductStats,
+  SalesTable,
+  SectionTitle,
+} from '@elektra/components';
 
-import { ActionIcon, Container, Divider, Grid, Image, Text } from '@mantine/core';
-import { ArrowDown } from 'tabler-icons-react';
+import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Image, Paper, Stack, Text } from '@mantine/core';
+import { NextLink } from '@mantine/next';
+import { ArrowDown, ShoppingCart } from 'tabler-icons-react';
 
 const productSpecification = [
   //NEW PRODUCT
@@ -156,12 +167,28 @@ const productData: ProductCardProps[] = [
 
 export type condition = 'New' | 'Used';
 
+const items = [
+  { title: 'Elektra', href: '/' },
+  { title: 'Product Detail', href: '/product-detail' },
+].map((item, index) => (
+  <Anchor className="text-xs font-medium underline" component={NextLink} href={item.href} key={index}>
+    {item.title}
+  </Anchor>
+));
+
 export default function ProductPage() {
   return (
     <Container size="lg" mt={50} fluid>
+      <Breadcrumbs separator=">" mt="xs">
+        {items}
+      </Breadcrumbs>
       <Grid>
-        <Grid.Col sm={6}>
-          <Image src="/images/IphoneImage.png" alt="product" width={500} height={500} />
+        <Grid.Col sm={6} mt={140}>
+          <Stack align="center" justify="center">
+            <ProductCarousel/>
+            <Text className="text-xs font-medium mt-20">Have this item?</Text>
+            <Button leftIcon={<ShoppingCart />}>Sell Now</Button>
+          </Stack>
         </Grid.Col>
         <Grid.Col sm={6}>
           <ProductSpecification
@@ -211,9 +238,24 @@ export default function ProductPage() {
         <Text size={16} className="font-[600]" color="black">
           View More
         </Text>
-        <ActionIcon variant="outline" className='rounded-xl w-9 border-black'>
-          <ArrowDown size={20} color='black' />
+        <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+          <ArrowDown size={20} color="black" />
         </ActionIcon>
+      </div>
+      <div>
+        <ProductStats />
+      </div>
+      <div className='mt-10'>
+      <Paper withBorder radius={0}>
+        <Text size={24} className='font-bold text-black p-5'>Sales History</Text>
+        <Divider />
+        <div className='py-5 px-2'>
+      <SalesTable  />
+      </div>
+      </Paper>
+      </div>
+      <div className='my-24'>
+        <ProductCharts />
       </div>
     </Container>
   );

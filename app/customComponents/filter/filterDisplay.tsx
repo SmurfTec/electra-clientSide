@@ -19,8 +19,9 @@ export const FilterDisplay = ({ label, state, setState }: FilterDisplayProps) =>
         <Stack>
           <Text className="text-base font-medium">{label}</Text>
           <Center inline className="space-x-2">
-            {state.map((item) => (
+            {state.map((item, index) => (
               <Button
+                key={index}
                 classNames={{ root: classes.filterbuttonRoot }}
                 className="text-black w-auto"
                 rightIcon={<LetterX size={'14px'} />}

@@ -1,4 +1,4 @@
-import { Container, Grid, Image } from '@mantine/core';
+import { Container, Grid, Image, Stack, Text } from '@mantine/core';
 import { SectionTitle } from '../app/components/AppTitle';
 import { Banner, BannerProps } from '../app/components/banner';
 import { CategoryCard, ProductCard, ProductCardProps } from '../app/components/card';
@@ -42,6 +42,7 @@ const ProductCarouselData = [
     // title: 'Razer Blade 15',
   },
 ];
+
 const bannerData: BannerProps[] = [
   {
     id: 0,
@@ -341,12 +342,9 @@ export function Index() {
 
         <section className="mt-20">
           <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
-          
+
           <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
         </section>
-
-       
-
         <section className="">
           <SectionTitle title="Brands" />
           <Grid gutter={40}>
@@ -365,10 +363,17 @@ export function Index() {
             })}
           </Grid>
         </section>
-
-        {/* <section>
-          <FooterProductCarousel carouselData={ProductCarouselData} className="mt-[-200px]" slideSize="33.33%" withControls={false} />
-        </section> */}
+        <div className="mt-10">
+          <Stack justify="center" align="center">
+            <Text size={24} className="font-bold text-black">
+              Popular Products
+            </Text>
+            <Text size={48} className="font-extrabold text-black">
+              Beats Headphones
+            </Text>
+            <FooterProductCarousel />
+          </Stack>
+        </div>
       </Container>
     </div>
   );

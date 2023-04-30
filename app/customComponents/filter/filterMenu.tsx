@@ -9,7 +9,7 @@ type FilterMenuProps = {
   setState: Dispatch<SetStateAction<Array<string>>>;
 } & MenuProps;
 
-export const FilterMenu = ({ label, data, state, setState,...rest }: FilterMenuProps) => {
+export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenuProps) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const handleState = (value: string) => {
@@ -50,6 +50,7 @@ export const FilterMenu = ({ label, data, state, setState,...rest }: FilterMenuP
         {data.map((item, index) => (
           <>
             <Menu.Item
+              key={index}
               rightSection={
                 state.includes(item) ? <CircleCheck size={17} color="white" fill="rgba(60, 130, 214, 1)" /> : undefined
               }
@@ -58,7 +59,7 @@ export const FilterMenu = ({ label, data, state, setState,...rest }: FilterMenuP
             >
               {item}
             </Menu.Item>
-            {data.length !== index + 1 && <Menu.Divider />}
+            {data.length !== index + 1 && <Menu.Divider key={index} />}
           </>
         ))}
       </Menu.Dropdown>

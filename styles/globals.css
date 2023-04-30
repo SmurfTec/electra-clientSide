@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 @import url("./carousalModal.css");
+@import url('react-responsive-carousel/lib/styles/carousel.min.css');
