@@ -8,4 +8,5 @@ export * from './routerTransition';
 export * from './buttons'
 export * from './tabView'
 export * from './hoverCard'
+export * from './filter'
 

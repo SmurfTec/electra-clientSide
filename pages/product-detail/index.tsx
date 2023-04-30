@@ -1,4 +1,5 @@
-import { ProductCard, ProductCardProps, ProductSpecification, SectionTitle } from '@elektra/components';
+import { ProductCard, ProductCardProps, ProductFilter, ProductSpecification, SectionTitle } from '@elektra/components';
+
 import { ActionIcon, Container, Divider, Grid, Image, Text } from '@mantine/core';
 import { ArrowDown } from 'tabler-icons-react';
 
@@ -184,7 +185,8 @@ export default function ProductPage() {
       </Grid>
 
       <Divider className="my-10" />
-      <SectionTitle title="Used iPhone 14 Pro Max" label="View All" />
+      <SectionTitle title="Used iPhone 14 Pro Max" />
+      <ProductFilter />
       <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (
