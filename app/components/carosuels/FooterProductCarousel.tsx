@@ -1,12 +1,6 @@
 import { Carousel, Embla } from '@mantine/carousel';
 import { Button, Center, Image, Stack, Text, createStyles } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
-const carouseldata = [
-  '/images/carousel/mouse.png',
-  '/images/carousel/headphone.png',
-  '/images/carousel/ram.png',
-  '/images/carousel/iphoneImage.png',
-];
 const carosuelData = [
   {
     imgsrc: '/images/carousel/mouse.png',
@@ -21,11 +15,11 @@ const carosuelData = [
     subimgs: ['/images/carousel/headphone.png', '/images/carousel/headphone.png', '/images/carousel/headphone.png'],
   },
   {
-    imgsrc: '/images/carousel/iphoneImage.png',
+    imgsrc: '/images/carousel/iphoneImagefull.png',
     subimgs: [
-      '/images/carousel/iphoneImage.png',
-      '/images/carousel/iphoneImage.png',
-      '/images/carousel/iphoneImage.png',
+      '/images/carousel/iphoneImagefull.png',
+      '/images/carousel/iphoneImagefull.png',
+      '/images/carousel/iphoneImagefull.png',
     ],
   },
 ];
