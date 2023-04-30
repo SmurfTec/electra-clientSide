@@ -34,7 +34,7 @@ export const ProductCarousel = () => {
     embla.on('reInit', onSelect);
   }, [embla, onSelect]);
   return (
-    <div>
+    <div className='ml-10 mr-32'>
       <Carousel
         maw={650}
         loop
