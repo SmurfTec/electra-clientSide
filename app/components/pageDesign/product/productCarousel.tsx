@@ -2,10 +2,10 @@ import { Carousel, Embla } from '@mantine/carousel';
 import { ActionIcon, Center, Image, createStyles } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
 const carouseldata = [
-  '/images/brands/iphoneImagefull.png',
-  '/images/carousel/iphoneblack.png','/images/brands/iphoneImagefull.png',
+  '/images/brands/iphone.png',
+  '/images/carousel/iphoneblack.png','/images/brands/iphone.png',
   '/images/carousel/iphonefront.png',
-  '/images/brands/iphoneImagefull.png',
+  '/images/brands/iphone.png',
 ];
 export const ProductCarousel = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
