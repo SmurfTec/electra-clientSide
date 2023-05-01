@@ -64,11 +64,21 @@ export function CompletedSimpleRow<T extends { id: string }>(props: CellContext<
   switch (props.cell.column.id) {
     case 'action':
       return (
-        <div>
-          <ActionIcon>
-            <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
-          </ActionIcon>
-        </div>
+        <Button
+          variant="outline"
+          styles={{
+            root: {
+              padding: '0px 10px',
+
+              borderRadius: '30px',
+            },
+          }}
+          radius="xl"
+          component={NextLink}
+          href='/order-detail'
+        >
+          View Details
+        </Button>
       );
     default:
       return <Text color="inherit">{cell.getValue() as string}</Text>;

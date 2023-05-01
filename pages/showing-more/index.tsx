@@ -1,5 +1,5 @@
-import { Banner, BannerCarousel, BannerProps, CategoryCard, FooterProductCarousel, HeroImage, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { Container, Grid, Image, Stack, Text } from '@mantine/core';
+import { BannerProps, HeroImage, ItemFilter, ProductCard, ProductCardProps, ProductFilter, SectionTitle } from '@elektra/components';
+import { Container, Divider, Grid, Image, Stack, Text } from '@mantine/core';
 
 
 const carouselData = [
@@ -196,17 +196,20 @@ const brandData = [
   },
 ];
 
-export function Index() {
+export function ShowingMore() {
   return (
     <div>
       <Container fluid>
-        <section className="mt-20">
-          <HeroImage />
+        <section className="mt-5">
+          <Text className='text-black font-extrabold' size={32}>Showing more results for</Text>
+          <Text className='text-black font-medium' size={24}>“Iphone”</Text>
+          <Divider mt={15} />
         </section>
-
-        <section className="mt-20">
-          <SectionTitle title="Recommended For You" label="View All" />
-
+        <div className='mt-5'>
+        <ItemFilter />
+        </div>
+        <section className="mt-5">
+          <SectionTitle title="1000+ Results for iphone" />
           <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
@@ -252,42 +255,9 @@ export function Index() {
           </div>
         </section>
 
-        <section className="mt-20">
-          <SectionTitle title="Categories" />
-          <Grid gutter={40}>
-            {categoryData.map((category, index) => {
-              return (
-                <Grid.Col span={2} key={index}>
-                  <CategoryCard
-                    key={index}
-                    image={category.image}
-                    id={category.id}
-                    title={category.title}
-                    link={category.link}
-                  />
-                </Grid.Col>
-              );
-            })}
-          </Grid>
-        </section>
+        
 
-        <section className="mt-20">
-          <Grid>
-            {bannerData.map((item, key) => (
-              <Grid.Col span={6} key={key}>
-                <Banner
-                  key={key}
-                  id={item.id}
-                  heading={item.heading}
-                  title={item.title}
-                  label={item.label}
-                  image={item.image}
-                  link={item.link}
-                />
-              </Grid.Col>
-            ))}
-          </Grid>
-        </section>
+        
 
         <section className="mt-20">
           <SectionTitle title="Most Sold Items" label="View All" />
@@ -337,43 +307,12 @@ export function Index() {
           </div>
         </section>
 
-        <section className="mt-20">
-          <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
-
-          <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
-        </section>
-        <section className="">
-          <SectionTitle title="Brands" />
-          <Grid gutter={40}>
-            {brandData.map((category, index) => {
-              return (
-                <Grid.Col span={2} key={index}>
-                  <CategoryCard
-                    key={index}
-                    image={category.image}
-                    id={category.id}
-                    title={category.title}
-                    link={category.link}
-                  />
-                </Grid.Col>
-              );
-            })}
-          </Grid>
-        </section>
-        <div className="mt-10">
-          <Stack justify="center" align="center">
-            <Text size={24} className="font-bold text-black">
-              Popular Products
-            </Text>
-            <Text size={48} className="font-extrabold text-black">
-              Beats Headphones
-            </Text>
-            <FooterProductCarousel />
-          </Stack>
-        </div>
+        
+        
+        
       </Container>
     </div>
   );
 }
 
-export default Index;
+export default ShowingMore;
