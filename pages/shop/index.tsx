@@ -1,4 +1,4 @@
-import { FooterProductCarousel, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { FooterProductCarousel, ItemFilter, ProductCard, ProductCardProps, ProductFilter, SectionTitle } from '@elektra/components';
 import { BackgroundImage, Button, Container, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { useState } from 'react';
@@ -237,6 +237,9 @@ export default function ShopPage() {
       <Image src="/images/shop/heroBanner.jpg" alt="banner" />
       <div className="my-4">
         <SectionTitle title="All Phones" />
+        
+        <ItemFilter />
+        
       </div>
 
       <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">

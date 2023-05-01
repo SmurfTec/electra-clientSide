@@ -7,3 +7,4 @@ export * from './siteSection';
 export * from './AppTitle';
 export * from './appShell';
 export * from "./carosuels"
+export * from "./itemFilter"

@@ -53,13 +53,13 @@ export default function Signup() {
                   placeholder="First Name"
                   label="FIRST NAME"
                   classNames={{ input: classes.input }}
-                  {...form.getInputProps('email')}
+                  {...form.getInputProps('firstName')}
                 />
                 <TextInput
                   placeholder="Last Name"
                   label="LAST NAME"
                   classNames={{ input: classes.input }}
-                  {...form.getInputProps('email')}
+                  {...form.getInputProps('lastName')}
                 />
                 <TextInput
                   placeholder="Email"

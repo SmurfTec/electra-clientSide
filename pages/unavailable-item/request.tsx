@@ -12,15 +12,15 @@ export default function RequestItem() {
       <Title order={4} className="font-semibold">
         Requesting product to be added
       </Title>
-      <TextInput size={'lg'} classNames={{ input: classes.input }} />
-      <Textarea classNames={{ input: classes.areaInput }}/>
+      <TextInput placeholder='Product Name' size={'lg'} classNames={{ input: classes.input }} />
+      <Textarea placeholder='Description' classNames={{ input: classes.areaInput }}/>
       <Button
         rightIcon={<ArrowUpRight size={38} strokeWidth={1.2} color={'white'} />}
         size="lg"
         onClick={requestHandler.open}
         classNames={{ root: classes.blueButton }}
       >
-        REQUEST SENT
+        REQUEST
       </Button>
       <Modal children={RequestModal} onClose={requestHandler.close} open={requestOpened} />
       <Button size="lg" classNames={{ root: classes.grayButton }}>
