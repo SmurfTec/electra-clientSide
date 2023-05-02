@@ -92,7 +92,7 @@ export const Header = () => {
                     <Notification />
                   </Menu.Item>
                   <Menu.Item>
-                    <Center>
+                    <Center component={NextLink} href="/shop">
                       <Text color="white" mr={8}>
                         View All
                       </Text>

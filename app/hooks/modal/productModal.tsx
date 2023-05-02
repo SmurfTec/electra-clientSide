@@ -1,4 +1,5 @@
 import { Button, Stack, Text, Title } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import { CircleCheck } from 'tabler-icons-react';
 
 export const ProductAddedModal = () => {
@@ -10,6 +11,7 @@ export const ProductAddedModal = () => {
       </Title>
       <Text size="sm">Your item was added to sale list.</Text>
       <Button
+        component={NextLink} href="/shop"
         size={'lg'}
         variant='outline'
         className="w-1/3 mt-2"

@@ -31,8 +31,8 @@ export const PhoneMenu = () => {
             <List.Item>Lenovo</List.Item>
           </List>
         </Flex>
-        <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'#'} />
-        <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'#'} />
+        <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'/shop'} />
+        <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'/shop'} />
       </Group>
     </Container>
   );
