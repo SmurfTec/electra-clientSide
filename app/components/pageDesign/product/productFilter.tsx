@@ -1,4 +1,4 @@
-import { FilterDisplay, FilterMenu, FilterPrice } from '@elektra/customComponents';
+import { FilterDisplay, FilterDisplayPrice, FilterMenu, FilterPrice } from '@elektra/customComponents';
 import { Flex, Group } from '@mantine/core';
 import { useState } from 'react';
 
@@ -12,7 +12,7 @@ export const ProductFilter = () => {
   const [color, setColor] = useState<Array<string>>([]);
   const [capacity, setCapacity] = useState<Array<string>>([]);
   const [carrier, setCarrier] = useState<Array<string>>([]);
-  const [price, setPrice] = useState<Array<number>>([]);
+  const [rangePrice, setRangePrice] = useState<Array<number>>([]);
   return (
     <Group position="apart">
       <Flex wrap={'nowrap'} gap={20}>
@@ -20,11 +20,12 @@ export const ProductFilter = () => {
         <FilterDisplay setState={setColor} state={color} label="Color" />
         <FilterDisplay setState={setCapacity} state={capacity} label="Capacity" />
         <FilterDisplay setState={setCarrier} state={carrier} label="Carrier" />
+        <FilterDisplayPrice setState={setRangePrice} state={rangePrice} label="Price Range" />
       </Flex>
       <div></div>
       <div
         className={
-          condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0
+          condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0 || rangePrice.length!=0
             ? 'space-x-3 -mt-40'
             : 'space-x-3 -mt-16'
         }
@@ -33,7 +34,7 @@ export const ProductFilter = () => {
         <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
         <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
         <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-        <FilterPrice data={carrierData} setState={setPrice} state={price} label='Price Range' width={148} />
+        <FilterPrice setState={setRangePrice} state={rangePrice} label='Price Range' width={148} />
       </div>
     </Group>
   );

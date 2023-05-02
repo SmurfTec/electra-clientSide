@@ -1,4 +1,4 @@
-import { FilterDisplay, FilterMenu, FilterPrice } from '@elektra/customComponents';
+import { FilterDisplay, FilterDisplayPrice, FilterMenu, FilterPrice } from '@elektra/customComponents';
 import { Button, Flex, Group, Stack } from '@mantine/core';
 import { useState } from 'react';
 import { CaretDown } from 'tabler-icons-react';
@@ -13,7 +13,7 @@ export const ItemFilter = () => {
   const [color, setColor] = useState<Array<string>>([]);
   const [capacity, setCapacity] = useState<Array<string>>([]);
   const [carrier, setCarrier] = useState<Array<string>>([]);
-  const [price, setPrice] = useState<Array<number>>([]);
+  const [priceRange, setPriceRange] = useState<Array<number>>([]);
   return (
     <Stack>
         <Group position='apart' >
@@ -22,7 +22,7 @@ export const ItemFilter = () => {
         <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
         <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
         <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-        <FilterPrice data={carrierData} setState={setPrice} state={price} label="Price Range" width={148} />
+        <FilterPrice  setState={setPriceRange} state={priceRange} label="Price Range" width={148} />
       </div>
         <Button variant='outline' rightIcon={<CaretDown size={15} />} styles={{root:{
             borderRadius:25
@@ -33,6 +33,7 @@ export const ItemFilter = () => {
         <FilterDisplay setState={setColor} state={color} label="Color" />
         <FilterDisplay setState={setCapacity} state={capacity} label="Capacity" />
         <FilterDisplay setState={setCarrier} state={carrier} label="Carrier" />
+        <FilterDisplayPrice setState={setPriceRange} state={priceRange} label="Price Range" />
       </Flex>
     </Stack>
   );
