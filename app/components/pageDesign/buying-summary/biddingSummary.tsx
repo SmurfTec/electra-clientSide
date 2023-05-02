@@ -1,7 +1,7 @@
 import { Modal, Only, PencilButton, TransparentButton, useStylesforGlobal } from '@elektra/customComponents';
-import { useDiscountModal } from '@elektra/hooks';
+import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
-
+import { NextLink } from '@mantine/next';
 
 export type BiddingSummaryProps = {
   yourOffer?: number;
@@ -24,8 +24,12 @@ export function BiddingSummary({
 }: BiddingSummaryProps) {
   const theme = useMantineTheme();
   const { classes } = useStylesforGlobal();
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   return (
-    <div style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: "65vh !important", overflowY: "auto" }} className="p-8 rounded-xl space-y-4">
+    <div
+      style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
+      className="p-8 rounded-xl space-y-4"
+    >
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           {yourOffer ? 'Your Offer' : 'Item Price'}
@@ -44,12 +48,18 @@ export function BiddingSummary({
 
       <Grid>
         <Grid.Col span={6}>
-          <Button className="w-full h-14" type="submit">
+          <Modal
+            title="Offer Placed!"
+            children={OfferPlaceModal}
+            onClose={offerPlaceHandler.close}
+            open={offerPlaceOpened}
+          />
+          <Button className="w-full h-14" type="submit" onClick={offerPlaceHandler.open}>
             CONFIRM
           </Button>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Button className="w-full h-14" classNames={{ root: classes.grayButtonRoot }}>
+          <Button component={NextLink} href="/product-listing" className="w-full h-14" classNames={{ root: classes.grayButtonRoot }}>
             CANCEL
           </Button>
         </Grid.Col>

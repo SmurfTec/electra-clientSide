@@ -199,7 +199,6 @@ export default function Testing() {
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
-  const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer();
@@ -504,6 +503,7 @@ export default function Testing() {
           key={1}
           status={itemCardData.status}
         />
+        hey
       </Container>
 
       <Container>

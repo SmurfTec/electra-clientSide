@@ -63,7 +63,7 @@ const productData: ProductCardProps[] = [
   {
     id: 4,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
     rating: 'New',
@@ -75,7 +75,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -86,7 +86,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -97,7 +97,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -108,7 +108,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,

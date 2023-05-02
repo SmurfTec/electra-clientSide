@@ -19,24 +19,11 @@ export const useCarouselModal = (): [React.ReactNode, boolean, { open: () => voi
         infiniteLoop
         showArrows={false}
       >
-        {imageData.map((image) => (
-          <div>
-            <img src={image} />
+        {imageData.map((image,index) => (
+          <div key={index}>
+            <img alt='img' src={image} />
           </div>
         ))}
-
-        {/* <div>
-          <img src={imageData[0]} />
-        </div>
-        <div>
-          <img src={imageData[1]} />
-        </div>
-        <div>
-          <img src={imageData[2]} />
-        </div>
-        <div>
-          <img src={imageData[3]} />
-        </div> */}
       </Carousel>
     </div>
   );

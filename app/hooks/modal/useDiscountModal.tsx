@@ -2,10 +2,15 @@ import { Button, NumberInput, Stack, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { useRedeemSuccesfullModal } from './useRedeemModal';
+import { Modal as CModal } from '@elektra/customComponents';
 
 export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState<boolean>(false);
+
+  const [RedeemSuccessfulModal, openedSuccess, redeemHandler] = useRedeemSuccesfullModal();
+
   const form = useForm({
     initialValues: {
       code: '',
@@ -53,11 +58,13 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           error={error}
         />
         <div className="text-center mt-4">
-          <Button type="submit" uppercase>
+          <Button type="submit" uppercase onClick={redeemHandler.open}>
             Add
           </Button>
         </div>
       </form>
+      <CModal title="Redeem Successfully" children={RedeemSuccessfulModal} onClose={redeemHandler.close} open={openedSuccess} />
+         
     </Stack>
   );
   return [Modal, opened, { open, close }];

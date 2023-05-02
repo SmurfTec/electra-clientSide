@@ -81,7 +81,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col span={7}>
+          <Grid.Col span={8}>
             <Text className="text-lg mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">
@@ -124,7 +124,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
               </Group>
             </Chip.Group>
             <Paper radius={0} className="mt-4" bg="black">
-              <Stack align="flex-start" h={200}>
+              <Stack align="flex-start" h={230}>
                 <Image
                   alt=""
                   height={50}
@@ -134,10 +134,11 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   src={`/images/${form.values.cardType}.png`}
                 />
                 <Image
-                  alt=""
+                  alt="sim"
                   height={50}
                   width={50}
-                  sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}
+                  // mt={1}
+                  sx={{ marginTop: '-10px', marginLeft: '1.5rem' }}
                   fit="contain"
                   src={'/images/sim.png'}
                 />

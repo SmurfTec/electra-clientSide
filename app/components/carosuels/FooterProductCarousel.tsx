@@ -1,5 +1,6 @@
 import { Carousel, Embla } from '@mantine/carousel';
 import { Button, Center, Image, Stack, Text, createStyles } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import { useCallback, useEffect, useState } from 'react';
 const carosuelData = [
   {
@@ -44,12 +45,12 @@ export const FooterProductCarousel = () => {
         slideGap={100}
         nextControlIcon={
           <div className="-mt-[15rem] bg-transparent">
-            <Image src={'/images/carousel/VectorArrowRight.png '} fit="contain" />
+            <Image alt="arrow" src={'/images/carousel/VectorArrowRight.png '} fit="contain" />
           </div>
         }
         previousControlIcon={
           <div className="-mt-[15rem] bg-transparent">
-            <Image src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
+            <Image alt="arrow" src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
           </div>
         }
         withIndicators={false}
@@ -73,7 +74,7 @@ export const FooterProductCarousel = () => {
       <Text size={40} className="font-semibold text-black">
         $245
       </Text>
-      <Text bg={'rgba(60, 130, 214, 1)'} className="text-white px-6">
+      <Text component={NextLink} href="/shop" bg={'rgba(60, 130, 214, 1)'} className="text-white px-6 cursor-pointer">
         Used Starting at $187
       </Text>
       <Center inline className="space-x-3 my-4">
@@ -84,7 +85,7 @@ export const FooterProductCarousel = () => {
         ))}
       </Center>
 
-      <Button className="font-light text-base">View Product</Button>
+      <Button component={NextLink} href="/product-detail" className="font-light text-base">View Product</Button>
     </Stack>
   );
 };
