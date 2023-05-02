@@ -199,8 +199,7 @@ const brandData = [
 export function Index() {
   return (
     <div>
-      <Container fluid>
-        <section className="mt-20">
+        <section className="mt-4">
           <HeroImage />
         </section>
 
@@ -371,7 +370,6 @@ export function Index() {
             <FooterProductCarousel />
           </Stack>
         </div>
-      </Container>
     </div>
   );
 }

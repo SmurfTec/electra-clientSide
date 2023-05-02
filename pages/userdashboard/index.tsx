@@ -39,7 +39,7 @@ const tabViewData: tabViewData[] = [
 
 export default function UserDashboard() {
   return (
-    <div className="my-20">
+    <div className="my-12">
       <div className="ml-8 mb-4">
         <Title className="font-bold" color="black" order={4}>
           Huzafa Hanif
