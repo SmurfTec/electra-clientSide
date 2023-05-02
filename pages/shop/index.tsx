@@ -285,7 +285,7 @@ export default function ShopPage() {
           </Text>
           <Button
             component={NextLink}
-            href="/product-detail"
+            href="/product-listing"
             uppercase
             size="lg"
             bg={'white'}

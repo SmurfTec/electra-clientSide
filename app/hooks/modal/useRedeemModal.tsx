@@ -1,5 +1,6 @@
 import { ActionIcon, Button, Group, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
+import { NextLink } from '@mantine/next';
 import React from 'react';
 import { CircleCheck, CircleX, Minus, Plus } from 'tabler-icons-react';
 
@@ -58,6 +59,8 @@ export const useRedeemSuccesfullModal = (): [React.ReactNode, boolean, { open: (
       </Title>
       <Text size="sm">Now get discount on next item you buy</Text>
       <Button
+        component={NextLink}
+        href="/shop"
         size={'lg'}
         variant="outline"
         className="w-5/12"

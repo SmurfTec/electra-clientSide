@@ -1,8 +1,8 @@
+import { Modal, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, usePasswordChangeModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Divider, Group, Switch, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
-import { Modal, useStylesforGlobal } from '@elektra/customComponents';
 
 export function Security() {
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
@@ -109,7 +109,11 @@ export function Security() {
               </Text>
             </Group>
           </div>
-          <Button leftIcon={<Pencil />} classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}></Button>
+          <Button
+            leftIcon={<Pencil />}
+            onClick={cardHandler.open}
+            classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
+          ></Button>
         </Group>
         <Switch
           size="md"
