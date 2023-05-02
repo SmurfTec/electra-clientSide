@@ -73,7 +73,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Only>
         </Paper>
       </Grid.Col>
-      <Grid.Col span={10} className="space-y-8">
+      <Grid.Col span={10} className="space-y-4">
         <Group position="apart">
           <Group>
             <Text className="font-bold" size="xl">

@@ -7,7 +7,7 @@ export type FooterCardProps = {
 };
 
 export function FooterCard({ icon, heading, description }: FooterCardProps) {
-  const theme = useMantineTheme();
+  
   return (
     <Container className="relative">
       <div className="border border-solid border-[#65656545] rounded-2xl text-center p-10 pt-20">

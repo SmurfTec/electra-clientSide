@@ -115,7 +115,7 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
             }}
             variant="outline"
           >
-            <Image fit="contain" src={'/images/carousel/ArrowRight.png'} className="w-full" />
+            <Image alt='arrow' fit="contain" src={'/images/carousel/ArrowRight.png'} className="w-full" />
           </Button>
           </Center>
         
