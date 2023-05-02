@@ -48,7 +48,7 @@ export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenu
       </Menu.Target>
       <Menu.Dropdown>
         {data.map((item, index) => (
-          <>
+          <div key={index}>
             <Menu.Item
               key={index}
               rightSection={
@@ -60,7 +60,7 @@ export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenu
               {item}
             </Menu.Item>
             {data.length !== index + 1 && <Menu.Divider key={index} />}
-          </>
+          </div>
         ))}
       </Menu.Dropdown>
     </Menu>

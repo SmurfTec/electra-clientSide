@@ -4,36 +4,31 @@ import { CaretDown, CaretUp } from 'tabler-icons-react';
 
 type FilterPriceProps = {
   label: string;
-  data: Array<string>;
   state: Array<number>;
   setState: Dispatch<SetStateAction<Array<number>>>;
 } & MenuProps;
 
-export const FilterPrice = ({ label, data, state, setState, ...rest }: FilterPriceProps) => {
+export const FilterPrice = ({ label, state, setState, ...rest }: FilterPriceProps) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
-  const [rangeValue, setRangeValue] = useState<[number, number]>([30, 80]);
-  const handleState = (value: string) => {
-    // if (state.includes(value)) {
-    //   setState(state.filter((item) => item !== value));
-    //   return;
-    // }
-    // setState([...state, value]);
+  
+  const handleState = (value: [number,number]) => {
+    setState(value);
   };
   const priceLabel = () => {
-    const [l, r] = rangeValue;
+    const [l, r] = state;
 
     return (
       <Center inline>
         <Text className="text-black font-semibold" size={11}>
-          ${l*10}
+          ${l?l*10:300}
         </Text>
         <Text className="text-black font-semibold" size={11}>
           {' '}
           -{' '}
         </Text>
         <Text className=" font-semibold" color="rgba(60, 130, 214, 1)" size={11}>
-          {r*10}
+          {r?r*10:800}
         </Text>
       </Center>
     );
@@ -71,11 +66,12 @@ export const FilterPrice = ({ label, data, state, setState, ...rest }: FilterPri
           <RangeSlider
             label={null}
             mt={10}
-            defaultValue={[20, 80]}
-            onChange={setRangeValue}
+            defaultValue={[30,80]}
+            
+            onChange={handleState}
             thumbChildren={[
-              <Avatar src={'/images/LeftRange.png'} size={20} key={1} />,
-              <Avatar src={'/images/RightRange.png'} size={20} key={2} />,
+              <Avatar src={'/images/LeftRange.png'} size={20} key={'1'} />,
+              <Avatar src={'/images/RightRange.png'} size={20} key={'2'} />,
             ]}
           />
         </Menu.Item>
