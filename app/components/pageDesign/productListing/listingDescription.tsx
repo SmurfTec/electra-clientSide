@@ -1,8 +1,8 @@
-
-import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Check, QuestionMark } from 'tabler-icons-react';
 import { ListItem, Only } from '@elektra/customComponents';
+import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
+import { useCounter } from '@mantine/hooks';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 
 type ListingDescriptionProps = {
@@ -42,6 +42,7 @@ export function ListingDescription({
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
+  const [count, handlers] = useCounter(0, { min: 0 });
   return (
     <div>
       <Group>
@@ -112,6 +113,7 @@ export function ListingDescription({
             formatter={(value) =>
               !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
             }
+            disabled
           />
         </Input.Wrapper>
         <Only when={!!highestAsk}>
@@ -132,9 +134,39 @@ export function ListingDescription({
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
               }
+              disabled
             />
           </Input.Wrapper>
         </Only>
+      </Group>
+
+      <Group position="apart" spacing={0} className="mt-6 px-32 py-6 border-black border-solid ">
+        <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
+          <Minus size={16} color="white" />
+        </ActionIcon>
+        <NumberInput
+          hideControls
+          value={count}
+          maw={200}
+          p={0}
+          onChange={handlers.set}
+          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+          formatter={(value) =>
+            !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+          }
+          styles={{
+            input: {
+              height: "auto",
+              border: 'unset',
+              fontSize: '48px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+            },
+          }}
+        />
+        <ActionIcon component="button" size="lg" radius={0} color="dark" variant="filled" onClick={handlers.increment}>
+          <Plus size={16} color="white" />
+        </ActionIcon>
       </Group>
 
       <div className="my-8">
@@ -191,8 +223,9 @@ export function ButtonChip({ data, defaultValue }: ButtonChipProps) {
   const [value, setValue] = useState(defaultValue);
   return (
     <Group position="left">
-      {data.map((item) => (
+      {data.map((item, key) => (
         <Button
+          key={item + key}
           size="lg"
           styles={{
             root: {

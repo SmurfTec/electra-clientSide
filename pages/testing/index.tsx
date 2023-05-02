@@ -12,7 +12,7 @@ import {
   SimpleStateCard,
 } from '@elektra/components';
 import { Drawer, Modal, useStylesforGlobal } from '@elektra/customComponents';
-import { useCarouselModal, useOfferModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
+import { useCarouselModal, useOfferModal, useOfferPlaceModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
@@ -180,11 +180,25 @@ const productSpecification = [
   },
 ];
 
+const productDetailData = {
+  image: '/images/product.png',
+  title: 'Iphone 14 Pro Max',
+  space: '128 GB',
+  color: 'Black',
+  company: 'AT&T',
+  condition: 'New',
+  expiration: '23/10/2023',
+  cardDetails: '3646 **** **** ****',
+  address: '16 Street , Town Abc, City, USA , 213434',
+  saleDate: '23/10/2023',
+};
+
 export default function Testing() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
@@ -258,6 +272,15 @@ export default function Testing() {
         <Group position="center">
           <Modal title="Offer Expiration" children={offerModal} onClose={offerHandler.close} open={offerOpened} />
           <Button onClick={offerHandler.open}>Email Verfication Model</Button>
+        </Group>
+      </div>
+
+
+      <div className="my-96">
+      <ItemCard color={productDetailData.color} company={productDetailData.company} image={productDetailData.image} space={productDetailData.space} title={productDetailData.title} key={productDetailData.title} />
+        <Group position="center">
+          <Modal title="Offer Placed!" children={OfferPlaceModal} onClose={offerPlaceHandler.close} open={offerPlaceOpened} />
+          <Button onClick={offerPlaceHandler.open}>Offer Place Modal</Button>
         </Group>
       </div>
 

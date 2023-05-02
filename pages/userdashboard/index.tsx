@@ -1,4 +1,4 @@
-import { Profile, Purchasing, Reward, Selling, Settings, WishList } from '@elektra/components';
+import { Profile, Purchasing, Reward, Selling, Settings, Wallet, WishList } from '@elektra/components';
 import { TabView, tabViewData } from '@elektra/customComponents';
 import { Title } from '@mantine/core';
 
@@ -21,7 +21,7 @@ const tabViewData: tabViewData[] = [
   },
   {
     title: 'Wallet',
-    content: 'hahas',
+    content: <Wallet />,
   },
   {
     title: 'Wishlist',
@@ -39,7 +39,7 @@ const tabViewData: tabViewData[] = [
 
 export default function UserDashboard() {
   return (
-    <div className="my-20">
+    <div className="my-12">
       <div className="ml-8 mb-4">
         <Title className="font-bold" color="black" order={4}>
           Huzafa Hanif

@@ -10,7 +10,7 @@ import {
   SectionTitle,
 } from '@elektra/components';
 
-import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Image, Paper, Stack, Text } from '@mantine/core';
+import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Group, Image, Paper, Stack, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { ArrowDown, ShoppingCart } from 'tabler-icons-react';
 
@@ -234,14 +234,15 @@ export default function ProductPage() {
         })}
       </div>
 
-      <div className="my-20 flex justify-center space-x-4">
+
+      <Anchor component={NextLink} href="/shop" className="my-20 flex justify-center space-x-4 cursor-pointer">
         <Text size={16} className="font-[600]" color="black">
           View More
         </Text>
         <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
           <ArrowDown size={20} color="black" />
         </ActionIcon>
-      </div>
+      </Anchor>
       <div>
         <ProductStats />
       </div>
