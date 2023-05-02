@@ -7,8 +7,8 @@ type ListItemProps = Omit<ListProps, 'children'> & {
 export function ListItem({ data, ...rest }: ListItemProps) {
   return (
     <List {...rest}>
-      {data.map((item) => (
-        <List.Item>{item}</List.Item>
+      {data.map((item,index) => (
+        <List.Item key={index}>{item}</List.Item>
       ))}
     </List>
   );

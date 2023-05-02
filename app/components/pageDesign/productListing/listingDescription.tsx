@@ -43,6 +43,9 @@ export function ListingDescription({
   shippingFee,
 }: ListingDescriptionProps) {
   const [count, handlers] = useCounter(0, { min: 0 });
+  const [storageState, setStorageState] = useState<string>(storage);
+  const [carrierState, setCarrierState] = useState<string>(carrier);
+  const [colorState, setColorState] = useState<string>(color);
   return (
     <div>
       <Group>
@@ -68,7 +71,7 @@ export function ListingDescription({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={['New', 'Used']} defaultValue="New" />
+        <ButtonChip data={['New', 'Used']} state={condition} setState={setCondition} />
       </div>
 
       <div className="my-8">
@@ -79,20 +82,20 @@ export function ListingDescription({
         <Text className="uppercase font-semibold my-4" size="sm">
           Storage
         </Text>
-        <ButtonChip data={storageData!} defaultValue={storage} />
+        <ButtonChip data={storageData!} setState={setStorageState} state={storageState} />
       </div>
 
       <div className="my-4">
         <Text className="uppercase font-semibold my-4" size="sm">
           Carrier
         </Text>
-        <ButtonChip data={carrierData!} defaultValue={carrier} />
+        <ButtonChip data={carrierData!} setState={setCarrierState} state={carrierState} />
       </div>
       <div className="my-4">
         <Text className="uppercase font-semibold my-4" size="sm">
           Color
         </Text>
-        <ButtonChip data={colorData!} defaultValue={color} />
+        <ButtonChip data={colorData!} setState={setColorState} state={colorState} />
       </div>
 
       <Group>
@@ -170,16 +173,16 @@ export function ListingDescription({
       </Group>
 
       <div className="my-8">
-        <PositionApart key={0} text={'Your Offer'} number={160} />
+        <PositionApart  text={'Your Offer'} number={160} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          <PositionApart key={0} text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
-          <PositionApart key={0} text={'Sales Tax'} number={saleTax} />
-          <PositionApart key={0} text={'Shipping Fee'} number={shippingFee} />
-          <PositionApart key={0} text={'Discount'} number={discount} discount />
+          <PositionApart  text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
+          <PositionApart  text={'Sales Tax'} number={saleTax} />
+          <PositionApart  text={'Shipping Fee'} number={shippingFee} />
+          <PositionApart  text={'Discount'} number={discount} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart key={0} text={'Total Price'} number={183} />
+        <PositionApart  text={'Total Price'} number={183} />
       </div>
 
       <Only when={condition === 'New'}>
@@ -216,11 +219,11 @@ export function ListingDescription({
 
 type ButtonChipProps = {
   data: string[];
-  defaultValue: string;
+  state:string
+  setState: Dispatch<SetStateAction<string>>;
 };
 
-export function ButtonChip({ data, defaultValue }: ButtonChipProps) {
-  const [value, setValue] = useState(defaultValue);
+export function ButtonChip({ data,state,setState  }: ButtonChipProps) {
   return (
     <Group position="left">
       {data.map((item, key) => (
@@ -229,7 +232,7 @@ export function ButtonChip({ data, defaultValue }: ButtonChipProps) {
           size="lg"
           styles={{
             root: {
-              color: item !== value ? 'black' : 'white',
+              color: item !== state ? 'black' : 'white',
               '&:hover': {
                 backgroundColor: 'black !important',
                 color: 'white !important',
@@ -241,8 +244,8 @@ export function ButtonChip({ data, defaultValue }: ButtonChipProps) {
               },
             },
           }}
-          bg={item !== value ? '#f1f1f1' : 'black'}
-          onClick={() => setValue(item)}
+          bg={item !== state ? '#f1f1f1' : 'black'}
+          onClick={() => setState(item)}
           className="font-[500]"
         >
           {item}

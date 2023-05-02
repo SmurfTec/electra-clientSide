@@ -98,13 +98,13 @@ export function Footer() {
                       <Text size="md" className="inline-block" color={'#B4B4B4'}>
                         .
                       </Text>
-                      <Text size="md" className="inline-block" color={'#B4B4B4'}>
+                      <Text size="md" component={NextLink} href="/contact"  className="inline-block" color={'#B4B4B4'}>
                         Help Center
                       </Text>
                       <Text size="md" className="inline-block" color={'#B4B4B4'}>
                         .
                       </Text>
-                      <Text size="md" className="inline-block" color={'#B4B4B4'}>
+                      <Text size="md" component={NextLink} href="/how-it-works" className="inline-block" color={'#B4B4B4'}>
                         About
                       </Text>
                     </div>
