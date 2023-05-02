@@ -198,7 +198,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           directly and a faster listing experience.
         </Text>
       </Grid.Col>
-      <Grid.Col span={3}>
+      <Grid.Col span={4}>
         <Grid>
           <Grid.Col span={6}>
             <Button
@@ -217,6 +217,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               className="font-[400]"
               uppercase
               fullWidth
+              
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
