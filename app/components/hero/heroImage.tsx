@@ -8,13 +8,13 @@ const data: Array<IHerocomponentProps> = [
     backgroundImage: '/images/img.png',
     title: 'New Iphone 14',
     subTitle: ' Packages',
-    href: '/',
+    href: '/shop',
   },
   {
     backgroundImage: '/images/img.png',
     title: 'New Iphone 12',
     subTitle: ' Packages',
-    href: '/',
+    href: '/shop',
   },
 ];
 

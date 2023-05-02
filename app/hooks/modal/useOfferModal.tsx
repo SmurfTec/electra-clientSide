@@ -1,7 +1,8 @@
 import { ItemCard } from '@elektra/components';
-import { Button, Center, Divider, Group, Image, List, Select, Stack, Text } from '@mantine/core';
+import { Button, Divider, Group, Image, List, Select, Stack, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { NextLink } from '@mantine/next';
 import { CaretDown } from 'tabler-icons-react';
 
 const productDetailData = {
@@ -65,7 +66,7 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
 export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
-    <Stack align="center" justify="center" px={10} spacing={0} className="mt-6">
+    <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">
         <ItemCard
           color={productDetailData.color}
@@ -101,26 +102,29 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
         </List>
         <Divider variant="dashed" />
       </div>
-      <div >
-        <Center inline className='space-x-72'>
-          <Text className="font-semibold text-black" size={12}>
-            View your offers
-          </Text>
-         
-          <Button
-            styles={{
-              root: {
-                borderRadius: 20,
-              },
-            }}
-            variant="outline"
-          >
-            <Image alt='arrow' fit="contain" src={'/images/carousel/ArrowRight.png'} className="w-full" />
-          </Button>
-          </Center>
-        
-      </div>
-      <Button mt={50}>CONTINUE EXPLORING</Button>
+      <Group position="apart" className="w-full" mt={10}>
+        {/* <Center> */}
+        <Text className="font-semibold text-black" size={12}>
+          View your offers
+        </Text>
+
+        <Button
+          component={NextLink}
+          href="/product-listing"
+          styles={{
+            root: {
+              borderRadius: 20,
+            },
+          }}
+          variant="outline"
+        >
+          <Image alt="right arrow" fit="contain" src={'/images/carousel/ArrowRight.png'} className="w-full" />
+        </Button>
+        {/* </Center> */}
+      </Group>
+      <Button component={NextLink} href="/shop" mt={40}>
+        CONTINUE EXPLORING
+      </Button>
     </Stack>
   );
   return [Modal, opened, { open, close }];
