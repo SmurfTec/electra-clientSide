@@ -19,7 +19,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
 
   return (
-    <Grid {...rest}>
+    <Grid {...rest} >
       <Grid.Col span={2}>
         <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
           <Image height={70} width={60} alt={title} src={image} onClick={carouselHandler.open} />

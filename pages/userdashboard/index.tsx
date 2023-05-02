@@ -1,4 +1,4 @@
-import { Profile, Purchasing, Reward, Selling, Settings, WishList } from '@elektra/components';
+import { Profile, Purchasing, Reward, Selling, Settings, Wallet, WishList } from '@elektra/components';
 import { TabView, tabViewData } from '@elektra/customComponents';
 import { Title } from '@mantine/core';
 
@@ -21,7 +21,7 @@ const tabViewData: tabViewData[] = [
   },
   {
     title: 'Wallet',
-    content: 'hahas',
+    content: <Wallet />,
   },
   {
     title: 'Wishlist',
