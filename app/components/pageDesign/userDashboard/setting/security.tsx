@@ -1,5 +1,5 @@
 import { Modal, useStylesforGlobal } from '@elektra/customComponents';
-import { useCardModal, usePasswordChangeModal, useShippingChangeModal } from '@elektra/hooks';
+import { useCardModal, useEmailVerificationModel, usePasswordChangeModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Divider, Group, Switch, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
@@ -8,6 +8,7 @@ export function Security() {
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const { classes } = useStylesforGlobal();
   return (
     <div>
@@ -124,10 +125,12 @@ export function Security() {
               },
             },
           }}
+          onClick={emailHandler.open}
           labelPosition="left"
           className="text-black font-semibold"
           label="Enable two factor authentication on your account."
         />
+        <Modal children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       </div>
     </div>
   );
