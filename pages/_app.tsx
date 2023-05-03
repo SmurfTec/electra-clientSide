@@ -19,7 +19,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <MantineProvider withGlobalStyles  emotionCache={cache} withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
-          {router.pathname === '/auth/login' || router.pathname === '/auth/signup' ? (
+          {router.pathname === '/auth/login' || router.pathname === '/auth/signup' || router.pathname === '/selling-search'? (
             <Component {...pageProps} />
           ) : (
             <AppShell header={<Header />} footer={<Footer />}>

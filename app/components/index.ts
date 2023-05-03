@@ -8,3 +8,4 @@ export * from './AppTitle';
 export * from './appShell';
 export * from "./carosuels"
 export * from "./itemFilter"
+export * from "./searchComponent"

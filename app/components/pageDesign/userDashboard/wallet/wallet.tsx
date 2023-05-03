@@ -1,31 +1,22 @@
-import {
-  Button,
-  Center,
-  Flex,
-  Group,
-  Image,
-  Menu,
-  Paper,
-  PaperProps,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import { useState } from 'react';
-import { CaretDown, CaretUp, Search } from 'tabler-icons-react';
+import { Only } from '@elektra/customComponents';
+import { SimpleGrid } from '@mantine/core';
+import { useToggle } from '@mantine/hooks';
+import { Cashout } from './cashout';
 import { WalletLeftSide } from './leftSide';
 import { WalletRightSide } from './rightSide';
 
 export const Wallet = () => {
-  
+  const [value, toggle] = useToggle<boolean>([false, true]);
   return (
     <SimpleGrid cols={2} mt={20}>
       <div>
-        <WalletLeftSide />
+        <WalletLeftSide state={!value} toogle={toggle} />
+        <Cashout state={value} toogle={toggle} />
       </div>
       <div>
-        <WalletRightSide />
+        <Only when={!value}>
+          <WalletRightSide />
+        </Only>
       </div>
     </SimpleGrid>
   );
