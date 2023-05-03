@@ -1,7 +1,7 @@
 import { ActionIcon, Avatar, Button, Center, Group, Menu, Text, createStyles } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search, Settings, User } from 'tabler-icons-react';
+import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search, Settings, ShoppingCart, User } from 'tabler-icons-react';
 import { HeaderMenu } from './menuBar';
 import { Notification } from './notification';
 import { HeaderTopBar } from './topBar';
@@ -56,6 +56,11 @@ export const Header = () => {
               Elektra
             </Text>
             <Group spacing={8}>
+            <ActionIcon component={NextLink} variant="transparent" size={'sm'} href={'/selling-search'}>
+                <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
+                  <ShoppingCart size={15} strokeWidth={1} />
+                </Avatar>
+              </ActionIcon>
               <ActionIcon variant="transparent" size={'sm'} onClick={() => toggleSearch()}>
                 <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                   <Search size={15} strokeWidth={1} />

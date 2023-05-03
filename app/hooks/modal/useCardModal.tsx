@@ -73,7 +73,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
 
   const getExpiryNumber = (value: string): string => {
     let data = value.toString();
-    console.log(data);
+
     return data;
   };
 
