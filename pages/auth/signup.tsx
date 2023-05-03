@@ -1,4 +1,6 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
+import { Modal } from '@elektra/customComponents';
+import { useEmailVerificationModel } from '@elektra/hooks';
 import { Button, Container, Grid, Group, PasswordInput, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
@@ -36,9 +38,15 @@ export default function Signup() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
-
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   return (
     <Grid m={0}>
+      <Modal
+         
+         children={emailModal}
+         onClose={emailHandler.close}
+         open={emailOpened}
+       />
       <Grid.Col xs={12} sm={5} md={4}>
         <Container className="my-5">
           <Group className="mb-10">
@@ -78,7 +86,7 @@ export default function Signup() {
                 <Text size={'sm'}>Password Length must be between 6-15</Text>
               </div>
               <div className="space-y-4 mt-10">
-                <Button type="submit" className="w-full h-16 font-medium text-base" uppercase>
+                <Button type="submit" onClick={emailHandler.open} className="w-full h-16 font-medium text-base" uppercase>
                   SignUp
                 </Button>
                 <Button

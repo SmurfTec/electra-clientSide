@@ -1,4 +1,5 @@
-import { Only, useStylesforGlobal } from '@elektra/customComponents';
+import { Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
+import { useEmailSentModal, useEmailVerificationModel } from '@elektra/hooks';
 import { Button, createStyles, Grid, Group, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -63,9 +64,16 @@ export function Profile() {
   const handleFormSubmit = (values: Profile) => {
     console.log(values);
   };
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
 
   return (
     <div className="m-0">
+      <Modal
+         
+         children={emailModal}
+         onClose={emailHandler.close}
+         open={emailOpened}
+       />
       <Stack align="flex-start" justify="space-around" spacing="lg">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Grid gutter={30} m={0}>
@@ -130,7 +138,7 @@ export function Profile() {
                   <Button onClick={() => setIsEditing(false)} classNames={{ root: button.grayButtonRoot }}>
                     Cancel
                   </Button>
-                  <Button type="submit">Update</Button>
+                  <Button type="submit" onClick={emailHandler.open}>Update</Button>
                 </Group>
               </Only>
             </Grid.Col>

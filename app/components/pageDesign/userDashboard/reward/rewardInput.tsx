@@ -4,8 +4,11 @@ import { Modal } from '@elektra/customComponents';
 
 export const RewardInput = () => {
   const [RedeemInputModal, count, opened, { open, close }] = useRedeemInputModal();
+  
+  
   return (
     <>
+         
       <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
       <Paper shadow="xl" p="xl" className="w-1/6">
         <Group position="left">

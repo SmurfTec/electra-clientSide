@@ -1,3 +1,4 @@
+import { Modal as Mdal } from '@elektra/customComponents';
 import { ActionIcon, Button, Group, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -7,9 +8,12 @@ import { CircleCheck, CircleX, Minus, Plus } from 'tabler-icons-react';
 export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
+  const [offerModal, offerOpened, offerHandler] = useRedeemSuccesfullModal();
   const [count, handlers] = useCounter(0, { min: 0 });
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">
+      <Mdal children={offerModal} onClose={offerHandler.close} open={offerOpened} />
+      
       <Group position="center" spacing={0} className="mt-6">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
@@ -36,7 +40,7 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
         {count} = ${count / 100}
       </Text>
       <Group position="center">
-        <Button size={'lg'} uppercase>
+        <Button size={'lg'} uppercase onClick={offerHandler.open}>
           Redeem
         </Button>
         <Button size={'lg'} color="blue" uppercase>
