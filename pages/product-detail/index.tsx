@@ -2,7 +2,7 @@ import {
   ProductCard,
   ProductCardProps,
   ProductCarousel,
-  ProductCharts,
+  // ProductCharts,
   ProductFilter,
   ProductSpecification,
   ProductStats,
@@ -10,8 +10,9 @@ import {
   SectionTitle,
 } from '@elektra/components';
 
-import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Group, Image, Paper, Stack, Text } from '@mantine/core';
+import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Paper, Stack, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 import { ArrowDown, ShoppingCart } from 'tabler-icons-react';
 
 const productSpecification = [
@@ -177,6 +178,10 @@ const items = [
 ));
 
 export default function ProductPage() {
+  const router = useRouter();
+  // console.log(router.query[]
+  const productSpecificationData =
+    router.query['condition'] === 'new' ? productSpecification[0] : productSpecification[1];
   return (
     <Container size="lg" mt={50} fluid>
       <Breadcrumbs separator=">" mt="xs">
@@ -185,28 +190,28 @@ export default function ProductPage() {
       <Grid>
         <Grid.Col sm={6} mt={140}>
           <Stack align="center" justify="center">
-            <ProductCarousel/>
+            <ProductCarousel />
             <Text className="text-xs font-medium mt-20">Have this item?</Text>
             <Button leftIcon={<ShoppingCart />}>Sell Now</Button>
           </Stack>
         </Grid.Col>
         <Grid.Col sm={6}>
           <ProductSpecification
-            title={productSpecification[0].title}
-            condition={productSpecification[0].condition as condition}
-            capacity={productSpecification[0].capacity}
-            capacityData={productSpecification[0].capacityData}
-            carrier={productSpecification[0].carrier}
-            carrierData={productSpecification[0].carrierData}
-            color={productSpecification[0].color}
-            colorData={productSpecification[0].colorData}
-            highestAsk={productSpecification[0].highestAsk}
-            lowestAsk={productSpecification[0].lowestAsk}
-            price={productSpecification[0].price}
-            sellerCondition={productSpecification[0].sellerCondition}
-            sellerColor={productSpecification[0].sellerColor}
-            sellerCapacity={productSpecification[0].sellerCapacity}
-            sellerCarrier={productSpecification[0].sellerCarrier}
+            title={productSpecificationData.title}
+            condition={productSpecificationData.condition as condition}
+            capacity={productSpecificationData.capacity}
+            capacityData={productSpecificationData.capacityData}
+            carrier={productSpecificationData.carrier}
+            carrierData={productSpecificationData.carrierData}
+            color={productSpecificationData.color}
+            colorData={productSpecificationData.colorData}
+            highestAsk={productSpecificationData.highestAsk}
+            lowestAsk={productSpecificationData.lowestAsk}
+            price={productSpecificationData.price}
+            sellerCondition={productSpecificationData.sellerCondition}
+            sellerColor={productSpecificationData.sellerColor}
+            sellerCapacity={productSpecificationData.sellerCapacity}
+            sellerCarrier={productSpecificationData.sellerCarrier}
           />
         </Grid.Col>
       </Grid>
@@ -234,7 +239,6 @@ export default function ProductPage() {
         })}
       </div>
 
-
       <Anchor component={NextLink} href="/shop" className="my-20 flex justify-center space-x-4 cursor-pointer">
         <Text size={16} className="font-[600]" color="black">
           View More
@@ -246,17 +250,19 @@ export default function ProductPage() {
       <div>
         <ProductStats />
       </div>
-      <div className='mt-10'>
-      <Paper withBorder radius={0}>
-        <Text size={24} className='font-bold text-black p-5'>Sales History</Text>
-        <Divider />
-        <div className='py-5 px-2'>
-      <SalesTable  />
+      <div className="mt-10">
+        <Paper withBorder radius={0}>
+          <Text size={24} className="font-bold text-black p-5">
+            Sales History
+          </Text>
+          <Divider />
+          <div className="py-5 px-2">
+            <SalesTable />
+          </div>
+        </Paper>
       </div>
-      </Paper>
-      </div>
-      <div className='my-24'>
-        <ProductCharts />
+      <div className="my-24">
+        {/* <ProductCharts /> */}
       </div>
     </Container>
   );

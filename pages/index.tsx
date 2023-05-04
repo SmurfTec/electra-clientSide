@@ -63,7 +63,7 @@ const productData: ProductCardProps[] = [
   {
     id: 4,
     image: '/images/product.png',
-    link: '/product-detail',
+    link: '/product-detail?condition=new',
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
     rating: 'New',
