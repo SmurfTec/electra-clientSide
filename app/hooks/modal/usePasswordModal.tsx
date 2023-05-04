@@ -1,10 +1,12 @@
 import { Button, PasswordInput, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useStylesforGlobal } from '../../customComponents/theme';
+import { useEmailSentModal, useEmailVerificationModel } from './useEmailModal';
+import { Modal as Modl } from '@elektra/customComponents';
 
 export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const { classes } = useStylesforGlobal();
 
   const Modal = (
@@ -20,6 +22,12 @@ export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () 
             classNames={{ input: classes.input, innerInput: classes.innerInput }}
           />
         </div>
+        <Modl
+         
+          children={emailModal}
+          onClose={emailHandler.close}
+          open={emailOpened}
+        />
       </Stack>
       <div className="text-right -mt-2">
         <Button
@@ -40,7 +48,7 @@ export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () 
         </Button>
       </div>
       <div className="text-center">
-        <Button>Update</Button>
+        <Button onClick={emailHandler.open}>Update</Button>
       </div>
     </>
   );

@@ -58,7 +58,6 @@ export default function OrderDetail() {
             />
           </div>
         </Grid.Col>
-
         <Grid.Col span={12}>
           <Text style={{ borderRadius: '10px' }} py={10} bg={'black'} color={'#656565'} align="center" size="xl">
             View Technical Specifaction For {productDetailData.title}
