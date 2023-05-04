@@ -15,6 +15,7 @@ type ProductDetailProps = {
   address: string;
   status?: string;
   saleDate?: string;
+  disabled?: boolean;
 };
 
 export function ProductDetail({
@@ -29,6 +30,7 @@ export function ProductDetail({
   address,
   saleDate,
   status,
+  disabled
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler] = useOfferModal();
@@ -60,10 +62,10 @@ export function ProductDetail({
             <ProductDetails text={'Order No'} details={'14'} color={'#3C82D6'} />
           </Grid.Col>
         </Grid>
-        <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={true} onClick={offerHandler.open} />
+        <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={!disabled} onClick={offerHandler.open} />
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
 
-        <ProductDetails text={'CARD DETAILS'} details={cardDetails} iconDisplay={true} onClick={cardHandler.open} />
+        <ProductDetails text={'CARD DETAILS'} details={cardDetails} iconDisplay={!disabled} onClick={cardHandler.open} />
 
         <Modal
           className="mx-10 mb-7 mt-4"
@@ -75,7 +77,7 @@ export function ProductDetail({
           open={cardOpened}
         />
 
-        <ProductDetails text={'SHIPPING ADDRESS'} details={address} iconDisplay={true} onClick={shippingHandler.open} />
+        <ProductDetails text={'SHIPPING ADDRESS'} details={address} iconDisplay={!disabled} onClick={shippingHandler.open} />
         <Modal
           title="Shipping Address"
           titlePosition="left"

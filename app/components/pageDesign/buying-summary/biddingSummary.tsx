@@ -11,6 +11,7 @@ export type BiddingSummaryProps = {
   shippingFee: number;
   discount: number;
   totalPrice: number;
+  disabled?: boolean;
 };
 
 export function BiddingSummary({
@@ -21,6 +22,7 @@ export function BiddingSummary({
   shippingFee,
   discount,
   totalPrice,
+  disabled,
 }: BiddingSummaryProps) {
   const theme = useMantineTheme();
   const { classes } = useStylesforGlobal();
@@ -33,7 +35,9 @@ export function BiddingSummary({
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           {yourOffer ? 'Your Offer' : 'Item Price'}
-          <PencilButton />
+          <Only when={!disabled}>
+            <PencilButton />
+          </Only>
         </Text>
         <Text className="font-bold" size="xl">
           ${yourOffer ?? itemPrice}
@@ -42,34 +46,37 @@ export function BiddingSummary({
       <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart text={'SHIPPING FEE'} number={shippingFee} />
-      <PositionApart text={'DISCOUNT'} number={discount} discount={true} />
+      <Only when={!disabled}>
+        <PositionApart text={'DISCOUNT'} number={discount} discount={true} />
+      </Only>
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
       <PositionApart text={'TOTAL  PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
+      <Only when={!disabled}>
+        <Grid>
+          <Grid.Col span={6}>
+            <Modal
+              title="Offer Placed!"
+              children={OfferPlaceModal}
+              onClose={offerPlaceHandler.close}
+              open={offerPlaceOpened}
+            />
 
-      <Grid>
-        <Grid.Col span={6}>
-          <Modal
-            title="Offer Placed!"
-            children={OfferPlaceModal}
-            onClose={offerPlaceHandler.close}
-            open={offerPlaceOpened}
-          />
-          <Button className="w-full h-14" type="submit" onClick={offerPlaceHandler.open}>
-            CONFIRM
-          </Button>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <Button
-            component={NextLink}
-            href="/product-listing"
-            className="w-full h-14"
-            classNames={{ root: classes.grayButtonRoot }}
-          >
-            CANCEL
-          </Button>
-        </Grid.Col>
-      </Grid>
-
+            <Button className="w-full h-14" type="submit" onClick={offerPlaceHandler.open}>
+              CONFIRM
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Button
+              component={NextLink}
+              href="/product-listing"
+              className="w-full h-14"
+              classNames={{ root: classes.grayButtonRoot }}
+            >
+              CANCEL
+            </Button>
+          </Grid.Col>
+        </Grid>
+      </Only>
       <Group className="">
         <Avatar src="images/coin.png" size={'xs'} radius="lg" />
         <Text className="font-bold uppercase" size="sm">

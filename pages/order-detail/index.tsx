@@ -1,4 +1,6 @@
 import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
+import { Drawer } from '@elektra/customComponents';
+import { useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { Container, Grid, Text, useMantineTheme } from '@mantine/core';
 
 const productDetailData = {
@@ -25,6 +27,8 @@ const BiddingSummaryData: BiddingSummaryProps = {
 
 export default function OrderDetail() {
   const theme = useMantineTheme();
+  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
+  useTechinalSpecificationDrawer();
   return (
     <Container mt={50} fluid>
       <PageTitle title="Viewing Details" />
@@ -42,6 +46,7 @@ export default function OrderDetail() {
               cardDetails={productDetailData.cardDetails}
               address={productDetailData.address}
               saleDate={productDetailData.saleDate}
+              disabled={true}
             />
           </div>
         </Grid.Col>
@@ -55,15 +60,22 @@ export default function OrderDetail() {
               salesTax={BiddingSummaryData.salesTax}
               shippingFee={BiddingSummaryData.shippingFee}
               totalPrice={BiddingSummaryData.totalPrice}
+              disabled={true}
             />
           </div>
         </Grid.Col>
         <Grid.Col span={12}>
-          <Text style={{ borderRadius: '10px' }} py={10} bg={'black'} color={'#656565'} align="center" size="xl">
+          <Text className='cursor-pointer' onClick={techinalSpecificationHandler.open} style={{ borderRadius: '10px' }} py={10} bg={'black'} color={'#656565'} align="center" size="xl">
             View Technical Specifaction For {productDetailData.title}
           </Text>
         </Grid.Col>
       </Grid>
+      <Drawer
+            title="Technical Specification"
+            children={TechinalSpecificationModal}
+            onClose={techinalSpecificationHandler.close}
+            open={techinalSpecificationOpened}
+          />
     </Container>
   );
 }
