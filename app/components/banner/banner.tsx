@@ -1,4 +1,5 @@
 import { Button, Image, Title, useMantineTheme } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 
 export type BannerProps = {
@@ -12,18 +13,20 @@ export type BannerProps = {
 
 export function Banner({ id, image, link, title, heading, label }: BannerProps) {
   const theme = useMantineTheme();
+  
+  const matches = useMediaQuery('(max-width: 800px)');
   return (
     <div className="relative">
-      <Image src={image} alt="banner" />
-      <div className="absolute bottom-10 left-5">
-        <Title color={'white'} order={3} transform="uppercase">
+      <Image src={image} alt="banner" height={matches? 300 : undefined} />
+      <div className="absolute bottom-20 left-5">
+        <Title color={'white'} order={matches? 5 : 2} transform="uppercase">
           {title}
         </Title>
-        <Title color={'white'} order={1} transform="uppercase">
+        <Title color={'white'} order={matches? 3 : 1} transform="uppercase">
           {heading}
         </Title>
       </div>
-      <div className="absolute bottom-10 right-5">
+      <div className="absolute bottom-5 xs:right-5 left-5 xs:left-auto xs:bottom-10 ">
         <Button
         component={NextLink}
         href={link}

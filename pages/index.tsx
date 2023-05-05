@@ -1,5 +1,6 @@
 import { Banner, BannerCarousel, BannerProps, CategoryCard, FooterProductCarousel, HeroImage, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
 import { Container, Grid, Image, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 
 const carouselData = [
@@ -25,20 +26,20 @@ const carouselData = [
   },
 ];
 
-const ProductCarouselData = [
-  {
-    imgSrc: '/images/carousel/mouse.png',
-    // title: 'Razer Blade 13',
-  },
-  {
-    imgSrc: '/images/carousel/headphone.png',
-    // title: 'Razer Blade 14',
-  },
-  {
-    imgSrc: '/images/carousel/ram.png',
-    // title: 'Razer Blade 15',
-  },
-];
+// const ProductCarouselData = [
+//   {
+//     imgSrc: '/images/carousel/mouse.png',
+//     // title: 'Razer Blade 13',
+//   },
+//   {
+//     imgSrc: '/images/carousel/headphone.png',
+//     // title: 'Razer Blade 14',
+//   },
+//   {
+//     imgSrc: '/images/carousel/ram.png',
+//     // title: 'Razer Blade 15',
+//   },
+// ];
 
 const bannerData: BannerProps[] = [
   {
@@ -197,6 +198,7 @@ const brandData = [
 ];
 
 export function Index() {
+  const matches = useMediaQuery('(max-width: 800px)');
   return (
     <div>
         <section className="mt-4">
@@ -256,7 +258,7 @@ export function Index() {
           <Grid gutter={40}>
             {categoryData.map((category, index) => {
               return (
-                <Grid.Col span={2} key={index}>
+                <Grid.Col xs={2} key={index}>
                   <CategoryCard
                     key={index}
                     image={category.image}
@@ -273,7 +275,7 @@ export function Index() {
         <section className="mt-20">
           <Grid>
             {bannerData.map((item, key) => (
-              <Grid.Col span={6} key={key}>
+              <Grid.Col sm={6} key={key}>
                 <Banner
                   key={key}
                   id={item.id}
@@ -339,14 +341,14 @@ export function Index() {
         <section className="mt-20">
           <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
 
-          <BannerCarousel carouselData={carouselData} className="mt-[-200px]" slideSize="33.33%" />
+          <BannerCarousel carouselData={carouselData} className="mt-[-150px] sm:mt-[-200px]" slideSize={matches ? "100%" : "33.33%"} />
         </section>
         <section className="">
           <SectionTitle title="Brands" />
           <Grid gutter={40}>
             {brandData.map((category, index) => {
               return (
-                <Grid.Col span={2} key={index}>
+                <Grid.Col xs={2} key={index}>
                   <CategoryCard
                     key={index}
                     image={category.image}
