@@ -11,6 +11,7 @@ import {
 } from '@elektra/components';
 
 import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Paper, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { ArrowDown, ShoppingCart } from 'tabler-icons-react';
@@ -180,6 +181,8 @@ const items = [
 export default function ProductPage() {
   const router = useRouter();
   // console.log(router.query[]
+  
+  const matches = useMediaQuery('(max-width: 800px)');
   const productSpecificationData =
     router.query['condition'] === 'new' ? productSpecification[0] : productSpecification[1];
   return (
@@ -257,7 +260,7 @@ export default function ProductPage() {
           </Text>
           <Divider />
           <div className="py-5 px-2">
-            <SalesTable />
+            {/* <SalesTable /> */}
           </div>
         </Paper>
       </div>

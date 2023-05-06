@@ -1,4 +1,4 @@
-import { ListingDescription, PageTitle, ProductCarousel } from '@elektra/components';
+import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
 import { Container, Divider, Grid, Image } from '@mantine/core';
 import { useState } from 'react';
@@ -79,11 +79,11 @@ export default function ProductListingPage() {
         <Only when={condition === 'Used'}>
           <Grid.Col span={12}>
             <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
-            {/* <UsedProductListing
+            <UsedProductListing
               accessories={usedProductListingData.accessories}
               description={usedProductListingData.description}
               itemConditions={usedProductListingData.itemConditions}
-            /> */}
+            />
           </Grid.Col>
         </Only>
       </Grid>

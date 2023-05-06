@@ -9,8 +9,8 @@ export type FooterCardProps = {
 export function FooterCard({ icon, heading, description }: FooterCardProps) {
   
   return (
-    <Container className="relative">
-      <div className="border border-solid border-[#65656545] rounded-2xl text-center p-10 pt-20">
+    <Container className="relative w-full">
+      <div className="border border-solid border-[#65656545] rounded-2xl text-center p-5 pt-14">
         <Text className="font-[600]" size="xl">
           {heading}
         </Text>
@@ -23,7 +23,7 @@ export function FooterCard({ icon, heading, description }: FooterCardProps) {
         style={{
           boxShadow: '0px 11px 24px rgba(0, 0, 0, 0.05)',
         }}
-        className="h-28 w-28 bg-white rounded-full absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="sm:h-28 sm:w-28 h-20 w-20 bg-white rounded-full absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         {/* <div className="relative"> */}
         <Image

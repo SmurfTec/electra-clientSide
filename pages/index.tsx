@@ -1,7 +1,16 @@
-import { Banner, BannerCarousel, BannerProps, CategoryCard, FooterProductCarousel, HeroImage, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { Container, Grid, Image, Stack, Text } from '@mantine/core';
+import {
+  Banner,
+  BannerCarousel,
+  BannerProps,
+  CategoryCard,
+  FooterProductCarousel,
+  HeroImage,
+  ProductCard,
+  ProductCardProps,
+  SectionTitle,
+} from '@elektra/components';
+import { Container, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-
 
 const carouselData = [
   {
@@ -201,64 +210,65 @@ export function Index() {
   const matches = useMediaQuery('(max-width: 800px)');
   return (
     <div>
-        <section className="mt-4">
-          <HeroImage />
-        </section>
+      <section className="mt-4">
+        <HeroImage />
+      </section>
 
-        <section className="mt-20">
-          <SectionTitle title="Recommended For You" label="View All" />
+      <section className="mt-20">
+        <SectionTitle title="Recommended For You" label="View All" />
 
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
-              return (
-                <ProductCard
-                  key={product.id + index}
-                  id={product.id}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  rating={product.rating}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </div>
-        </section>
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          {productData.map((product, index) => {
+            return (
+              <ProductCard
+                key={product.id + index}
+                id={product.id}
+                image={product.image}
+                description={product.description}
+                link={product.link}
+                title={product.title}
+                rating={product.rating}
+                wishlist={product.wishlist}
+                lowestPrice={product.lowestPrice ?? null}
+                highestPrice={product.highestPrice ?? null}
+                price={product.price}
+              />
+            );
+          })}
+        </div>
+      </section>
 
-        <section className="mt-20">
-          <SectionTitle key={1} title="Trending Now" label="View All" />
+      <section className="mt-20">
+        <SectionTitle key={1} title="Trending Now" label="View All" />
 
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
-              return (
-                <ProductCard
-                  key={product.id + index}
-                  id={product.id}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  rating={product.rating}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </div>
-        </section>
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          {productData.map((product, index) => {
+            return (
+              <ProductCard
+                key={product.id + index}
+                id={product.id}
+                image={product.image}
+                description={product.description}
+                link={product.link}
+                title={product.title}
+                rating={product.rating}
+                wishlist={product.wishlist}
+                lowestPrice={product.lowestPrice ?? null}
+                highestPrice={product.highestPrice ?? null}
+                price={product.price}
+              />
+            );
+          })}
+        </div>
+      </section>
 
-        <section className="mt-20">
-          <SectionTitle title="Categories" />
-          <Grid gutter={40}>
+      <section className="mt-20">
+        <SectionTitle title="Categories" />
+        <ScrollArea>
+          <Grid gutter={matches ? 10 : 40}>
             {categoryData.map((category, index) => {
               return (
-                <Grid.Col xs={2} key={index}>
+                <Grid.Col xs={2} span={6} key={index}>
                   <CategoryCard
                     key={index}
                     image={category.image}
@@ -270,108 +280,113 @@ export function Index() {
               );
             })}
           </Grid>
-        </section>
+        </ScrollArea>
+      </section>
 
-        <section className="mt-20">
-          <Grid>
-            {bannerData.map((item, key) => (
-              <Grid.Col sm={6} key={key}>
-                <Banner
-                  key={key}
-                  id={item.id}
-                  heading={item.heading}
-                  title={item.title}
-                  label={item.label}
-                  image={item.image}
-                  link={item.link}
+      <section className="mt-20">
+        <Grid>
+          {bannerData.map((item, key) => (
+            <Grid.Col sm={6} key={key}>
+              <Banner
+                key={key}
+                id={item.id}
+                heading={item.heading}
+                title={item.title}
+                label={item.label}
+                image={item.image}
+                link={item.link}
+              />
+            </Grid.Col>
+          ))}
+        </Grid>
+      </section>
+
+      <section className="mt-20">
+        <SectionTitle title="Most Sold Items" label="View All" />
+
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          {productData.map((product, index) => {
+            return (
+              <ProductCard
+                key={product.id + index}
+                id={product.id}
+                image={product.image}
+                description={product.description}
+                link={product.link}
+                title={product.title}
+                rating={product.rating}
+                wishlist={product.wishlist}
+                lowestPrice={product.lowestPrice ?? null}
+                highestPrice={product.highestPrice ?? null}
+                price={product.price}
+              />
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mt-20">
+        <SectionTitle title="Latest Items" />
+
+        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          {productData.map((product, index) => {
+            return (
+              <ProductCard
+                key={product.id + index}
+                id={product.id}
+                image={product.image}
+                description={product.description}
+                link={product.link}
+                title={product.title}
+                rating={product.rating}
+                wishlist={product.wishlist}
+                lowestPrice={product.lowestPrice ?? null}
+                highestPrice={product.highestPrice ?? null}
+                price={product.price}
+              />
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mt-20">
+        <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
+
+        <BannerCarousel
+          carouselData={carouselData}
+          className="mt-[-150px] sm:mt-[-200px]"
+          slideSize={matches ? '100%' : '33.33%'}
+        />
+      </section>
+      <section className="">
+        <SectionTitle title="Brands" />
+        <Grid gutter={matches ? 10 : 40}>
+          {brandData.map((category, index) => {
+            return (
+              <Grid.Col xs={2} span={6} key={index}>
+                <CategoryCard
+                  key={index}
+                  image={category.image}
+                  id={category.id}
+                  title={category.title}
+                  link={category.link}
                 />
               </Grid.Col>
-            ))}
-          </Grid>
-        </section>
-
-        <section className="mt-20">
-          <SectionTitle title="Most Sold Items" label="View All" />
-
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
-              return (
-                <ProductCard
-                  key={product.id + index}
-                  id={product.id}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  rating={product.rating}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mt-20">
-          <SectionTitle title="Latest Items" />
-
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
-              return (
-                <ProductCard
-                  key={product.id + index}
-                  id={product.id}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  rating={product.rating}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mt-20">
-          <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
-
-          <BannerCarousel carouselData={carouselData} className="mt-[-150px] sm:mt-[-200px]" slideSize={matches ? "100%" : "33.33%"} />
-        </section>
-        <section className="">
-          <SectionTitle title="Brands" />
-          <Grid gutter={40}>
-            {brandData.map((category, index) => {
-              return (
-                <Grid.Col xs={2} key={index}>
-                  <CategoryCard
-                    key={index}
-                    image={category.image}
-                    id={category.id}
-                    title={category.title}
-                    link={category.link}
-                  />
-                </Grid.Col>
-              );
-            })}
-          </Grid>
-        </section>
-        <div className="mt-10">
-          <Stack justify="center" align="center">
-            <Text size={24} className="font-bold text-black">
-              Popular Products
-            </Text>
-            <Text size={48} className="font-extrabold text-black">
-              Beats Headphones
-            </Text>
-            <FooterProductCarousel />
-          </Stack>
-        </div>
+            );
+          })}
+        </Grid>
+      </section>
+      <div className="mt-10">
+        <Stack justify="center" align="center">
+          <Text size={24} className="font-bold text-black">
+            Popular Products
+          </Text>
+          <Text size={48} className="font-extrabold text-black">
+            Beats Headphones
+          </Text>
+          <FooterProductCarousel />
+        </Stack>
+      </div>
     </div>
   );
 }
