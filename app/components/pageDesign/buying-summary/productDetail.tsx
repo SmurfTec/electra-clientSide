@@ -1,6 +1,6 @@
 import { Modal, Only, PencilButton } from '@elektra/customComponents';
 import { useCardModal, useOfferModal, useShippingChangeModal } from '@elektra/hooks';
-import { Grid, Text, Title, useMantineTheme } from '@mantine/core';
+import { Grid, Text, Title } from '@mantine/core';
 import { ItemCard } from '../../card';
 
 type ProductDetailProps = {
@@ -30,7 +30,7 @@ export function ProductDetail({
   address,
   saleDate,
   status,
-  disabled
+  disabled,
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler] = useOfferModal();
@@ -62,13 +62,24 @@ export function ProductDetail({
             <ProductDetails text={'Order No'} details={'14'} color={'#3C82D6'} />
           </Grid.Col>
         </Grid>
-        <ProductDetails text={'OFFER EXPIRATION'} details={expiration} iconDisplay={!disabled} onClick={offerHandler.open} />
+        <ProductDetails
+          text={'OFFER EXPIRATION'}
+          details={expiration}
+          iconDisplay={!disabled}
+          onClick={offerHandler.open}
+        />
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
 
-        <ProductDetails text={'CARD DETAILS'} details={cardDetails} iconDisplay={!disabled} onClick={cardHandler.open} />
+        <ProductDetails
+          text={'CARD DETAILS'}
+          details={cardDetails}
+          iconDisplay={!disabled}
+          onClick={cardHandler.open}
+        />
 
         <Modal
-          className="mx-10 mb-7 mt-4"
+        
+          className="mx-0 px-0 xs:mx-10 mb-7 mt-4"
           title={'Buying INFO'}
           titlePosition="left"
           size={900}
@@ -77,7 +88,12 @@ export function ProductDetail({
           open={cardOpened}
         />
 
-        <ProductDetails text={'SHIPPING ADDRESS'} details={address} iconDisplay={!disabled} onClick={shippingHandler.open} />
+        <ProductDetails
+          text={'SHIPPING ADDRESS'}
+          details={address}
+          iconDisplay={!disabled}
+          onClick={shippingHandler.open}
+        />
         <Modal
           title="Shipping Address"
           titlePosition="left"
