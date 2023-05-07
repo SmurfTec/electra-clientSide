@@ -209,14 +209,14 @@ export function Selling() {
         </Button>
         </div>
       </Only>
-      <DataTable
+      {/* <DataTable
         data={selected.data}
         columns={selected.columns}
         search={search}
         RowUI={selected.RowUI}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
-      />
+      /> */}
     </div>
   );
 }
