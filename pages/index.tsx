@@ -177,6 +177,48 @@ const categoryData = [
     title: 'Phones',
     link: '/shop',
   },
+  {
+    id: 9,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id: 10,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id:11,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id:12,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id:13,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id:14,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id:15,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
 ];
 
 const brandData = [
@@ -219,7 +261,7 @@ const brandData = [
 ];
 
 export function Index() {
-  const matches = useMediaQuery('(max-width: 800px)');
+  const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   return (
     <div>
       <section className="mt-4">
@@ -277,11 +319,12 @@ export function Index() {
       <section className="mt-20">
         <SectionTitle title="Categories" />
         
-          <Grid gutter={matches ? 10 : 40}>
+          <Grid gutter={12} columns={mediumdScreen?10:18}>
+          <ScrollArea type="never" scrollbarSize={5}>
+          <Center >
             {categoryData.map((category, index) => {
               return (
-                <Grid.Col xs={2} span={6} key={index}>
-                  <Center>
+                <Grid.Col  span={2} key={index}>
                   <CategoryCard
                     key={index}
                     image={category.image}
@@ -289,10 +332,12 @@ export function Index() {
                     title={category.title}
                     link={category.link}
                   />
-                  </Center>
+                  
                 </Grid.Col>
               );
             })}
+            </Center>
+            </ScrollArea>
           </Grid>
         
       </section>
@@ -369,12 +414,12 @@ export function Index() {
         <BannerCarousel
           carouselData={carouselData}
           className="mt-[-150px] sm:mt-[-200px]"
-          slideSize={matches ? '100%' : '33.33%'}
+          slideSize={mediumdScreen ? '100%' : '33.33%'}
         />
       </section>
       <section className="mt-[-150px] sm:mt-[-60px]">
         <SectionTitle title="Brands" />
-        <Grid gutter={matches ? 10 : 40}>
+        <Grid gutter={mediumdScreen ? 10 : 40}>
           {brandData.map((category, index) => {
             return (
               <Grid.Col xs={2} span={6} key={index}>

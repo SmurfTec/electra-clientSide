@@ -1,4 +1,4 @@
-import { Button, Group, Image, Paper, Title } from '@mantine/core';
+import { Button, Group, Image, Paper, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { useStylesforGlobal } from '../../customComponents/theme';
@@ -16,20 +16,15 @@ export function CategoryCard({ id, image, title, link, ...rest }: CategoryCardPr
   return (
     <Paper {...rest} className="bg-transparent">
       <Image alt="" src={image} />
-      <Group position="apart" className="bg-transparent mt-4">
-        <Title className="font-[600]" order={5}>
-          {title}
-        </Title>
-        {/* TODO: Not right behavior but make it right way */}
-        <div>
-          <Button
-            component={NextLink}
-            href={link}
-            leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-            variant="outline"
-            classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-          />
-        </div>
+      <Group position="apart" align="center" className="bg-transparent mt-4">
+        <Text className="text-[10px] md:text-base font-semibold text-black">{title}</Text>
+        <Button
+          component={NextLink}
+          href={link}
+          leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+          variant="outline"
+          classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+        />
       </Group>
     </Paper>
   );
