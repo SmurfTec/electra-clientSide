@@ -200,20 +200,20 @@ export function Purchasing() {
               onChange={(v) => console.log(v)}
               rightSection={<Calendar color="white" fill="black" />}
               placeholder="Filter Date"
-              maw={185}
+              // maw={185}
             />
           </Group>
         </div>
       </Group>
       <StateCard data={selected['tileData']} className="my-4" />
-      <DataTable
+      {/* <DataTable
         data={selected.data}
         columns={selected.columns}
         search={search}
         RowUI={selected.RowUI}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
-      />
+      /> */}
     </div>
   );
 }

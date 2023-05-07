@@ -3,7 +3,7 @@ import { Image, Title } from '@mantine/core';
 
 export default function ContactUs() {
   return (
-    <div className="px-6 mt-10">
+    <div className="mt-10">
       <ContactUsHeader />
       <div>
         <Title order={4} className="font-bold mt-10 inline-block">

@@ -56,15 +56,15 @@ export const FooterProductCarousel = () => {
         withIndicators={false}
         classNames={classes}
         
-        height={450}
-        slideSize="42.33%"
+        height={350}
+        slideSize="33.33%"
         getEmblaApi={setEmbla}
         initialSlide={2}
       >
         {carosuelData.map((item, index) => (
           <Carousel.Slide key={index}>
             <Center>
-              <Image src={item.imgsrc} alt="product" fit="contain" width={500} height={450} />
+              <Image src={item.imgsrc} alt="product" fit="contain" height={350} width={"100%"} />
             </Center>
           </Carousel.Slide>
         ))}
