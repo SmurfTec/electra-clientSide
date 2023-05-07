@@ -29,8 +29,12 @@ export function Buying() {
       <Container size="md">
         <TabView
           position="center"
-          styles={{
+          styles={{ 
+            tabLabel: {
+              textAlign: "center",
+            },
             tab: {
+              textAlign: "center",
               borderBottom: `2px solid ${'#D9D9D9'}`,
               borderRadius: 0,
               padding: '10px 30px',

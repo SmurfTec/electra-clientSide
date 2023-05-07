@@ -40,30 +40,31 @@ export const FooterProductCarousel = () => {
   return (
     <Stack align="center">
       <Carousel
-        maw={1200}
+        maw={"98vw"}
         loop
-        slideGap={100}
+        // slideGap={}
         nextControlIcon={
-          <div className="-mt-[15rem] bg-transparent">
-            <Image alt="arrow" src={'/images/carousel/VectorArrowRight.png '} fit="contain" />
+          <div className="-mt-[25rem] bg-transparent">
+            <Image alt="arrow" className='h-16 w-16 sm:h-0 sm:w-0' src={'/images/carousel/VectorArrowRight.png '} fit="contain" />
           </div>
         }
         previousControlIcon={
-          <div className="-mt-[15rem] bg-transparent">
-            <Image alt="arrow" src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
+          <div className="-mt-[25rem] bg-transparent">
+            <Image alt="arrow" className='h-16 w-16 sm:h-0 sm:w-0' src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
           </div>
         }
         withIndicators={false}
         classNames={classes}
-        height={450}
-        slideSize="43.3%"
+        
+        height={350}
+        slideSize="33.33%"
         getEmblaApi={setEmbla}
         initialSlide={2}
       >
         {carosuelData.map((item, index) => (
           <Carousel.Slide key={index}>
             <Center>
-              <Image src={item.imgsrc} alt="product" fit="contain" width={500} height={450} />
+              <Image src={item.imgsrc} alt="product" fit="contain" height={350} width={"100%"} />
             </Center>
           </Carousel.Slide>
         ))}

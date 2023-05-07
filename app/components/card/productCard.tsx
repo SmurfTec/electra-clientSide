@@ -32,7 +32,6 @@ export function ProductCard({
 }: ProductCardProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof ProductCardProps>) {
   const linkProps = {
     href: link,
-    target: '_blank',
     rel: 'noopener noreferrer',
   };
 
@@ -40,7 +39,7 @@ export function ProductCard({
 
   return (
     <Card key={id} className={clsx('relative rounded-none', className)} {...others}>
-      <Card.Section component={NextLink} href="/product-detail">
+      <Card.Section component={NextLink} href={link}>
         <Paper bg={'#F5F5F5'} className="p-12 flex justify-center items-center">
           <Image height={120} width={100} alt={image} src={image} className="h-1/4 w-1/2" />
         </Paper>

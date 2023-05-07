@@ -20,9 +20,9 @@ export const ContactUsForm = () => {
   return (
     <form onSubmit={form.onSubmit((values) => console.log(values))}>
       <Grid columns={12}>
-        <Grid.Col span={7}>
+        <Grid.Col xs={7}>
           <Grid columns={6} grow>
-            <Grid.Col span={3}>
+            <Grid.Col xs={3}>
               <TextInput
                 label="First Name"
                 className="uppercase font-semibold"
@@ -30,7 +30,7 @@ export const ContactUsForm = () => {
                 {...form.getInputProps('firstName')}
               />
             </Grid.Col>
-            <Grid.Col span={3}>
+            <Grid.Col xs={3}>
               <TextInput
                 label="Last Name"
                 className="uppercase font-semibold"
@@ -38,7 +38,7 @@ export const ContactUsForm = () => {
                 {...form.getInputProps('lastName')}
               />
             </Grid.Col>
-            <Grid.Col span={3}>
+            <Grid.Col xs={3}>
               <TextInput
                 label="Email"
                 className="uppercase font-semibold"
@@ -46,7 +46,7 @@ export const ContactUsForm = () => {
                 {...form.getInputProps('email')}
               />
             </Grid.Col>
-            <Grid.Col span={3}>
+            <Grid.Col xs={3}>
               <NumberInput
                 label="Phone No"
                 hideControls
@@ -55,7 +55,7 @@ export const ContactUsForm = () => {
                 {...form.getInputProps('phone')}
               />
             </Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col xs={6}>
               <Textarea
                 label="Message"
                 className="uppercase font-semibold"
@@ -69,14 +69,14 @@ export const ContactUsForm = () => {
                 {...form.getInputProps('message')}
               />
             </Grid.Col>
-            <Grid.Col span={2}>
-              <Button type="submit" className='w-1/2' size={'lg'} uppercase rightIcon={<ArrowUpRight />}>
+            <Grid.Col xs={2}>
+              <Button type="submit" className='' size={'lg'} uppercase rightIcon={<ArrowUpRight />}>
                 Send Message
               </Button>
             </Grid.Col>
           </Grid>
         </Grid.Col>
-        <Grid.Col span={5}></Grid.Col>
+        <Grid.Col xs={5}></Grid.Col>
       </Grid>
     </form>
   );

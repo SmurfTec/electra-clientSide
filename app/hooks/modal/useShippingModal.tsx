@@ -28,7 +28,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
     <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col span={12}>
+          <Grid.Col xs={12}>
             <TextInput
               className="uppercase"
               label="Address#1"
@@ -37,7 +37,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('address1')}
             />
           </Grid.Col>
-          <Grid.Col span={12}>
+          <Grid.Col xs={12}>
             <TextInput
               className="uppercase"
               label="Address#2"
@@ -46,7 +46,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('address2')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <Select
               rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
@@ -61,7 +61,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('country')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <Select
               rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
@@ -76,7 +76,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('state')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <Select
               rightSection={<CaretDown fill="black" size="1rem" />}
               rightSectionWidth={30}
@@ -91,7 +91,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('city')}
             />
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <TextInput
               className="uppercase"
               description="(Required)"
@@ -100,12 +100,12 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               {...form.getInputProps('postalCode')}
             />
           </Grid.Col>
-          <Grid.Col span={8}>
+          <Grid.Col xs={8}>
             <Group className="ml-55 mt-4" spacing={'xl'}>
-              <Button onClick={close} className="w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
+              <Button onClick={close} className="xs:w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
                 Cancel
               </Button>
-              <Button type="submit" className="w-1/3" size={'lg'}>
+              <Button type="submit" className="xs:w-1/3" size={'lg'}>
                 Update
               </Button>
             </Group>

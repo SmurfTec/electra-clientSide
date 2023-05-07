@@ -12,11 +12,11 @@ export function Box({ label, title, description }: BoxProps) {
           {label}
         </Badge>
       </div>
-      <div className="ml-4">
+      <div className="ml-4 w-full">
         <Title order={5} className="font-bold">
           {title}
         </Title>
-        <Text className="w-2/3 mt-1" size={'sm'}>
+        <Text className="w-full mt-1" size={'sm'}>
           {description}
         </Text>
       </div>

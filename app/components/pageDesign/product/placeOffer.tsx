@@ -1,10 +1,11 @@
 import { ListItem, Only } from '@elektra/customComponents';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
+import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
-import { ButtonChip } from '../product/placeOffer';
 
 type ListingDescriptionProps = {
   condition: string;
@@ -25,7 +26,7 @@ type ListingDescriptionProps = {
   setCondition: Dispatch<SetStateAction<string>>;
 };
 
-export function ListingDescription({
+export function PlaceOfferComponent({
   carrier,
   color,
   condition,
@@ -47,6 +48,8 @@ export function ListingDescription({
   const [storageState, setStorageState] = useState<string>(storage);
   const [carrierState, setCarrierState] = useState<string>(carrier);
   const [colorState, setColorState] = useState<string>(color);
+  const router = useRouter();
+  const isNew = router.query['condition'] === 'new';
   return (
     <div>
       <Group>
@@ -72,7 +75,7 @@ export function ListingDescription({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={['New', 'Used']} state={condition} setState={setCondition} />
+        <ButtonChip data={isNew ? ['New', 'Used'] : [condition]} state={condition} setState={setCondition} />
       </div>
 
       <div className="my-8">
@@ -83,45 +86,25 @@ export function ListingDescription({
         <Text className="uppercase font-semibold my-4" size="sm">
           Storage
         </Text>
-        <ButtonChip data={storageData!} setState={setStorageState} state={storageState} />
+        <ButtonChip data={isNew ? storageData! : [storageState]} setState={setStorageState} state={storageState} />
       </div>
 
       <div className="my-4">
         <Text className="uppercase font-semibold my-4" size="sm">
           Carrier
         </Text>
-        <ButtonChip data={carrierData!} setState={setCarrierState} state={carrierState} />
+        <ButtonChip data={isNew ? carrierData! : [carrierState]} setState={setCarrierState} state={carrierState} />
       </div>
       <div className="my-4">
         <Text className="uppercase font-semibold my-4" size="sm">
           Color
         </Text>
-        <ButtonChip data={colorData!} setState={setColorState} state={colorState} />
+        <ButtonChip data={isNew ? colorData! : [colorState]} setState={setColorState} state={colorState} />
       </div>
 
       <Group>
-        <Input.Wrapper label="LOWEST ASK" maw={114}>
-          <NumberInput
-            radius={0}
-            styles={{
-              input: {
-                background: '#F1F1F1',
-                fontWeight: 'bold',
-                fontSize: '24px',
-                color: '#656565;',
-              },
-            }}
-            hideControls
-            value={lowestAsk}
-            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-            formatter={(value) =>
-              !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
-            }
-            disabled
-          />
-        </Input.Wrapper>
-        <Only when={!!highestAsk}>
-          <Input.Wrapper label="HIGHEST ASK" maw={114}>
+        <Only when={isNew}>
+          <Input.Wrapper label="LOWEST ASK" maw={114}>
             <NumberInput
               radius={0}
               styles={{
@@ -129,11 +112,53 @@ export function ListingDescription({
                   background: '#F1F1F1',
                   fontWeight: 'bold',
                   fontSize: '24px',
-                  color: '#3C82D6',
+                  color: '#656565;',
                 },
               }}
               hideControls
-              value={highestAsk}
+              value={lowestAsk}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
+            />
+          </Input.Wrapper>
+          <Only when={!!highestAsk}>
+            <Input.Wrapper label="HIGHEST ASK" maw={114}>
+              <NumberInput
+                radius={0}
+                styles={{
+                  input: {
+                    background: '#F1F1F1',
+                    fontWeight: 'bold',
+                    fontSize: '24px',
+                    color: '#3C82D6',
+                  },
+                }}
+                hideControls
+                value={highestAsk}
+                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                formatter={(value) =>
+                  !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+                }
+              />
+            </Input.Wrapper>
+          </Only>
+        </Only>
+        <Only when={!isNew}>
+          <Input.Wrapper label="Similar items average sale price">
+            <NumberInput
+              radius={0}
+              styles={{
+                input: {
+                  background: '#F1F1F1',
+                  fontWeight: 'bold',
+                  fontSize: '24px',
+                  color: '#656565;',
+                },
+              }}
+              hideControls
+              value={lowestAsk}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
@@ -160,7 +185,7 @@ export function ListingDescription({
           }
           styles={{
             input: {
-              height: "auto",
+              height: 'auto',
               border: 'unset',
               fontSize: '48px',
               fontWeight: 'bold',
@@ -174,16 +199,16 @@ export function ListingDescription({
       </Group>
 
       <div className="my-8">
-        <PositionApart  text={'Your Offer'} number={160} />
+        <PositionApart text={'Your Offer'} number={160} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          <PositionApart  text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
-          <PositionApart  text={'Sales Tax'} number={saleTax} />
-          <PositionApart  text={'Shipping Fee'} number={shippingFee} />
-          <PositionApart  text={'Discount'} number={discount} discount />
+          <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
+          <PositionApart text={'Sales Tax'} number={saleTax} />
+          <PositionApart text={'Shipping Fee'} number={shippingFee} />
+          <PositionApart text={'Discount'} number={discount} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart  text={'Total Price'} number={183} />
+        <PositionApart text={'Total Price'} number={183} />
       </div>
 
       <Only when={condition === 'New'}>
@@ -208,8 +233,10 @@ export function ListingDescription({
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
+              component={NextLink}
+              href="/buying-summary"
             >
-              List Item
+              Review Offer
             </Button>
           </Grid.Col>
         </Grid>
@@ -220,8 +247,38 @@ export function ListingDescription({
 
 type ButtonChipProps = {
   data: string[];
-  state:string
+  state: string;
   setState: Dispatch<SetStateAction<string>>;
 };
 
-
+export function ButtonChip({ data, state, setState }: ButtonChipProps) {
+  return (
+    <Group position="left">
+      {data.map((item, key) => (
+        <Button
+          key={item + key}
+          size="lg"
+          styles={{
+            root: {
+              color: item !== state ? 'black' : 'white',
+              '&:hover': {
+                backgroundColor: 'black !important',
+                color: 'white !important',
+              },
+            },
+            label: {
+              '&:hover': {
+                color: 'white !important',
+              },
+            },
+          }}
+          bg={item !== state ? '#f1f1f1' : 'black'}
+          onClick={() => setState(item)}
+          className="font-[500]"
+        >
+          {item}
+        </Button>
+      ))}
+    </Group>
+  );
+}
