@@ -15,7 +15,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { ChevronDown } from 'tabler-icons-react';
 
 export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -52,7 +52,6 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     // if(regexp.test(value)){
     //   console.log(true)
     // }
-    console.log(value);
     let data = value.toString();
     while (data.length < 16) {
       data += '0';
@@ -77,11 +76,13 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     return data;
   };
 
+  const matches = useMediaQuery('(max-width: 800px)');
+
   const Modal = (
     <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col span={8}>
+          <Grid.Col xs={8}>
             <Text className="text-lg mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">
@@ -357,7 +358,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
               {...form.getInputProps('postalCode')}
             />
           </Grid.Col>
-          <Grid.Col span={8}>
+          <Grid.Col xs={8}>
             <Group className="ml-55 mt-4" spacing={'xl'}>
               <Button onClick={close} className="w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
                 Cancel

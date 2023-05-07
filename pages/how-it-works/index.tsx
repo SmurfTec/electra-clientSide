@@ -19,7 +19,7 @@ export default function HowItWorks() {
           },
         }}
         size="md"
-        className="w-1/3"
+        className="w-full xs:w-1/3"
         value={value}
         onChange={setValue}
         data={[

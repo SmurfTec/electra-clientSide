@@ -1,4 +1,5 @@
 import { ActionIcon, Badge, Button, Group, Text } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { Check, CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
 
@@ -19,6 +20,8 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
               },
             }}
             radius="xl"
+            component={NextLink}
+            href="/order-detail"
           >
             View Details
           </Button>

@@ -1,4 +1,6 @@
-import { Button, createStyles,Title } from '@mantine/core';
+import { Only } from '@elektra/customComponents';
+import { Button, createStyles, Title } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import Image from 'next/image';
 
@@ -11,29 +13,27 @@ export interface IHerocomponentProps {
 
 export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHerocomponentProps) => {
   const { classes } = useStyles();
+
+  const matches = useMediaQuery('(max-width: 800px)');
   return (
-    <div className={classes.parent}>
-      <Image
-        alt="background-image"
-        className={classes.image}
-        layout="fill"
-        objectFit="cover"
-        src={backgroundImage}
-      />
-      <div className={classes.container}>
-        <Title className={classes.title} color="white" order={1}>
+    <div className={classes.parent + "relative"}>
+      <Image alt="background-image" className={classes.image} layout="fill" objectFit="cover" src={backgroundImage} />
+      <div className={classes.container }>
+        <Title className={classes.title + "text-left" } color="white" order={1}>
           {title}
         </Title>
         {subTitle && (
-          <Title className={classes.subtitle} order={1}>
+          <Title className={classes.subtitle + "text-left"} color="white" order={1}>
             {subTitle}
           </Title>
         )}
-        <div className={classes.controls}>
-          <Button component={NextLink} href={href} size="md" uppercase color="blue">
-            Shop Today
-          </Button>
-        </div>
+        <Only when={!matches}>
+          <div className=" mt-4 left-10">
+            <Button component={NextLink} href={href} size="md" uppercase color="blue">
+              Shop Today
+            </Button>
+          </div>
+        </Only>
       </div>
     </div>
   );
@@ -67,6 +67,7 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('md')]: {
       textAlign: 'center',
       width: 'auto',
+      
     },
   },
 

@@ -4,6 +4,7 @@ import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantin
 import { ChevronRight } from 'tabler-icons-react';
 import { BiddingInput } from '../../inputs';
 import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -45,6 +46,8 @@ export function ProductSpecification({
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer();
+    const router = useRouter()
+    
   return (
     <div>
       <Title className="uppercase" color={'#656565'} order={6}>
@@ -203,12 +206,12 @@ export function ProductSpecification({
         <div>
           <Grid>
             <Grid.Col span={6}>
-              <Button component={NextLink} href="/buying-summary"  size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/buy-offer?condition=new" : "/buy-offer"}  size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
                 BUY NOW
               </Button>
             </Grid.Col>
             <Grid.Col span={6}>
-              <Button component={NextLink} href="/product-listing" size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/place-offer?condition=new" : "/place-offer"} size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
                 PLACE OFFER
               </Button>
             </Grid.Col>
