@@ -9,7 +9,7 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import { Container, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
+import { Center, Container, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 const carouselData = [
@@ -165,6 +165,18 @@ const categoryData = [
     title: 'Phones',
     link: '/shop',
   },
+  {
+    id: 7,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
+  {
+    id: 8,
+    image: '/images/category.png',
+    title: 'Phones',
+    link: '/shop',
+  },
 ];
 
 const brandData = [
@@ -264,11 +276,12 @@ export function Index() {
 
       <section className="mt-20">
         <SectionTitle title="Categories" />
-        <ScrollArea>
+        
           <Grid gutter={matches ? 10 : 40}>
             {categoryData.map((category, index) => {
               return (
                 <Grid.Col xs={2} span={6} key={index}>
+                  <Center>
                   <CategoryCard
                     key={index}
                     image={category.image}
@@ -276,11 +289,12 @@ export function Index() {
                     title={category.title}
                     link={category.link}
                   />
+                  </Center>
                 </Grid.Col>
               );
             })}
           </Grid>
-        </ScrollArea>
+        
       </section>
 
       <section className="mt-20">

@@ -7,7 +7,7 @@ export function Reward() {
   return (
     <>
       <RewardBox />
-      <Divider size={'xs'} className="my-10" />
+      <Divider size={'xs'} className="mt-10 mb-5" />
       <RewardInput />
       <Divider size={'xs'} className="my-10" />
       <RewardTable />

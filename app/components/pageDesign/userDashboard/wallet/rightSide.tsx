@@ -86,28 +86,28 @@ export const WalletRightSide = () => {
             />
             <Center className="space-x-4">
               <Button
-                styles={{
+                styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: 90,
+                    width: theme.fn.smallerThan(1150)?70: 90,
                   },
-                }}
-                className="text-base font-medium"
+                })}
+                className="text-[13px] md:text-base font-medium"
               >
                 All
               </Button>
               <Button
-                className="text-base font-medium text-black"
+                className="text-[13px] md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
-                styles={{
+                styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: 120,
+                    width: theme.fn.smallerThan(1150)?115: 120,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },
                   },
-                }}
+                })}
                 rightIcon={
                   <Avatar size={16} radius={16} variant="filled" color="blue">
                     <Number2 size={12} />
@@ -117,22 +117,22 @@ export const WalletRightSide = () => {
                 Sales
               </Button>
               <Button
-                className="text-base font-medium text-black"
+                className="text-[13px] md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
-                styles={{
+                styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: 115,
+                    width: theme.fn.smallerThan(1150)?100:115,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },
                   },
-                }}
+                })}
               >
                 Payouts
               </Button>
             </Center>
-            <Text className="font-medium" size={14}>
+            <Text className="text-[10px] md:text-sm font-medium">
               Following Transactions has been processed
             </Text>
           </Stack>
@@ -159,6 +159,7 @@ export const WalletRightSide = () => {
             <Menu.Target>
               <Button
                 variant="outline"
+                className='text-[13px] md:text-base font-normal'
                 rightIcon={opened ? <CaretUp size={15} /> : <CaretDown size={15} />}
                 styles={{
                   root: {

@@ -1,5 +1,5 @@
+import { SimpleStatCardProps, SimpleStateCard } from '@elektra/components/card';
 import { Grid } from '@mantine/core';
-import { SimpleStatCardProps, SimpleStateCard } from '../../../card';
 
 type StateCardProps = {
   data: Array<SimpleStatCardProps>;
@@ -8,9 +8,9 @@ type StateCardProps = {
 
 export const StateCard = ({ data,className }: StateCardProps) => {
   return (
-    <Grid className={className}>
+    <Grid className={className} >
       {data.map((item, key) => (
-        <Grid.Col key={key} span={2}>
+        <Grid.Col key={key}  span={4} md={2}>
           <SimpleStateCard key={key} title={item.title} value={item.value} type={item.type} />
         </Grid.Col>
       ))}

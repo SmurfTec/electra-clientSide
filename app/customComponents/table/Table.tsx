@@ -112,6 +112,9 @@ const useStyles = createStyles((theme) => ({
           color: '#B4B4B4',
           fontWeight: 400,
           fontSize: '1rem',
+          [theme.fn.smallerThan(1150)]: {
+            fontSize: '0.8rem',
+          },
         },
       },
     },

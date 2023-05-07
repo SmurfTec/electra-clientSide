@@ -33,20 +33,20 @@ const tabViewData: tabViewData[] = [
   },
   {
     title: 'Logout',
-    content: 'hey',
+    content: 'Logout',
   },
 ];
 
 export default function UserDashboard() {
   return (
     <div className="my-12">
-      <div className="ml-8 mb-4">
+      <div className="ml-2 md:ml-8 mb-4">
         <Title className="font-bold" color="black" order={4}>
           Huzafa Hanif
         </Title>
       </div>
-      <div className="mx-8">
-        <TabView data={tabViewData} />
+      <div className=" md:mx-8">
+        <TabView data={tabViewData} position='left'/>
       </div>
     </div>
   );

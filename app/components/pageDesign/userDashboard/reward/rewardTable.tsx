@@ -36,7 +36,7 @@ export const RewardTable = () => {
         Redeem History
       </Title>
       <Grid>
-        <Grid.Col span={5}>
+        <Grid.Col span={12} md={5}>
           <DataTable data={redeemtabledata} columns={getHeaderColumn()} RowUI={SimpleRow} />
         </Grid.Col>
         <Grid.Col></Grid.Col>

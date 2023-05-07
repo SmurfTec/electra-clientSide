@@ -69,7 +69,6 @@ export function Profile() {
   return (
     <div className="m-0">
       <Modal
-         
          children={emailModal}
          onClose={emailHandler.close}
          open={emailOpened}
@@ -83,7 +82,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="First Name"
                 placeholder="Enter First Name"
-                className="font-bold uppercase"
+                className="text-black text-sm font-semibold uppercase"
                 {...form.getInputProps('firstName')}
               />
             </Grid.Col>
@@ -93,7 +92,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="font-bold uppercase"
+                className="text-black text-sm font-semibolduppercase"
                 {...form.getInputProps('lastName')}
               />
             </Grid.Col>
@@ -103,7 +102,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Email Address"
                 placeholder="Enter Email Address"
-                className="font-bold uppercase"
+                className="text-black text-sm font-semibold uppercase"
                 {...form.getInputProps('email')}
               />
             </Grid.Col>
@@ -113,7 +112,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Phone No"
                 placeholder="Enter Phone no"
-                className="font-bold uppercase"
+                className="text-black text-sm font-semibold uppercase"
                 {...form.getInputProps('phone')}
               />
             </Grid.Col>
@@ -123,7 +122,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="User Name"
                 placeholder="Enter Username"
-                className="font-bold uppercase"
+                className="text-black text-sm font-semibold uppercase"
                 {...form.getInputProps('lastName')}
               />
             </Grid.Col>

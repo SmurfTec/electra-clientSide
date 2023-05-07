@@ -5,16 +5,14 @@ import { Modal } from '@elektra/customComponents';
 export const RewardInput = () => {
   const [RedeemInputModal, count, opened, { open, close }] = useRedeemInputModal();
   
-  
   return (
-    <>
-         
+    <>    
       <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
-      <Paper shadow="xl" p="xl" className="w-1/6">
+      <Paper shadow="xl" p="xl" className="w-4/5 md:w-1/5">
         <Group position="left">
-          <Avatar src="images/coin.png" size={'md'} radius="lg" />
+          <Avatar src="images/coin.png" size={'lg'} radius="lg" />
           <div>
-            <Text size={40} className="font-bold">
+            <Text size={40} className="text-black font-bold">
               {count}
             </Text>
             <Text fz="sm" c="dimmed">
@@ -22,9 +20,9 @@ export const RewardInput = () => {
             </Text>
           </div>
         </Group>
-        <Group spacing={8}>
+        <Group spacing={8} mt={10}>
           <Avatar src="images/coin.png" size={'xs'} radius="lg" />
-          <Text size={15}>
+          <Text size={15} className='text-black'>
             {count} = ${count / 100}
           </Text>
         </Group>
@@ -34,7 +32,7 @@ export const RewardInput = () => {
           </Button>
         </div>
       </Paper>
-      <Text fz="sm" mt={15} color="#656565">
+      <Text className='text-[10px] md:text-base' mt={15} color="#656565">
         Note : On every sale and purchase get reward points.
       </Text>
     </>

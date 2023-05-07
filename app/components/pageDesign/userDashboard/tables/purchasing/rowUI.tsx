@@ -16,7 +16,7 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
         </div>
       );
     default:
-      return <Text color="inherit">{cell.getValue() as string}</Text>;
+      return <Text color="inherit" className='text-[11px] md:text-sm font-medium'>{cell.getValue() as string}</Text>;
   }
 }
 export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {

@@ -12,14 +12,14 @@ export function Security() {
   const { classes } = useStylesforGlobal();
   return (
     <div>
-      <PageTitle title="Security" />
+      
       <div className="space-y-8">
-        <Group position="apart">
+        <Group position="apart" align='top' className='md:mt-5'>
           <div>
-            <Text size="lg" className="uppercase font-medium">
+            <Text  className="text-xs uppercase font-semibold text-black">
               Password
             </Text>
-            <Text size="xl" className="font-medium">
+            <Text size={20} className="font-normal text-black">
               ********
             </Text>
           </div>
@@ -35,12 +35,12 @@ export function Security() {
           onClose={passwordHandler.close}
           open={passwordOpened}
         />
-        <Group position="apart">
+        <Group position="apart"  align='top'>
           <div>
-            <Text size="lg" className="uppercase font-medium">
+            <Text className="text-xs uppercase font-semibold text-black">
               Shipping Address
             </Text>
-            <Text size="lg" className="font-medium">
+            <Text  className=" text-[13px] md:text-base font-semibold text-black">
               16 Street , Town Abc, City, USA , 213434
             </Text>
           </div>
@@ -59,20 +59,44 @@ export function Security() {
           onClose={shippingHandler.close}
           open={shippingOpened}
         />
-        <Group position="apart">
+        <Group position="apart"  align='top'>
           <div>
-            <Text size="lg" className="uppercase font-medium">
+            <Text className="text-xs uppercase font-semibold text-black">
+              Billing Address
+            </Text>
+            <Text  className="text-[13px] md:text-base font-semibold text-black">
+              16 Street , Town Abc, City, USA , 213434
+            </Text>
+          </div>
+          <Button
+            leftIcon={<Pencil />}
+            onClick={shippingHandler.open}
+            classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
+          ></Button>
+        </Group>
+        <Modal
+          size={800}
+          title="Billing Address"
+          className="mx-10 mb-7 mt-4"
+          titlePosition="left"
+          children={ShippingChangeModal}
+          onClose={shippingHandler.close}
+          open={shippingOpened}
+        />
+        <Group position="apart"  align='top'>
+          <div>
+            <Text className="text-xs uppercase font-semibold text-black">
               Buying Info
             </Text>
             <Group>
-              <Text size="lg" className="font-medium inline-block -mr-3">
+              <Text size={15} className="font-semibold text-black inline-block -mr-3">
                 3435
               </Text>
-              <Text size="lg" className="font-medium inline-block">
+              <Text size={15} className="font-semibold text-black inline-block">
                 **** **** ****
               </Text>
               <Divider size={'md'} orientation="vertical" className="inline-block" />
-              <Text size="lg" className="font-semibold inline-block" c="#3C82D6">
+              <Text size={15} className="font-semibold inline-block" c="#3C82D6">
                 Mastercard
               </Text>
             </Group>
@@ -92,20 +116,20 @@ export function Security() {
           onClose={cardHandler.close}
           open={cardOpened}
         />
-        <Group position="apart">
+        <Group position="apart"  align='top'>
           <div>
-            <Text size="lg" className="uppercase font-medium">
+            <Text className="text-xs uppercase font-semibold text-black">
               Selling Info
             </Text>
             <Group>
-              <Text size="lg" className="font-medium inline-block -mr-3">
+              <Text size={15} className="font-semibold text-black inline-block -mr-3">
                 3435
               </Text>
-              <Text size="lg" className="font-medium inline-block">
+              <Text size={15} className="font-semibold text-black inline-block">
                 **** **** ****
               </Text>
               <Divider size={'md'} orientation="vertical" className="inline-block" />
-              <Text size="lg" className="font-semibold inline-block" c="#3C82D6">
+              <Text size={15} className="font-semibold inline-block" c="#3C82D6">
                 Mastercard
               </Text>
             </Group>
@@ -116,6 +140,7 @@ export function Security() {
             classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
           ></Button>
         </Group>
+        <Divider className='w-full md:hidden block' />
         <Switch
           size="md"
           styles={{
@@ -127,6 +152,7 @@ export function Security() {
           }}
           onClick={emailHandler.open}
           labelPosition="left"
+          
           className="text-black font-semibold"
           label="Enable two factor authentication on your account."
         />
