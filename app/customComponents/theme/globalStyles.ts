@@ -38,6 +38,10 @@ export const useStylesforGlobal = createStyles((theme) => ({
     height: '28px',
     width: '65px',
     borderRadius: '30px',
+    [theme.fn.smallerThan(1150)]:{
+      width:'50px',
+      height: '25px',
+    },
     '&:hover': {
       color: 'white !important',
       background: '#3C82D6 !important',
