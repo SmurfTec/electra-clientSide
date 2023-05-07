@@ -283,7 +283,7 @@ export function Index() {
         </ScrollArea>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-14">
         <Grid>
           {bannerData.map((item, key) => (
             <Grid.Col sm={6} key={key}>
@@ -358,7 +358,7 @@ export function Index() {
           slideSize={matches ? '100%' : '33.33%'}
         />
       </section>
-      <section className="">
+      <section className="mt-[-150px] sm:mt-[-60px]">
         <SectionTitle title="Brands" />
         <Grid gutter={matches ? 10 : 40}>
           {brandData.map((category, index) => {
@@ -376,12 +376,12 @@ export function Index() {
           })}
         </Grid>
       </section>
-      <div className="mt-10">
+      <div className="mt-24">
         <Stack justify="center" align="center">
           <Text size={24} className="font-bold text-black">
             Popular Products
           </Text>
-          <Text size={48} className="font-extrabold text-black">
+          <Text size={48} className="font-extrabold text-black text-center">
             Beats Headphones
           </Text>
           <FooterProductCarousel />
