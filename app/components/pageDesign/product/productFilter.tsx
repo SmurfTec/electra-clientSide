@@ -23,11 +23,11 @@ export const ProductFilter = () => {
         <FilterDisplayPrice setState={setRangePrice} state={rangePrice} label="Price Range" />
       </Flex>
       <div></div>
-      <div
+      <Group
         className={
           condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0 || rangePrice.length!=0
-            ? 'space-x-3 -mt-40'
-            : 'space-x-3 -mt-16'
+            ? 'sm:-mt-40'
+            : '-mt-16'
         }
       >
         <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
@@ -35,7 +35,7 @@ export const ProductFilter = () => {
         <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
         <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
         <FilterPrice setState={setRangePrice} state={rangePrice} label='Price Range' width={148} />
-      </div>
+      </Group>
     </Group>
   );
 };
