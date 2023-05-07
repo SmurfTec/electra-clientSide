@@ -41,7 +41,14 @@ export default function FAQ() {
           },
         }}
       >
-        <SimpleGrid cols={3}>
+        <SimpleGrid
+          cols={3}
+          breakpoints={[
+            { maxWidth: '62rem', cols: 3, spacing: 'md' },
+            { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+            { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+          ]}
+        >
           <Accordion.Item value="focus-r">
             <Accordion.Control>Lorem ipsum dolor sit amet, consectetur adipiscing elit?</Accordion.Control>
             <Accordion.Panel>

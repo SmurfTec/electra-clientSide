@@ -16,17 +16,25 @@ export const ItemFilter = () => {
   const [priceRange, setPriceRange] = useState<Array<number>>([]);
   return (
     <Stack>
-        <Group position='apart' >
-      <div className={'space-x-3'}>
-        <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
-        <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
-        <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
-        <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-        <FilterPrice  setState={setPriceRange} state={priceRange} label="Price Range" width={148} />
-      </div>
-        <Button variant='outline' rightIcon={<CaretDown size={15} />} styles={{root:{
-            borderRadius:25
-        }}}>Sort By</Button>
+      <Group position="apart">
+        <Group>
+          <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
+          <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
+          <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
+          <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
+          <FilterPrice setState={setPriceRange} state={priceRange} label="Price Range" width={148} />
+        </Group>
+        <Button
+          variant="outline"
+          rightIcon={<CaretDown size={15} />}
+          styles={{
+            root: {
+              borderRadius: 25,
+            },
+          }}
+        >
+          Sort By
+        </Button>
       </Group>
       <Flex wrap={'nowrap'} gap={20}>
         <FilterDisplay setState={setCondition} state={condition} label="Condition" />

@@ -29,12 +29,12 @@ const footerCardData: FooterCardProps[] = [
 
 export function Footer() {
   return (
-    <div className="mt-48">
-      <section className="my-14">
-        <Grid>
+    <div className="mt-24">
+      <section className="my-8">
+        <Grid gutter={50} gutterXs={0}>
           {footerCardData.map((item, key) => {
             return (
-              <Grid.Col span={6} md={3} sm={3} key={key}>
+              <Grid.Col className='px-0' span={6} md={3} sm={3} key={key}>
                 <FooterCard icon={item.icon} heading={item.heading} description={item.description} />
               </Grid.Col>
             );
