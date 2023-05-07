@@ -45,7 +45,7 @@ export const TableHeaderBar = ({
         </div>
       </Grid.Col>
       <Grid.Col span={12} md={6}>
-        <div>
+        
           <Group position={mediumdScreen ? 'right' : 'apart'}>
             <TextInput
               styles={{ input: { backgroundColor: '#F1F1F1' } }}
@@ -55,6 +55,7 @@ export const TableHeaderBar = ({
               onChange={(event) => searchSetState(event.currentTarget.value)}
               icon={<Search />}
               placeholder="Search by Id, name"
+              maw={"65%"}
             />
             <DateInput
               maxDate={new Date()}
@@ -63,10 +64,11 @@ export const TableHeaderBar = ({
               onChange={(v) => console.log(v)}
               rightSection={<Calendar color="white" fill="black" />}
               placeholder="Filter Date"
-              maw={mediumdScreen ? 155 : 120}
+              maw={mediumdScreen ? '30%' : '35%'}
+              // maw={mediumdScreen ? 155 : 120}
             />
           </Group>
-        </div>
+        
       </Grid.Col>
       <Grid.Col span={12}>
         <StateCard data={data} className="my-4" />
