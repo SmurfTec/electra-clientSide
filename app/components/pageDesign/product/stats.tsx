@@ -9,7 +9,7 @@ type StateProps = {
 };
 export const Stats = ({ label, value, difference, price }: StateProps) => {
   return (
-    <Stack>
+    <Stack className='my-4'>
       <Text className="text-sm font-medium">{label}</Text>
       {value && (
         <Text size={40} className="font-bold text-black">

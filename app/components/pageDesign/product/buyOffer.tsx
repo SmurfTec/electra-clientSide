@@ -170,7 +170,7 @@ export function BuyOfferComponent({
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-32 py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="mt-6 px-2 xs:px-32 py-6 border-black border-solid ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>
@@ -214,9 +214,9 @@ export function BuyOfferComponent({
 
       <Only when={condition === 'New'}>
         <Grid>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <Button
-              className="font-[400]"
+              className="font-[400] text-[16px]"
               uppercase
               fullWidth
               size="xl"
@@ -226,9 +226,9 @@ export function BuyOfferComponent({
               Cancel
             </Button>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col xs={6}>
             <Button
-              className="font-[400]"
+              className="font-[400] text-[16px]"
               uppercase
               fullWidth
               size="xl"

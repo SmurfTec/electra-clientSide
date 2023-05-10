@@ -5,6 +5,7 @@ import { ChevronRight } from 'tabler-icons-react';
 import { BiddingInput } from '../../inputs';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from '@mantine/hooks';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -47,15 +48,18 @@ export function ProductSpecification({
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer();
     const router = useRouter()
+    const phone = useMediaQuery('(max-width: 600px)');
     
   return (
     <div>
+      <div className='space-y-2 mt-8 xs:mt-auto'>
       <Title className="uppercase" color={'#656565'} order={6}>
         About Product
       </Title>
-      <Title className="font-bold uppercase" size={'40px'} color={'black'} order={3}>
+      <Title className="font-bold uppercase" size={phone ? '20px' : "40px"} color={'black'} order={3}>
         {title}
       </Title>
+      </div>
       <form>
         <div className="space-y-4">
           <Drawer
@@ -63,10 +67,11 @@ export function ProductSpecification({
             children={TechinalSpecificationModal}
             onClose={techinalSpecificationHandler.close}
             open={techinalSpecificationOpened}
+            position={phone ? 'bottom': "right"}
           />
           <Button
             onClick={techinalSpecificationHandler.open}
-            className="w-full h-24"
+            className="w-full h-16 sm:h-24"
             rightIcon={<ChevronRight />}
             styles={{
               root: {
@@ -95,10 +100,11 @@ export function ProductSpecification({
             children={SellerDetailModal}
             onClose={sellerDetailHandler.close}
             open={sellerDetailOpened}
+            position={phone ? 'bottom': "right"}
           />
           <Button
             onClick={sellerDetailHandler.open}
-            className="w-full h-24"
+            className="w-full h-16 sm:h-24"
             rightIcon={<ChevronRight />}
             styles={{
               root: {
@@ -192,8 +198,8 @@ export function ProductSpecification({
           </Only>
         </div>
 
-        <div>
-          <Grid>
+        {/* <div> */}
+          <Grid gutter={20} grow>
             <Grid.Col span={6}>
               <BiddingInput title="Lowest Ask" value={169} />
             </Grid.Col>
@@ -201,17 +207,17 @@ export function ProductSpecification({
               <BiddingInput title="Highest Offer" value={179} />
             </Grid.Col>
           </Grid>
-        </div>
+        {/* </div> */}
 
         <div>
           <Grid>
             <Grid.Col span={6}>
-              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/buy-offer?condition=new" : "/buy-offer"}  size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/buy-offer?condition=new" : "/buy-offer"}  size={phone?"16px":"20px"} className="w-full h-16 uppercase font-[200]" bg="black">
                 BUY NOW
               </Button>
             </Grid.Col>
             <Grid.Col span={6}>
-              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/place-offer?condition=new" : "/place-offer"} size="20px" className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button component={NextLink} href={router.query['condition'] === 'new' ? "/place-offer?condition=new" : "/place-offer"} size={phone?"16px":"20px"} className="w-full h-16 uppercase font-[200]" bg="black">
                 PLACE OFFER
               </Button>
             </Grid.Col>
