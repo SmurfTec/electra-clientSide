@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Divider, Group, Image, Paper, SelectItemProps, Stack, Text } from '@mantine/core';
+import { ActionIcon, Badge, Divider, Grid, Group, Image, Paper, SelectItemProps, Stack, Text } from '@mantine/core';
 import { forwardRef } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -8,14 +8,16 @@ export type SearchItemProps = SelectItemProps & {
   image: string;
 };
 
-export const AutoCompleteItem = forwardRef<HTMLDivElement, SearchItemProps>(
+export const AutoCompleteItem =  forwardRef<HTMLDivElement, SearchItemProps>(
   ({ category, value, image, modal, ...rest }: SearchItemProps, ref) => (
     <div ref={ref} {...rest} >
-      <Group position="apart">
-        <Group className="space-x-2" align="top">
+      <Grid align='center'>
+        <Grid.Col span={2} className="space-x-2">
           <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
             <Image height={70} width={60} alt={'product'} src={image} />
           </Paper>
+          </Grid.Col>
+          <Grid.Col span={9}>
           <Stack align="start" spacing={0}>
             <Text className="font-medium text-black" size={14}>
               {category}
@@ -27,11 +29,13 @@ export const AutoCompleteItem = forwardRef<HTMLDivElement, SearchItemProps>(
               {modal}
             </Badge>
           </Stack>
-        </Group>
+        </Grid.Col>
+        <Grid.Col span={1}>
         <ActionIcon radius={25} variant="filled" color="black">
           <ArrowNarrowRight />
         </ActionIcon>
-      </Group>
+        </Grid.Col>
+      </Grid>
       <Divider className='absolute w-[94%] mt-4 ' />
     </div>
   )

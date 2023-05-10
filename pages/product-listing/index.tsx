@@ -51,12 +51,12 @@ export default function ProductListingPage() {
         <PageTitle title="Listing Item" />
       </div>
       <Grid className="my-10">
-        <Grid.Col span={6}>
+        <Grid.Col xs={6}>
           <div className='ml-10'>
-        <ProductCarousel />
+        {/* <ProductCarousel /> */}
         </div>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col xs={6}>
           <ListingDescription
             carrier={ListingDescriptionData.carrier}
             carrierData={ListingDescriptionData.carrierData}
