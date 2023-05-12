@@ -1,9 +1,24 @@
-import { Button, Container, Divider, Grid, Group, Image, Paper, Text, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Affix,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Group,
+  Image,
+  Paper,
+  Stack,
+  Tabs,
+  Text,
+  Title,
+} from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { FooterCard, FooterCardProps } from '../../card';
 
 import { useMediaQuery } from '@mantine/hooks';
-import { BrandFacebook, BrandLinkedin, BrandTwitter } from 'tabler-icons-react';
+import { useRouter } from 'next/router';
+import { Bell, Box, BrandFacebook, BrandLinkedin, BrandTwitter, Home, ListCheck, User } from 'tabler-icons-react';
 
 const footerCardData: FooterCardProps[] = [
   {
@@ -29,20 +44,24 @@ const footerCardData: FooterCardProps[] = [
 ];
 
 export function Footer() {
+  const router = useRouter();
   const phone = useMediaQuery('(max-width: 600px)');
+  // console.log(router)
   return (
     <div className="mt-24">
-      <section className="my-8">
-        <Grid gutter={50} gutterXs={0}>
-          {footerCardData.map((item, key) => {
-            return (
-              <Grid.Col className="px-0" span={6} md={3} sm={3} key={key}>
-                <FooterCard icon={item.icon} heading={item.heading} description={item.description} />
-              </Grid.Col>
-            );
-          })}
-        </Grid>
-      </section>
+      <Container size={1300}>
+        <section className="my-8">
+          <Grid gutter={50} gutterXs={0}>
+            {footerCardData.map((item, key) => {
+              return (
+                <Grid.Col className="px-0" span={6} md={3} sm={3} key={key}>
+                  <FooterCard icon={item.icon} heading={item.heading} description={item.description} />
+                </Grid.Col>
+              );
+            })}
+          </Grid>
+        </section>
+      </Container>
       <section>
         <Paper bg={'black'} radius="xs">
           <Container size={1300}>
@@ -91,13 +110,13 @@ export function Footer() {
           <Divider my="sm" className="mt-4 xs:mt-16" />
           <Paper className=" pb-4" bg={'black'}>
             <Container size={1300}>
-              <Group position='apart' className="border-2 border-red relative space-y-4">
+              <Group position="apart" className="border-2 border-red relative space-y-4">
                 <Group position="apart" className="xs:space-x-20">
                   <Group position="apart" align="top">
-                    <Title color={'white'} order={4} className='leading-0'>
+                    <Title color={'white'} order={4} className="leading-0">
                       Elektra
                     </Title>
-                    <Group align='end' className="xs:space-x-2">
+                    <Group align="end" className="xs:space-x-2">
                       <Text size={phone ? '12px' : 'md'} className="inline-block" color={'#B4B4B4'}>
                         Privacy Policy
                       </Text>
@@ -133,7 +152,7 @@ export function Footer() {
                   <Text size="md" className="inline-block" color={'#B4B4B4'}>
                     Info@lorem.com
                   </Text>
-                  <div className='space-x-4'>
+                  <div className="space-x-4">
                     <BrandFacebook color="white" />
                     <BrandTwitter color="white" />
                     <BrandLinkedin color="white" />
@@ -144,6 +163,99 @@ export function Footer() {
           </Paper>
         </Paper>
       </section>
+
+      {/* FOOTER MOBILE FIXED MENU*/}
+      {phone && (
+        // <section className="h-16 fixed bottom-0 w-full flex items-end">
+        <Affix position={{ bottom: 0 }} className="h-16 flex items-end" bg="black">
+          <Tabs
+            value={router.pathname as string}
+            onTabChange={(value) => router.push(value as string)}
+            className="w-full"
+            styles={{
+              tabsList: { color: 'white' },
+              tab: {
+                '&[data-active] div': {
+                  // backgroundColor: 'white',
+                  // color: 'black',
+                  color: 'white',
+                  borderBottom: '6px solid #3C82D6',
+                  borderRadius: '5px 5px 0px 0px',
+                },
+              },
+            }}
+            // defaultValue="/"
+          >
+            <Tabs.List className="w-[100vw]" grow>
+              <Tabs.Tab value="/">
+                <ActionIcon size={30}>
+                  <Stack align="center" spacing={0}>
+                    <Home size={30} />
+                    <Text size={10} color='inherit' className="font-medium">
+                      Home
+                    </Text>
+                  </Stack>
+                </ActionIcon>
+              </Tabs.Tab>
+              <Tabs.Tab value="/product-listing">
+                <ActionIcon size={30}>
+                  <Stack align="center" spacing={0}>
+                    <Box size={30} />
+                    <Text color='inherit' size={10} className="font-medium">
+                      List Now
+                    </Text>
+                  </Stack>
+                </ActionIcon>
+              </Tabs.Tab>
+              <Tabs.Tab value="/shop">
+                <ActionIcon size={30}>
+                  <Stack align="center" spacing={0}>
+                    <ListCheck size={30} />
+                    <Text color='inherit' size={10} className="font-medium">
+                      My Listing
+                    </Text>
+                  </Stack>
+                </ActionIcon>
+              </Tabs.Tab>
+              <Tabs.Tab value="/Notifications">
+                <ActionIcon size={30}>
+                  <Stack align="center" spacing={0}>
+                    <Bell size={30} />
+                    <Text color='inherit' size={10} className="font-medium">
+                      Notifications
+                    </Text>
+                  </Stack>
+                </ActionIcon>
+              </Tabs.Tab>
+              <Tabs.Tab value="/userdashboard">
+                <ActionIcon size={30}>
+                  <Stack align="center" spacing={0}>
+                    <User size={30} />
+                    <Text color='inherit' size={10} className="font-medium">
+                      Profile
+                    </Text>
+                  </Stack>
+                </ActionIcon>
+              </Tabs.Tab>
+            </Tabs.List>
+          </Tabs>
+        </Affix>
+      )}
     </div>
   );
 }
+
+// type FooterMenuIconProps = {
+//   icon: Icon;
+//   title: string;
+// };
+
+// function FooterMenuIcon({ icon, title }: FooterMenuIconProps) {
+//   return (
+//     <div>
+//       <div></div>
+//       {icon}
+//       <Text>{title}</Text>
+//     </div>
+//   );
+// }
