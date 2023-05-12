@@ -1,11 +1,13 @@
 import  Image   from 'next/image';
 import { createStyles, Image as MantineImage, Text } from '@mantine/core';
 import { Fragment } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 
 export const RightPanel = () => {
   const { classes } = useStyles();
+  const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <Fragment>
+    <div className='h-[50vh] sm:h-auto '>
       <Image alt="background-image" className="m-0 h-screen" layout="fill" src="/images/auth/loginBG.png" />
       <div className={classes.centerAlign}>
         <MantineImage alt="center-image" src="/images/auth/loginCenter.png" />
@@ -19,15 +21,15 @@ export const RightPanel = () => {
           src="/images/auth/loginTopLeft.png"
         />
       </div>
-      <div className={classes.bottomAlign}>
-        <Text className="font-bold mb-2" size="xl" color="white">
+      <div className="text-center absolute sm:left-1/2 bottom-1 sm:bottom-8 sm:-translate-x-1/2 -translate-y-1/2">
+        <Text className="font-bold mb-2" size={phone?16:"xl"} color="white">
           Buy the best items on our site.
         </Text>
-        <Text size="xs" color="white">
+        <Text size="xs" color="#B4B4B4"className='px-12 sm:px-0'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nec molestie dui, a consequat magna.
         </Text>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

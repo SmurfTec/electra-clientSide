@@ -1,6 +1,6 @@
 import { FooterProductCarousel, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
-import { BackgroundImage, Button, Container, Group, Image, Pagination, Text, Title } from '@mantine/core';
+import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { useMediaQuery, useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useState } from 'react';
@@ -238,7 +238,7 @@ export default function ShopPage() {
   const [value, toggle] = useToggle<boolean>([false, true]);
   const matches = useMediaQuery('(max-width: 600px)');
   return (
-    <Container size="lg" mt={20}>
+    <>
       <Image src="/images/shop/heroBanner.jpg" alt="banner" height={300} />
       <div className="my-4">
         <Group position="apart">
@@ -287,12 +287,12 @@ export default function ShopPage() {
         />
       </Group>
 
-      <BackgroundImage className="text-center min-h-[500px] relative" src="/images/shop/mobileBanner.png">
-        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 space-y-8">
+      <BackgroundImage className="text-center min-h-[350px]  xs:min-h-[500px] relative" src="/images/shop/mobileBanner.png">
+        <div className="absolute top-1/2 xs:left-1/2 -translate-y-1/2 xs:-translate-x-1/2 space-y-8">
           <Title color="white" size={!matches ? 96 : 48} className="font-[300]">
             NOKIA 1.3
           </Title>
-          <Text size={36} color="white" className="font-[100]">
+          <Text size={!matches ? 36 : 20} color="white" className="font-[100]">
             Get the newly released Nokia 1.3 and have the best expereince
           </Text>
           <Button
@@ -320,6 +320,6 @@ export default function ShopPage() {
       <div className="mt-10">
         <FooterProductCarousel />
       </div>
-    </Container>
+    </>
   );
 }

@@ -1,7 +1,8 @@
-import { Grid, Group, Modal, Paper, ScrollArea, Text } from '@mantine/core';
-import { useCarouselModal } from '@elektra/hooks';
 import { Only, TransparentButton } from '@elektra/customComponents';
-import Image from 'next/image';
+import { useCarouselModal } from '@elektra/hooks';
+import { Grid, Group, Image, Modal, Paper, ScrollArea, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+// import Image from 'next/image';
 
 export type ItemCardProps = {
   status?: string;
@@ -15,14 +16,14 @@ export type ItemCardProps = {
   company: string;
 };
 
-export function ItemCard({ title, image, space, color, company, date, price, sale, status, ...rest}: ItemCardProps) {
+export function ItemCard({ title, image, space, color, company, date, price, sale, status, ...rest }: ItemCardProps) {
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
-
+  const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <Grid {...rest} >
+    <Grid m={0} {...rest}>
       <Grid.Col span={2}>
         <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
-          <Image height={70} width={60} alt={title} src={image} onClick={carouselHandler.open} />
+          <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
           <Modal
             scrollAreaComponent={ScrollArea}
             fullScreen
@@ -76,33 +77,37 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
       <Grid.Col span={10} className="space-y-4">
         <Group position="apart">
           <Group>
-            <Text className="font-bold" size="xl">
+            <Text className="font-bold" size={phone ? 14 : 'xl'}>
               {title}
             </Text>
             <Only when={!!sale}>
-              <Text className="py-1 px-8" bg={'black'} color={'white'} size="sm">
+              <Text className="py-1 px-3 xs:px-8 h-[26px] xs:h-auto" bg={'black'} color={'white'} size="sm">
                 Sale
               </Text>
             </Only>
           </Group>
           <Only when={!!price}>
-            <Text className="font-bold" size="xl">
+            <Text className="font-bold" size={phone ? 12 : 'xl'}>
               $ {price}
             </Text>
           </Only>
         </Group>
-        <Group position="apart">
-          <Group>
-            <TransparentButton label={space} />
-            <TransparentButton label={color} />
-            <TransparentButton label={company} />
-          </Group>
+        <Grid m={0} >
+          <Grid.Col span={!!date?10:12}>
+            <Group align='top'>
+              <TransparentButton label={space} />
+              <TransparentButton label={color} />
+              <TransparentButton label={company} />
+            </Group>
+          </Grid.Col>
           <Only when={!!date}>
-            <Text color="#656565" size="sm">
-              {date}
-            </Text>
+            <Grid.Col span={2}>
+              <Text color="#656565" size="sm">
+                {date}
+              </Text>
+            </Grid.Col>
           </Only>
-        </Group>
+        </Grid>
       </Grid.Col>
     </Grid>
   );
