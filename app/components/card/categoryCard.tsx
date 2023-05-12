@@ -15,7 +15,7 @@ export function CategoryCard({ id, image, title, link, ...rest }: CategoryCardPr
   const { classes } = useStylesforGlobal();
   return (
     <Paper {...rest} className="bg-transparent">
-      <Image alt="" src={image} />
+      <Image alt="" src={image} fit='contain' />
       <Group position="apart" align="center" className="bg-transparent mt-4">
         <Text className="text-[10px] md:text-base font-semibold text-black">{title}</Text>
         <Button

@@ -1,10 +1,11 @@
-import { HoverCard } from '@elektra/customComponents';
-import { Burger, Flex, Menu, Text, clsx, createStyles } from '@mantine/core';
+import { HoverCard, Only } from '@elektra/customComponents';
+import { ActionIcon, Avatar, Burger, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { LaptopMenu } from './laptopMenu';
-import { PhoneMenu } from './phoneMenu';
+import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
+import { LaptopMenu, PhoneMenu } from './menuContent';
+import { ReactNode, useState } from 'react';
 
-const useStyles = createStyles((theme) => ({
+export const useStyles = createStyles((theme) => ({
   burger: {
     [theme.fn.largerThan(809)]: {
       display: 'none',
@@ -24,8 +25,8 @@ const useStyles = createStyles((theme) => ({
     },
   },
   item: {
-    paddingRight: 40,
-    paddingLeft: 40,
+    paddingRight: 20,
+    paddingLeft: 20,
     fontSize: 22,
     height: 72,
     textAlign: 'center',
@@ -45,9 +46,53 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const menuData = [
+  {
+    title: 'Laptops',
+    content: <LaptopMenu />,
+  },
+  {
+    title: 'Phones',
+    content: <PhoneMenu />,
+  },
+  {
+    title: 'Accessories',
+    content: <LaptopMenu />,
+  },
+  {
+    title: 'GPUs',
+    content: <PhoneMenu />,
+  },
+  {
+    title: 'Motherboards',
+    content: <LaptopMenu />,
+  },
+  {
+    title: 'CPUs',
+    content: <PhoneMenu />,
+  },
+  {
+    title: 'Cameras',
+    content: <LaptopMenu />,
+  },
+  {
+    title: 'Consoles',
+    content: <PhoneMenu />,
+  },
+  {
+    title: 'Brands',
+    content: <LaptopMenu />,
+  },
+];
+
 export const HeaderMenu = () => {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
+  const [menuState,setMenuState] = useState<{title:string,content:ReactNode}>()
+const handleItem = (item:{title:string,content:ReactNode})=>{
+  setMenuState(item)
+  toggle()
+}
   return (
     <>
       <Flex
@@ -59,86 +104,69 @@ export const HeaderMenu = () => {
         direction="row"
         wrap="nowrap"
       >
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Laptops</Text>}>
-          <LaptopMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Phones</Text>}>
-          <PhoneMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Accessories</Text>}>
-        <LaptopMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">GPUs</Text>}>
-          <PhoneMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Motherboards</Text>}>
-        <LaptopMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">CPUs</Text>}>
-          <PhoneMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Cameras</Text>}>
-        <LaptopMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Consoles</Text>}>
-          <PhoneMenu />
-        </HoverCard>
-        <HoverCard target={<Text className="uppercase text-base cursor-pointer">Brands</Text>}>
-        <LaptopMenu />
-        </HoverCard>
+        {menuData.map((item, index) => (
+          <HoverCard key={index} target={<Text className="uppercase text-base cursor-pointer">{item.title}</Text>}>
+            {item.content}
+          </HoverCard>
+        ))}
       </Flex>
-      <div className="text-center" style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
+      <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
         <Menu
           opened={opened}
-          closeOnItemClick={true}
-          defaultOpened={false}
           keepMounted={false}
           radius={0}
           classNames={classes}
           width="100%"
           position="bottom-end"
-          offset={0}
+          offset={5}
         >
-          <Menu.Target>
-            <Burger opened={opened} onClick={toggle} className={classes.burger} />
-          </Menu.Target>
+          <Flex align={'center'} className="py-3 md:py-0">
+            <Menu.Target>
+              <Burger mx={10} opened={opened} onClick={toggle} className={classes.burger} />
+            </Menu.Target>
+            <Text size={17} className="text-black font-bold md:hidden">
+              Categories
+            </Text>
+          </Flex>
           <Menu.Dropdown>
-            <Menu.Item>Laptops</Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/pasa-for-distributor">
-              Phones
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/games">
-              Accessories
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/how-it-works">
-              GPUs
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/about">
-              Motherboards
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/contact">
-              CPUs
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/about">
-              Cameras
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/about">
-              Consoles
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item component="a" href="/about">
-              Brands
-            </Menu.Item>
+            {menuData.map((item, index) => (
+              <div key={index}>
+                <Menu.Item onClick={()=>handleItem(item)}>
+                  <Group position="apart">
+                    <Text className="text-white">{item.title}</Text>
+                    <Avatar
+                      variant="outline"
+                      size={'sm'}
+                      styles={{
+                        root: {
+                          border: '2px solid white',
+                        },
+                      }}
+                      radius={20}
+                    >
+                      <ArrowRight color="white" />
+                    </Avatar>
+                  </Group>
+                </Menu.Item>
+                {menuData.length !== index + 1 && <Menu.Divider key={index} />}
+              </div>
+            ))}
           </Menu.Dropdown>
         </Menu>
       </div>
+      <Only when={menuState!=undefined}>
+      <Flex gap={5} bg={'black'} className="py-1" align={'center'}>
+        <ActionIcon size={50}  onClick={()=>setMenuState(undefined)}>
+        <ArrowLeft  fill="white" color="white" className='ml-1' />
+        </ActionIcon>
+        <Text size={18} className="font-medium text-white">
+          {menuState?.title}
+        </Text>
+      </Flex>
+      <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
+          {menuState?.content}
+      </div>
+      </Only>
     </>
   );
 };

@@ -36,7 +36,7 @@ export const ItemFilter = () => {
           Sort By
         </Button>
       </Group>
-      <Flex wrap={'nowrap'} gap={20}>
+      <Flex wrap={'wrap'} gap={20}>
         <FilterDisplay setState={setCondition} state={condition} label="Condition" />
         <FilterDisplay setState={setColor} state={color} label="Color" />
         <FilterDisplay setState={setCapacity} state={capacity} label="Capacity" />

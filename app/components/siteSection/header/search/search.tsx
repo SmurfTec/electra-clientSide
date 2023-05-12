@@ -1,30 +1,117 @@
-import { ActionIcon, Button, CloseButton, Group, Text, TextInput } from '@mantine/core';
+import { Only } from '@elektra/customComponents';
+import { Button, Center, Divider, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
-import { Search } from 'tabler-icons-react';
+import { useState } from 'react';
+import { ArrowNarrowRight } from 'tabler-icons-react';
+import { HeaderSearch } from './headerSearch';
+import { SearchResult } from './searchResult';
 
-type HeaderSearchProps = {
+const categoryData = [
+  {
+    id: 1,
+    image: '/images/search/search1.png',
+    title: 'Laptops',
+    modal: '24053',
+  },
+  {
+    id: 2,
+    image: '/images/search/search2.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 3,
+    image: '/images/search/search3.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 4,
+    image: '/images/search/search4.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 5,
+    image: '/images/search/search2.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 6,
+    image: '/images/search/search1.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 7,
+    image: '/images/search/search3.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+];
+
+type SearchProps = {
   close: () => void;
 };
 
-export const HeaderSearch = ({ close }: HeaderSearchProps) => {
+export const Search = ({ close }: SearchProps) => {
+  const [search, setSearch] = useState('');
+  const [data, setdata] = useState(categoryData);
   return (
-    <Group position="apart" my={15}>
-      <Text component={NextLink} href="/" color="black" className="font-bold ml-6 md:ml-3">
-        Elektra
-      </Text>
-      <TextInput
-        icon={<Search size="1.1rem" strokeWidth={1.5} />}
-        radius="xl"
-        color="rgba(238, 238, 238, 1)"
-        size="md"
-        rightSection={
-          <ActionIcon radius={25} onClick={close}>
-            <CloseButton />
-          </ActionIcon>
-        }
-        rightSectionWidth={42}
-      />
-      <Button onClick={close}>Cancel</Button>
-    </Group>
+    <Stack spacing={0} bg="rgba(232, 232, 232, 1)">
+      <HeaderSearch close={close} state={search} setState={setSearch} />
+      <Divider color="black" size={2} />
+      <Only when={search !== ''}>
+        <div className="md:p-8 p-6">
+          <SimpleGrid
+            cols={5}
+            spacing={40}
+            breakpoints={[
+              { maxWidth: '92rem', cols: 5, spacing: 30 },
+              { maxWidth: '72rem', cols: 4, spacing: 20 },
+              { maxWidth: '58rem', cols: 3, spacing: 10 },
+              { maxWidth: '36rem', cols: 2, spacing: 10 },
+            ]}
+          >
+            {data.map((item, index) => (
+              <SearchResult key={index} image={item.image} modal={item.modal} title={item.title} />
+            ))}
+          </SimpleGrid>
+          <div className="mt-16 md:mt-36">
+            <Text className="text-sm font-medium">Suggestions</Text>
+            <Group position="apart">
+              <Center className="space-x-4">
+                <Text className="text-base font-medium">Iphone 14 Pro Max</Text>
+                <Text className="text-base font-medium">Iphone 13 Pro Max</Text>
+                <Text className="text-base font-medium">Iphone 12 Pro Max</Text>
+                <Text className="text-base font-medium">Iphone 11 Pro</Text>
+              </Center>
+              <Center className="space-x-3">
+                <Text className="text-base font-semibold text-black">More Results</Text>
+                <Button
+                  className="rounded-3xl px-4 h-7"
+                  onClick={close}
+                  styles={{
+                    root: {
+                      '&:not([data-disabled]):hover': {
+                        backgroundColor: 'white',
+                      },
+                    },
+                    rightIcon: {
+                      marginLeft: 0,
+                    },
+                  }}
+                  rightIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                  variant="outline"
+                  component={NextLink}
+                  href={`/showing-more?show-more=${search}`}
+                />
+              </Center>
+            </Group>
+          </div>
+        </div>
+      </Only>
+    </Stack>
   );
 };

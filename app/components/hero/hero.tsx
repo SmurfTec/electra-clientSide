@@ -1,5 +1,5 @@
 import { Only } from '@elektra/customComponents';
-import { Button, createStyles, Title } from '@mantine/core';
+import { Button, createStyles, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import Image from 'next/image';
@@ -19,11 +19,11 @@ export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHeroc
     <div className={classes.parent + "relative"}>
       <Image alt="background-image" className={classes.image} layout="fill" objectFit="cover" src={backgroundImage} />
       <div className={classes.container }>
-        <Title className={classes.title + "text-left" } color="white" order={1}>
+        <Text className={classes.title + "text-left text-white text-2xl font-bold md:text-6xl" } color="white">
           {title}
-        </Title>
+        </Text>
         {subTitle && (
-          <Title className={classes.subtitle + "text-left"} color="white" order={1}>
+          <Title className={classes.subtitle + "text-left text-white text-2xl font-bold md:text-6xl"} color="white" order={1}>
             {subTitle}
           </Title>
         )}
