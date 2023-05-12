@@ -1,6 +1,7 @@
 import { FooterProductCarousel, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
-import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
+import { Modal, Only } from '@elektra/customComponents';
+import { useFilterModal } from '@elektra/hooks';
+import { BackgroundImage, Button, Container, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { useMediaQuery, useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useState } from 'react';
@@ -235,7 +236,8 @@ const productData: ProductCardProps[] = [
 
 export default function ShopPage() {
   const [activePage, setPage] = useState(1);
-  const [value, toggle] = useToggle<boolean>([false, true]);
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
@@ -244,16 +246,16 @@ export default function ShopPage() {
         <Group position="apart">
           <SectionTitle title="All Phones" />
           <Only when={matches}>
-            <Button onClick={() => toggle()} leftIcon={<Filter />}>
+            <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
             </Button>
           </Only>
         </Group>
-        <Only when={!matches || value}>
+        <Only when={!matches}>
           <ItemFilter />
         </Only>
       </div>
-
+      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (

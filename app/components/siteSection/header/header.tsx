@@ -1,11 +1,11 @@
-import { ActionIcon, Avatar, Button, Center, Group, Menu, Text, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Button, Center, Flex, Group, Menu, Text, createStyles } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search, Settings, ShoppingCart, User } from 'tabler-icons-react';
+import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search as IconSearch, Settings, ShoppingCart, User } from 'tabler-icons-react';
 import { HeaderMenu } from './menuBar';
 import { Notification } from './notification';
 import { HeaderTopBar } from './topBar';
-import { HeaderSearch } from './search';
+import { Search } from './search';
 
 export const Header = () => {
   const [isMenuOpen, toggle] = useToggle<boolean>([false, true]);
@@ -14,10 +14,10 @@ export const Header = () => {
   return (
     <header>
       <HeaderTopBar />
-      <div className="md:px-8 px-4">
         {isSearchOpen && (
-          <HeaderSearch close={toggleSearch} />
+          <Search close={toggleSearch} />
         )}
+        <div className="md:px-8 px-4">
         {!isSearchOpen && (
           <Group position="apart" className="py-4">
             <Menu
@@ -52,18 +52,20 @@ export const Header = () => {
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-            <Text component={NextLink} href="/" color="black" className="font-bold ml-6 md:ml-3">
+            <Text component={NextLink} href="/" color="black" className="font-bold md:ml-10">
               Elektra
             </Text>
-            <Group spacing={8}>
-            <ActionIcon component={NextLink} variant="transparent" size={'sm'} href={'/selling-search'}>
+            <Flex gap={8}>
+              
+            <ActionIcon component={NextLink} className='hidden md:block' variant="transparent" size={'sm'} href={'/selling-search'}>
                 <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                   <ShoppingCart size={15} strokeWidth={1} />
                 </Avatar>
               </ActionIcon>
-              <ActionIcon variant="transparent" size={'sm'} onClick={() => toggleSearch()}>
+              
+              <ActionIcon variant="transparent" className='block' size={'sm'} onClick={() => toggleSearch()}>
                 <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-                  <Search size={15} strokeWidth={1} />
+                  <IconSearch size={15} strokeWidth={1} />
                 </Avatar>
               </ActionIcon>
               <Menu
@@ -78,7 +80,7 @@ export const Header = () => {
                 keepMounted={false}
               >
                 <Menu.Target>
-                  <ActionIcon variant="transparent" size={'sm'}>
+                  <ActionIcon className='hidden md:block' variant="transparent" size={'sm'}>
                     <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                       <Bell size={15} strokeWidth={1} />
                     </Avatar>
@@ -134,7 +136,7 @@ export const Header = () => {
                 keepMounted={false}
               >
                 <Menu.Target>
-                  <ActionIcon variant="transparent" size={'sm'}>
+                  <ActionIcon className='hidden md:block' variant="transparent" size={'sm'}>
                     <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                       <User size={15} strokeWidth={1} />
                     </Avatar>
@@ -150,7 +152,7 @@ export const Header = () => {
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
-            </Group>
+            </Flex>
           </Group>
         )}
       </div>

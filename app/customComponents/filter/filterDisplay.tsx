@@ -16,7 +16,7 @@ export const FilterDisplay = ({ label, state, setState }: FilterDisplayProps) =>
   return (
     <>
       {state.length != 0 && (
-        <Stack>
+        <Stack align='start'>
           <Text className="text-base font-medium">{label}</Text>
           <Center inline className="space-x-2">
             {state.map((item, index) => (
