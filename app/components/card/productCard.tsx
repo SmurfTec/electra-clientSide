@@ -1,5 +1,5 @@
 import { Only } from '@elektra/customComponents';
-import { Anchor, Badge, Card, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
+import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { Heart } from 'tabler-icons-react';
 
@@ -56,15 +56,19 @@ export function ProductCard({
         </Badge>
       </Only>
       <Card.Section>
-        <Group position="apart">
+        <Grid align='center'>
+          <Grid.Col span={9}>
           <Text
-            className={'block text-base mt-5 mb-1 font-bold text-black '}
+            className={'block text-[13px] md:text-base mt-5 mb-1 font-bold text-black '}
+            
             weight={500}
             component={NextLink}
             {...linkProps}
           >
             {title}
           </Text>
+          </Grid.Col>
+          <Grid.Col span={3}>
           <Heart
             className="cursor-pointer"
             size={23}
@@ -72,8 +76,9 @@ export function ProductCard({
             fill={wishlist ? 'red' : 'white'}
             color={wishlist ? 'red' : undefined}
           />
+          </Grid.Col>
           {/* </ActionIcon> */}
-        </Group>
+        </Grid>
 
         <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
           Condition : {description}

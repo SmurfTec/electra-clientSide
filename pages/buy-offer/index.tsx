@@ -51,12 +51,12 @@ export default function PlaceOffer() {
         <PageTitle title="Placing Offer" />
       </div>
       <Grid className="my-10">
-        <Grid.Col span={6}>
+        <Grid.Col xs={6}>
           <div className="ml-10">
             <ProductCarousel />
           </div>
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col xs={6}>
           <BuyOfferComponent
             carrier={ListingDescriptionData.carrier}
             carrierData={ListingDescriptionData.carrierData}

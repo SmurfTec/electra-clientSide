@@ -60,7 +60,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
   });
   return (
     <Grid>
-      <Grid.Col span={9}>
+      <Grid.Col xs={9}>
         <Badge
           my={12}
           styles={{
@@ -170,7 +170,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           <Text size="sm">Atleast 6 unique photos are required , front , back , bottom, sides, and one extra</Text>
         </Group>
       </Grid.Col>
-      <Grid.Col span={3}>
+      <Grid.Col xs={3}>
         <Dropzone
           onDrop={(value) => setFiles([...files, ...value])}
           onReject={(files) => console.log('rejected files', files)}
@@ -187,7 +187,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           </Group>
         </Dropzone>
       </Grid.Col>
-      <Grid.Col span={9}>
+      <Grid.Col xs={9}>
         <SimpleGrid cols={4} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
           {previews}
         </SimpleGrid>
@@ -198,11 +198,11 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           directly and a faster listing experience.
         </Text>
       </Grid.Col>
-      <Grid.Col span={4}>
+      <Grid.Col xs={4}>
         <Grid>
           <Grid.Col span={6}>
             <Button
-              className="font-[400]"
+              className="font-[400] text-[16px]"
               uppercase
               fullWidth
               size="xl"
@@ -214,7 +214,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           </Grid.Col>
           <Grid.Col span={6}>
             <Button
-              className="font-[400]"
+              className="font-[400] text-[16px]"
               uppercase
               fullWidth
               

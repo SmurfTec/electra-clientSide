@@ -274,7 +274,7 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
           }}
           bg={item !== state ? '#f1f1f1' : 'black'}
           onClick={() => setState(item)}
-          className="font-[500]"
+          className="font-[500] text-[16px]" 
         >
           {item}
         </Button>

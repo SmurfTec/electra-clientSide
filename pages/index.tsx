@@ -419,21 +419,26 @@ export function Index() {
       </section>
       <section className="mt-[-150px] sm:mt-[-60px]">
         <SectionTitle title="Brands" />
-        <Grid gutter={mediumdScreen ? 10 : 40}>
-          {brandData.map((category, index) => {
-            return (
-              <Grid.Col xs={2} span={6} key={index}>
-                <CategoryCard
-                  key={index}
-                  image={category.image}
-                  id={category.id}
-                  title={category.title}
-                  link={category.link}
-                />
-              </Grid.Col>
-            );
-          })}
-        </Grid>
+        <Grid gutter={12} columns={mediumdScreen?12:18}>
+          <ScrollArea type="never" scrollbarSize={5}>
+          <Center >
+            {brandData.map((category, index) => {
+              return (
+                <Grid.Col  span={2} key={index}>
+                  <CategoryCard
+                    key={index}
+                    image={category.image}
+                    id={category.id}
+                    title={category.title}
+                    link={category.link}
+                  />
+                  
+                </Grid.Col>
+              );
+            })}
+            </Center>
+            </ScrollArea>
+          </Grid>
       </section>
       <div className="mt-24">
         <Stack justify="center" align="center">

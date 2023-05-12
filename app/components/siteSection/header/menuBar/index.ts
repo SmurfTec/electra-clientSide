@@ -1,3 +1,2 @@
-export * from './menu'
-export * from './laptopMenu'
-export * from './phoneMenu'
+export * from './menu';
+

@@ -186,14 +186,14 @@ export default function ProductPage() {
   const productSpecificationData =
     router.query['condition'] === 'new' ? productSpecification[0] : productSpecification[1];
   return (
-    <Container size="lg" mt={50} fluid>
+    <div>
       <Breadcrumbs separator=">" mt="xs">
         {items}
       </Breadcrumbs>
       <Grid>
         <Grid.Col sm={6} mt={140}>
           <Stack align="center" justify="center">
-            <ProductCarousel />
+            {/* <ProductCarousel /> */}
             <Text className="text-xs font-medium mt-20">Have this item?</Text>
             <Button leftIcon={<ShoppingCart />}>Sell Now</Button>
           </Stack>
@@ -222,7 +222,7 @@ export default function ProductPage() {
       <Divider className="my-10" />
       <SectionTitle title="Used iPhone 14 Pro Max" />
       <ProductFilter />
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (
             <ProductCard
@@ -242,7 +242,7 @@ export default function ProductPage() {
         })}
       </div>
 
-      <Anchor component={NextLink} href="/shop" className="my-20 flex justify-center space-x-4 cursor-pointer">
+      <Anchor component={NextLink} href="/shop" className="mt-20 flex justify-center space-x-4 cursor-pointer">
         <Text size={16} className="font-[600]" color="black">
           View More
         </Text>
@@ -250,7 +250,7 @@ export default function ProductPage() {
           <ArrowDown size={20} color="black" />
         </ActionIcon>
       </Anchor>
-      <div>
+      <div className='mt-4'>
         <ProductStats />
       </div>
       <div className="mt-10">
@@ -267,6 +267,6 @@ export default function ProductPage() {
       <div className="my-24">
         {/* <ProductCharts /> */}
       </div>
-    </Container>
+    </div>
   );
 }

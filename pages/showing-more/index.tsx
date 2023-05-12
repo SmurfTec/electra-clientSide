@@ -1,5 +1,6 @@
 import { BannerProps, HeroImage, ItemFilter, ProductCard, ProductCardProps, ProductFilter, SectionTitle } from '@elektra/components';
 import { Container, Divider, Grid, Image, Stack, Text } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 
 const carouselData = [
@@ -197,12 +198,14 @@ const brandData = [
 ];
 
 export function ShowingMore() {
+  const router = useRouter()
+  const search = router.query['show-more']
   return (
     <div>
       <Container fluid>
         <section className="mt-5">
           <Text className='text-black font-extrabold' size={32}>Showing more results for</Text>
-          <Text className='text-black font-medium' size={24}>“Iphone”</Text>
+          <Text className='text-black font-medium' size={24}>“{search}”</Text>
           <Divider mt={15} />
         </section>
         <div className='mt-5'>
