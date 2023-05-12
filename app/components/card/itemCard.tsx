@@ -20,9 +20,9 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <Grid m={0} {...rest}>
+    <Grid m={0} {...rest} gutter={phone?10:0}>
       <Grid.Col span={2}>
-        <Paper bg={'#F5F5F5'} className="pt-2 flex justify-center  relative">
+        <Paper bg={'#F5F5F5'} className="flex justify-center  relative">
           <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
           <Modal
             scrollAreaComponent={ScrollArea}
@@ -74,10 +74,10 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Only>
         </Paper>
       </Grid.Col>
-      <Grid.Col span={10} className="space-y-4">
+      <Grid.Col span={10} className={!sale? "" :"space-y-4"}>
         <Group position="apart">
           <Group>
-            <Text className="font-bold" size={phone ? 14 : 'xl'}>
+            <Text color='black' className="font-bold" size={!sale ? 20 : phone ? 14 : 'xl'}>
               {title}
             </Text>
             <Only when={!!sale}>
@@ -93,7 +93,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Only>
         </Group>
         <Grid m={0} >
-          <Grid.Col span={!!date?10:12}>
+          <Grid.Col px={0} span={!!date?10:12}>
             <Group align='top'>
               <TransparentButton label={space} />
               <TransparentButton label={color} />

@@ -1,5 +1,6 @@
 import { Carousel, Embla } from '@mantine/carousel';
 import { Button, Center, Image, Stack, Text, createStyles } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useCallback, useEffect, useState } from 'react';
 const carosuelData = [
@@ -25,7 +26,7 @@ export const FooterProductCarousel = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [embla, setEmbla] = useState<Embla | null>(null);
   const { classes } = useStyles();
-
+  const phone = useMediaQuery('(max-width: 600px)');
   const onSelect = useCallback(() => {
     if (!embla) return;
     setSelectedIndex(embla.selectedScrollSnap());
@@ -75,7 +76,7 @@ export const FooterProductCarousel = () => {
       <Text size={40} className="font-semibold text-black">
         $245
       </Text>
-      <Text component={NextLink} href="/shop" bg={'rgba(60, 130, 214, 1)'} className="text-white px-6 cursor-pointer">
+      <Text size={phone ? 13 : 26} component={NextLink} href="/shop" bg={'rgba(60, 130, 214, 1)'} className="text-white px-6 py-1 cursor-pointer">
         Used Starting at $187
       </Text>
       <Center inline className="space-x-3 my-4">

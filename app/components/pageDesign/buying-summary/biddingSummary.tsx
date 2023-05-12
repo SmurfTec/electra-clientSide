@@ -30,7 +30,7 @@ export function BiddingSummary({
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
-      className="p-8 rounded-xl space-y-4"
+      className="p-8 rounded-xl space-y-3"
     >
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -77,12 +77,16 @@ export function BiddingSummary({
           </Grid.Col>
         </Grid>
       </Only>
-      <Group className="">
+      <Grid>
+        <Grid.Col span={1}>
         <Avatar src="images/coin.png" size={'xs'} radius="lg" />
+        </Grid.Col>
+        <Grid.Col span={11} className='text-left'>
         <Text className="font-bold uppercase" size="sm">
           earn 1500 points for this purchase
         </Text>
-      </Group>
+        </Grid.Col>
+      </Grid>
     </div>
   );
 }

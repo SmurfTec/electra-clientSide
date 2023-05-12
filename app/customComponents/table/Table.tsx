@@ -54,9 +54,10 @@ export function DataTable<T extends { id: string }>({
   const defaultRowUI = {
     cell: (props: CellContext<T, unknown>) => (RowUI ? <RowUI {...props} /> : props.cell.getValue()),
   };
+  const tableData = useMemo(() => columns, [columns]) 
   const table = useReactTable<T>({
     data,
-    columns: columns ? useMemo(() => columns, [columns]) : getHeaderColumn(data),
+    columns: columns ? tableData! : getHeaderColumn(data),
     state: {
       globalFilter: search,
       rowSelection: selectedRows,
@@ -70,7 +71,7 @@ export function DataTable<T extends { id: string }>({
 
   const { classes } = useStyles();
   return (
-    <>
+    <div className='overflow-x-auto w-full'>
       <Table className={clsx(classes.table, className)} striped>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -93,7 +94,7 @@ export function DataTable<T extends { id: string }>({
           ))}
         </tbody>
       </Table>
-    </>
+    </div>
   );
 }
 

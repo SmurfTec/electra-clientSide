@@ -79,7 +79,7 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
         <Divider variant="dashed" />
       </div>
       <div className="w-full space-y-5 mt-5">
-        <List type="ordered" icon={<></>}>
+        <List size={12} type="ordered" icon={<></>}>
           <Text className="ml-3 uppercase text-black font-semibold" size={12}>
             Note
           </Text>

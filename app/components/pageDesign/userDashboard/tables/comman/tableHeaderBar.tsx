@@ -1,5 +1,5 @@
 import { SimpleStatCardProps } from '@elektra/components/card';
-import { Grid, Group, SegmentedControl, TextInput } from '@mantine/core';
+import { Grid, SegmentedControl, TextInput } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
 import { useMediaQuery } from '@mantine/hooks';
 import { Dispatch, SetStateAction } from 'react';
@@ -22,8 +22,8 @@ export const TableHeaderBar = ({
 }: TableHeaderBarProps) => {
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   return (
-    <Grid>
-      <Grid.Col span={12} md={6}>
+    <Grid align='center'>
+      <Grid.Col span={12} md={6} py={0}>
         <div className="w-full">
           <SegmentedControl
             styles={{
@@ -45,8 +45,8 @@ export const TableHeaderBar = ({
         </div>
       </Grid.Col>
       <Grid.Col span={12} md={6}>
-        
-          <Group position={mediumdScreen ? 'right' : 'apart'}>
+        <Grid>
+          <Grid.Col  span={7}>
             <TextInput
               styles={{ input: { backgroundColor: '#F1F1F1' } }}
               radius={'md'}
@@ -55,8 +55,10 @@ export const TableHeaderBar = ({
               onChange={(event) => searchSetState(event.currentTarget.value)}
               icon={<Search />}
               placeholder="Search by Id, name"
-              maw={"65%"}
+              // maw={'65%'}
             />
+          </Grid.Col>
+          <Grid.Col span={5}>
             <DateInput
               maxDate={new Date()}
               styles={{ input: { backgroundColor: '#F1F1F1' } }}
@@ -64,11 +66,11 @@ export const TableHeaderBar = ({
               onChange={(v) => console.log(v)}
               rightSection={<Calendar color="white" fill="black" />}
               placeholder="Filter Date"
-              maw={mediumdScreen ? '30%' : '35%'}
+              // maw={mediumdScreen ? '30%' : '35%'}
               // maw={mediumdScreen ? 155 : 120}
             />
-          </Group>
-        
+          </Grid.Col>
+        </Grid>
       </Grid.Col>
       <Grid.Col span={12}>
         <StateCard data={data} className="my-4" />
