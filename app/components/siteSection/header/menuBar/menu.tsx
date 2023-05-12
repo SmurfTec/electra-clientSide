@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
 import { LaptopMenu, PhoneMenu } from './menuContent';
 import { ReactNode, useState } from 'react';
 
-export const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme) => ({
   burger: {
     [theme.fn.largerThan(809)]: {
       display: 'none',
