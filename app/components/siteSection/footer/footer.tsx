@@ -166,7 +166,6 @@ export function Footer() {
 
       {/* FOOTER MOBILE FIXED MENU*/}
       {phone && (
-        // <section className="h-16 fixed bottom-0 w-full flex items-end">
         <Affix position={{ bottom: 0 }} className="h-16 flex items-end" bg="black">
           <Tabs
             value={router.pathname as string}
@@ -176,15 +175,13 @@ export function Footer() {
               tabsList: { color: 'white' },
               tab: {
                 '&[data-active] div': {
-                  // backgroundColor: 'white',
-                  // color: 'black',
-                  color: 'white',
+                  
+                  color: 'white', 
                   borderBottom: '6px solid #3C82D6',
                   borderRadius: '5px 5px 0px 0px',
                 },
               },
             }}
-            // defaultValue="/"
           >
             <Tabs.List className="w-[100vw]" grow>
               <Tabs.Tab value="/">
@@ -217,7 +214,7 @@ export function Footer() {
                   </Stack>
                 </ActionIcon>
               </Tabs.Tab>
-              <Tabs.Tab value="/Notifications">
+              <Tabs.Tab value="/notifications">
                 <ActionIcon size={30}>
                   <Stack align="center" spacing={0}>
                     <Bell size={30} />
@@ -245,17 +242,4 @@ export function Footer() {
   );
 }
 
-// type FooterMenuIconProps = {
-//   icon: Icon;
-//   title: string;
-// };
 
-// function FooterMenuIcon({ icon, title }: FooterMenuIconProps) {
-//   return (
-//     <div>
-//       <div></div>
-//       {icon}
-//       <Text>{title}</Text>
-//     </div>
-//   );
-// }

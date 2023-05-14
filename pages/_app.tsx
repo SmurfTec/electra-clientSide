@@ -16,10 +16,10 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <MantineProvider withGlobalStyles emotionCache={cache}  withNormalizeCSS theme={themeOverride}>
+        <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
-          {router.pathname === '/auth/login' || router.pathname === '/auth/signup' || router.pathname === '/selling-search'? (
+          {router.pathname === '/auth/login' || router.pathname === '/auth/signup' || router.pathname === '/selling-search' || router.pathname === '/notifications'? (
             <Component {...pageProps} />
           ) : (
             <AppShell header={<Header />} footer={<Footer />}>

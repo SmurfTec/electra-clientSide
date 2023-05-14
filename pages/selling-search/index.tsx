@@ -1,4 +1,4 @@
-import { AutoCompleteItem } from '@elektra/components';
+import { AutoCompleteItem, NotHeader } from '@elektra/components';
 import { Autocomplete, Button, Container, Flex, Group, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
@@ -89,23 +89,7 @@ export function SellingSearch() {
 
   return (
     <div>
-      <Flex
-        mih={60}
-        className="bg-black text-white font-normal text-xs md:text-base"
-        justify="center"
-        align="center"
-        direction="row"
-        wrap="wrap"
-      >
-        <Group position="apart" className="w-full" px={25}>
-          <Text component={NextLink} href="/" color="white" className="font-bold ml-6 md:ml-3">
-            Elektra
-          </Text>
-          <Button color="black" bg={'black'} leftIcon={<Home />}>
-            Go to home
-          </Button>
-        </Group>
-      </Flex>
+      <NotHeader />
       <Container size={1300} mt={30}>
         <Text size={24} className="font-semibold text-black">
           Choose product you want to list.
