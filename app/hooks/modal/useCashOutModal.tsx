@@ -17,10 +17,10 @@ export const useCashoutSuccessfullModal = (): [React.ReactNode, boolean, { open:
         href="/shop"
         size={'lg'}
         variant="outline"
-        className="w-1/3 mt-2"
+        className="mt-2"
         styles={{
           root: {
-            padding: 'unset',
+            // padding: 'unset',
             borderRadius: '35px',
             border: '1px solid',
           },

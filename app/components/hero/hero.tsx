@@ -19,11 +19,11 @@ export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHeroc
     <div className={classes.parent + "relative"}>
       <Image alt="background-image" className={classes.image} layout="fill" objectFit="cover" src={backgroundImage} />
       <div className={classes.container }>
-        <Text className={classes.title + "text-left text-white text-2xl font-bold md:text-6xl" } color="white">
+        <Text className={classes.title + "text-left text-white font-bold"} pr={100} size={matches ? 40 : 48} color="white">
           {title}
         </Text>
         {subTitle && (
-          <Title className={classes.subtitle + "text-left text-white text-2xl font-bold md:text-6xl"} color="white" order={1}>
+          <Title className={classes.subtitle + "text-left text-white font-bold"} size={matches ? 40 : 48} color="white" order={1}>
             {subTitle}
           </Title>
         )}

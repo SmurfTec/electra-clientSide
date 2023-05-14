@@ -6,7 +6,7 @@ import {
   ProtectPlan,
   SummaryFooter,
 } from '@elektra/components';
-import { Container, Grid, Radio } from '@mantine/core';
+import { Grid, Radio } from '@mantine/core';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -58,60 +58,58 @@ const BiddingSummaryData: BiddingSummaryProps = {
 
 export default function BuyingSummary() {
   return (
-    <Container mt={50} fluid>
-      <Radio.Group>
-        <PageTitle title="Buying Summary" />
+    <Radio.Group mt={50}>
+      <PageTitle title="Buying Summary" />
 
-        <Grid>
-          <Grid.Col xs={12} sm={6}>
-            <div className="overflow-y-auto h-full">
-              <ProductDetail
-                image={productDetailData.image}
-                title={productDetailData.title}
-                space={productDetailData.space}
-                color={productDetailData.color}
-                company={productDetailData.company}
-                condition={productDetailData.condition}
-                expiration={productDetailData.expiration}
-                cardDetails={productDetailData.cardDetails}
-                address={productDetailData.address}
-              />
-            </div>
-          </Grid.Col>
-          <Grid.Col xs={12} sm={6}>
-            <div className="overflow-y-auto h-full">
-              <BiddingSummary
-                yourOffer={BiddingSummaryData.yourOffer}
-                discount={BiddingSummaryData.discount}
-                itemPrice={BiddingSummaryData.itemPrice}
-                marketPlaceFee={BiddingSummaryData.marketPlaceFee}
-                salesTax={BiddingSummaryData.salesTax}
-                shippingFee={BiddingSummaryData.shippingFee}
-                totalPrice={BiddingSummaryData.totalPrice}
-              />
-            </div>
-          </Grid.Col>
-
-          <Grid.Col xs={12} sm={6}>
-            <div className="overflow-y-auto h-full">
-              <ProtectPlan
-                title={protectPlanData.title}
-                content={protectPlanData.content}
-                price={protectPlanData.price}
-              />
-            </div>
-          </Grid.Col>
-          <Grid.Col xs={12} sm={6}>
-            <ProtectPlan
-              title={protectPlanData2.title}
-              content={protectPlanData2.content}
-              price={protectPlanData2.price}
+      <Grid>
+        <Grid.Col xs={12} sm={6}>
+          <div className="overflow-y-auto h-full">
+            <ProductDetail
+              image={productDetailData.image}
+              title={productDetailData.title}
+              space={productDetailData.space}
+              color={productDetailData.color}
+              company={productDetailData.company}
+              condition={productDetailData.condition}
+              expiration={productDetailData.expiration}
+              cardDetails={productDetailData.cardDetails}
+              address={productDetailData.address}
             />
-          </Grid.Col>
-        </Grid>
+          </div>
+        </Grid.Col>
+        <Grid.Col xs={12} sm={6}>
+          <div className="overflow-y-auto h-full">
+            <BiddingSummary
+              yourOffer={BiddingSummaryData.yourOffer}
+              discount={BiddingSummaryData.discount}
+              itemPrice={BiddingSummaryData.itemPrice}
+              marketPlaceFee={BiddingSummaryData.marketPlaceFee}
+              salesTax={BiddingSummaryData.salesTax}
+              shippingFee={BiddingSummaryData.shippingFee}
+              totalPrice={BiddingSummaryData.totalPrice}
+            />
+          </div>
+        </Grid.Col>
 
-        <SummaryFooter />
-      </Radio.Group>
-    </Container>
+        <Grid.Col xs={12} sm={6}>
+          <div className="overflow-y-auto h-full">
+            <ProtectPlan
+              title={protectPlanData.title}
+              content={protectPlanData.content}
+              price={protectPlanData.price}
+            />
+          </div>
+        </Grid.Col>
+        <Grid.Col xs={12} sm={6}>
+          <ProtectPlan
+            title={protectPlanData2.title}
+            content={protectPlanData2.content}
+            price={protectPlanData2.price}
+          />
+        </Grid.Col>
+      </Grid>
+
+      <SummaryFooter />
+    </Radio.Group>
   );
 }
