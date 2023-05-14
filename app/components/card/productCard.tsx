@@ -57,9 +57,9 @@ export function ProductCard({
       </Only>
       <Card.Section>
         <Grid align='center'>
-          <Grid.Col span={9}>
+          <Grid.Col span={9} px={0}>
           <Text
-            className={'block text-[13px] md:text-base mt-5 mb-1 font-bold text-black '}
+            className='block text-[13px] md:text-base font-bold text-black '
             
             weight={500}
             component={NextLink}
@@ -68,7 +68,7 @@ export function ProductCard({
             {title}
           </Text>
           </Grid.Col>
-          <Grid.Col span={3}>
+          <Grid.Col className='text-right' px={0} span={3}>
           <Heart
             className="cursor-pointer"
             size={23}

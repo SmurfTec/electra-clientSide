@@ -1,7 +1,6 @@
-import { BannerProps, HeroImage, ItemFilter, ProductCard, ProductCardProps, ProductFilter, SectionTitle } from '@elektra/components';
-import { Container, Divider, Grid, Image, Stack, Text } from '@mantine/core';
+import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { Container, Divider, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-
 
 const carouselData = [
   {
@@ -198,22 +197,26 @@ const brandData = [
 ];
 
 export function ShowingMore() {
-  const router = useRouter()
-  const search = router.query['show-more']
+  const router = useRouter();
+  const search = router.query['show-more'];
   return (
     <div>
       <Container fluid>
         <section className="mt-5">
-          <Text className='text-black font-extrabold' size={32}>Showing more results for</Text>
-          <Text className='text-black font-medium' size={24}>“{search}”</Text>
+          <Text className="text-black font-extrabold" size={32}>
+            Showing more results for
+          </Text>
+          <Text className="text-black font-medium" size={24}>
+            “{search}”
+          </Text>
           <Divider mt={15} />
         </section>
-        <div className='mt-5'>
-        <ItemFilter />
+        <div className="mt-5">
+          <ItemFilter />
         </div>
         <section className="mt-5">
           <SectionTitle title="1000+ Results for iphone" />
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -237,7 +240,7 @@ export function ShowingMore() {
         <section className="mt-20">
           <SectionTitle key={1} title="Trending Now" label="View All" />
 
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -258,14 +261,10 @@ export function ShowingMore() {
           </div>
         </section>
 
-        
-
-        
-
         <section className="mt-20">
           <SectionTitle title="Most Sold Items" label="View All" />
 
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -289,7 +288,7 @@ export function ShowingMore() {
         <section className="mt-20">
           <SectionTitle title="Latest Items" />
 
-          <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -309,10 +308,6 @@ export function ShowingMore() {
             })}
           </div>
         </section>
-
-        
-        
-        
       </Container>
     </div>
   );

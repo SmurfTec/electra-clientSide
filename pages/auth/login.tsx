@@ -22,7 +22,7 @@ export default function Login() {
 
   return (
     <Grid m={0}>
-      <Grid.Col xs={12} sm={5} md={4}>
+      <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
         <Container className="my-5">
           <Group className="mb-8">
             <Logo />
@@ -75,7 +75,7 @@ export default function Login() {
           <BottomLine />
         </Container>
       </Grid.Col>
-      <Grid.Col xs={12} sm={7} md={8} className={classes.wrapper}>
+      <Grid.Col order={1} orderSm={2} xs={12} sm={7} md={8} classNames="rounded-2xl sm:rounded-none" className={classes.wrapper}>
         <RightPanel />
       </Grid.Col>
     </Grid>

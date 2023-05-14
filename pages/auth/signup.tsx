@@ -47,7 +47,7 @@ export default function Signup() {
          onClose={emailHandler.close}
          open={emailOpened}
        />
-      <Grid.Col xs={12} sm={5} md={4}>
+      <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
         <Container className="my-5">
           <Group className="mb-10">
             <Logo />
@@ -104,7 +104,7 @@ export default function Signup() {
           <BottomLine />
         </Container>
       </Grid.Col>
-      <Grid.Col xs={12} sm={7} md={8} className={classes.wrapper}>
+      <Grid.Col order={1} orderSm={2} xs={12} sm={7} md={8} className={classes.wrapper}>
         <RightPanel />
       </Grid.Col>
     </Grid>

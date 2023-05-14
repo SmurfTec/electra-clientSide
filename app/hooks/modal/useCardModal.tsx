@@ -79,10 +79,10 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
   const matches = useMediaQuery('(max-width: 800px)');
 
   const Modal = (
-    <div>
+    <div className='p-4'>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col xs={8}>
+          <Grid.Col xs={6}>
             <Text className="text-lg mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">

@@ -262,6 +262,7 @@ const brandData = [
 
 export function Index() {
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
+  const phone = useMediaQuery('(max-width: 600px)');
   return (
     <div>
       <section className="mt-4">
@@ -442,10 +443,10 @@ export function Index() {
       </section>
       <div className="mt-24">
         <Stack justify="center" align="center">
-          <Text size={24} className="font-bold text-black">
+          <Text size={phone?14:24} className="font-bold text-black">
             Popular Products
           </Text>
-          <Text size={48} className="font-extrabold text-black text-center">
+          <Text size={phone?24:48} className="font-extrabold text-black text-center">
             Beats Headphones
           </Text>
           <FooterProductCarousel />

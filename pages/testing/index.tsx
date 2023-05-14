@@ -12,7 +12,13 @@ import {
   SimpleStateCard,
 } from '@elektra/components';
 import { Drawer, Modal, useStylesforGlobal } from '@elektra/customComponents';
-import { useCarouselModal, useOfferModal, useOfferPlaceModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
+import {
+  useCarouselModal,
+  useOfferModal,
+  useOfferPlaceModal,
+  useSellerDetailDrawer,
+  useTechinalSpecificationDrawer,
+} from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
@@ -274,11 +280,22 @@ export default function Testing() {
         </Group>
       </div>
 
-
       <div className="my-96">
-      <ItemCard color={productDetailData.color} company={productDetailData.company} image={productDetailData.image} space={productDetailData.space} title={productDetailData.title} key={productDetailData.title} />
+        <ItemCard
+          color={productDetailData.color}
+          company={productDetailData.company}
+          image={productDetailData.image}
+          space={productDetailData.space}
+          title={productDetailData.title}
+          key={productDetailData.title}
+        />
         <Group position="center">
-          <Modal title="Offer Placed!" children={OfferPlaceModal} onClose={offerPlaceHandler.close} open={offerPlaceOpened} />
+          <Modal
+            title="Offer Placed!"
+            children={OfferPlaceModal}
+            onClose={offerPlaceHandler.close}
+            open={offerPlaceOpened}
+          />
           <Button onClick={offerPlaceHandler.open}>Offer Place Modal</Button>
         </Group>
       </div>
@@ -305,7 +322,7 @@ export default function Testing() {
             return (
               <Carousel.Slide key={index}>
                 <div>
-                  <Image alt='' height={index === value ? '500px' : '300px'} src={item.imgSrc} />
+                  <Image alt="" height={index === value ? '500px' : '300px'} src={item.imgSrc} />
                   <Group position="center">
                     <Text size="xl">{item.title}</Text>
                     <Button
@@ -503,7 +520,6 @@ export default function Testing() {
           key={1}
           status={itemCardData.status}
         />
-        hey
       </Container>
 
       <Container>

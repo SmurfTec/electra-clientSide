@@ -14,7 +14,7 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
       {header}
       <Container size={1300}>{children}</Container>
       {footer}
-      <Affix position={{ bottom: rem(30), right: rem(30) }}>
+      <Affix position={{ bottom: rem(70), right: rem(20) }}>
         <ActionIcon color="blue" radius="xl" size={60} variant="filled">
           <Stack align='center' spacing={0}>
           <ShoppingCartPlus size={20} />

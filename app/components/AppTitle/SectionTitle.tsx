@@ -1,5 +1,6 @@
 import { Only } from '@elektra/customComponents';
 import { Button, Group, Title } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -9,9 +10,10 @@ type SectionTitleProps = {
 };
 
 export function SectionTitle({ title, label }: SectionTitleProps) {
+  const phone = useMediaQuery('(max-width: 600px)');
   return (
     <Group position="apart" mb={20}>
-      <Title className="font-bold" order={4}>
+      <Title className="font-bold" order={4} size={phone ? 16 : "auto"}>
         {title}
       </Title>
       <Only when={!!label}>
