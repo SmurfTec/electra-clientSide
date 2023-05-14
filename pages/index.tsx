@@ -9,7 +9,7 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import { Center, Container, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
+import { Center, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 const carouselData = [
@@ -190,31 +190,31 @@ const categoryData = [
     link: '/shop',
   },
   {
-    id:11,
+    id: 11,
     image: '/images/category.png',
     title: 'Phones',
     link: '/shop',
   },
   {
-    id:12,
+    id: 12,
     image: '/images/category.png',
     title: 'Phones',
     link: '/shop',
   },
   {
-    id:13,
+    id: 13,
     image: '/images/category.png',
     title: 'Phones',
     link: '/shop',
   },
   {
-    id:14,
+    id: 14,
     image: '/images/category.png',
     title: 'Phones',
     link: '/shop',
   },
   {
-    id:15,
+    id: 15,
     image: '/images/category.png',
     title: 'Phones',
     link: '/shop',
@@ -224,37 +224,37 @@ const categoryData = [
 const brandData = [
   {
     id: 1,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'Apple',
     link: '/shop',
   },
   {
     id: 2,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'HP',
     link: '/shop',
   },
   {
     id: 3,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'Razor',
     link: '/shop',
   },
   {
     id: 4,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'Dell',
     link: '/shop',
   },
   {
     id: 5,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'Nvidia',
     link: '/shop',
   },
   {
     id: 6,
-    image: '/images/brands/brand.png',
+    image: '/images/category.png',
     title: 'AMD',
     link: '/shop',
   },
@@ -319,28 +319,26 @@ export function Index() {
 
       <section className="mt-20">
         <SectionTitle title="Categories" />
-        
-          <Grid gutter={12} columns={mediumdScreen?10:18}>
+
+        <Grid gutter={12} columns={mediumdScreen ? 10 : 18}>
           <ScrollArea type="never" scrollbarSize={5}>
-          <Center >
-            {categoryData.map((category, index) => {
-              return (
-                <Grid.Col  span={2} key={index}>
-                  <CategoryCard
-                    key={index}
-                    image={category.image}
-                    id={category.id}
-                    title={category.title}
-                    link={category.link}
-                  />
-                  
-                </Grid.Col>
-              );
-            })}
+            <Center>
+              {categoryData.map((category, index) => {
+                return (
+                  <Grid.Col span={2} key={index}>
+                    <CategoryCard
+                      key={index}
+                      image={category.image}
+                      id={category.id}
+                      title={category.title}
+                      link={category.link}
+                    />
+                  </Grid.Col>
+                );
+              })}
             </Center>
-            </ScrollArea>
-          </Grid>
-        
+          </ScrollArea>
+        </Grid>
       </section>
 
       <section className="mt-14">
@@ -420,33 +418,32 @@ export function Index() {
       </section>
       <section className="mt-[-150px] sm:mt-[-60px]">
         <SectionTitle title="Brands" />
-        <Grid gutter={12} columns={mediumdScreen?12:18}>
+        <Grid gutter={12} columns={mediumdScreen ? 12 : 18}>
           <ScrollArea type="never" scrollbarSize={5}>
-          <Center >
-            {brandData.map((category, index) => {
-              return (
-                <Grid.Col  span={2} key={index}>
-                  <CategoryCard
-                    key={index}
-                    image={category.image}
-                    id={category.id}
-                    title={category.title}
-                    link={category.link}
-                  />
-                  
-                </Grid.Col>
-              );
-            })}
+            <Center>
+              {categoryData.map((category, index) => {
+                return (
+                  <Grid.Col span={2} key={index}>
+                    <CategoryCard
+                      key={index}
+                      image={category.image}
+                      id={category.id}
+                      title={category.title}
+                      link={category.link}
+                    />
+                  </Grid.Col>
+                );
+              })}
             </Center>
-            </ScrollArea>
-          </Grid>
+          </ScrollArea>
+        </Grid>
       </section>
       <div className="mt-24">
         <Stack justify="center" align="center">
-          <Text size={phone?14:24} className="font-bold text-black">
+          <Text size={phone ? 14 : 24} className="font-bold text-black">
             Popular Products
           </Text>
-          <Text size={phone?24:48} className="font-extrabold text-black text-center">
+          <Text size={phone ? 24 : 48} className="font-extrabold text-black text-center">
             Beats Headphones
           </Text>
           <FooterProductCarousel />

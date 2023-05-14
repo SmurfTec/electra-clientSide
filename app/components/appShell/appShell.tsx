@@ -21,7 +21,6 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
           <Text size={10} className="font-medium text-white">
             List Item
           </Text>
-
           </Stack>
         </ActionIcon>
       </Affix>

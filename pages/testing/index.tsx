@@ -1,29 +1,25 @@
 import {
-  CategoryCard,
   Footer,
-  Header,
   HeroImage,
   ItemCard,
   ItemCardProps,
   PageTitle,
-  ProductCard,
   ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
 } from '@elektra/components';
+import { ProductCharts } from '@elektra/components/pageDesign/product/charts/productCharts';
 import { Drawer, Modal, useStylesforGlobal } from '@elektra/customComponents';
 import {
-  useCarouselModal,
   useOfferModal,
   useOfferPlaceModal,
   useSellerDetailDrawer,
   useTechinalSpecificationDrawer,
 } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
-import { Button, Container, Grid, Group, Image, Modal as MantineModal, Text } from '@mantine/core';
+import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef, useState } from 'react';
-import { Carousel as ShowTime } from 'react-responsive-carousel';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 type condition = 'New' | 'Used';
@@ -199,6 +195,8 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
+
+
 export default function Testing() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
@@ -210,42 +208,10 @@ export default function Testing() {
     useTechinalSpecificationDrawer();
   return (
     <div>
-      <div className="p-16">
-        <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center">
-          {productData.map((product, index) => {
-            return (
-              <ProductCard
-                id={product.id + index}
-                key={product.id}
-                image={product.img}
-                description={product.description}
-                link={product.link}
-                title={product.title}
-                rating={product.rating!}
-                wishlist={product.wishlist}
-                lowestPrice={product.lowestPrice ?? null}
-                highestPrice={product.highestPrice ?? null}
-                price={product.price}
-              />
-            );
-          })}
-        </div>
-
-        <div style={{ marginTop: '100px' }} className="grid lg:grid-cols-6 md:grid-cols-3 gap-12 place-content-center">
-          {categoryData.map((category, index) => (
-            <CategoryCard
-              key={index}
-              image={category.image}
-              id={category.id}
-              title={category.title}
-              link={category.link}
-            />
-          ))}
-        </div>
+      <div className="my-96 w-full">
+        <ProductCharts />
       </div>
-      {/* <div className="w-96 ml-96">
-        <SearchBox />
-      </div> */}
+      
       <div>
         <HeroImage />
       </div>

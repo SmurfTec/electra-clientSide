@@ -1,5 +1,5 @@
 import { CategoryCard } from '@elektra/components/card';
-import { Container, Flex, Group, List, Text } from '@mantine/core';
+import { Center, Container, Flex, Group, List, Text } from '@mantine/core';
 
 export const PhoneMenu = () => {
   return (
@@ -31,8 +31,10 @@ export const PhoneMenu = () => {
             <List.Item>Lenovo</List.Item>
           </List>
         </Flex>
+        <Center className='space-x-6 md:space-x-28'>
         <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'/shop'} />
         <CategoryCard id={1} image={'/images/menu/lptpimg2.png'} title={'Laptops'} link={'/shop'} />
+        </Center>
       </Group>
     </Container>
   );

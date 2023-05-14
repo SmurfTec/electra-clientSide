@@ -1,7 +1,7 @@
 import {
   ProductCard,
   ProductCardProps,
-  ProductCarousel,
+  ProductCharts,
   // ProductCharts,
   ProductFilter,
   ProductSpecification,
@@ -10,7 +10,7 @@ import {
   SectionTitle,
 } from '@elektra/components';
 
-import { ActionIcon, Anchor, Breadcrumbs, Button, Container, Divider, Grid, Paper, Stack, Text } from '@mantine/core';
+import { ActionIcon, Anchor, Breadcrumbs, Button, Divider, Grid, Paper, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
@@ -181,7 +181,7 @@ const items = [
 export default function ProductPage() {
   const router = useRouter();
   // console.log(router.query[]
-  
+
   const matches = useMediaQuery('(max-width: 800px)');
   const productSpecificationData =
     router.query['condition'] === 'new' ? productSpecification[0] : productSpecification[1];
@@ -250,7 +250,7 @@ export default function ProductPage() {
           <ArrowDown size={20} color="black" />
         </ActionIcon>
       </Anchor>
-      <div className='mt-4'>
+      <div className="mt-4">
         <ProductStats />
       </div>
       <div className="mt-10">
@@ -260,12 +260,12 @@ export default function ProductPage() {
           </Text>
           <Divider />
           <div className="py-5 px-2">
-            {/* <SalesTable /> */}
+            <SalesTable />
           </div>
         </Paper>
       </div>
       <div className="my-24">
-        {/* <ProductCharts /> */}
+        <ProductCharts />
       </div>
     </div>
   );
