@@ -28,7 +28,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     cardType: 'visa',
     cardNo: '',
     cvc: '',
-    expiry: '',
+    expiry: '10/22',
     fistName: '',
     lastName: '',
     address1: '',
@@ -76,14 +76,14 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     return data;
   };
 
-  const matches = useMediaQuery('(max-width: 800px)');
+  const phone = useMediaQuery('(max-width: 800px)');
 
   const Modal = (
     <div className='p-4'>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col xs={6}>
-            <Text className="text-lg mb-4">Choose billing method</Text>
+          <Grid.Col xs={8} lg={6}>
+            <Text className="mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">
                 <Chip
@@ -145,24 +145,26 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                 />
                 <Text
                   color={'white'}
-                  className="text-lg uppercase tracking-wider font-medium"
+                  className="uppercase tracking-wider font-medium text-sm md:text-lg pt-3"
                   sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}
+                  // size={phone ? "13px" : "auto"}
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group position="apart" spacing={35}>
+                <Group position="apart" spacing={phone ? 15 :35}>
                   <div>
                     <Text
                       color={'white'}
-                      className="text-lg uppercase tracking-wider font-medium"
+                      className=" uppercase tracking-wider font-medium text-sm md:text-lg"
                       sx={{ marginLeft: '1.5rem' }}
+                      
                     >
                       {getCardNumber(form.values.cardNo)}
                     </Text>
                     <Text
                       color={'white'}
                       fz="sm"
-                      className=" uppercase tracking-wider font-semibold"
+                      className=" uppercase tracking-wider font-semibold text-sm md:text-lg"
                       sx={{ marginLeft: '1.5rem' }}
                     >
                       Card Number
@@ -171,7 +173,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   <div>
                     <Text
                       color={'white'}
-                      className="text-lg uppercase tracking-wider font-medium"
+                      className="uppercase tracking-wider font-medium text-sm md:text-lg"
                       //sx={{ marginLeft: '1.5rem' }}
                     >
                       {getExpiryNumber(form.values.expiry)}
@@ -179,7 +181,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                     <Text
                       color={'white'}
                       fz="sm"
-                      className="uppercase tracking-wider font-semibold"
+                      className="uppercase tracking-wider font-semibold text-sm md:text-lg"
                       //sx={{ marginLeft: '4.5rem' }}
                     >
                       expiry
@@ -188,12 +190,12 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   <div>
                     <Text
                       color={'white'}
-                      className="text-lg uppercase tracking-wider font-medium"
+                      className="uppercase tracking-wider font-medium text-sm md:text-lg"
                       // sx={{ marginLeft: '1.5rem' }}
                     >
                       {getCvcNumber(form.values.cvc)}
                     </Text>
-                    <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold">
+                    <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold text-sm md:text-lg">
                       cvc
                     </Text>
                   </div>
@@ -360,10 +362,10 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
           </Grid.Col>
           <Grid.Col xs={8}>
             <Group className="ml-55 mt-4" spacing={'xl'}>
-              <Button onClick={close} className="w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
+              <Button onClick={close} size={'lg'} classNames={{ root: button.grayButtonRoot }}>
                 Cancel
               </Button>
-              <Button type="submit" className="w-1/3" size={'lg'}>
+              <Button type="submit" size={'lg'}>
                 Update
               </Button>
             </Group>

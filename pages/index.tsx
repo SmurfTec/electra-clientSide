@@ -224,37 +224,73 @@ const categoryData = [
 const brandData = [
   {
     id: 1,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
     title: 'Apple',
     link: '/shop',
   },
   {
     id: 2,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
     title: 'HP',
     link: '/shop',
   },
   {
     id: 3,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
     title: 'Razor',
     link: '/shop',
   },
   {
     id: 4,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
     title: 'Dell',
     link: '/shop',
   },
   {
     id: 5,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
     title: 'Nvidia',
     link: '/shop',
   },
   {
     id: 6,
-    image: '/images/category.png',
+    image: '/images//brands/brand.png',
+    title: 'AMD',
+    link: '/shop',
+  },
+  {
+    id: 7,
+    image: '/images//brands/brand.png',
+    title: 'Apple',
+    link: '/shop',
+  },
+  {
+    id: 8,
+    image: '/images//brands/brand.png',
+    title: 'HP',
+    link: '/shop',
+  },
+  {
+    id: 9,
+    image: '/images//brands/brand.png',
+    title: 'Razor',
+    link: '/shop',
+  },
+  {
+    id: 10,
+    image: '/images//brands/brand.png',
+    title: 'Dell',
+    link: '/shop',
+  },
+  {
+    id: 11,
+    image: '/images//brands/brand.png',
+    title: 'Nvidia',
+    link: '/shop',
+  },
+  {
+    id: 12,
+    image: '/images//brands/brand.png',
     title: 'AMD',
     link: '/shop',
   },
@@ -320,7 +356,7 @@ export function Index() {
       <section className="mt-20">
         <SectionTitle title="Categories" />
 
-        <Grid gutter={12} columns={mediumdScreen ? 10 : 18}>
+        <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
           <ScrollArea type="never" scrollbarSize={5}>
             <Center>
               {categoryData.map((category, index) => {
@@ -416,9 +452,9 @@ export function Index() {
           slideSize={mediumdScreen ? '100%' : '33.33%'}
         />
       </section>
-      <section className="mt-[-150px] sm:mt-[-60px]">
+      <section className="mt-16 sm:mt-[-60px]">
         <SectionTitle title="Brands" />
-        <Grid gutter={12} columns={mediumdScreen ? 12 : 18}>
+        <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
           <ScrollArea type="never" scrollbarSize={5}>
             <Center>
               {categoryData.map((category, index) => {
