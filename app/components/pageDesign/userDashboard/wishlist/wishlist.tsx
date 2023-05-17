@@ -90,11 +90,10 @@ const productData = [
 export function WishList() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-      {productData.map((product) => {
+      {productData.map((product,index) => {
         return (
           <ProductCard
-            id={product.id}
-            key={product.id}
+            key={index}
             image={product.img}
             description={product.description}
             link={product.link}
