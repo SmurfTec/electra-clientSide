@@ -8,26 +8,33 @@ type BiddingInputProps = {
 export function BiddingInput({ title, value }: BiddingInputProps) {
   return (
     <div>
-      <NumberInput mt={14} p={0}
-      styles={
-        {root: {
-            border: "2.5px solid black !important",
-            padding: "6px !important"
-            
-        },
-        input: {
-        border: "unset",
-        fontSize: "24px",
-        fontWeight: "bold"
-      },
-      label: {
-        fontSize: "12px",
-        color: "#656565",
-        paddingLeft: "14px !important",
-        display: "block"
-      }
-    }}
+      <NumberInput
+        mt={14}
+        p={0}
+        styles={{
+          root: {
+            border: '2.5px solid black !important',
+            padding: '6px !important',
+          },
+          input: {
+            '&[data-disabled]': {
+              backgroundColor: 'unset',
+              color: "black",
+              opacity: 1
+            },
+            border: 'unset',
+            fontSize: '24px',
+            fontWeight: 'bold',
+          },
+          label: {
+            fontSize: '12px',
+            color: '#656565',
+            paddingLeft: '14px !important',
+            display: 'block',
+          },
+        }}
         hideControls
+        disabled={true}
         // className='border border-2 border-solid border-black'
         label={title}
         defaultValue={value}
