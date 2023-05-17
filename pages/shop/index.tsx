@@ -284,7 +284,7 @@ export default function ShopPage() {
         />
       </Group>
 
-      <BackgroundImage className="text-center min-h-[350px]  xs:min-h-[550px] relative" src="/images/shop/mobileBanner.png">
+      <BackgroundImage className="text-center min-h-[350px]  sm:min-h-[550px] relative" src="/images/shop/mobileBanner.png">
         <div className="absolute top-1/2 sm:left-1/2 -translate-y-1/2 sm:-translate-x-1/2 space-y-8">
           <Title color="white" size={!matches ? 96 : 48} className="font-[300]">
             NOKIA 1.3
