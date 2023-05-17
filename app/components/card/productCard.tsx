@@ -4,7 +4,6 @@ import { NextLink } from '@mantine/next';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
-  id: number;
   image: string;
   link: string;
   title: string;
@@ -17,8 +16,6 @@ export type ProductCardProps = {
 };
 
 export function ProductCard({
-  id,
-  className,
   image,
   link,
   title,
@@ -28,62 +25,55 @@ export function ProductCard({
   lowestPrice,
   highestPrice,
   price,
-  ...others
-}: ProductCardProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof ProductCardProps>) {
-  const linkProps = {
-    href: link,
-    rel: 'noopener noreferrer',
-  };
+}: ProductCardProps) {
 
   const theme = useMantineTheme();
 
   return (
-    <Card key={id} className={clsx('relative rounded-none', className)} {...others}>
-      <Card.Section component={NextLink} href={link}>
+    <Card className='relative rounded-none'>
+      <Anchor component={NextLink} href={link} className="cursor-pointer" align='unset' underline={false}>
+      <Card.Section >
         <Paper bg={'#F5F5F5'} className="p-12 flex justify-center items-center">
           <Image height={120} width={100} alt={image} src={image} className="h-1/4 w-1/2" />
         </Paper>
       </Card.Section>
-
       <Only when={!!rating}>
         <Badge
           className={clsx(
             rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
-            'absolute text-white pointer-events-none bg-black top-2 right-2'
+            'absolute text-white pointer-events-none bg-black top-6 right-2'
           )}
         >
           {rating}
         </Badge>
       </Only>
-      <Card.Section>
-        <Grid align='center'>
+      </Anchor>
+      <Card.Section  className="no-underline">
+        <Grid align="center">
           <Grid.Col span={9} px={0}>
-          <Text
-            className='block text-[13px] md:text-base font-bold text-black '
-            
-            weight={500}
-            component={NextLink}
-            {...linkProps}
-          >
-            {title}
-          </Text>
+            <Text
+              className="block text-[13px] md:text-base font-bold text-black "
+              weight={500}
+              component={NextLink} href={link}
+            >
+              {title}
+            </Text>
           </Grid.Col>
-          <Grid.Col className='text-right' px={0} span={3}>
-          <Heart
-            className="cursor-pointer"
-            size={23}
-            strokeWidth={1.5}
-            fill={wishlist ? 'red' : 'white'}
-            color={wishlist ? 'red' : undefined}
-          />
+          <Grid.Col className="text-right" px={0} span={3}>
+            <Heart
+              className="cursor-pointer"
+              size={23}
+              strokeWidth={1.5}
+              fill={wishlist ? 'red' : 'white'}
+              color={wishlist ? 'red' : undefined}
+            />
           </Grid.Col>
           {/* </ActionIcon> */}
         </Grid>
-
+        <Anchor component={NextLink} href={link} className="cursor-pointer" underline={false}>
         <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
           Condition : {description}
         </Text>
-
         <Group className="mt-4">
           <div>
             <Text className="text-[#656565]" size={'xs'}>
@@ -102,13 +92,12 @@ export function ProductCard({
         </Group>
         <Only when={!!price}>
           <div className="mt-6">
-            <Anchor component={NextLink} href="/shop" className='cursor-pointer'>
-              <Title order={6}>
-                Used Starting at <span className="font-bold">${price}</span>
-              </Title>
-            </Anchor>
+              <Text  className="no-underline text-[11px] font-medium">
+                Used Starting at <span className="font-bold text-black">${price}</span>
+              </Text>
           </div>
         </Only>
+        </Anchor>
       </Card.Section>
     </Card>
   );

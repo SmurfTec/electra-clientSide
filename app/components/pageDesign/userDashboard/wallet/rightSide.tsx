@@ -197,7 +197,7 @@ export const WalletRightSide = () => {
               key={index}
               status={item.status}
             />
-            {itemCardData.length !== index + 1 && <Divider key={index} />}
+            {itemCardData.length !== index + 1 && <Divider key={index+1} />}
           </div>
         ))}
         </ScrollArea>

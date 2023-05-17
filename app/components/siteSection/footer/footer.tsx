@@ -1,18 +1,4 @@
-import {
-  ActionIcon,
-  Affix,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Tabs,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Affix, Button, Container, Divider, Grid, Group, Image, Paper, Stack, Tabs, Text, Title } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { FooterCard, FooterCardProps } from '../../card';
 
@@ -46,9 +32,8 @@ const footerCardData: FooterCardProps[] = [
 export function Footer() {
   const router = useRouter();
   const phone = useMediaQuery('(max-width: 600px)');
-  // console.log(router)
   return (
-    <div className="mt-24">
+    <div className="mt-24 mb-14 sm:mb-0">
       <Container size={1300}>
         <section className="my-8">
           <Grid gutter={50} gutterXs={0}>
@@ -69,7 +54,7 @@ export function Footer() {
               <Image className="absolute left-0 bottom-0" src={'/images/footer/footerVector.svg'} alt={'line'} />
               <Grid>
                 <Grid.Col span={6}>
-                  <Title color={'white'} className="font-[600]" order={2} size={phone ? '16px' : undefined}>
+                  <Title color={'white'} className="font-[600]" size={phone ? '16px' : '32px'}>
                     Place to explore the best products.
                   </Title>
                 </Grid.Col>
@@ -98,7 +83,7 @@ export function Footer() {
               </Grid>
               <Grid className="mt-4 xs:mt-10">
                 <Grid.Col xs={12} sm={7}>
-                  <Text className="font-light leading-10" color={'white'} size={phone ? '13px' : 'md'}>
+                  <Text className="font-light leading-10" color={'white'} size={phone ? '13px' : '15px'}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur velit enim, suscipit a nunc et,
                     pellentesque tempus leo. Donec vulputate sed erat sit amet fermentume tempus leo. Donec vulputate
                     sed erat sit amet fermentum. Donec vulputate sed erat sit amet fermentume tempus leo.
@@ -117,14 +102,14 @@ export function Footer() {
                       Elektra
                     </Title>
                     <Group align="end" className="xs:space-x-2">
-                      <Text size={phone ? '12px' : 'md'} className="inline-block" color={'#B4B4B4'}>
+                      <Text size={phone ? '12px' : '15px'} className="inline-block" color={'#B4B4B4'}>
                         Privacy Policy
                       </Text>
-                      <Text size={phone ? '12px' : 'md'} className="inline-block" color={'#B4B4B4'}>
+                      <Text size={phone ? '12px' : '15px'} className="inline-block" color={'#B4B4B4'}>
                         .
                       </Text>
                       <Text
-                        size={phone ? '12px' : 'md'}
+                        size={phone ? '12px' : '15px'}
                         component={NextLink}
                         href="/contact"
                         className="inline-block"
@@ -132,11 +117,11 @@ export function Footer() {
                       >
                         Help Center
                       </Text>
-                      <Text size={phone ? '12px' : 'md'} className="inline-block" color={'#B4B4B4'}>
+                      <Text size={phone ? '12px' : '15px'} className="inline-block" color={'#B4B4B4'}>
                         .
                       </Text>
                       <Text
-                        size={phone ? '12px' : 'md'}
+                        size={phone ? '12px' : '15px'}
                         component={NextLink}
                         href="/how-it-works"
                         className="inline-block"
@@ -166,73 +151,65 @@ export function Footer() {
 
       {/* FOOTER MOBILE FIXED MENU*/}
       {phone && (
-        <Affix position={{ bottom: 0 }} className="h-16 flex items-end" bg="black">
+        <Affix position={{ bottom: -5 }} className="h-20 flex pb-2  items-end" bg="black">
           <Tabs
             value={router.pathname as string}
             onTabChange={(value) => router.push(value as string)}
-            className="w-full"
             styles={{
-              tabsList: { color: 'white' },
+              tabsList: {  borderBottom: 'unset' },
               tab: {
-                '&[data-active] div': {
+                color: 'white',
+                '&[data-active]': {
+                  // backgroundColor:'unset',
+                  color: 'white',
                   
-                  color: 'white', 
-                  borderBottom: '6px solid #3C82D6',
-                  borderRadius: '5px 5px 0px 0px',
+                  borderBottom: '5px solid #3C82D6',
+                  
+                  borderRadius: '15px 15px 0px 0px',
                 },
               },
             }}
           >
-            <Tabs.List className="w-[100vw]" grow>
+            <Tabs.List className='w-screen' grow>
               <Tabs.Tab value="/">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Home size={30} />
-                    <Text size={10} color='inherit' className="font-medium">
-                      Home
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Home size={30} />
+                  <Text size={10} color="inherit" className="font-medium">
+                    Home
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/product-listing">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Box size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      List Now
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Box size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    List Now
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/shop">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <ListCheck size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      My Listing
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <ListCheck size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    My Listing
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/notifications">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Bell size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      Notifications
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Bell size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    Notifications
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/userdashboard">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <User size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      Profile
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <User size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    Profile
+                  </Text>
+                </Stack>
               </Tabs.Tab>
             </Tabs.List>
           </Tabs>
@@ -241,5 +218,3 @@ export function Footer() {
     </div>
   );
 }
-
-

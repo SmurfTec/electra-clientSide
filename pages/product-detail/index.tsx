@@ -54,7 +54,6 @@ const productSpecification = [
 ];
 const productData: ProductCardProps[] = [
   {
-    id: 4,
     image: '/images/product.png',
     link: '#',
     title: 'Iphone X',
@@ -66,7 +65,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -77,7 +76,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+   
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -88,7 +87,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -99,7 +98,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -110,7 +109,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 4,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone X',
@@ -122,7 +121,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -133,7 +132,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -144,7 +143,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+  
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -155,7 +154,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+
     image: '/images/product.png',
     link: '#',
     title: 'Iphone 14 Pro max',
@@ -226,8 +225,7 @@ export default function ProductPage() {
         {productData.map((product, index) => {
           return (
             <ProductCard
-              key={product.id + index}
-              id={product.id}
+              key={index}
               image={product.image}
               description={product.description}
               link={product.link}

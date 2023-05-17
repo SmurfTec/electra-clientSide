@@ -8,7 +8,7 @@ export type SearchItemProps = SelectItemProps & {
   image: string;
 };
 
-export const AutoCompleteItem =  forwardRef<HTMLDivElement, SearchItemProps>(
+export const AutoCompleteItem = forwardRef<HTMLDivElement, SearchItemProps>(
   ({ category, value, image, modal, ...rest }: SearchItemProps, ref) => (
     <div ref={ref} {...rest} >
       <Grid align='center'>
