@@ -63,7 +63,7 @@ const productData: ProductCardProps[] = [
   {
     id: 4,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
     rating: 'New',
@@ -75,7 +75,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -86,7 +86,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -97,7 +97,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -108,7 +108,7 @@ const productData: ProductCardProps[] = [
   {
     id: 5,
     image: '/images/product.png',
-    link: '#',
+    link: '/product-detail',
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -118,83 +118,6 @@ const productData: ProductCardProps[] = [
   },
 ];
 
-const categoryData = [
-  {
-    id: 1,
-    image: '/images/category.png',
-    title: 'Laptops',
-    link: '/shop',
-  },
-  {
-    id: 2,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 3,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 4,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 5,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 6,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-];
-
-const brandData = [
-  {
-    id: 1,
-    image: '/images/brands/brand.png',
-    title: 'Apple',
-    link: '/shop',
-  },
-  {
-    id: 2,
-    image: '/images/brands/brand.png',
-    title: 'HP',
-    link: '/shop',
-  },
-  {
-    id: 3,
-    image: '/images/brands/brand.png',
-    title: 'Razor',
-    link: '/shop',
-  },
-  {
-    id: 4,
-    image: '/images/brands/brand.png',
-    title: 'Dell',
-    link: '/shop',
-  },
-  {
-    id: 5,
-    image: '/images/brands/brand.png',
-    title: 'Nvidia',
-    link: '/shop',
-  },
-  {
-    id: 6,
-    image: '/images/brands/brand.png',
-    title: 'AMD',
-    link: '/shop',
-  },
-];
 
 export function ShowingMore() {
   const router = useRouter();

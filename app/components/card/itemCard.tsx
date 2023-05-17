@@ -20,7 +20,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <Grid m={0} {...rest} gutter={phone?10:0}>
+    <Grid m={0} {...rest} gutter={phone?10:20}>
       <Grid.Col span={2}>
         <Paper bg={'#F5F5F5'} className="flex justify-center  relative">
           <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
