@@ -61,8 +61,6 @@ const BiddingSummaryData: BiddingSummaryProps = {
 export default function BuyingSummary() {
   const router = useRouter()
   const isOffer = router.query['type'] === 'offer'
-  console.log(isOffer)
-
   const [plan, setPlan] = useState<string>('')
   return (
     <Radio.Group mt={50} onChange={(value) => setPlan(value)}>

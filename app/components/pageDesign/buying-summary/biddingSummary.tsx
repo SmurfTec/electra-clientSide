@@ -3,7 +3,7 @@ import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { notifications } from '@mantine/notifications';
-import { AlertTriangle, Home } from 'tabler-icons-react';
+import { AlertTriangle } from 'tabler-icons-react';
 
 export type BiddingSummaryProps = {
   yourOffer?: number;
@@ -69,19 +69,20 @@ export function BiddingSummary({
               className="w-full h-14"
               type="submit"
               onClick={() => {
-                console.log(protectionPlan)
-              if(!!protectionPlan){offerPlaceHandler.open()}
-              else{
-                notifications.show({
-                  withCloseButton:false,
-                  styles:{
-                    
-                  }
-                  message: 'Select atleast one option for proceeding',
-                  icon:<AlertTriangle color='red' />,
-                   
-                })
-              }
+                if (!!protectionPlan) {
+                  offerPlaceHandler.open();
+                } else {
+                  notifications.show({
+                    withCloseButton: false,
+                    styles: {
+                      icon: {
+                        backgroundColor: 'unset',
+                      },
+                    },
+                    message: 'Select atleast one option for proceeding',
+                    icon: <AlertTriangle color="red" />,
+                  });
+                }
               }}
             >
               CONFIRM
