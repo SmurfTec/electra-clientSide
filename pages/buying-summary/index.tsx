@@ -7,6 +7,8 @@ import {
   SummaryFooter,
 } from '@elektra/components';
 import { Grid, Radio } from '@mantine/core';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -57,9 +59,12 @@ const BiddingSummaryData: BiddingSummaryProps = {
 };
 
 export default function BuyingSummary() {
+  const router = useRouter()
+  const isOffer = router.query['type'] === 'offer'
+  const [plan, setPlan] = useState<string>('')
   return (
-    <Radio.Group mt={50}>
-      <PageTitle title="Buying Summary" />
+    <Radio.Group mt={50} onChange={(value) => setPlan(value)}>
+      <PageTitle title={isOffer ? "Offer Summary" :"Buying Summary"} />
 
       <Grid>
         <Grid.Col xs={12} sm={6}>
@@ -87,6 +92,7 @@ export default function BuyingSummary() {
               salesTax={BiddingSummaryData.salesTax}
               shippingFee={BiddingSummaryData.shippingFee}
               totalPrice={BiddingSummaryData.totalPrice}
+              protectionPlan={plan}
             />
           </div>
         </Grid.Col>

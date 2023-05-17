@@ -2,6 +2,8 @@ import { Modal, Only, PencilButton, TransparentButton, useStylesforGlobal } from
 import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
 import { NextLink } from '@mantine/next';
+import { notifications } from '@mantine/notifications';
+import { AlertTriangle } from 'tabler-icons-react';
 
 export type BiddingSummaryProps = {
   yourOffer?: number;
@@ -12,6 +14,7 @@ export type BiddingSummaryProps = {
   discount: number;
   totalPrice: number;
   disabled?: boolean;
+  protectionPlan?: string;
 };
 
 export function BiddingSummary({
@@ -23,6 +26,7 @@ export function BiddingSummary({
   discount,
   totalPrice,
   disabled,
+  protectionPlan,
 }: BiddingSummaryProps) {
   const theme = useMantineTheme();
   const { classes } = useStylesforGlobal();
@@ -61,7 +65,26 @@ export function BiddingSummary({
               open={offerPlaceOpened}
             />
 
-            <Button className="w-full h-14" type="submit" onClick={offerPlaceHandler.open}>
+            <Button
+              className="w-full h-14"
+              type="submit"
+              onClick={() => {
+                if (!!protectionPlan) {
+                  offerPlaceHandler.open();
+                } else {
+                  notifications.show({
+                    withCloseButton: false,
+                    styles: {
+                      icon: {
+                        backgroundColor: 'unset',
+                      },
+                    },
+                    message: 'Select atleast one option for proceeding',
+                    icon: <AlertTriangle color="red" />,
+                  });
+                }
+              }}
+            >
               CONFIRM
             </Button>
           </Grid.Col>
@@ -79,12 +102,12 @@ export function BiddingSummary({
       </Only>
       <Grid>
         <Grid.Col span={1}>
-        <Avatar src="images/coin.png" size={'xs'} radius="lg" />
+          <Avatar src="images/coin.png" size={'xs'} radius="lg" />
         </Grid.Col>
-        <Grid.Col span={11} className='text-left'>
-        <Text className="font-bold uppercase" size="sm">
-          earn 1500 points for this purchase
-        </Text>
+        <Grid.Col span={11} className="text-left">
+          <Text className="font-bold uppercase" size="sm">
+            earn 1500 points for this purchase
+          </Text>
         </Grid.Col>
       </Grid>
     </div>

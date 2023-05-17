@@ -8,6 +8,7 @@ type productDataType = {
   image: string;
   link: string;
   value: string;
+  title: string;
   modal: string;
   label: string;
   category: string;
@@ -17,7 +18,8 @@ const productData: productDataType[] = [
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone X',
+    value: '1',
+    title: 'Iphone X',
     modal: 'Model No : 34355',
     label: 'Iphone X',
     category: 'Phone',
@@ -25,7 +27,8 @@ const productData: productDataType[] = [
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 11',
+    title: 'Iphone 11',
+    value: '2',
     modal: 'Model No : 34355',
     label: 'Iphone X',
     category: 'Phone',
@@ -33,50 +36,56 @@ const productData: productDataType[] = [
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 11 Pro Max',
+    title: 'Iphone 11 Pro Max',
     modal: 'Model No : 34355',
+    value: '3',
     label: 'Iphone X',
     category: 'Phone',
   },
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 12 Pro',
+    title: 'Iphone 12 Pro',
     modal: 'Model No : 34355',
     label: 'Iphone X',
+    value: '4',
     category: 'Phone',
   },
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 13 Pro Max',
+    title: 'Iphone 13 Pro Max',
     modal: 'Model No : 34355',
     label: 'Iphone X',
+    value: '5',
     category: 'Phone',
   },
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 13 Pro Max',
+    title: 'Iphone 13 Pro Max',
     modal: 'Model No : 34355',
     label: 'Iphone X',
+    value: '6',
     category: 'Phone',
   },
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 14 Pro Max',
+    title: 'Iphone 14 Pro Max',
     modal: 'Model No : 34355',
     label: 'Iphone X',
     category: 'Phone',
+    value: '7',
   },
   {
     image: '/images/product.png',
     link: '/product-listing',
-    value: 'Iphone 14 Pro Max',
+    title: 'Iphone 14 Pro Max',
     modal: 'Model No : 34355',
     label: 'Iphone X',
     category: 'Phone',
+    value: '8',
   },
 ];
 
@@ -102,7 +111,6 @@ export function SellingSearch() {
           withinPortal={true}
           nothingFound={<div>No Product Found</div>}
           styles={{
-            item: {},
             input: { backgroundColor: '#F1F1F1' },
           }}
           radius={'md'}
