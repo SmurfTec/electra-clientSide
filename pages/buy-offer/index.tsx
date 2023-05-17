@@ -48,7 +48,7 @@ export default function PlaceOffer() {
   return (
     <Container fluid>
       <div className="my-10">
-        <PageTitle title="Placing Offer" />
+        <PageTitle title="Buying Product" />
       </div>
       <Grid className="my-10">
         <Grid.Col xs={6}>

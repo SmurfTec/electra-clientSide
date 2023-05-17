@@ -5,6 +5,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
+import { Notifications } from '@mantine/notifications';
 
  export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
@@ -19,6 +20,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
           <Global styles={globalStyles} />
           <RouterTransition />
+          <Notifications position='bottom-center' />
           {router.pathname === '/auth/login' || router.pathname === '/auth/signup' || router.pathname === '/selling-search' || router.pathname === '/notifications'? (
             <Component {...pageProps} />
           ) : (

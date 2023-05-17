@@ -234,7 +234,7 @@ export function PlaceOfferComponent({
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
               component={NextLink}
-              href="/buying-summary"
+              href="/buying-summary?type=offer"
             >
               Review Offer
             </Button>
