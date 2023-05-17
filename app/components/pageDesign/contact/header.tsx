@@ -10,13 +10,13 @@ export const ContactUsHeader = () => {
         </Title>
         <div className="space-x-4">
           <ActionIcon className="inline-block" variant="filled" color="dark">
-            <BrandFacebook size={'md'} stroke="" color="white" className="fill-white" />
+            <BrandFacebook size={27} stroke="" color="white" className="fill-white" />
           </ActionIcon>
           <ActionIcon className="inline-block" color="dark" variant={'filled'}>
-            <BrandInstagram size={'md'} color="white" />
+            <BrandInstagram size={27} color="white" />
           </ActionIcon>
           <ActionIcon className="inline-block" variant="filled" color="dark">
-            <Mail size={'md'} color="white" />
+            <Mail size={27} color="white" />
           </ActionIcon>
         </div>
       </Group>

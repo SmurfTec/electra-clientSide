@@ -24,7 +24,7 @@ export default function UnavailableItem() {
           rightIcon={<ArrowNarrowRight size={38} strokeWidth={1.2} color={'white'} />}
           className="rounded-3xl hover:bg-transparent"
           component={NextLink}
-          href="//unavailable-item/request"
+          href="/unavailable-item/request"
           variant="filled"
           size="md"
         >

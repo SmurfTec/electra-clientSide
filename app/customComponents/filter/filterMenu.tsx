@@ -59,7 +59,7 @@ export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenu
             >
               {item}
             </Menu.Item>
-            {data.length !== index + 1 && <Menu.Divider key={index} />}
+            {data.length !== index + 1 && <Menu.Divider key={index+1} />}
           </div>
         ))}
       </Menu.Dropdown>

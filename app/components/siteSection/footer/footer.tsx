@@ -1,18 +1,4 @@
-import {
-  ActionIcon,
-  Affix,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Tabs,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Affix, Button, Container, Divider, Grid, Group, Image, Paper, Stack, Tabs, Text, Title } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { FooterCard, FooterCardProps } from '../../card';
 
@@ -46,7 +32,6 @@ const footerCardData: FooterCardProps[] = [
 export function Footer() {
   const router = useRouter();
   const phone = useMediaQuery('(max-width: 600px)');
-  // console.log(router)
   return (
     <div className="mt-24 mb-14 sm:mb-0">
       <Container size={1300}>
@@ -69,7 +54,7 @@ export function Footer() {
               <Image className="absolute left-0 bottom-0" src={'/images/footer/footerVector.svg'} alt={'line'} />
               <Grid>
                 <Grid.Col span={6}>
-                  <Title color={'white'} className="font-[600]"  size={phone ? '16px' : '32px'}>
+                  <Title color={'white'} className="font-[600]" size={phone ? '16px' : '32px'}>
                     Place to explore the best products.
                   </Title>
                 </Grid.Col>
@@ -166,74 +151,65 @@ export function Footer() {
 
       {/* FOOTER MOBILE FIXED MENU*/}
       {phone && (
-        <Affix position={{ bottom: -2 }} className="h-16 flex pb-2  items-end" bg="black">
-          <Tabs 
-          
+        <Affix position={{ bottom: -5 }} className="h-20 flex pb-2  items-end" bg="black">
+          <Tabs
             value={router.pathname as string}
             onTabChange={(value) => router.push(value as string)}
-            className="w-full border-none"
             styles={{
-              tabsList: { color: 'white', borderBottom: "unset" },
+              tabsList: {  borderBottom: 'unset' },
               tab: {
-                '&[data-active] div': {
+                color: 'white',
+                '&[data-active]': {
+                  // backgroundColor:'unset',
+                  color: 'white',
                   
-                  color: 'white', 
-                  borderBottom: '3px solid #3C82D6',
+                  borderBottom: '5px solid #3C82D6',
+                  
                   borderRadius: '15px 15px 0px 0px',
                 },
               },
             }}
           >
-            <Tabs.List className="w-[100vw]" grow>
+            <Tabs.List className='w-screen' grow>
               <Tabs.Tab value="/">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Home size={30} />
-                    <Text size={10} color='inherit' className="font-medium">
-                      Home
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Home size={30} />
+                  <Text size={10} color="inherit" className="font-medium">
+                    Home
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/product-listing">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Box size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      List Now
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Box size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    List Now
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/shop">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <ListCheck size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      My Listing
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <ListCheck size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    My Listing
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/notifications">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <Bell size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      Notifications
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <Bell size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    Notifications
+                  </Text>
+                </Stack>
               </Tabs.Tab>
               <Tabs.Tab value="/userdashboard">
-                <ActionIcon size={30}>
-                  <Stack align="center" spacing={0}>
-                    <User size={30} />
-                    <Text color='inherit' size={10} className="font-medium">
-                      Profile
-                    </Text>
-                  </Stack>
-                </ActionIcon>
+                <Stack align="center" spacing={0}>
+                  <User size={30} />
+                  <Text color="inherit" size={10} className="font-medium">
+                    Profile
+                  </Text>
+                </Stack>
               </Tabs.Tab>
             </Tabs.List>
           </Tabs>
@@ -242,5 +218,3 @@ export function Footer() {
     </div>
   );
 }
-
-

@@ -71,7 +71,7 @@ const bannerData: BannerProps[] = [
 
 const productData: ProductCardProps[] = [
   {
-    id: 4,
+    
     image: '/images/product.png',
     link: '/product-detail?condition=new',
     title: 'Iphone X',
@@ -83,7 +83,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -94,7 +94,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+   
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -105,7 +105,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -116,7 +116,7 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    id: 5,
+    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -307,13 +307,11 @@ export function Index() {
 
       <section className="mt-20">
         <SectionTitle title="Recommended For You" label="View All" />
-
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
           {productData.map((product, index) => {
             return (
               <ProductCard
-                key={product.id + index}
-                id={product.id}
+                key={index}
                 image={product.image}
                 description={product.description}
                 link={product.link}
@@ -330,14 +328,13 @@ export function Index() {
       </section>
 
       <section className="mt-20">
-        <SectionTitle key={1} title="Trending Now" label="View All" />
+        <SectionTitle title="Trending Now" label="View All" />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
           {productData.map((product, index) => {
             return (
               <ProductCard
-                key={product.id + index}
-                id={product.id}
+                key={index}
                 image={product.image}
                 description={product.description}
                 link={product.link}
@@ -399,11 +396,10 @@ export function Index() {
         <SectionTitle title="Most Sold Items" label="View All" />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
+        {productData.map((product, index) => {
             return (
               <ProductCard
-                key={product.id + index}
-                id={product.id}
+                key={index}
                 image={product.image}
                 description={product.description}
                 link={product.link}
@@ -423,11 +419,10 @@ export function Index() {
         <SectionTitle title="Latest Items" />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
+        {productData.map((product, index) => {
             return (
               <ProductCard
-                key={product.id + index}
-                id={product.id}
+                key={index}
                 image={product.image}
                 description={product.description}
                 link={product.link}
