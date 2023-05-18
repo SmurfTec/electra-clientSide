@@ -1,6 +1,6 @@
 import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
-import { ListItem, Only, Modal } from '@elektra/customComponents';
-import { useCardModal } from '@elektra/hooks';
+import { ListItem, Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
+import { useCardModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -18,8 +18,10 @@ const description = [
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const router = useRouter();
   const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
+  const { classes } = useStylesforGlobal();
   return (
     <div>
       <PageTitle title="Confirmation" className="mt-14" />
@@ -77,20 +79,68 @@ export default function Confirmation() {
               text={'Shipping Address'}
               details="Street abc1, City Abc, USA,45464"
               iconDisplay={true}
-              onClick={cardHandler.open}
+              onClick={shippingHandler.open}
             />
+            <Only when={condition === 'Used'}>
+              <section className="space-y-8">
+                <div>
+                  <Title className="font-[600]" order={6}>
+                    What accessories are included
+                  </Title>
+                  <Group ml={-5} mt={10}>
+                    <Group>
+                      <Button
+                        leftIcon={<Check size={12} />}
+                        classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
+                      />
+                      <Text color={'black'} size="sm">
+                        Charger Cable
+                      </Text>
+                    </Group>
+                    <Group>
+                      <Button
+                        leftIcon={<Check size={12} />}
+                        classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
+                      />
+                      <Text color={'black'} size="sm">
+                        Original Box
+                      </Text>
+                    </Group>
+                  </Group>
+                </div>
+                <div>
+                  <Title className="font-[600]" order={6}>
+                    Has your item ever been repaired?
+                  </Title>
+                  <Group ml={-5} mt={10}>
+                    <Group>
+                      <Button
+                        leftIcon={<Check size={12} />}
+                        classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
+                      />
+                      <Text color={'black'} size="sm">
+                        Yes
+                      </Text>
+                    </Group>
+                  </Group>
+                  <Text className="mt-6" color={'black'} size="md">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tincidunt elit. Nunc euismod odio
+                    sit amet lorem lobortis, vel lacinia libero tristique
+                  </Text>
+                </div>
+                <div>
+                  <Title className="font-[600]" order={6}>
+                    What best describes overall condition of your item?
+                  </Title>
+                  <Text color={'black'} size="md">
+                    Great
+                  </Text>
+                </div>
+              </section>
+              <Group></Group>
+            </Only>
             <ProductDetails text={'Condition'} details={condition} />
 
-            <Only when={condition === 'Used'}>
-              <div>
-                <Title className="font-[600]" order={6}>
-                  What accessories are included
-                </Title>
-              </div>
-              <Group>
-
-              </Group>
-            </Only>
             <ListItem
               className="space-y-4"
               data={description}
@@ -150,6 +200,14 @@ export default function Confirmation() {
         children={CardModal}
         onClose={cardHandler.close}
         open={cardOpened}
+      />
+      <Modal
+        title="Shipping Address"
+        titlePosition="left"
+        size={800}
+        children={ShippingChangeModal}
+        onClose={shippingHandler.close}
+        open={shippingOpened}
       />
     </div>
   );

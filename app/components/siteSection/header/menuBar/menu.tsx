@@ -1,9 +1,9 @@
 import { HoverCard, Only } from '@elektra/customComponents';
-import { ActionIcon, Avatar, Burger, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Burger, Container, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { ReactNode, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
 import { LaptopMenu, PhoneMenu } from './menuContent';
-import { ReactNode, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   burger: {
@@ -88,28 +88,26 @@ const menuData = [
 export const HeaderMenu = () => {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-  const [menuState,setMenuState] = useState<{title:string,content:ReactNode}>()
-const handleItem = (item:{title:string,content:ReactNode})=>{
-  setMenuState(item)
-  toggle()
-}
+  const [menuState, setMenuState] = useState<{ title: string; content: ReactNode }>();
+  const handleItem = (item: { title: string; content: ReactNode }) => {
+    setMenuState(item);
+    toggle();
+  };
   return (
     <>
-      <Flex
+      <Group
         mih={50}
         bg="rgba(217, 217, 217, 0.35)"
-        className={clsx('xl:space-x-20 lg:space-x-14 space-x-3', classes.flex)}
-        justify="center"
-        align="center"
-        direction="row"
-        wrap="nowrap"
       >
-        {menuData.map((item, index) => (
-          <HoverCard key={index} target={<Text className="uppercase text-base cursor-pointer">{item.title}</Text>}>
-            {item.content}
-          </HoverCard>
-        ))}
-      </Flex>
+        <Container size={1400} 
+        className={clsx('md:space-x-14 xl:space-x-20   ', classes.flex)}>
+          {menuData.map((item, index) => (
+            <HoverCard key={index} target={<Text className="uppercase inline-block text-base cursor-pointer">{item.title}</Text>}>
+              {item.content}
+            </HoverCard>
+          ))}
+        </Container>
+      </Group>
       <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
         <Menu
           opened={opened}
@@ -131,7 +129,7 @@ const handleItem = (item:{title:string,content:ReactNode})=>{
           <Menu.Dropdown>
             {menuData.map((item, index) => (
               <div key={index}>
-                <Menu.Item onClick={()=>handleItem(item)}>
+                <Menu.Item onClick={() => handleItem(item)}>
                   <Group position="apart">
                     <Text className="text-white">{item.title}</Text>
                     <Avatar
@@ -154,18 +152,16 @@ const handleItem = (item:{title:string,content:ReactNode})=>{
           </Menu.Dropdown>
         </Menu>
       </div>
-      <Only when={menuState!=undefined}>
-      <Flex gap={5} bg={'black'} className="py-1" align={'center'}>
-        <ActionIcon size={50}  onClick={()=>setMenuState(undefined)}>
-        <ArrowLeft  fill="white" color="white" className='ml-1' />
-        </ActionIcon>
-        <Text size={18} className="font-medium text-white">
-          {menuState?.title}
-        </Text>
-      </Flex>
-      <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
-          {menuState?.content}
-      </div>
+      <Only when={menuState != undefined}>
+        <Flex gap={5} bg={'black'} className="py-1" align={'center'}>
+          <ActionIcon size={50} onClick={() => setMenuState(undefined)}>
+            <ArrowLeft fill="white" color="white" className="ml-1" />
+          </ActionIcon>
+          <Text size={18} className="font-medium text-white">
+            {menuState?.title}
+          </Text>
+        </Flex>
+        <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>{menuState?.content}</div>
       </Only>
     </>
   );
