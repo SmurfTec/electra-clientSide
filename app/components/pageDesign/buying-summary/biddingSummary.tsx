@@ -3,6 +3,7 @@ import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
 import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { notifications } from '@mantine/notifications';
+import { useRouter } from 'next/router';
 import { AlertTriangle } from 'tabler-icons-react';
 
 export type BiddingSummaryProps = {
@@ -29,8 +30,10 @@ export function BiddingSummary({
   protectionPlan,
 }: BiddingSummaryProps) {
   const theme = useMantineTheme();
+  const router = useRouter()
   const { classes } = useStylesforGlobal();
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  const isBuying = router.query['condition'] === 'buying';
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
@@ -59,7 +62,7 @@ export function BiddingSummary({
         <Grid>
           <Grid.Col span={6}>
             <Modal
-              title="Offer Placed!"
+              title={isBuying ? "Product Purchased" :"Offer Placed!"}
               children={OfferPlaceModal}
               onClose={offerPlaceHandler.close}
               open={offerPlaceOpened}

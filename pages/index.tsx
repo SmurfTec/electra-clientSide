@@ -354,7 +354,7 @@ export function Index() {
         <SectionTitle title="Categories" />
 
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
-          <ScrollArea type="never" scrollbarSize={5}>
+          <ScrollArea type="hover" scrollbarSize={5}>
             <Center>
               {categoryData.map((category, index) => {
                 return (
@@ -450,7 +450,7 @@ export function Index() {
       <section className="mt-16 sm:mt-[-60px]">
         <SectionTitle title="Brands" />
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
-          <ScrollArea type="never" scrollbarSize={5}>
+          <ScrollArea type="hover" scrollbarSize={5}>
             <Center>
               {categoryData.map((category, index) => {
                 return (
