@@ -224,7 +224,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               component={NextLink}
               href="/buying-summary"
             >
-              Place Ask
+              List Item
             </Button>
           </Grid.Col>
         </Grid>
