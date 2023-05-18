@@ -1,11 +1,10 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
-import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
-import { ChevronRight } from 'tabler-icons-react';
-import { BiddingInput } from '../../inputs';
-import { NextLink } from '@mantine/next';
-import { useRouter } from 'next/router';
+import { Button, Checkbox, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { NextLink } from '@mantine/next';
+import { ChevronRight, Heart } from 'tabler-icons-react';
+import { BiddingInput } from '../../inputs';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -47,18 +46,22 @@ export function ProductSpecification({
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer();
-    
-    const phone = useMediaQuery('(max-width: 600px)');
-    
+
+  const phone = useMediaQuery('(max-width: 600px)');
   return (
     <div>
-      <div className='space-y-2 mt-8 xs:mt-auto'>
-      <Title className="uppercase" color={'#656565'} order={6}>
-        About Product
-      </Title>
-      <Title className="font-bold uppercase" size={phone ? '20px' : "40px"} color={'black'} order={3}>
-        {title}
-      </Title>
+      <div className="space-y-2 mt-8 xs:mt-auto">
+        <Title className="uppercase" color={'#656565'} order={6}>
+          About Product
+        </Title>
+        <Group position="apart" align="center">
+          <Title className="font-bold uppercase" size={phone ? '20px' : '40px'} color={'black'} order={3}>
+            {title}
+          </Title>
+          <span className="bg-[#D9E2E98F] rounded-2xl w-8 h-8 relative">
+            <Heart className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+          </span>
+        </Group>
       </div>
       <form>
         <div className="space-y-4">
@@ -67,11 +70,11 @@ export function ProductSpecification({
             children={TechinalSpecificationModal}
             onClose={techinalSpecificationHandler.close}
             open={techinalSpecificationOpened}
-            position={phone ? 'bottom': "right"}
+            position={phone ? 'bottom' : 'right'}
           />
           <Button
             onClick={techinalSpecificationHandler.open}
-            className="w-full h-16 sm:h-24"
+            className="w-full h-16 sm:h-20"
             rightIcon={<ChevronRight />}
             styles={{
               root: {
@@ -95,39 +98,41 @@ export function ProductSpecification({
           >
             Technical Specifications
           </Button>
-          <Drawer
-            title="Details from seller"
-            children={SellerDetailModal}
-            onClose={sellerDetailHandler.close}
-            open={sellerDetailOpened}
-            position={phone ? 'bottom': "right"}
-          />
-          <Button
-            onClick={sellerDetailHandler.open}
-            className="w-full h-16 sm:h-24"
-            rightIcon={<ChevronRight />}
-            styles={{
-              root: {
-                backgroundColor: 'black',
-                color: 'white',
-                borderRadius: '6px',
-                '&:hover': {
+          <Only when={condition !== 'New'}>
+            <Drawer
+              title="Details from seller"
+              children={SellerDetailModal}
+              onClose={sellerDetailHandler.close}
+              open={sellerDetailOpened}
+              position={phone ? 'bottom' : 'right'}
+            />
+            <Button
+              onClick={sellerDetailHandler.open}
+              className="w-full h-16 sm:h-20"
+              rightIcon={<ChevronRight />}
+              styles={{
+                root: {
                   backgroundColor: 'black',
                   color: 'white',
+                  borderRadius: '6px',
+                  '&:hover': {
+                    backgroundColor: 'black',
+                    color: 'white',
+                  },
                 },
-              },
-              label: {
-                fontSize: '16px',
-                fontWeight: 'lighter',
-              },
-              inner: {
-                justifyContent: 'space-between',
-              },
-            }}
-            bg="black"
-          >
-            Details From Seller
-          </Button>
+                label: {
+                  fontSize: '16px',
+                  fontWeight: 'lighter',
+                },
+                inner: {
+                  justifyContent: 'space-between',
+                },
+              }}
+              bg="black"
+            >
+              Details From Seller
+            </Button>
+          </Only>
 
           <Only when={condition === 'Used'}>
             <div className="space-y-5">
@@ -199,25 +204,37 @@ export function ProductSpecification({
         </div>
 
         {/* <div> */}
-          <Grid gutter={20} grow>
-            <Grid.Col span={6}>
-              <BiddingInput title="Lowest Ask" value={169} />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <BiddingInput title="Highest Offer" value={179} />
-            </Grid.Col>
-          </Grid>
+        <Grid m={'calc(-1.25rem / 2)'}>
+          <Grid.Col span={6}>
+            <BiddingInput title="Lowest Ask" value={169} />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <BiddingInput title="Highest Offer" value={179} />
+          </Grid.Col>
+        </Grid>
         {/* </div> */}
 
         <div>
-          <Grid>
+          <Grid m={'calc(-1.25rem / 2)'}>
             <Grid.Col span={6}>
-              <Button component={NextLink} href={"/buy-offer"}  size={phone?"16px":"20px"} className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button
+                component={NextLink}
+                href={condition === 'New' ? '/buy-offer?condition=new' : '/buy-offer'}
+                size={phone ? '16px' : '20px'}
+                className="w-full h-14 uppercase font-[200]"
+                bg="black"
+              >
                 BUY NOW
               </Button>
             </Grid.Col>
             <Grid.Col span={6}>
-              <Button component={NextLink} href={"/place-offer"} size={phone?"16px":"20px"} className="w-full h-16 uppercase font-[200]" bg="black">
+              <Button
+                component={NextLink}
+                href={condition === 'New' ? '/place-offer?condition=new' : '/place-offer'}
+                size={phone ? '16px' : '20px'}
+                className="w-full h-14 uppercase font-[200]"
+                bg="black"
+              >
                 PLACE OFFER
               </Button>
             </Grid.Col>
@@ -225,13 +242,16 @@ export function ProductSpecification({
               <Button component={NextLink} href="/shop" size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
                 Shop used starting at $400
               </Button>
-              <Text mt={14} size="md" color="rgba(101, 101, 101, 0.55)">
-                {' '}
-                First Time buying click to see{' '}
-                <Text component="a" size="md" color="black" href="/how-it-works">
-                  how it works
-                </Text>{' '}
-              </Text>
+              <Group mt={14} align="center">
+                <Checkbox styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
+                <Text size="md" color="rgba(101, 101, 101, 0.55)">
+                  {' '}
+                  First Time buying click to see{' '}
+                  <Text component="a" underline className='font-[600]' size="md" color="black" href="/how-it-works">
+                    how it works
+                  </Text>{' '}
+                </Text>
+              </Group>
             </Grid.Col>
           </Grid>
         </div>

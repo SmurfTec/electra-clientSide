@@ -3,7 +3,7 @@ import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Too
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
@@ -24,7 +24,6 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   discount: number;
-  setCondition: Dispatch<SetStateAction<string>>;
 };
 
 export function BuyOfferComponent({
@@ -37,7 +36,7 @@ export function BuyOfferComponent({
   carrierData,
   colorData,
   storageData,
-  setCondition,
+
   lowestAsk,
   highestAsk,
   discount,
@@ -76,7 +75,7 @@ export function BuyOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={isNew ? ['New', 'Used'] : [condition]} state={condition} setState={setCondition} />
+        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition ?? 'Used'} />
       </div>
 
       <div className="my-8">
@@ -104,7 +103,7 @@ export function BuyOfferComponent({
       </div>
 
       <Group>
-        <Only when={isNew}>
+        <Only when={!!isNew}>
           <Input.Wrapper label="LOWEST ASK" maw={114}>
             <NumberInput
               radius={0}
@@ -212,37 +211,34 @@ export function BuyOfferComponent({
         <PositionApart text={'Total Price'} number={183} />
       </div>
 
-      <Only when={condition === 'New'}>
-        <Grid>
-          <Grid.Col xs={6}>
-            <Button
-              className="font-[400] text-[16px]"
-              uppercase
-              fullWidth
-              size="xl"
-              styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
-              bg={'#D9D9D9'}
-            >
-              Cancel
-            </Button>
-          </Grid.Col>
-          <Grid.Col xs={6}>
-            <Button
-              className="font-[400] text-[16px]"
-              uppercase
-              fullWidth
-              size="xl"
-              styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
-              bg={'black'}
-              component={NextLink}
-              href="/buying-summary"
-            >
-              Review Purchase
-            </Button>
-          </Grid.Col>
-        </Grid>
-      </Only>
+      <Grid>
+        <Grid.Col xs={6}>
+          <Button
+            className="font-[400] text-[16px]"
+            uppercase
+            fullWidth
+            size="xl"
+            styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
+            bg={'#D9D9D9'}
+          >
+            Cancel
+          </Button>
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Button
+            className="font-[400] text-[16px]"
+            uppercase
+            fullWidth
+            size="xl"
+            styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
+            bg={'black'}
+            component={NextLink}
+            href={'/buying-summary?condition=buying'}
+          >
+            Review Purchase
+          </Button>
+        </Grid.Col>
+      </Grid>
     </div>
   );
 }
-
