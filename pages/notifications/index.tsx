@@ -1,4 +1,4 @@
-import { NotHeader, Notification } from '@elektra/components';
+import { FooterMenu, NotHeader, Notification, NotificationResult } from '@elektra/components';
 import { Divider, Text } from '@mantine/core';
 
 export default function Notifications() {
@@ -6,13 +6,14 @@ export default function Notifications() {
     <div >
       <NotHeader />
       <Text className="text-black font-bold text-xl ml-5 my-5">Notifications</Text>
-      <Notification />
+      <NotificationResult />
       <Divider my={20}/>
-      <Notification />
+      <NotificationResult />
       <Divider my={20}/>
-      <Notification />
+      <NotificationResult />
       <Divider my={20}/>
-      <Notification />
+      <NotificationResult />
+      <FooterMenu />
     </div>
   );
 }

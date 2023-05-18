@@ -21,6 +21,16 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
         icon={<Search size="1.1rem" strokeWidth={1.5} />}
         radius="xl"
         value={state}
+        styles={(theme)=>({
+          input: {
+             paddingRight: 250,
+             backgroundColor:'rgba(17, 17, 17, 1)',
+             color: 'white',
+            [theme.fn.smallerThan(810)]: {
+              paddingRight: 50,
+            },
+          },
+        })}
         onChange={(event) => setState(event.currentTarget.value)}
         color="rgba(238, 238, 238, 1)"
         size={matches ? 'md' : 'sm'}
@@ -29,11 +39,14 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
       />
       <Button
         onClick={close}
-        styles={{
+        styles={(theme)=>({
           root: {
-            borderRadius: 30,
+            borderRadius: 0,
+            [theme.fn.smallerThan(810)]: {
+              borderRadius: 30,
+            },
           },
-        }}
+        })}
       >
         Cancel
       </Button>

@@ -10,13 +10,14 @@ import {
   SalesTable,
   SectionTitle,
 } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
+import { Modal, Only } from '@elektra/customComponents';
+import { useFilterModal } from '@elektra/hooks';
 
 import { ActionIcon, Anchor, Breadcrumbs, Button, Divider, Grid, Image, Paper, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
-import { ArrowDown, ShoppingCart } from 'tabler-icons-react';
+import { ArrowDown, Filter, ShoppingCart } from 'tabler-icons-react';
 
 const productSpecification = [
   //NEW PRODUCT
@@ -180,8 +181,7 @@ const items = [
 
 export default function ProductPage() {
   const router = useRouter();
-  // console.log(router.query[]
-
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
   const matches = useMediaQuery('(max-width: 800px)');
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
@@ -227,10 +227,17 @@ export default function ProductPage() {
           />
         </Grid.Col>
       </Grid>
-
       <Divider className="my-10" />
       <SectionTitle title="Used iPhone 14 Pro Max" />
-      <ProductFilter />
+      <Only when={matches}>
+        <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+          Filter
+        </Button>
+      </Only>
+      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+      <Only when={!matches}>
+        <ProductFilter />
+      </Only>
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (
