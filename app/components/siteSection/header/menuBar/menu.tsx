@@ -98,6 +98,7 @@ export const HeaderMenu = () => {
       <Group
         mih={50}
         bg="rgba(217, 217, 217, 0.35)"
+        className='hidden md:block'
       >
         <Container size={1400} 
         className={clsx('md:space-x-14 xl:space-x-20   ', classes.flex)}>

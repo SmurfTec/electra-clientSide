@@ -1,5 +1,5 @@
 import { Carousel, Embla } from '@mantine/carousel';
-import { ActionIcon, Center, Flex, Group, Image, createStyles } from '@mantine/core';
+import { ActionIcon, Center, Flex, Group, Image, clsx, createStyles } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useEffect, useState } from 'react';
 const carouseldata = [
@@ -9,7 +9,7 @@ const carouseldata = [
   '/images/carousel/iphonefront.png',
   '/images/brands/iphone.png',
 ];
-export const ProductCarousel = () => {
+export const ProductCarousel = ({className}:{className?:string}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [embla, setEmbla] = useState<Embla | null>(null);
   const [emblaThumb, setEmblaThumb] = useState<Embla | null>(null);
@@ -67,7 +67,7 @@ export const ProductCarousel = () => {
         height={50}
         getEmblaApi={setEmblaThumb}
       >
-        <Group position='center' spacing={10} className='ml-5 md:ml-24'>
+        <Group position='center' spacing={10} className={clsx(className,' md:ml-24')}>
           {carouseldata.map((item, index) => (
             <ActionIcon
               radius={0}

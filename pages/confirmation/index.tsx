@@ -1,6 +1,6 @@
 import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
 import { ListItem, Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
-import { useCardModal, useShippingChangeModal } from '@elektra/hooks';
+import { useCardModal, useProductAddedModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -18,6 +18,7 @@ const description = [
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+  const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const router = useRouter();
   const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
@@ -29,8 +30,8 @@ export default function Confirmation() {
         <Grid.Col sm={6} mt={50}>
           <Stack align="center" justify="center">
             <Only when={condition !== 'New'}>
-              <div className="ml-10">
-                <ProductCarousel />
+            <div className="md:ml-10 -ml-3 md:w-auto w-screen">
+                <ProductCarousel  />
               </div>
             </Only>
             <Only when={condition === 'New'}>
@@ -173,8 +174,7 @@ export default function Confirmation() {
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              component={NextLink}
-              href="/buying-summary?type=offer"
+              onClick={productAddedHandler.open}
             >
               Confirm
             </Button>
@@ -200,6 +200,12 @@ export default function Confirmation() {
         children={CardModal}
         onClose={cardHandler.close}
         open={cardOpened}
+      />
+      <Modal
+        
+        children={ProductAddedModal}
+        onClose={productAddedHandler.close}
+        open={productAddedOpened}
       />
       <Modal
         title="Shipping Address"

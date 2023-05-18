@@ -195,8 +195,8 @@ export default function ProductPage() {
         <Grid.Col sm={6} mt={matches?0:140}>
           <Stack align="center" justify="center" className='w-full'>
             <Only when={!isNew}>
-              <div className="md:ml-10 md:w-auto w-screen mt-5">
-                <ProductCarousel />
+              <div className="md:ml-10 -ml-4 md:w-auto w-screen mt-5">
+                <ProductCarousel className='ml-2' />
               </div>
             </Only>
             <Only when={isNew}>
