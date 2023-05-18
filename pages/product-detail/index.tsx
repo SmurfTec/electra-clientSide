@@ -182,19 +182,20 @@ const items = [
 export default function ProductPage() {
   const router = useRouter();
   const [FilterModal, filterOpened, filterHandler] = useFilterModal();
-  const matches = useMediaQuery('(max-width: 800px)');
+  const matches = useMediaQuery('(max-width: 800px)',false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
   return (
     <div>
+      {!matches&&
       <Breadcrumbs separator=">" mt={30}>
         {items}
-      </Breadcrumbs>
+      </Breadcrumbs>}
       <Grid>
-        <Grid.Col sm={6} mt={140}>
-          <Stack align="center" justify="center">
+        <Grid.Col sm={6} mt={matches?0:140}>
+          <Stack align="center" justify="center" className='w-full'>
             <Only when={!isNew}>
-              <div className="ml-10">
+              <div className="md:ml-10 md:w-auto w-screen mt-5">
                 <ProductCarousel />
               </div>
             </Only>
