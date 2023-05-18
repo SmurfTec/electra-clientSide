@@ -1,17 +1,72 @@
-import { Badge, Flex, Image, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Button, Center, Menu, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
+import { useState } from 'react';
+import { ArrowNarrowRight, Bell } from 'tabler-icons-react';
+import { useStylesMenu } from '../header';
+import { NotificationResult } from './notificationResult';
+
+const notify = [1, 2, 3, 4, 5, 6, 7];
 
 export const Notification = () => {
+  const { classes } = useStylesMenu();
+  const [data, setData] = useState(3);
   return (
-    <>
-      <Flex wrap={'nowrap'} gap={20} ml={15}>
-        <Badge bg="#B9EF0E" size="xs" className='mt-1' variant="filled" />
-        <Text className="text-[11px] md:text-sm font-medium -ml-2 md:-ml-1" component={NextLink} href="/shop">
-          Buy new iphone 14 today. <strong className="text-sm font-medium text-white">View product now</strong>
-        </Text>
-        <Image src={'/images/notification/product.png'} width={70} height={55} fit="contain" alt="pi"></Image>
-      </Flex>
-      <Text className="ml-11 -mt-7 md:-mt-5 text-left text-[11px] font-medium">{new Date().toDateString()}</Text>
-    </>
+    <Menu
+      classNames={classes}
+      width={450}
+      closeOnClickOutside={true}
+      position="bottom-end"
+      withArrow
+      arrowPosition="center"
+      offset={5}
+      closeOnItemClick={false}
+      arrowOffset={40}
+      keepMounted={false}
+    >
+      <Menu.Target>
+        <ActionIcon className="hidden md:block" variant="transparent" size={'sm'}>
+          <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
+            <Bell size={15} strokeWidth={1} />
+          </Avatar>
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Label className="uppercase font-medium text-base text-white mt-2 ml-2">Notifications</Menu.Label>
+        <Menu.Divider />
+        {notify.slice(0, data).map((not,index) => (
+          <div key={index}>
+            <Menu.Item>
+              <NotificationResult />
+            </Menu.Item>
+            {notify.slice(0, data).length !== index + 1 && <Menu.Divider mx={20} opacity={0.5} key={index+1} />}
+          </div>
+        ))}
+
+        <Menu.Item onClick={()=>setData(prev=>prev+1)}>
+          <Center >
+            <Text color="white" mr={8}>
+              View All
+            </Text>
+            <Button
+              className="rounded-3xl px-4 h-7"
+              styles={{
+                root: {
+                  borderColor: 'white',
+                  '&:not([data-disabled]):hover': {
+                    backgroundColor: 'unset',
+                  },
+                },
+                rightIcon: {
+                  marginLeft: 0,
+                },
+              }}
+              color="white"
+              rightIcon={<ArrowNarrowRight size={30} color="white" strokeWidth={1} />}
+              variant="outline"
+            />
+          </Center>
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 };

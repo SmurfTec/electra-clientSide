@@ -82,10 +82,10 @@ export const Search = ({ close }: SearchProps) => {
             <Text className="text-sm font-medium">Suggestions</Text>
             <Group position="apart">
               <Center className="space-x-4">
-                <Text className="text-base font-medium">Iphone 14 Pro Max</Text>
-                <Text className="text-base font-medium">Iphone 13 Pro Max</Text>
-                <Text className="text-base font-medium">Iphone 12 Pro Max</Text>
-                <Text className="text-base font-medium">Iphone 11 Pro</Text>
+                <Text className="text-base font-medium"  component={NextLink} href={'/product-detail'} onClick={close} >Iphone 14 Pro Max</Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 13 Pro Max</Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 12 Pro Max</Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 11 Pro</Text>
               </Center>
               <Center className="space-x-3">
                 <Text className="text-base font-semibold text-black">More Results</Text>
