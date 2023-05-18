@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
+import { NextLink } from '@mantine/next';
 
 type ListingDescriptionProps = {
   condition: string;
@@ -208,6 +209,8 @@ export function ListingDescription({
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
+              component={NextLink}
+              href="/confirmation?condition=new"
             >
               List Item
             </Button>

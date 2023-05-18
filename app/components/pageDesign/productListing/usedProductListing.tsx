@@ -222,7 +222,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
               component={NextLink}
-              href="/buying-summary"
+              href="/confirmation"
             >
               List Item
             </Button>
