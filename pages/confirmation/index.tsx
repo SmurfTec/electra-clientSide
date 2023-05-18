@@ -1,7 +1,7 @@
 import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
-import { ListItem, Only } from '@elektra/customComponents';
+import { ListItem, Only, Modal } from '@elektra/customComponents';
 import { useCardModal } from '@elektra/hooks';
-import { Button, Checkbox, Grid, Group, Image, Modal, Stack, Text, Title } from '@mantine/core';
+import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
@@ -88,7 +88,7 @@ export default function Confirmation() {
                 </Title>
               </div>
               <Group>
-                
+
               </Group>
             </Only>
             <ListItem
