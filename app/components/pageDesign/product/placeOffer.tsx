@@ -23,7 +23,6 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   discount: number;
-  setCondition: Dispatch<SetStateAction<string>>;
 };
 
 export function PlaceOfferComponent({
@@ -36,7 +35,7 @@ export function PlaceOfferComponent({
   carrierData,
   colorData,
   storageData,
-  setCondition,
+
   lowestAsk,
   highestAsk,
   discount,
@@ -50,6 +49,7 @@ export function PlaceOfferComponent({
   const [colorState, setColorState] = useState<string>(color);
   const router = useRouter();
   const isNew = router.query['condition'] === 'new';
+  const [state, setState] = useState();
   return (
     <div>
       <Group>
@@ -75,7 +75,7 @@ export function PlaceOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={isNew ? ['New', 'Used'] : [condition]} state={condition} setState={setCondition} />
+        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition ?? 'Used'} />
       </div>
 
       <div className="my-8">
@@ -211,7 +211,6 @@ export function PlaceOfferComponent({
         <PositionApart text={'Total Price'} number={183} />
       </div>
 
-      <Only when={condition === 'New'}>
         <Grid>
           <Grid.Col span={6}>
             <Button
@@ -240,7 +239,7 @@ export function PlaceOfferComponent({
             </Button>
           </Grid.Col>
         </Grid>
-      </Only>
+    
     </div>
   );
 }
@@ -248,7 +247,7 @@ export function PlaceOfferComponent({
 type ButtonChipProps = {
   data: string[];
   state: string;
-  setState: Dispatch<SetStateAction<string>>;
+  setState?: Dispatch<SetStateAction<string>>;
 };
 
 export function ButtonChip({ data, state, setState }: ButtonChipProps) {
@@ -273,8 +272,10 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
             },
           }}
           bg={item !== state ? '#f1f1f1' : 'black'}
-          onClick={() => setState(item)}
-          className="font-[500] text-[16px]" 
+          onClick={() => {
+            if (setState) setState(item);
+          }}
+          className="font-[500] text-[16px]"
         >
           {item}
         </Button>

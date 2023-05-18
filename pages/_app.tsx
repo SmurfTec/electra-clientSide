@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import { Notifications } from '@mantine/notifications';
 
- export const cache = createEmotionCache({ key: 'elektra', prepend: true });
+export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
   const themeOverride = createThemeoverride();
   const router = useRouter();

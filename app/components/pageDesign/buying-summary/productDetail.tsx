@@ -78,7 +78,6 @@ export function ProductDetail({
         />
 
         <Modal
-        
           className="mx-0 px-0 xs:mx-10 mb-7 mt-4"
           title={'Buying INFO'}
           titlePosition="left"
@@ -114,16 +113,16 @@ type productDetailsProps = {
   onClick?: () => void;
   color?: string;
 };
-export function ProductDetails({ text, details, onClick, iconDisplay, color }: productDetailsProps) {
+export function ProductDetails({ text, details, onClick, iconDisplay, color, ...rest }: productDetailsProps) {
   return (
-    <div>
+    <div {...rest}>
       <Title className="font-[600]" order={6}>
         {text}
         <Only when={!!iconDisplay}>
           <PencilButton onClick={onClick} />
         </Only>
       </Title>
-      <Text color={color} className="font-bold" size="md">
+      <Text color={color ?? "black"} size="md">
         {details}
       </Text>
     </div>

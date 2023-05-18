@@ -1,8 +1,8 @@
 import { AutoCompleteItem, NotHeader } from '@elektra/components';
-import { Autocomplete, Button, Container, Flex, Group, Text } from '@mantine/core';
-import { NextLink } from '@mantine/next';
+import { Autocomplete, Container, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { Home, Search } from 'tabler-icons-react';
+import { useState } from 'react';
+import { Search } from 'tabler-icons-react';
 
 type productDataType = {
   image: string;
@@ -91,9 +91,19 @@ const productData: productDataType[] = [
 
 export function SellingSearch() {
   const router = useRouter();
+  const [limit, setLimit] = useState(3);
+  const [data, setData] = useState([...productData.slice(0, limit), { value: '__show-more', label: 'Show more' }]);
+  const [value, setValue] = useState('');
 
   const handleSubmit = (item: productDataType) => {
-    router.push(item.link);
+    if (item.value === '__show-more') {
+      setLimit((prev) => prev + 2);
+      setData([...productData.slice(0, limit), { value: '__show-more', label: 'Show more' }])
+      setValue('');
+    } else {
+      setValue(item.title);
+      router.push(item.link);
+    }
   };
 
   return (
@@ -104,9 +114,11 @@ export function SellingSearch() {
           Choose product you want to list.
         </Text>
         <Autocomplete
-          data={productData}
+          data={data}
           mt={20}
-          limit={40}
+          limit={limit + 1}
+          value={value}
+          onChange={setValue}
           onItemSubmit={handleSubmit}
           withinPortal={true}
           nothingFound={<div>No Product Found</div>}
