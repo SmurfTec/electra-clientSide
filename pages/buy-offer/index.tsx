@@ -2,7 +2,6 @@ import { BuyOfferComponent, PageTitle, ProductCarousel } from '@elektra/componen
 import { Only } from '@elektra/customComponents';
 import { Container, Grid, Image } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 export default function PlaceOffer() {
   const ListingDescriptionData = {
@@ -44,21 +43,21 @@ export default function PlaceOffer() {
       'No LCD or display defects (aftermarket, burns, damage or no display)',
     ],
   };
-const router = useRouter()
-  const condition = router.query['condition'] === 'new' ? "New" : "Used";
+  const router = useRouter();
+  const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
   return (
     <Container fluid>
       <div className="my-10">
         <PageTitle title="Buying Product" />
       </div>
       <Grid className="my-10">
-        <Grid.Col xs={6} className='text-left'>
-          <Only when={condition !== "New"}>
-            <div className="ml-10">
-              <ProductCarousel />
+        <Grid.Col xs={6} className="text-left">
+          <Only when={condition !== 'New'}>
+            <div className="md:ml-10 -ml-12 md:w-auto w-screen mt-5 ">
+              <ProductCarousel className="-ml-1" />
             </div>
           </Only>
-          <Only when={condition === "New"}>
+          <Only when={condition === 'New'}>
             <Image alt="product image" src="/images/productImage.png" />
           </Only>
         </Grid.Col>

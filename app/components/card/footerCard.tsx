@@ -28,7 +28,7 @@ export function FooterCard({ icon, heading, description }: FooterCardProps) {
       >
         {/* <div className="relative"> */}
         <Image
-          className="absolute -top-6 xs:-top-1 left-1/2 -translate-x-1/2 translate-y-1/2"
+          className="absolute -top-2  xs:-top-1 left-1/2 -translate-x-1/2 translate-y-1/2"
           src={icon}
           width="60px"
           height="60px"

@@ -1,6 +1,6 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
-import { Container, Divider, Grid, Image } from '@mantine/core';
+import { Container, Divider, Grid } from '@mantine/core';
 import { useState } from 'react';
 
 const ListingDescriptionData = {
@@ -52,9 +52,9 @@ export default function ProductListingPage() {
       </div>
       <Grid className="my-10">
         <Grid.Col xs={6}>
-          <div className='ml-10'>
-        {/* <ProductCarousel /> */}
-        </div>
+          <div className="md:ml-10 -ml-12 md:w-auto w-screen mt-5">
+            <ProductCarousel />
+          </div>
         </Grid.Col>
         <Grid.Col xs={6}>
           <ListingDescription

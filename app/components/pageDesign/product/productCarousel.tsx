@@ -1,17 +1,20 @@
 import { Carousel, Embla } from '@mantine/carousel';
-import { ActionIcon, Center, Image, createStyles } from '@mantine/core';
+import { ActionIcon, Center, Flex, Group, Image, clsx, createStyles } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useEffect, useState } from 'react';
 const carouseldata = [
   '/images/brands/iphone.png',
-  '/images/carousel/iphoneblack.png','/images/brands/iphone.png',
+  '/images/carousel/iphoneblack.png',
+  '/images/brands/iphone.png',
   '/images/carousel/iphonefront.png',
   '/images/brands/iphone.png',
 ];
-export const ProductCarousel = () => {
+export const ProductCarousel = ({className}:{className?:string}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [embla, setEmbla] = useState<Embla | null>(null);
   const [emblaThumb, setEmblaThumb] = useState<Embla | null>(null);
   const { classes } = useStyles();
+  const matches = useMediaQuery('(max-width: 800px)',false);
 
   const onThumbClick = useCallback(
     (index: number) => {
@@ -33,13 +36,13 @@ export const ProductCarousel = () => {
     embla.on('reInit', onSelect);
   }, [embla, onSelect]);
   return (
-    <div className='ml-10 mr-32'>
+    <div className="ml-10 md:mr-32 mr-4">
       <Carousel
-        maw={650}
+        maw={matches?350:650}
         loop
         slideGap={100}
-        nextControlIcon={<Image fit="contain" src={'/images/carousel/ArrowRight.png'} className="w-full" />}
-        previousControlIcon={<Image fit="contain" src={'/images/carousel/ArrowLeft.png'} className="w-full" />}
+        nextControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowRight.png'} className="w-full" />}
+        previousControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowLeft.png'} className="w-full" />}
         withIndicators
         classNames={classes}
         height={450}
@@ -49,38 +52,39 @@ export const ProductCarousel = () => {
         {carouseldata.map((item, index) => (
           <Carousel.Slide key={index}>
             <Center>
-              <Image src={item} alt="product" width={500} height={500} />
+              <Image src={item} alt="product" fit='contain' />
             </Center>
           </Carousel.Slide>
         ))}
       </Carousel>
+
       <Carousel
-        maw={510}
-        mt={50}
+        //maw={510}
+        className='-mt-16 md:mt-5'
         draggable={false}
         withIndicators={false}
         withControls={false}
         height={50}
         getEmblaApi={setEmblaThumb}
       >
-        {carouseldata.map((item, index) => (
-          <Center key={index}>
+        <Group position='center' spacing={10} className={clsx(className,' md:ml-24')}>
+          {carouseldata.map((item, index) => (
             <ActionIcon
               radius={0}
               size={50}
               bg="rgba(222, 222, 222, 1)"
               className={
                 selectedIndex === index
-                  ? 'mr-2 hover:bg-gray-300 border-solid border-2 border-black'
-                  : 'mr-2 hover:bg-gray-300'
+                  ? ' hover:bg-gray-300 border-solid border-2 border-black'
+                  : ' hover:bg-gray-300'
               }
               onClick={() => onThumbClick(index)}
               key={index}
             >
               <Image src={item} alt="product" fit="contain" />
             </ActionIcon>
-          </Center>
-        ))}
+          ))}
+        </Group>
       </Carousel>
     </div>
   );
