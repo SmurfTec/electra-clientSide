@@ -1,6 +1,7 @@
 import { PageTitle, PlaceOfferComponent, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
-import { Container, Divider, Grid } from '@mantine/core';
+import { Container, Divider, Grid, Image } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function PlaceOffer() {
@@ -44,7 +45,9 @@ export default function PlaceOffer() {
     ],
   };
 
-  const [condition, setCondition] = useState<string>('New');
+  // const [condition, setCondition] = useState<string>('New');
+  const router = useRouter()
+  const condition = router.query['condition'] === 'new' ? "New" : "Used";
   return (
     <Container fluid>
       <div className="my-10">
@@ -52,9 +55,14 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col span={6}>
-          <div className="ml-10">
-            <ProductCarousel />
-          </div>
+        <Only when={condition !== "New"}>
+            <div className="ml-10">
+              <ProductCarousel />
+            </div>
+          </Only>
+          <Only when={condition === "New"}>
+            <Image alt="product image" src="/images/productImage.png" />
+          </Only>
         </Grid.Col>
         <Grid.Col span={6}>
           <PlaceOfferComponent
@@ -62,7 +70,6 @@ export default function PlaceOffer() {
             carrierData={ListingDescriptionData.carrierData}
             color={ListingDescriptionData.color}
             condition={condition}
-            setCondition={setCondition}
             description={ListingDescriptionData.description}
             discount={ListingDescriptionData.discount}
             highestAsk={ListingDescriptionData.highestAsk}
