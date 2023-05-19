@@ -53,7 +53,7 @@ export function PlaceOfferComponent({
   return (
     <div>
       <Group>
-        <Text className="uppercase font-semibold" size="sm">
+        <Text className="uppercase font-semibold py-4 sm:py-0" size="sm">
           Select Condition{' '}
         </Text>
         <Tooltip
@@ -169,7 +169,7 @@ export function PlaceOfferComponent({
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-32 py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="mt-6 px-2 xs:px-32 py-6 border-black border-solid ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>
@@ -211,35 +211,34 @@ export function PlaceOfferComponent({
         <PositionApart text={'Total Price'} number={183} />
       </div>
 
-        <Grid>
-          <Grid.Col span={6}>
-            <Button
-              className="font-[400]"
-              uppercase
-              fullWidth
-              size="xl"
-              styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
-              bg={'#D9D9D9'}
-            >
-              Cancel
-            </Button>
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Button
-              className="font-[400]"
-              uppercase
-              fullWidth
-              size="xl"
-              styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
-              bg={'black'}
-              component={NextLink}
-              href="/buying-summary?type=offer"
-            >
-              Review Offer
-            </Button>
-          </Grid.Col>
-        </Grid>
-    
+      <Grid>
+        <Grid.Col xs={6}>
+          <Button
+            className="font-[400] text-[16px]"
+            uppercase
+            fullWidth
+            size="xl"
+            styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
+            bg={'#D9D9D9'}
+          >
+            Cancel
+          </Button>
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Button
+            className="font-[400] text-[16px]"
+            uppercase
+            fullWidth
+            size="xl"
+            styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
+            bg={'black'}
+            component={NextLink}
+            href={'/buying-summary?condition=buying'}
+          >
+            Review Offer
+          </Button>
+        </Grid.Col>
+      </Grid>
     </div>
   );
 }

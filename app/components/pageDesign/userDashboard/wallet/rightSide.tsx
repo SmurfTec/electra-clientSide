@@ -97,7 +97,7 @@ export const WalletRightSide = () => {
                 All
               </Button>
               <Button
-                className="text-[13px] md:text-base font-medium text-black"
+                className="text-[13px] px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
                 styles={(theme)=>({
                   root: {
@@ -117,7 +117,7 @@ export const WalletRightSide = () => {
                 Sales
               </Button>
               <Button
-                className="text-[13px] md:text-base font-medium text-black"
+                className="text-[13px]  px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
                 styles={(theme)=>({
                   root: {

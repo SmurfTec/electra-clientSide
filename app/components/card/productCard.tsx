@@ -72,7 +72,7 @@ export function ProductCard({
         </Grid>
         <Anchor component={NextLink} href={link} className="cursor-pointer" underline={false}>
         <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
-          Condition : {description}
+          Condition : {rating ?? "Used"}
         </Text>
         <Group className="mt-4">
           <div>

@@ -3,9 +3,9 @@ import { ArrowDownLeft, ArrowUpRight } from 'tabler-icons-react';
 
 type StateProps = {
   label: string;
-  value?: number;
+  value?: string ;
   difference: number;
-  price?: number;
+  price?: string ;
 };
 export const Stats = ({ label, value, difference, price }: StateProps) => {
   return (
