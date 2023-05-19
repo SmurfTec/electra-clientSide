@@ -18,7 +18,7 @@ export type ItemCardProps = {
 
 export function ItemCard({ title, image, space, color, company, date, price, sale, status, ...rest }: ItemCardProps) {
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
-  const phone = useMediaQuery('(max-width: 600px)');
+  const phone = useMediaQuery('(max-width: 600px)',false);
   return (
     <Grid m={0} {...rest} gutter={phone ? 10 : 20}>
       <Grid.Col span={2}>
