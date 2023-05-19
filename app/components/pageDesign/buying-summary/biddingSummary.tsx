@@ -57,7 +57,7 @@ export function BiddingSummary({
         <PositionApart text={'DISCOUNT'} number={discount} discount={true} />
       </Only>
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      <PositionApart text={'TOTAL  PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
+      <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
       <Only when={!disabled}>
         <Grid>
           <Grid.Col span={6}>

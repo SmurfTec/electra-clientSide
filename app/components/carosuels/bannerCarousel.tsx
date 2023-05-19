@@ -1,8 +1,8 @@
 import { useStylesforGlobal } from '@elektra/customComponents';
-import { Carousel, CarouselProps } from '@mantine/carousel';
+import { Carousel, CarouselProps, Embla } from '@mantine/carousel';
 import { Button, Group, Image, Text } from '@mantine/core';
 import emblaCarouselAutoplay from 'embla-carousel-autoplay';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
 export type BannerCarousel = {
@@ -18,6 +18,14 @@ export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
   const [value, setValue] = useState(0);
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));
+  const [embla, setEmbla] = useState<Embla | null>(null);
+
+  useEffect(() => {
+    if (embla) {
+      // console.log(embla.slidesInView())
+      // console.log(embla.slidesNotInView())
+    }
+  }, [embla]);
 
   return (
     <div>
@@ -36,6 +44,7 @@ export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
         onSlideChange={(index) => {
           carouselData.length === index + 1 ? setValue(0) : setValue(index + 1);
         }}
+        getEmblaApi={setEmbla}
         {...rest}
       >
         {carouselData.map((item, index) => {

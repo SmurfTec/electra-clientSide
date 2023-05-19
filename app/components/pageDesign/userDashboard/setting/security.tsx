@@ -156,7 +156,7 @@ export function Security() {
           className="text-black font-semibold"
           label="Enable two factor authentication on your account."
         />
-        <Modal children={emailModal} onClose={emailHandler.close} open={emailOpened} />
+        <Modal title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       </div>
     </div>
   );

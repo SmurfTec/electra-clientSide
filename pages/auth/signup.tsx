@@ -42,7 +42,7 @@ export default function Signup() {
   return (
     <Grid m={0}>
       <Modal
-         
+         title="Email Verification"
          children={emailModal}
          onClose={emailHandler.close}
          open={emailOpened}

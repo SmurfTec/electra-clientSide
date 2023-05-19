@@ -1,4 +1,5 @@
 import { Center, ScrollArea, Tabs, TabsListProps, TabsProps } from '@mantine/core';
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 
 type tabViewData = {
@@ -9,8 +10,13 @@ type tabViewData = {
 type tabViewDataProps = { data: Array<tabViewData> } & Omit<TabsProps, 'children'> & Omit<TabsListProps, 'children'>;
 
 export function TabView({ data, position, ...rest }: tabViewDataProps) {
+  const router = useRouter();
   return (
-    <Tabs color="blue" defaultValue={data[0].title.toLowerCase()} {...rest}>
+    <Tabs color="blue" 
+    keepMounted={false}
+    value={router.query.tab===undefined? data[0].title.toLowerCase():String(router.query.tab).toLowerCase()}
+    onTabChange={(value) => router.push(`?tab=${value}`)} 
+    {...rest}>
       <Tabs.List   position={position}>
       <ScrollArea type='never' scrollbarSize={2} h={34}>
         <Center className="md:space-x-8 lg:space-x-16">

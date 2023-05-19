@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Button, Center, Flex, Group, Menu, Text, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Button, Center, Flex, Grid, Group, Menu, Text, createStyles } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search as IconSearch, Settings, User } from 'tabler-icons-react';
@@ -17,7 +17,8 @@ export const Header = () => {
       {isSearchOpen && <Search close={toggleSearch} />}
       <div className="md:px-8 px-4">
         {!isSearchOpen && (
-          <Group position="apart" className="py-4">
+          <Grid align='center' className="">
+            <Grid.Col span={3}>
             <Menu
               onClose={toggle}
               classNames={classes}
@@ -50,10 +51,14 @@ export const Header = () => {
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
-            <Text component={NextLink} href="/" color="black" className="font-bold md:ml-10">
+            </Grid.Col>
+            <Grid.Col className='text-center' span={6}>
+            <Text component={NextLink} href="/" color="black" className="font-bold">
               Elektra
             </Text>
-            <Flex gap={8}>
+            </Grid.Col>
+            <Grid.Col span={3}>
+            <Flex justify={"flex-end"} gap={8}>
               {/* <ActionIcon component={NextLink} className='hidden md:block' variant="transparent" size={'sm'} href={'/selling-search'}>
                 <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
                   <ShoppingCart size={15} strokeWidth={1} />
@@ -97,7 +102,8 @@ export const Header = () => {
                 </Menu.Dropdown>
               </Menu>
             </Flex>
-          </Group>
+            </Grid.Col>
+          </Grid>
         )}
       </div>
       <HeaderMenu />

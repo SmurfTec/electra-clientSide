@@ -1,3 +1,5 @@
+import { Modal } from '@elektra/customComponents';
+import { useOfferEditModal } from '@elektra/hooks';
 import { ActionIcon, Badge, Button, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
@@ -5,12 +7,20 @@ import { Pencil } from 'tabler-icons-react';
 
 export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
+  const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal();
 
   switch (props.cell.column.id) {
     case 'action':
       return (
         <div>
-          <ActionIcon>
+          <Modal
+              title="Edit Offer"
+              size={500}
+              children={OfferEditModal}
+              onClose={offerEditHandler.close}
+              open={offerEditOpened}
+            />
+          <ActionIcon onClick={offerEditHandler.open}>
             <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
           </ActionIcon>
         </div>

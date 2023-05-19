@@ -13,10 +13,23 @@ import {
 import { Modal, Only } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 
-import { ActionIcon, Anchor, Breadcrumbs, Button, Divider, Grid, Image, Paper, Stack, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Breadcrumbs,
+  Button,
+  Center,
+  Divider,
+  Grid,
+  Image,
+  Paper,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { ArrowDown, Filter, ShoppingCart } from 'tabler-icons-react';
 
 const productSpecification = [
@@ -158,6 +171,146 @@ const productData: ProductCardProps[] = [
     highestPrice: 500,
     price: 187,
   },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
 ];
 
 export type condition = 'New' | 'Used';
@@ -182,21 +335,23 @@ const items = [
 export default function ProductPage() {
   const router = useRouter();
   const [FilterModal, filterOpened, filterHandler] = useFilterModal();
-  const matches = useMediaQuery('(max-width: 800px)',false);
+  const [limit, setLimit] = useState(5);
+  const matches = useMediaQuery('(max-width: 800px)', false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
   return (
     <div>
-      {!matches&&
-      <Breadcrumbs separator=">" mt={30}>
-        {items}
-      </Breadcrumbs>}
+      {!matches && (
+        <Breadcrumbs separator=">" mt={30}>
+          {items}
+        </Breadcrumbs>
+      )}
       <Grid>
-        <Grid.Col sm={6} mt={matches?0:140}>
-          <Stack align="center" justify="center" className='w-full'>
+        <Grid.Col sm={6} mt={matches ? 0 : 140}>
+          <Stack align="center" justify="center" className="w-full">
             <Only when={!isNew}>
               <div className="md:ml-10 -ml-4 md:w-auto w-screen mt-5">
-                <ProductCarousel className='ml-2' />
+                <ProductCarousel className="ml-2" />
               </div>
             </Only>
             <Only when={isNew}>
@@ -240,7 +395,7 @@ export default function ProductPage() {
         <ProductFilter />
       </Only>
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-        {productData.map((product, index) => {
+        {productData.slice(0, limit).map((product, index) => {
           return (
             <ProductCard
               key={index}
@@ -258,14 +413,14 @@ export default function ProductPage() {
         })}
       </div>
 
-      <Anchor component={NextLink} href="/shop" className="mt-20 flex justify-center space-x-4 cursor-pointer">
-        <Text size={16} className="font-[600]" color="black">
+      <Center className="mt-20 space-x-3">
+        <Text size={16} className="font-[600]" color="black" >
           View More
         </Text>
-        <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+        <ActionIcon variant="outline" className="rounded-xl w-9 border-black" onClick={() => setLimit((prev) => prev + 5)}>
           <ArrowDown size={20} color="black" />
         </ActionIcon>
-      </Anchor>
+      </Center>
       <div className="mt-4">
         <ProductStats />
       </div>

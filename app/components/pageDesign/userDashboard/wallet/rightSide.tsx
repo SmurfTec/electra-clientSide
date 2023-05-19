@@ -97,12 +97,12 @@ export const WalletRightSide = () => {
                 All
               </Button>
               <Button
-                className="text-[13px] md:text-base font-medium text-black"
+                className="text-[13px] px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
                 styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: theme.fn.smallerThan(1150)?115: 120,
+                    width: 120,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },
@@ -117,12 +117,12 @@ export const WalletRightSide = () => {
                 Sales
               </Button>
               <Button
-                className="text-[13px] md:text-base font-medium text-black"
+                className="text-[13px]  px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
                 styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: theme.fn.smallerThan(1150)?100:115,
+                    width:115,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },

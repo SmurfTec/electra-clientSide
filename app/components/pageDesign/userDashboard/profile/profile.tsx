@@ -69,6 +69,7 @@ export function Profile() {
   return (
     <div className="m-0">
       <Modal
+      title="Email Verification"
          children={emailModal}
          onClose={emailHandler.close}
          open={emailOpened}

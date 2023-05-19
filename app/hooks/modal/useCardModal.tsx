@@ -82,7 +82,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
     <div className='p-4'>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col xs={8} lg={6}>
+          <Grid.Col xs={8} lg={8}>
             <Text className="mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">

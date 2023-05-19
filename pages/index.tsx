@@ -439,11 +439,10 @@ export function Index() {
       </section>
 
       <section className="mt-20">
-        <Image src="/images/banner/razorBanner.jpg" alt="razor banner" />
-
+        <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className='-z-20' />
         <BannerCarousel
           carouselData={carouselData}
-          className="mt-[-150px] sm:mt-[-200px]"
+          className="mt-[-150px] md:mt-[-200px] z-10 w-full"
           slideSize={mediumdScreen ? '100%' : '33.33%'}
         />
       </section>
