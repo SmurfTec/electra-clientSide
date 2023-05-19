@@ -3,6 +3,7 @@ import { Button, Container, Grid, Group, PasswordInput, TextInput } from '@manti
 import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
 import { useStyles } from './signup';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const { classes } = useStyles();
@@ -19,7 +20,7 @@ export default function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
-
+const router = useRouter()
   return (
     <Grid m={0}>
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
@@ -30,7 +31,7 @@ export default function Login() {
           <TitleHead title="Log in" description="Login to buy & sell on our platform." />
           <SocialButton title="Login" />
           <div className="mt-10">
-            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+            <form onSubmit={form.onSubmit((values) => router.push("/userdashboard"))}>
               <div className="space-y-5">
                 <TextInput
                   placeholder="Enter Email"
@@ -63,7 +64,7 @@ export default function Login() {
                 </Button>
               </div>
               <div className="space-y-4 mt-10">
-                <Button type="submit" className="w-full h-16 font-medium text-base"  uppercase>
+                <Button type="submit" className="w-full h-16 font-medium text-base"   uppercase>
                   Login
                 </Button>
                 <Button color="blue" uppercase component={NextLink} href={'/auth/signup'} className="w-full h-16  text-base font-medium">

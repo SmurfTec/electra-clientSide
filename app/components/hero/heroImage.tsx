@@ -1,7 +1,9 @@
 import { Carousel } from '@mantine/carousel';
+import { Image } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
-import Herocomponent, { IHerocomponentProps } from './hero';
+import { IHerocomponentProps } from './hero';
+import { useRouter } from 'next/router';
 
 const data: Array<IHerocomponentProps> = [
   {
@@ -19,7 +21,8 @@ const data: Array<IHerocomponentProps> = [
 ];
 
 export function HeroImage() {
-  const autoplay = useRef(Autoplay({ delay:4000 }));
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
+  const router = useRouter()
   return (
     <Carousel
       plugins={[autoplay.current]}
@@ -46,13 +49,14 @@ export function HeroImage() {
       className="w-full"
     >
       {data.map((item, index) => (
-        <Carousel.Slide key={index}>
-          <Herocomponent
+        <Carousel.Slide className='cursor-pointer' onClick={() => router.push("/shop")} key={index}>
+          {/* <Herocomponent
             backgroundImage={item.backgroundImage}
             title={item.title}
             subTitle={item.subTitle}
             href={item.href}
-          />
+          /> */}
+          <Image alt="background-image" src={item.backgroundImage} />
         </Carousel.Slide>
       ))}
     </Carousel>

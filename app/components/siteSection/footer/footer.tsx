@@ -14,17 +14,17 @@ const footerCardData: FooterCardProps[] = [
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   },
   {
-    icon: '/images/footer/target.png',
+    icon: '/images/footer/quality.png',
     heading: 'Quality Guaranteed',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   },
   {
-    icon: '/images/footer/target.png',
+    icon: '/images/footer/payment.png',
     heading: 'Secure Payments',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   },
   {
-    icon: '/images/footer/target.png',
+    icon: '/images/footer/wheel.png',
     heading: '24/7 Support',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
   },
@@ -82,7 +82,7 @@ export function Footer() {
                   </Button>
                 </Grid.Col>
               </Grid>
-              <Grid className="mt-4 xs:mt-10">
+              <Grid className="mt-4 mb-20 xs:mt-10">
                 <Grid.Col xs={12} sm={7}>
                   <Text className="font-light leading-10" color={'white'} size={phone ? '13px' : '15px'}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur velit enim, suscipit a nunc et,
@@ -98,8 +98,8 @@ export function Footer() {
             <Container size={1300}>
               <Group position="apart" className="border-2 border-red relative space-y-4">
                 <Group position="apart" className="xs:space-x-20">
-                  <Group position="apart" align="top">
-                    <Title color={'white'} order={4} className="leading-0">
+                  <Group position="apart" className='space-x-8' align="bottom">
+                    <Title mb={-2} color={'white'} order={4} className="leading-0">
                       Elektra
                     </Title>
                     <Group align="end" className="xs:space-x-2">
@@ -139,9 +139,9 @@ export function Footer() {
                     Info@lorem.com
                   </Text>
                   <div className="space-x-4">
-                    <BrandFacebook color="white" />
-                    <BrandTwitter color="white" />
-                    <BrandLinkedin color="white" />
+                    <BrandFacebook stroke='2' fill='white' />
+                    <BrandTwitter fill='white' />
+                    <BrandLinkedin fill='white' />
                   </div>
                 </Group>
               </Group>

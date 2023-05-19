@@ -37,18 +37,18 @@ const categoryData = [
     title: 'Phones',
     modal: '24053',
   },
-  {
-    id: 6,
-    image: '/images/search/search1.png',
-    title: 'Phones',
-    modal: '24053',
-  },
-  {
-    id: 7,
-    image: '/images/search/search3.png',
-    title: 'Phones',
-    modal: '24053',
-  },
+  // {
+  //   id: 6,
+  //   image: '/images/search/search1.png',
+  //   title: 'Phones',
+  //   modal: '24053',
+  // },
+  // {
+  //   id: 7,
+  //   image: '/images/search/search3.png',
+  //   title: 'Phones',
+  //   modal: '24053',
+  // },
 ];
 
 type SearchProps = {
@@ -59,11 +59,11 @@ export const Search = ({ close }: SearchProps) => {
   const [search, setSearch] = useState('');
   const [data, setdata] = useState(categoryData);
   return (
-    <Stack spacing={0} bg="rgba(232, 232, 232, 1)">
+    <Stack className='relative'  spacing={0} bg="rgba(232, 232, 232, 1)">
       <HeaderSearch close={close} state={search} setState={setSearch} />
       <Divider color="black" size={2} />
       <Only when={search !== ''}>
-        <div className="md:p-8 p-6">
+        <div className="md:p-8 p-6 w-full absolute top-[68px] md:top-[76px] bg-inherit z-10">
           <SimpleGrid
             cols={5}
             spacing={40}
@@ -82,10 +82,18 @@ export const Search = ({ close }: SearchProps) => {
             <Text className="text-sm font-medium">Suggestions</Text>
             <Group position="apart">
               <Center className="space-x-4">
-                <Text className="text-base font-medium"  component={NextLink} href={'/product-detail'} onClick={close} >Iphone 14 Pro Max</Text>
-                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 13 Pro Max</Text>
-                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 12 Pro Max</Text>
-                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close} >Iphone 11 Pro</Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
+                  Iphone 14 Pro Max
+                </Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
+                  Iphone 13 Pro Max
+                </Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
+                  Iphone 12 Pro Max
+                </Text>
+                <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
+                  Iphone 11 Pro
+                </Text>
               </Center>
               <Center className="space-x-3">
                 <Text className="text-base font-semibold text-black">More Results</Text>
