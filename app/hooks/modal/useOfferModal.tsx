@@ -1,9 +1,22 @@
 import { ItemCard } from '@elektra/components';
-import { Button, Divider, Group, Image, List, Select, Stack, Text } from '@mantine/core';
+import { Modal as ProductModal } from '@elektra/customComponents';
+import {
+  ActionIcon,
+  Button,
+  Center,
+  Divider,
+  Group,
+  Image,
+  List,
+  NumberInput,
+  Select,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { useCounter, useDisclosure } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { CaretDown } from 'tabler-icons-react';
+import { CaretDown, Minus, Plus } from 'tabler-icons-react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -125,6 +138,81 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
       <Button component={NextLink} href="/shop" mt={40}>
         CONTINUE EXPLORING
       </Button>
+    </Stack>
+  );
+  return [Modal, opened, { open, close }];
+};
+
+export const useOfferEditModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  const [count, handlers] = useCounter(0, { min: 0 });
+  const Modal = (
+    <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
+      <div className="w-full space-y-5">
+        <div className='ml-7 md:ml-16'>
+        <ItemCard
+          color={productDetailData.color}
+          company={productDetailData.company}
+          image={productDetailData.image}
+          space={productDetailData.space}
+          title={productDetailData.title}
+          key={productDetailData.title}
+        />
+        </div>
+        <Divider variant="dashed" />
+      </div>
+      <ProductModal
+              title={"Offer Placed!"}
+              children={OfferPlaceModal}
+              onClose={offerPlaceHandler.close}
+              open={offerPlaceOpened}
+            />
+      <Text className="text-sm font-medium mt-5">Type your new offer here</Text>
+      <Group position="center" spacing={0} className="mt-6 py-4 px-8 border-solid border-2 border-black">
+        <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
+          <Minus size={16} color="white" />
+        </ActionIcon>
+        <NumberInput
+          hideControls
+          value={count}
+          maw={150}
+          onChange={handlers.set}
+          styles={{
+            input: {
+              border: 'unset',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+            },
+          }}
+        />
+        <ActionIcon component="button" size="lg" radius={0} color="dark" variant="filled" onClick={handlers.increment}>
+          <Plus size={16} color="white" />
+        </ActionIcon>
+      </Group>
+      <Center className="space-x-5 mt-5">
+        <Button
+          styles={{
+            root: {
+              width: 140,
+            },
+          }}
+          bg="rgba(222, 222, 222, 1)"
+        >
+          CANCEL
+        </Button>
+        <Button
+          styles={{
+            root: {
+              width: 140,
+            },
+          }}
+          onClick={offerPlaceHandler.open}
+        >
+          DONE
+        </Button>
+      </Center>
     </Stack>
   );
   return [Modal, opened, { open, close }];

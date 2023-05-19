@@ -102,7 +102,7 @@ export const WalletRightSide = () => {
                 styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: theme.fn.smallerThan(1150)?115: 120,
+                    width: 120,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },
@@ -122,7 +122,7 @@ export const WalletRightSide = () => {
                 styles={(theme)=>({
                   root: {
                     borderRadius: 20,
-                    width: theme.fn.smallerThan(1150)?100:115,
+                    width:115,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },

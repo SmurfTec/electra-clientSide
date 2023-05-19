@@ -240,7 +240,6 @@ export default function ShopPage() {
       <Image src="/images/shop/heroBanner.jpg" alt="banner" height={300} />
       <div className="my-4">
         <Group position="apart">
-          <SectionTitle title="All Phones" />
           <Only when={matches}>
             <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
@@ -251,6 +250,7 @@ export default function ShopPage() {
           <ItemFilter />
         </Only>
       </div>
+      <SectionTitle title="All Phones" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {

@@ -1,5 +1,4 @@
-import { ActionIcon, Avatar, Button, Center, Menu, Text } from '@mantine/core';
-import { NextLink } from '@mantine/next';
+import { ActionIcon, Avatar, Center, Menu, Text } from '@mantine/core';
 import { useState } from 'react';
 import { ArrowNarrowRight, Bell } from 'tabler-icons-react';
 import { useStylesMenu } from '../header';
@@ -33,37 +32,34 @@ export const Notification = () => {
       <Menu.Dropdown>
         <Menu.Label className="uppercase font-medium text-base text-white mt-2 ml-2">Notifications</Menu.Label>
         <Menu.Divider />
-        {notify.slice(0, data).map((not,index) => (
+        {notify.slice(0, data).map((not, index) => (
           <div key={index}>
             <Menu.Item>
               <NotificationResult />
             </Menu.Item>
-            {notify.slice(0, data).length !== index + 1 && <Menu.Divider mx={20} opacity={0.5} key={index+1} />}
+            {notify.slice(0, data).length !== index + 1 && <Menu.Divider mx={20} opacity={0.5} key={index + 1} />}
           </div>
         ))}
 
-        <Menu.Item onClick={()=>setData(prev=>prev+1)}>
-          <Center >
+        <Menu.Item onClick={() => setData((prev) => prev + 1)}>
+          <Center inline>
             <Text color="white" mr={8}>
               View All
             </Text>
-            <Button
-              className="rounded-3xl px-4 h-7"
+            <Avatar
+              radius={'lg'}
+              variant="outline"
+              color="white"
+              size={'sm'}
               styles={{
                 root: {
-                  borderColor: 'white',
-                  '&:not([data-disabled]):hover': {
-                    backgroundColor: 'unset',
-                  },
-                },
-                rightIcon: {
-                  marginLeft: 0,
+                  width: 60,
+                  border: '1px solid white',
                 },
               }}
-              color="white"
-              rightIcon={<ArrowNarrowRight size={30} color="white" strokeWidth={1} />}
-              variant="outline"
-            />
+            >
+              <ArrowNarrowRight size={30} color="white" strokeWidth={1} />
+            </Avatar>
           </Center>
         </Menu.Item>
       </Menu.Dropdown>

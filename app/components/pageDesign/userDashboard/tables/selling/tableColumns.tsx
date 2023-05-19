@@ -21,10 +21,10 @@ export function getHeaderColumn<T extends { id: string }>(tile: 'active' | 'pend
       header: 'Ask Price',
     },
     {
-      id: 'higestOffer',
+      id: 'highestOffer',
       accessorKey: 'highestOffer',
       footer: () => null,
-      header: 'Lowest Offer',
+      header: 'Highest Offer',
     },
     {
       id: 'action',
@@ -43,6 +43,12 @@ export function getHeaderColumn<T extends { id: string }>(tile: 'active' | 'pend
       accessorKey: 'itemName',
       footer: () => null,
       header: 'Item Name',
+    },
+    {
+      id: 'salePrice',
+      accessorKey: 'salePrice',
+      footer: () => null,
+      header: 'Sale Price',
     },
     {
       id: 'trackingNo',

@@ -7,6 +7,8 @@ const colorData = ['Black', 'Red', 'Blue', 'Green', 'Gold'];
 const conditionData = ['Poor', 'Fair', 'Good', 'Great', 'Flawless'];
 const capacityData = ['64GB', '128GB', '256GB', '512GB', '1TB'];
 const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
+const brandData = ['Apple', 'Sumsang', 'Oneplus', 'Song', 'Nothing'];
+const phoneData = ['11 Pro Max', 'Ultra 22', '7 Pro', '14 Pro', 'Ultra 23'];
 
 export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -14,13 +16,19 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
   const [color, setColor] = useState<Array<string>>([]);
   const [capacity, setCapacity] = useState<Array<string>>([]);
   const [carrier, setCarrier] = useState<Array<string>>([]);
-  const [priceRange, setPriceRange] = useState<Array<number>>([]);
+  const [phone, setPhone] = useState<Array<string>>([]);
+  const [brand, setBrand] = useState<Array<string>>([]);
+  const [highRange, setHighRange] = useState<Array<number>>([]);
+  const [lowRange, setLowRange] = useState<Array<number>>([]);
   const handleClear = () => {
     setCondition([]);
     setColor([]);
-    setPriceRange([]);
+    setHighRange([]);
+    setLowRange([]);
     setCapacity([]);
     setCarrier([]);
+    setPhone([]);
+    setBrand([]);
   };
   const Modal = (
     <div className="mt-5">
@@ -30,7 +38,10 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
           color.length != 0 ||
           capacity.length != 0 ||
           carrier.length != 0 ||
-          priceRange.length != 0
+          highRange.length != 0 ||
+          lowRange.length != 0 ||
+          phone.length != 0 ||
+          brand.length != 0
         }
       >
         <div>
@@ -49,12 +60,15 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
               Clear
             </Button>
           </Group>
-          <div className='space-y-3'>
-            <FilterDisplay setState={setCondition} state={condition} label="Condition" />
-            <FilterDisplay setState={setColor} state={color} label="Color" />
+          <div className="space-y-3">
+            <FilterDisplay setState={setPhone} state={phone} label="Phones" />
+            <FilterDisplay setState={setBrand} state={brand} label="Brands" />
             <FilterDisplay setState={setCapacity} state={capacity} label="Capacity" />
+            <FilterDisplay setState={setColor} state={color} label="Color" />
             <FilterDisplay setState={setCarrier} state={carrier} label="Carrier" />
-            <FilterDisplayPrice setState={setPriceRange} state={priceRange} label="Price Range" />
+            <FilterDisplayPrice setState={setHighRange} state={highRange} label="Highest Offer" />
+            <FilterDisplayPrice setState={setLowRange} state={lowRange} label="Lowest Offer" />
+            <FilterDisplay setState={setCondition} state={condition} label="Condition" />
           </div>
         </div>
       </Only>
@@ -63,11 +77,14 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
           Apply Filters
         </Text>
         <Flex gap={10} wrap={'wrap'}>
-          <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
-          <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
+          <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
+          <FilterMenu data={brandData} setState={setBrand} state={brand} label="Brands" width={117} />
           <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
+          <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
           <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-          <FilterPrice setState={setPriceRange} state={priceRange} label="Price Range" width={148} />
+          <FilterPrice setState={setHighRange} state={highRange} label="Highest Offer" width={148} />
+          <FilterPrice setState={setLowRange} state={lowRange} label="Lowest Offer" width={148} />
+          <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
         </Flex>
       </div>
       <Button mt={30} mb={15}>

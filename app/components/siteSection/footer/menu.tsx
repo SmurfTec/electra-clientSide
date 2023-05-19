@@ -32,7 +32,7 @@ export const FooterMenu = () => {
               </Text>
             </Stack>
           </Tabs.Tab>
-          <Tabs.Tab value="/product-listing">
+          <Tabs.Tab value="/selling-search">
             <Stack align="center" spacing={0}>
               <Box size={30} />
               <Text color="inherit" size={10} className="font-medium">
@@ -40,7 +40,7 @@ export const FooterMenu = () => {
               </Text>
             </Stack>
           </Tabs.Tab>
-          <Tabs.Tab value="/shop">
+          <Tabs.Tab value="/userdashboard?tab=selling">
             <Stack align="center" spacing={0}>
               <ListCheck size={30} />
               <Text color="inherit" size={10} className="font-medium">
@@ -56,7 +56,7 @@ export const FooterMenu = () => {
               </Text>
             </Stack>
           </Tabs.Tab>
-          <Tabs.Tab value="/userdashboard">
+          <Tabs.Tab value="/auth/login">
             <Stack align="center" spacing={0}>
               <User size={30} />
               <Text color="inherit" size={10} className="font-medium">

@@ -9,7 +9,7 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
   switch (props.cell.column.id) {
     case 'action':
       return (
-        <Grid>
+        <Grid p={0} m={0}>
           <Grid.Col className='text-right' span={10}>
             <Button
               variant="outline"
@@ -22,9 +22,9 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
               }}
               radius="xl"
               component={NextLink}
-              href="/order-detail"
+              href="/product-listing"
             >
-              View Details
+              Sell Now
             </Button>
           </Grid.Col>
           <Grid.Col span={2}>
@@ -67,6 +67,8 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
             },
           }}
           radius="xl"
+          component={NextLink}
+          href="/order-detail"
         >
           View Details
         </Button>
@@ -97,6 +99,8 @@ export function CompletedSimpleRow<T extends { id: string }>(props: CellContext<
             },
           }}
           radius="xl"
+          component={NextLink}
+          href="/order-detail"
         >
           View Details
         </Button>

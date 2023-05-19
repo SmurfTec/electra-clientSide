@@ -20,9 +20,9 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <Grid m={0} {...rest} gutter={phone?10:20}>
+    <Grid m={0} {...rest} gutter={phone ? 10 : 20}>
       <Grid.Col span={2}>
-        <Paper bg={'#F5F5F5'} className="flex justify-center  relative">
+        <Paper bg={'#F5F5F5'} className="flex justify-center relative">
           <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
           <Modal
             scrollAreaComponent={ScrollArea}
@@ -74,10 +74,10 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Only>
         </Paper>
       </Grid.Col>
-      <Grid.Col span={10} className={!sale? "" :"space-y-4"}>
+      <Grid.Col span={10} className={'space-y-2'}>
         <Group position="apart">
           <Group>
-            <Text color='black' className="font-bold" size={!sale ? 20 : phone ? 14 : 'xl'}>
+            <Text color="black" className="font-bold" size={!sale ? 20 : phone ? 14 : 'xl'}>
               {title}
             </Text>
             <Only when={!!sale}>
@@ -87,27 +87,23 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
             </Only>
           </Group>
           <Only when={!!price}>
-            <Text className="font-bold" size={phone ? 12 : 'xl'}>
+            <Text className="font-bold text-black" size={phone ? 12 : 'xl'}>
               $ {price}
             </Text>
           </Only>
         </Group>
-        <Grid m={0} >
-          <Grid.Col px={0} span={!!date?10:12}>
-            <Group align='top'>
-              <TransparentButton label={space} />
-              <TransparentButton label={color} />
-              <TransparentButton label={company} />
-            </Group>
-          </Grid.Col>
+        <Group position="apart" spacing={0}>
+          <Group align="top" spacing={phone?8: 15}>
+            <TransparentButton label={space} />
+            <TransparentButton label={color} />
+            <TransparentButton label={company} />
+          </Group>
           <Only when={!!date}>
-            <Grid.Col span={2}>
-              <Text color="#656565" size="sm">
-                {date}
-              </Text>
-            </Grid.Col>
+            <Text color="#656565" size="sm">
+              {date}
+            </Text>
           </Only>
-        </Grid>
+        </Group>
       </Grid.Col>
     </Grid>
   );

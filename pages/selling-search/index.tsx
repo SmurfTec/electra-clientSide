@@ -1,5 +1,6 @@
-import { AutoCompleteItem, NotHeader } from '@elektra/components';
+import { AutoCompleteItem, FooterMenu, NotHeader } from '@elektra/components';
 import { Autocomplete, Container, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Search } from 'tabler-icons-react';
@@ -46,14 +47,13 @@ const productData: productDataType[] = [
 
 export function SellingSearch() {
   const router = useRouter();
-  const [limit, setLimit] = useState(3);
   const [value, setValue] = useState('');
 
+  const phone = useMediaQuery('(max-width: 800px)', false);
   const handleSubmit = (item: productDataType) => {
     setValue(item.title);
     router.push(item.link);
   };
-
   return (
     <div>
       <NotHeader />
@@ -68,7 +68,9 @@ export function SellingSearch() {
           ]}
           mt={20}
           filter={(value, item) =>
-            item['modal']?.toLowerCase().includes(value.toLowerCase().trim()) || item['title']?.toLowerCase().includes(value.toLowerCase().trim()) || item.value === '__show-more'
+            item['modal']?.toLowerCase().includes(value.toLowerCase().trim()) ||
+            item['title']?.toLowerCase().includes(value.toLowerCase().trim()) ||
+            item.value === '__show-more'
           }
           value={value}
           onChange={setValue}
@@ -86,6 +88,8 @@ export function SellingSearch() {
           placeholder="Search product by name and model no"
         />
       </Container>
+      {/* FOOTER MOBILE FIXED MENU*/}
+      {phone && <FooterMenu />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { Modal as Mdol } from '@elektra/customComponents';
-import { Button, NumberInput, Stack, Text, Title } from '@mantine/core';
+import { Avatar, Button, Center, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useInterval } from '@mantine/hooks';
 import { useState } from 'react';
 import { Mail } from 'tabler-icons-react';
 
@@ -9,10 +9,22 @@ type EmailModelProps = {
   email: string;
 };
 
-export const useEmailVerificationModel = ({ email }: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useEmailVerificationModel = ({
+  email,
+}: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+  const timer_limit = 59;
   const [opened, { open, close }] = useDisclosure(false);
-  const [emailModal, emailOpened, emailHandler] = useEmailSentModal({email:'dummy@example.com'});
+  const [emailModal, emailOpened, emailHandler] = useEmailSentModal({ email: 'dummy@example.com' });
   const [error, setError] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState(timer_limit);
+  const interval = useInterval(() => {
+    setSeconds((s) => {
+      if (s === 0) {
+        interval.stop();
+        return timer_limit;
+      } else return s - 1;
+    });
+  }, 1000);
   const form = useForm({
     initialValues: {
       code: '',
@@ -31,7 +43,7 @@ export const useEmailVerificationModel = ({ email }: EmailModelProps): [React.Re
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
       {!error && (
-        <Text size="sm" className="font-semibold">
+        <Text className="text-xs font-semibold">
           An email has been sent on {email}.<br></br>&nbsp;For verification please enter code in the email below
         </Text>
       )}
@@ -40,12 +52,7 @@ export const useEmailVerificationModel = ({ email }: EmailModelProps): [React.Re
           Please enter correct code
         </Text>
       )}
-       <Mdol
-         
-          children={emailModal}
-          onClose={emailHandler.close}
-          open={emailOpened}
-        />
+      <Mdol title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       <form onSubmit={form.onSubmit(({ code }) => handleSubmit(code))}>
         <NumberInput
           className="w-[100%] mr-20"
@@ -65,20 +72,33 @@ export const useEmailVerificationModel = ({ email }: EmailModelProps): [React.Re
           {...form.getInputProps('code')}
           error={error}
         />
-        <div className="text-center mt-4">
+        {seconds === timer_limit && (
+          <Center className="space-x-2 my-2 cursor-pointer" onClick={interval.start}>
+            <Avatar size={12} src={'/images/refresh.png'} />
+            <Text className="text-sm md:text-base font-medium">Resend</Text>
+          </Center>
+        )}
+        {seconds !== timer_limit && (
+          <Center className='my-2'>
+            <Text className="text-base font-medium">Resend after 0 : {seconds} s</Text>
+          </Center>
+        )}
+        <Center>
           <Button type="submit" uppercase onClick={emailHandler.open}>
             Verify
           </Button>
-        </div>
+        </Center>
       </form>
     </Stack>
   );
   return [Modal, opened, { open, close }];
 };
 
-export const useEmailSentModal = ({ email }: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useEmailSentModal = ({
+  email,
+}: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const Modal= (
+  const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">
       <Mail size={60} strokeWidth={1} color={'white'} className="fill-[#3C82D6]" />
       <Title order={4} classNames="" className=" font-semibold uppercase">
