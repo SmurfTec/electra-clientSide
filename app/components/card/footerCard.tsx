@@ -22,16 +22,15 @@ export function FooterCard({ icon, heading, description }: FooterCardProps) {
       </div>
       <div
         style={{
-          boxShadow: '0px 11px 24px rgba(0, 0, 0, 0.05)',
+          // boxShadow: '0px 11px 24px rgba(0, 0, 0, 0.05)',
         }}
-        className="sm:h-28 sm:w-28 h-20 w-20 bg-white rounded-full absolute -top-1  left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute -top-[60px]  left-1/2 -translate-x-1/2 "
       >
         {/* <div className="relative"> */}
         <Image
-          className="absolute -top-2  xs:-top-1 left-1/2 -translate-x-1/2 translate-y-1/2"
           src={icon}
-          width="60px"
-          height="60px"
+          width="130px"
+          height="130px"
           alt={icon}
         />
         {/* </div> */}

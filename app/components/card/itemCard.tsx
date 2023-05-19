@@ -94,7 +94,7 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
         </Group>
         <Grid m={0} >
           <Grid.Col px={0} span={!!date?10:12}>
-            <Group align='top'>
+            <Group align='top' className='px-0'>
               <TransparentButton label={space} />
               <TransparentButton label={color} />
               <TransparentButton label={company} />
