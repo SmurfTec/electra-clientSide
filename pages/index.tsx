@@ -420,13 +420,13 @@ export function Index() {
 
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className='-mt-52 text-center'>
+        <div className='-mt-36 md:-mt-64 text-center'>
         <BannerCarousel
           carouselData={carouselData}
         />
         </div>
       </section>
-      <section className="mt-16 sm:mt-[-60px]">
+      <section className="md:mt-[-60px]">
         <SectionTitle title="Brands" />
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
           <ScrollArea type="hover" scrollbarSize={5}>
