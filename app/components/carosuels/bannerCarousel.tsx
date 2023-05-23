@@ -1,5 +1,6 @@
 import { useStylesforGlobal } from '@elektra/customComponents';
 import { Button, Center, Group, Image, Text } from '@mantine/core';
+import { NextLink } from '@mantine/next';
 import dynamic from 'next/dynamic';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
@@ -59,6 +60,8 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
                   <Button
                     leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
                     variant="outline"
+                    component={NextLink}
+                    href={'/product-detail'}
                     classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
                   />
                 </>

@@ -3,6 +3,13 @@
     height: 450px !important;
   }
 
+  @media screen and (max-width: 800px) {
+    .active img{
+      width: 250px !important;
+      height: 300px !important;
+    }
+  }
+
   #product-testimonoals .item {
     text-align: center;
     padding: 50px;
