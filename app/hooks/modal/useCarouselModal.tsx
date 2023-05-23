@@ -1,4 +1,4 @@
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Carousel } from 'react-responsive-carousel';
 const imageData = [
   '/images/carousel/iphone.png',
@@ -8,12 +8,12 @@ const imageData = [
 ];
 export const useCarouselModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-
+  const phone = useMediaQuery('(max-width: 600px)',false);
   const Modal = (
     <div className="truncate">
       <Carousel
         centerMode={true}
-        centerSlidePercentage={50}
+        centerSlidePercentage={phone?150:50}
         dynamicHeight={false}
         axis="horizontal"
         showStatus={false}
