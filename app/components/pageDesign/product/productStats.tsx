@@ -66,7 +66,7 @@ export const ProductStats = () => {
                 <Divider
                   orientation={phone ? 'horizontal' : 'vertical'}
                   className={phone ? 'w-full' : undefined}
-                  size={3}
+                  size={1}
                 />
               )}
             </span>

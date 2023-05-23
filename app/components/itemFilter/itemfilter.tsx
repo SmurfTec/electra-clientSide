@@ -22,7 +22,7 @@ export const ItemFilter = () => {
   return (
     <Stack>
       <Group position="apart">
-        <Group spacing={10}>
+        <Group spacing={5}>
           <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
           <FilterMenu data={brandData} setState={setBrand} state={brand} label="Brands" width={117} />
           <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />

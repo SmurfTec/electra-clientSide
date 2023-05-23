@@ -11,7 +11,7 @@ type ResultCardProps = {
 export const SearchResult = ({ image, title, modal }: ResultCardProps) => {
   return (
     <Stack  className="bg-transparent" align='flex-start' spacing={6}>
-      <Image alt={title} src={image} fit="contain" />
+      <Image alt={title} src={image}  />
       <Group position="apart" align="center" className="bg-transparent w-full" spacing={0}>
         <Text className="text-[10px] md:text-base font-semibold text-black">{title}</Text>
         <Heart

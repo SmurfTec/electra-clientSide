@@ -9,7 +9,7 @@ export function SummaryFooter() {
       <Group position="center">
         <Radio color={'black'} value={"No"} />
 
-        <Text color={'#B4B4B4'} size="xl">
+        <Text className='font-[500]' color={'#656565'} size="xl">
           No thanks i dont need any protection plan.
         </Text>
       </Group>

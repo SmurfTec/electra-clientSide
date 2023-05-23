@@ -29,7 +29,7 @@ export function HeroImage() {
       loop={false}
       withIndicators={true}
       withControls={false}
-      height={'50vh'}
+      // height={'50vh'}
       styles={{
         indicator: {
           width: 10,
