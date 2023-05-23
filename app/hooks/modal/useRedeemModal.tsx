@@ -43,7 +43,7 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
         <Button size={'lg'} uppercase onClick={offerHandler.open}>
           Redeem
         </Button>
-        <Button size={'lg'} color="blue" uppercase>
+        <Button size={'lg'} color="blue" onClick={offerHandler.open} uppercase>
           Redeem All
         </Button>
       </Group>

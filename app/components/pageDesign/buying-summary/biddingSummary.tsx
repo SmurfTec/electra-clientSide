@@ -30,14 +30,14 @@ export function BiddingSummary({
   protectionPlan,
 }: BiddingSummaryProps) {
   const theme = useMantineTheme();
-  const router = useRouter()
+  const router = useRouter();
   const { classes } = useStylesforGlobal();
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const isBuying = router.query['condition'] === 'buying';
   return (
     <div
-      style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
-      className="p-8 rounded-xl space-y-3"
+      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'auto' }}
+      className="p-8 rounded-xl space-y-3 h-full md:absolute md:h-full md:w-full"
     >
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -46,15 +46,21 @@ export function BiddingSummary({
             <PencilButton />
           </Only>
         </Text>
-        <Text className="font-bold" size="xl">
+        <Text className="font-bold" color="black" size="xl">
           ${yourOffer ?? itemPrice}
         </Text>
       </Group>
+      
+      <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
       <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart text={'SHIPPING FEE'} number={shippingFee} />
       <Only when={!disabled}>
         <PositionApart text={'DISCOUNT'} number={discount} discount={true} />
+      </Only>
+      <Only when={!!disabled}>
+        <PositionApart text={'PLATFORM FEE'} number={5} discount={false} />
+        <PositionApart text={'DISCOUNT'} number={discount} discount={false} />
       </Only>
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
       <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
@@ -62,7 +68,7 @@ export function BiddingSummary({
         <Grid>
           <Grid.Col span={6}>
             <Modal
-              title={isBuying ? "Product Purchased" :"Offer Placed!"}
+              title={isBuying ? 'Product Purchased' : 'Offer Placed!'}
               children={OfferPlaceModal}
               onClose={offerPlaceHandler.close}
               open={offerPlaceOpened}
@@ -103,16 +109,19 @@ export function BiddingSummary({
           </Grid.Col>
         </Grid>
       </Only>
-      <Grid>
-        <Grid.Col span={1}>
-          <Avatar src="images/coin.png" size={'xs'} radius="lg" />
-        </Grid.Col>
-        <Grid.Col span={11} className="text-left">
-          <Text className="font-bold uppercase" size="sm">
-            earn 1500 points for this purchase
-          </Text>
-        </Grid.Col>
-      </Grid>
+
+      <Only when={!disabled}>
+        <Grid>
+          <Grid.Col span={1}>
+            <Avatar src="images/coin.png" size={'xs'} radius="lg" />
+          </Grid.Col>
+          <Grid.Col span={11} className="text-left">
+            <Text className="font-bold uppercase" size="sm">
+              earn 1500 points for this purchase
+            </Text>
+          </Grid.Col>
+        </Grid>
+      </Only>
     </div>
   );
 }

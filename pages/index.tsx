@@ -285,7 +285,7 @@ export function Index() {
         <HeroImage />
       </section>
 
-      <section className="mt-20">
+      <section className="mt-8 md:mt-20">
         <SectionTitle title="Recommended For You" label="View All" />
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
           {productData.map((product, index) => {

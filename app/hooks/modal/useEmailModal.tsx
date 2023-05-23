@@ -105,7 +105,7 @@ export const useEmailSentModal = ({
         Email Sent!
       </Title>
       <Text size="sm" className="text-center w-2/3">
-        A password change was requested. An email has been sent on {email}.
+      An OTP  has been sent of {email}. An email change was requested. .
       </Text>
     </Stack>
   );

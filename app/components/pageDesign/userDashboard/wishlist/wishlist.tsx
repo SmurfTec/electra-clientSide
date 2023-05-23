@@ -20,7 +20,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: 'Used',
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -32,7 +32,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: 'New',
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -44,7 +44,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: 'Used',
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -56,7 +56,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: null,
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -68,7 +68,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: null,
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -80,7 +80,7 @@ const productData = [
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     rating: null,
-    wishlist: false,
+    wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
@@ -90,7 +90,7 @@ const productData = [
 export function WishList() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-      {productData.map((product,index) => {
+      {productData.map((product, index) => {
         return (
           <ProductCard
             key={index}
