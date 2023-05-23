@@ -237,7 +237,7 @@ export default function ShopPage() {
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
-      <Image src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
+      <Image className='mt-4' src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
       <div className="my-4">
         <Group position="apart">
           <Only when={matches}>

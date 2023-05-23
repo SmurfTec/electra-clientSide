@@ -5,7 +5,7 @@ import { Pencil } from 'tabler-icons-react';
 import { PageTitle } from '../../../AppTitle';
 
 export function Security() {
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({});
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});

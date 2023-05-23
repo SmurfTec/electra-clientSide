@@ -80,7 +80,7 @@ export function getHeaderColumn<T extends { id: string }>(tile:"active"|"pending
       id: 'offerDate',
       accessorKey: 'offerDate',
       footer: () => null,
-      header: 'Offer Date',
+      header: 'Order Date',
     },
     {
       id: 'action',

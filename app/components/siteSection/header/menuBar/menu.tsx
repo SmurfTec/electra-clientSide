@@ -1,5 +1,5 @@
 import { HoverCard, Only } from '@elektra/customComponents';
-import { ActionIcon, Avatar, Burger, Container, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Burger, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ReactNode, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
@@ -95,19 +95,17 @@ export const HeaderMenu = () => {
   };
   return (
     <>
-      <Group
-        mih={50}
-        bg="rgba(217, 217, 217, 0.35)"
-        className='hidden md:block'
-      >
-        <Container size={1400} 
-        className={clsx('md:space-x-14 xl:space-x-20   ', classes.flex)}>
+      <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className="hidden md:block">
+        <Group position='apart'className='pt-3 px-4'>
           {menuData.map((item, index) => (
-            <HoverCard key={index} target={<Text className="uppercase inline-block text-base cursor-pointer">{item.title}</Text>}>
+            <HoverCard
+              key={index}
+              target={<Text className="uppercase inline-block text-base cursor-pointer">{item.title}</Text>}
+            >
               {item.content}
             </HoverCard>
           ))}
-        </Container>
+        </Group>
       </Group>
       <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
         <Menu

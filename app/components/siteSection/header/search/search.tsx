@@ -66,7 +66,7 @@ export const Search = ({ close }: SearchProps) => {
         <div className="md:p-8 p-6 w-full absolute top-[68px] md:top-[76px] bg-inherit z-10">
           <SimpleGrid
             cols={5}
-            spacing={40}
+            spacing={80}
             breakpoints={[
               { maxWidth: '92rem', cols: 5, spacing: 30 },
               { maxWidth: '72rem', cols: 4, spacing: 20 },

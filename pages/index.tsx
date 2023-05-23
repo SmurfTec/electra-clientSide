@@ -22,11 +22,11 @@ const carouselData = [
     title: 'Razer Blade 14',
   },
   {
-    imgSrc: '/images/carousel/rightLaptop.png',
+    imgSrc: '/images/carousel/leftLaptop.png',
     title: 'Razer Blade 15',
   },
   {
-    imgSrc: '/images/carousel/leftLaptop.png',
+    imgSrc: '/images/carousel/centerLaptop.png',
     title: 'Razer Blade 16',
   },
   {
@@ -34,21 +34,6 @@ const carouselData = [
     title: 'Razer Blade 16',
   },
 ];
-
-// const ProductCarouselData = [
-//   {
-//     imgSrc: '/images/carousel/mouse.png',
-//     // title: 'Razer Blade 13',
-//   },
-//   {
-//     imgSrc: '/images/carousel/headphone.png',
-//     // title: 'Razer Blade 14',
-//   },
-//   {
-//     imgSrc: '/images/carousel/ram.png',
-//     // title: 'Razer Blade 15',
-//   },
-// ];
 
 const bannerData: BannerProps[] = [
   {
@@ -71,7 +56,6 @@ const bannerData: BannerProps[] = [
 
 const productData: ProductCardProps[] = [
   {
-    
     image: '/images/product.png',
     link: '/product-detail?condition=new',
     title: 'Iphone X',
@@ -83,7 +67,6 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -94,7 +77,6 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-   
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -105,7 +87,6 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -116,7 +97,6 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
     image: '/images/product.png',
     link: '/product-detail',
     title: 'Iphone 14 Pro max',
@@ -305,7 +285,7 @@ export function Index() {
         <HeroImage />
       </section>
 
-      <section className="mt-20">
+      <section className="mt-8 md:mt-20">
         <SectionTitle title="Recommended For You" label="View All" />
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
           {productData.map((product, index) => {
@@ -396,7 +376,7 @@ export function Index() {
         <SectionTitle title="Most Sold Items" label="View All" />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-        {productData.map((product, index) => {
+          {productData.map((product, index) => {
             return (
               <ProductCard
                 key={index}
@@ -419,7 +399,7 @@ export function Index() {
         <SectionTitle title="Latest Items" />
 
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-        {productData.map((product, index) => {
+          {productData.map((product, index) => {
             return (
               <ProductCard
                 key={index}
@@ -439,12 +419,12 @@ export function Index() {
       </section>
 
       <section className="mt-20">
-        <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className='-z-20' />
+        <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
+        <div className='-mt-52 text-center'>
         <BannerCarousel
           carouselData={carouselData}
-          className="mt-[-150px] md:mt-[-200px] z-10 w-full"
-          slideSize={mediumdScreen ? '100%' : '33.33%'}
         />
+        </div>
       </section>
       <section className="mt-16 sm:mt-[-60px]">
         <SectionTitle title="Brands" />

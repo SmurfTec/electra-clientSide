@@ -17,7 +17,7 @@ const productDetailData = {
 };
 
 const BiddingSummaryData: BiddingSummaryProps = {
-  yourOffer: 437,
+  itemPrice: 437,
   marketPlaceFee: 5,
   salesTax: 3,
   shippingFee: 15,
@@ -51,15 +51,16 @@ export default function OrderDetail() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>
-          <div className="overflow-y-auto h-full">
+          <div className="h-full relative">
             <BiddingSummary
-              yourOffer={BiddingSummaryData.yourOffer}
+              // yourOffer={BiddingSummaryData.yourOffer}
               discount={BiddingSummaryData.discount}
               itemPrice={BiddingSummaryData.itemPrice}
               marketPlaceFee={BiddingSummaryData.marketPlaceFee}
               salesTax={BiddingSummaryData.salesTax}
               shippingFee={BiddingSummaryData.shippingFee}
               totalPrice={BiddingSummaryData.totalPrice}
+            
               disabled={true}
             />
           </div>
