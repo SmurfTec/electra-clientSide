@@ -1,7 +1,9 @@
 import { CategoryCard } from '@elektra/components/card';
 import { Center, Container, Flex, Group, List, Text } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 export const PhoneMenu = () => {
+  const router = useRouter()
   return (
     <Container size={1200} py={50}>
       <Group spacing={100} position="center">
@@ -10,12 +12,12 @@ export const PhoneMenu = () => {
             <Text color="black" className="text-sm font-medium ml-3">
               Phones
             </Text>
-            <List.Item>HPa</List.Item>
-            <List.Item>Acer</List.Item>
-            <List.Item>Apple</List.Item>
-            <List.Item>Asus</List.Item>
-            <List.Item>Dell</List.Item>
-            <List.Item>Lenovo</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>HPa</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>Acer</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>Apple</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>Asus</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>Dell</List.Item>
+            <List.Item onClick={()=> router.push("/shop")} className='cursor-pointer'>Lenovo</List.Item>
           </List>
         </Flex>
         <Flex gap="xs" justify="center" align="center" direction="column" wrap="wrap">
