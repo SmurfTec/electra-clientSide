@@ -4,10 +4,12 @@ import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
 import { useStyles } from './signup';
 import { useRouter } from 'next/router';
+import { usePasswordChangeModal } from '@elektra/hooks';
+import { Modal } from '@elektra/customComponents';
 
 export default function Login() {
   const { classes } = useStyles();
-
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({login:true});
   const initialValues = {
     email: '',
     password: '',
@@ -59,6 +61,7 @@ const router = useRouter()
                       background: 'white',
                     },
                   }}
+                  onClick={passwordHandler.open}
                 >
                   Forgot Password ?
                 </Button>
@@ -76,6 +79,12 @@ const router = useRouter()
           <BottomLine />
         </Container>
       </Grid.Col>
+      <Modal
+          title="Changing Password"
+          children={PasswordChangeModal }
+          onClose={passwordHandler.close}
+          open={passwordOpened}
+        />
       <Grid.Col order={1} orderSm={2} xs={12} sm={7} md={8} className={classes.wrapper}>
         <RightPanel />
       </Grid.Col>
