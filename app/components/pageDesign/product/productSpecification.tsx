@@ -23,7 +23,7 @@ export type ProductSpecificationProps = {
   lowestAsk: number;
   highestAsk: number;
   price: number;
-  scrollIntoView: ({ alignment }?: any | undefined) => void;
+  scrollIntoView?: ({ alignment }?: any | undefined) => void;
 };
 
 export function ProductSpecification({
@@ -242,11 +242,13 @@ export function ProductSpecification({
             </Grid.Col>
             <Grid.Col span={12}>
               <Button
-                onClick={() =>
-                  scrollIntoView({
-                    alignment: 'center',
-                  })
-                }
+                onClick={() => {
+                  if (scrollIntoView) {
+                    scrollIntoView({
+                      alignment: 'center',
+                    });
+                  }
+                }}
                 size="16px"
                 className="font-[500] h-12 w-full"
                 bg="#3C82D6"
