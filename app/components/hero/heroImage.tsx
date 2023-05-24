@@ -4,6 +4,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { useRef } from 'react';
 import { IHerocomponentProps } from './hero';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from '@mantine/hooks';
 
 const data: Array<IHerocomponentProps> = [
   {
@@ -23,6 +24,9 @@ const data: Array<IHerocomponentProps> = [
 export function HeroImage() {
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const router = useRouter()
+  const phone = useMediaQuery('(max-width: 600px)');
+
+  
   return (
     <Carousel
       plugins={[autoplay.current]}
@@ -56,7 +60,7 @@ export function HeroImage() {
             subTitle={item.subTitle}
             href={item.href}
           /> */}
-          <Image alt="background-image" src={item.backgroundImage} />
+          <Image alt="background-image" src={item.backgroundImage} fit='fill' height={phone ? "200px" : undefined} />
         </Carousel.Slide>
       ))}
     </Carousel>

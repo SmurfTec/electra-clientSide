@@ -29,7 +29,7 @@ export const Header = () => {
             >
               <Menu.Target>
                 <ActionIcon onClick={() => toggle()} size={'xl'} className="space-x-1" variant="transparent">
-                  <Settings size={35} color="black" strokeWidth={1} />
+                  <Settings size={70} color="black" strokeWidth={1} />
                   {isMenuOpen ? (
                     <CaretUp color="black" fill="black" size={10} />
                   ) : (
@@ -64,9 +64,9 @@ export const Header = () => {
                   <ShoppingCart size={15} strokeWidth={1} />
                 </Avatar>
               </ActionIcon> */}
-              <Button component={NextLink} className="hidden md:block" size={'xs'} href={'/selling-search'}>
+              {/* <Button component={NextLink} className="hidden md:block" size={'xs'} href={'/selling-search'}>
                 Sell Now
-              </Button>
+              </Button> */}
 
               <ActionIcon variant="transparent" className="block" size={'sm'} onClick={() => toggleSearch()}>
                 <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>

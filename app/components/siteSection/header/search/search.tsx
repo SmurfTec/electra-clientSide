@@ -77,7 +77,7 @@ export const Search = ({ close }: SearchProps) => {
   const [search, setSearch] = useState('');
   const [data, setdata] = useState(categoryData);
   return (
-    <Stack className='relative'  spacing={0} bg="rgba(232, 232, 232, 1)">
+    <Stack className="relative" spacing={0} bg="rgba(232, 232, 232, 1)">
       <HeaderSearch close={close} state={search} setState={setSearch} />
       <Divider color="black" size={2} />
       <Only when={search !== ''}>

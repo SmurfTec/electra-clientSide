@@ -239,7 +239,7 @@ export function ProductSpecification({
               </Button>
             </Grid.Col>
             <Grid.Col span={12}>
-              <Button component={NextLink} href="/shop" size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
+              <Button component={NextLink} href="#recommended" size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
                 Shop used starting at $400
               </Button>
               <Group mt={14} align="center">

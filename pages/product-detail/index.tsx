@@ -394,7 +394,7 @@ export default function ProductPage() {
       <Only when={!matches}>
         <ProductFilter />
       </Only>
-      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+      <div id="recommended" className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.slice(0, limit).map((product, index) => {
           return (
             <ProductCard
