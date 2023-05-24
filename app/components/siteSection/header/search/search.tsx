@@ -37,6 +37,24 @@ const categoryData = [
     title: 'Phones',
     modal: '24053',
   },
+  {
+    id: 3,
+    image: '/images/search/search3.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 4,
+    image: '/images/search/search4.png',
+    title: 'Phones',
+    modal: '24053',
+  },
+  {
+    id: 5,
+    image: '/images/search/search2.png',
+    title: 'Phones',
+    modal: '24053',
+  },
   // {
   //   id: 6,
   //   image: '/images/search/search1.png',
@@ -65,8 +83,8 @@ export const Search = ({ close }: SearchProps) => {
       <Only when={search !== ''}>
         <div className="md:p-8 p-6 w-full absolute top-[68px] md:top-[76px] bg-inherit z-10">
           <SimpleGrid
-            cols={5}
-            spacing={80}
+            cols={7}
+            spacing={40}
             breakpoints={[
               { maxWidth: '92rem', cols: 5, spacing: 30 },
               { maxWidth: '72rem', cols: 4, spacing: 20 },
@@ -78,7 +96,7 @@ export const Search = ({ close }: SearchProps) => {
               <SearchResult key={index} image={item.image} modal={item.modal} title={item.title} />
             ))}
           </SimpleGrid>
-          <div className="mt-16 md:mt-36">
+          <div className="mt-16">
             <Text className="text-sm font-medium">Suggestions</Text>
             <Group position="apart">
               <Center className="space-x-4">
