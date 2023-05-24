@@ -22,11 +22,13 @@
     "@mantine/nprogress": "^6.0.2",
     "@tanstack/react-table": "^8.8.2",
     "embla-carousel-autoplay": "^7.0.9",
+    "jquery": "^3.7.0",
     "next": "^12.3.1",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-charts": "^3.0.0-beta.54",
     "react-dom": "18.2.0",
+    "react-owl-carousel": "^2.3.3",
     "react-responsive-carousel": "^3.2.23",
     "tabler-icons-react": "^1.56.0"
   },

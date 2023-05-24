@@ -1,0 +1,25 @@
+  .active img{
+    width: 400px !important;
+    height: 450px !important;
+  }
+
+  @media screen and (max-width: 800px) {
+    .active img{
+      width: 250px !important;
+      height: 300px !important;
+    }
+  }
+
+  #product-testimonoals .item {
+    text-align: center;
+    padding: 50px;
+    margin-bottom: 0px;
+    transform: scale3d(0.8, 0.8, 1);
+    transition: all 0.3s ease-in-out;
+  }
+  #product-testimonoals .owl-item.active.center .item {
+    opacity: 1;
+    transform: scale3d(1.0, 1.0, 1);
+  }
+  
+  

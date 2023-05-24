@@ -4,7 +4,13 @@ import { useDisclosure } from '@mantine/hooks';
 import { useStylesforGlobal } from '../../customComponents/theme';
 import { useEmailVerificationModel } from './useEmailModal';
 
-export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+type usePasswordChangeModalProps = {
+  login?: boolean;
+};
+
+export const usePasswordChangeModal = ({
+  login = false,
+}: usePasswordChangeModalProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
   const { classes } = useStylesforGlobal();
@@ -14,35 +20,42 @@ export const usePasswordChangeModal = (): [React.ReactNode, boolean, { open: () 
       <Stack align="center" spacing="xl" className="mt-6">
         <div className="space-y-5">
           <PasswordInput
-            placeholder="Enter current password"
+            placeholder={login ? 'Enter new password' : 'Enter current password'}
             classNames={{ input: classes.input, innerInput: classes.innerInput }}
           />
           <PasswordInput
-            placeholder="Enter new password"
+            placeholder={login ? 'Confirm Password' : 'Enter new password'}
             classNames={{ input: classes.input, innerInput: classes.innerInput }}
           />
         </div>
         <Modl title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       </Stack>
-      <Center className="space-x-5">
-        <Text className="text-xs font-medium">Min password length 6 characters</Text>
-        <Button
-          styles={{
-            root: {
-              padding: 'unset',
-              border: 'unset',
-              marginRight: '100px',
-              borderRadius: 'unset',
-            },
-            inner: {
-              color: '#B4B4B4',
-              background: 'white',
-            },
-          }}
-        >
-          Forgot Password ?
-        </Button>
-      </Center>
+      {login ? (
+        <div className="text-center -ml-32 mt-1">
+          <Text className="text-xs font-medium">Min password length 6 characters</Text>
+        </div>
+      ) : (
+        <Center className="space-x-5">
+          <Text className="text-xs font-medium">Min password length 6 characters</Text>
+
+          <Button
+            styles={{
+              root: {
+                padding: 'unset',
+                border: 'unset',
+                marginRight: '100px',
+                borderRadius: 'unset',
+              },
+              inner: {
+                color: '#B4B4B4',
+                background: 'white',
+              },
+            }}
+          >
+            Forgot Password ?
+          </Button>
+        </Center>
+      )}
       <div className="text-center">
         <Button onClick={emailHandler.open}>Update</Button>
       </div>

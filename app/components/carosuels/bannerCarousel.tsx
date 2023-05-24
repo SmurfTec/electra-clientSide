@@ -1,77 +1,75 @@
 import { useStylesforGlobal } from '@elektra/customComponents';
-import { Carousel, CarouselProps, Embla } from '@mantine/carousel';
-import { Button, Group, Image, Text } from '@mantine/core';
-import emblaCarouselAutoplay from 'embla-carousel-autoplay';
-import { useEffect, useRef, useState } from 'react';
+import { Button, Center, Group, Image, Text } from '@mantine/core';
+import { NextLink } from '@mantine/next';
+import dynamic from 'next/dynamic';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import { Options } from 'react-owl-carousel';
 import { ArrowNarrowRight } from 'tabler-icons-react';
-
-export type BannerCarousel = {
-  carouselData: carouselData[];
-} & CarouselProps;
+const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
+  ssr: false,
+});
 
 type carouselData = {
   imgSrc: string;
   title?: string;
 };
 
-export function BannerCarousel({ carouselData, ...rest }: BannerCarousel) {
-  const [value, setValue] = useState(0);
-  const { classes } = useStylesforGlobal();
-  const autoplay = useRef(emblaCarouselAutoplay({ delay: 4000 }));
-  const [embla, setEmbla] = useState<Embla | null>(null);
+export type BannerCarousel = {
+  carouselData: carouselData[];
+};
 
-  useEffect(() => {
-    if (embla) {
-      // console.log(embla.slidesInView())
-      // console.log(embla.slidesNotInView())
-    }
-  }, [embla]);
+export function BannerCarousel({ carouselData }: BannerCarousel) {
+  const { classes } = useStylesforGlobal();
+
+  const options: Options = {
+    loop: true,
+    center: true,
+    items: 3,
+    margin: 0,
+    autoplay: true,
+    dots: false,
+    autoplayTimeout: 4500,
+    smartSpeed: 450,
+    nav: false,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 3,
+      },
+      1000: {
+        items: 3,
+      },
+    },
+  };
 
   return (
-    <div>
-      <Carousel
-        withIndicators
-        height={600}
-        slideGap="md"
-        loop={true}
-        align="start"
-        slidesToScroll={1}
-        draggable={false}
-        plugins={[autoplay.current]}
-        withKeyboardEvents
-        onMouseEnter={autoplay.current.stop}
-        onMouseLeave={autoplay.current.reset}
-        onSlideChange={(index) => {
-          carouselData.length === index + 1 ? setValue(0) : setValue(index + 1);
-        }}
-        getEmblaApi={setEmbla}
-        {...rest}
-      >
-        {carouselData.map((item, index) => {
-          return (
-            <Carousel.Slide key={index}>
-              <Image
-                height={index === value ? '500px' : '300px'}
-                mt={index === value ? '0' : '70px'}
-                src={item.imgSrc}
-                alt="carousel"
-              />
-              <Group position="center">
-                {item.title && (
-                  <>
-                    <Text size="xl">{item.title}</Text>{' '}
-                    <Button
-                      leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
-                      variant="outline"
-                      classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
-                    />
-                  </>
-                )}
-              </Group>
-            </Carousel.Slide>
-          );
-        })}
-      </Carousel>
-    </div>
+    <OwlCarousel id="product-testimonoals" className="owl-carousel owl-theme" {...options}>
+      {carouselData.map((item, index) => {
+        return (
+          <div key={index} className="item">
+            <Center>
+              <Image src={item.imgSrc} alt="carousel" />
+            </Center>
+            <Group position="center" className='-mt-16'>
+              {item.title && (
+                <>
+                  <Text size="xl">{item.title}</Text>
+                  <Button
+                    leftIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
+                    variant="outline"
+                    component={NextLink}
+                    href={'/product-detail'}
+                    classNames={{ leftIcon: classes.leftIcon, root: classes.root }}
+                  />
+                </>
+              )}
+            </Group>
+          </div>
+        );
+      })}
+    </OwlCarousel>
   );
 }
