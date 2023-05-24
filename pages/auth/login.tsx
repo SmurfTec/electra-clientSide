@@ -6,6 +6,7 @@ import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { useStyles } from './signup';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function Login() {
   const { classes } = useStyles();
@@ -23,11 +24,13 @@ export default function Login() {
     },
   });
   const router = useRouter();
+  const phone = useMediaQuery('(max-width: 600px)');
+
   return (
     <Grid m={0}>
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
         <ScrollArea
-          h={'100vh'}
+          h={phone ? "auto" :'100vh'}
           styles={{
             scrollbar: {
               '&[data-orientation="vertical"]': { marginRight: '-5px !important' },

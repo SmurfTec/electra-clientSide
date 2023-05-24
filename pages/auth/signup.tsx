@@ -3,6 +3,7 @@ import { Modal } from '@elektra/customComponents';
 import { useEmailVerificationModel } from '@elektra/hooks';
 import { Button, Container, Grid, Group, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 
 export const useStyles = createStyles((theme) => ({
@@ -39,6 +40,8 @@ export default function Signup() {
     },
   });
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
+  const phone = useMediaQuery('(max-width: 600px)');
+
   return (
     <Grid m={0}>
       <Modal
@@ -49,7 +52,7 @@ export default function Signup() {
        />
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
       <ScrollArea
-          h={'100vh'}
+          h={phone ? "auto" :'100vh'}
           styles={{
             scrollbar: {
               '&[data-orientation="vertical"]': { marginRight: '-5px !important' },
