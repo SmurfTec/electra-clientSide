@@ -12,12 +12,12 @@ export const Stats = ({ label, value, difference, price }: StateProps) => {
     <Stack className='my-4' >
       <Text className="text-sm font-medium">{label}</Text>
       {value && (
-        <Text size={40} className="font-bold text-black">
+        <Text size={33} className="font-bold text-black">
           {value}
         </Text>
       )}
       {price && (
-        <Text size={40} className="font-bold text-black">
+        <Text size={33} className="font-bold text-black">
           ${price}
         </Text>
       )}
