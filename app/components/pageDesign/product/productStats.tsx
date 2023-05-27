@@ -57,10 +57,10 @@ export const ProductStats = () => {
   const statData = isNew ? statDataNew : statDataUsed;
   return (
     <div>
-      <Paper radius={0} withBorder p={30}>
-        <Group position="apart" spacing={10}>
+      <Paper radius={0} withBorder py={30} >
+        <Group position="apart" px={60}>
           {statData.map((item, key) => (
-            <span key={key} className="md:flex space-x-4">
+            <span key={key} className="md:flex space-x-4 md:max-w-[20%]">
               <Stats difference={item.difference} label={item.label} value={item.value} price={item.price} />
               {statData.length !== key + 1 && (
                 <Divider
