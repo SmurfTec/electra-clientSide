@@ -76,7 +76,7 @@ export function ProductSpecification({
           />
           <Button
             onClick={techinalSpecificationHandler.open}
-            className="w-full h-16"
+            className="w-full h-14"
             rightIcon={<ChevronRight />}
             styles={{
               root: {
@@ -110,7 +110,7 @@ export function ProductSpecification({
             />
             <Button
               onClick={sellerDetailHandler.open}
-              className="w-full h-16 sm:h-20"
+              className="w-full h-14"
               rightIcon={<ChevronRight />}
               styles={{
                 root: {
@@ -256,16 +256,7 @@ export function ProductSpecification({
               >
                 Shop used starting at $400
               </Button>
-              <Group mt={14} align="center">
-                <Checkbox styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
-                <Text size="md" color="rgba(101, 101, 101, 0.55)">
-                  {' '}
-                  First Time buying click to see{' '}
-                  <Text component="a" underline className="font-[600]" size="md" color="black" href="/how-it-works">
-                    how it works
-                  </Text>{' '}
-                </Text>
-              </Group>
+           
             </Grid.Col>
           </Grid>
         </div>
