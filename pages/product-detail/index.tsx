@@ -19,6 +19,7 @@ import {
   Breadcrumbs,
   Button,
   Center,
+  Container,
   Divider,
   Grid,
   Image,
@@ -341,12 +342,12 @@ export default function ProductPage() {
   const matches = useMediaQuery('(max-width: 800px)', false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
-  const { scrollIntoView, targetRef, } = useScrollIntoView<HTMLDivElement>({
-    // offset: 60, 
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
+    // offset: 60,
     duration: 100,
   });
   return (
-    <div>
+    <Container size={1100}>
       {!matches && (
         <Breadcrumbs separator=">" mt={30}>
           {items}
@@ -361,9 +362,9 @@ export default function ProductPage() {
               </div>
             </Only>
             <Only when={isNew}>
-              <Image alt="product image" src="/images/productImage.png" />
+              <Image className='md:mt-[-80px]' alt="product image" src="/images/productImage.png" />
             </Only>
-            <Text className="text-xs font-medium mt-20">Have this item?</Text>
+            <Text className="text-xs font-medium">Have this item?</Text>
             <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
               Sell Now
             </Button>
@@ -485,6 +486,6 @@ export default function ProductPage() {
           })}
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

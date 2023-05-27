@@ -76,7 +76,7 @@ export function ProductSpecification({
           />
           <Button
             onClick={techinalSpecificationHandler.open}
-            className="w-full h-16 sm:h-20"
+            className="w-full h-16"
             rightIcon={<ChevronRight />}
             styles={{
               root: {
@@ -223,7 +223,7 @@ export function ProductSpecification({
                 component={NextLink}
                 href={condition === 'New' ? '/buy-offer?condition=new' : '/buy-offer'}
                 size={phone ? '16px' : '20px'}
-                className="w-full h-14 uppercase font-[200]"
+                className="w-full h-12 uppercase font-[200]"
                 bg="black"
               >
                 BUY NOW
@@ -234,7 +234,7 @@ export function ProductSpecification({
                 component={NextLink}
                 href={condition === 'New' ? '/place-offer?condition=new' : '/place-offer'}
                 size={phone ? '16px' : '20px'}
-                className="w-full h-14 uppercase font-[200]"
+                className="w-full h-12 uppercase font-[200]"
                 bg="black"
               >
                 PLACE OFFER
