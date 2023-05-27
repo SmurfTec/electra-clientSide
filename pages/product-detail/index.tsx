@@ -362,7 +362,7 @@ export default function ProductPage() {
               </div>
             </Only>
             <Only when={isNew}>
-              <Image className='mt-[-80px]' alt="product image" src="/images/productImage.png" />
+              <Image className='md:mt-[-80px]' alt="product image" src="/images/productImage.png" />
             </Only>
             <Text className="text-xs font-medium">Have this item?</Text>
             <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
