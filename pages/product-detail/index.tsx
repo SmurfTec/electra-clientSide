@@ -26,7 +26,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -171,146 +171,146 @@ const productData: ProductCardProps[] = [
     highestPrice: 500,
     price: 187,
   },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
+  // {
+  //   image: '/images/product.png',
+  //   link: '#',
+  //   title: 'Iphone 14 Pro max',
+  //   description: '9/10 condition with charger and box',
+  //   wishlist: false,
+  //   lowestPrice: null,
+  //   highestPrice: 500,
+  //   price: 187,
+  // },
 ];
 
 export type condition = 'New' | 'Used';
@@ -339,6 +339,9 @@ export default function ProductPage() {
   const matches = useMediaQuery('(max-width: 800px)', false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
+  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
+    offset: 60,
+  });
   return (
     <div>
       {!matches && (
@@ -380,6 +383,7 @@ export default function ProductPage() {
             sellerColor={productSpecificationData.sellerColor}
             sellerCapacity={productSpecificationData.sellerCapacity}
             sellerCarrier={productSpecificationData.sellerCarrier}
+            scrollIntoView={scrollIntoView}
           />
         </Grid.Col>
       </Grid>
@@ -394,7 +398,7 @@ export default function ProductPage() {
       <Only when={!matches}>
         <ProductFilter />
       </Only>
-      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
         {productData.slice(0, limit).map((product, index) => {
           return (
             <ProductCard

@@ -12,6 +12,7 @@ export const FooterMenu = () => {
         styles={{
           tabsList: { borderBottom: 'unset' },
           tab: {
+            backgroundColor: "unset !important",
             color: 'white',
             '&[data-active]': {
               color: 'white',
@@ -32,22 +33,22 @@ export const FooterMenu = () => {
               </Text>
             </Stack>
           </Tabs.Tab>
-          <Tabs.Tab value="/selling-search">
+          {/* <Tabs.Tab value="/selling-search">
             <Stack align="center" spacing={0}>
               <Box size={30} />
               <Text color="inherit" size={10} className="font-medium">
                 List Now
               </Text>
             </Stack>
-          </Tabs.Tab>
-          <Tabs.Tab value="/userdashboard?tab=selling">
+          </Tabs.Tab> */}
+          {/* <Tabs.Tab value="/userdashboard?tab=selling">
             <Stack align="center" spacing={0}>
               <ListCheck size={30} />
               <Text color="inherit" size={10} className="font-medium">
                 My Listing
               </Text>
             </Stack>
-          </Tabs.Tab>
+          </Tabs.Tab> */}
           <Tabs.Tab value="/notifications">
             <Stack align="center" spacing={0}>
               <Bell size={30} />
@@ -60,7 +61,7 @@ export const FooterMenu = () => {
             <Stack align="center" spacing={0}>
               <User size={30} />
               <Text color="inherit" size={10} className="font-medium">
-                Profile
+                Dashboard
               </Text>
             </Stack>
           </Tabs.Tab>
