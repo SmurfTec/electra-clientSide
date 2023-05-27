@@ -35,7 +35,7 @@ export function ProductCard({
     <Card className='relative rounded-none'>
       <Anchor component={NextLink} href={link} className="cursor-pointer" align='unset' underline={false}>
       <Card.Section >
-        <Paper bg={'#F5F5F5'} className="p-6 md:p-12 flex justify-center items-center">
+        <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center">
           <Image height={phone ? 90 :120} width={phone ? 80 :100} alt={image} src={image} className="h-1/4 w-1/2" />
         </Paper>
       </Card.Section>
