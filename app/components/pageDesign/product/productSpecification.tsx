@@ -245,7 +245,8 @@ export function ProductSpecification({
                 onClick={() => {
                   if (scrollIntoView) {
                     scrollIntoView({
-                      alignment: 'center',
+                      // alignment: 'center',
+                      
                     });
                   }
                 }}
