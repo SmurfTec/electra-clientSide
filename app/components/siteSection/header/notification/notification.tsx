@@ -23,9 +23,9 @@ export const Notification = () => {
       keepMounted={false}
     >
       <Menu.Target>
-        <ActionIcon className="hidden md:block" variant="transparent" size={'sm'}>
-          <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-            <Bell size={15} strokeWidth={1} />
+        <ActionIcon className="hidden md:block" variant="transparent" size={30}>
+          <Avatar radius={'xl'} variant="filled" color="black" size={30}>
+            <Bell size={18} strokeWidth={1} />
           </Avatar>
         </ActionIcon>
       </Menu.Target>
