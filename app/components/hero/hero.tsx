@@ -1,8 +1,8 @@
 import { Only } from '@elektra/customComponents';
-import { Button, createStyles, Text, Title } from '@mantine/core';
+import { Button, createStyles, Image } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import Image from 'next/image';
+
 
 export interface IHerocomponentProps {
   backgroundImage: string;
@@ -12,27 +12,29 @@ export interface IHerocomponentProps {
 }
 
 export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHerocomponentProps) => {
-  const { classes } = useStyles();
+  // const { classes } = useStyles();
 
-  const matches = useMediaQuery('(max-width: 800px)');
+  const matches = useMediaQuery('(max-width: 900px)');
   return (
-    <div className={classes.parent + "relative"}>
-      <Image alt="background-image" className={classes.image} layout="fill" objectFit="cover" src={backgroundImage} />
-      <div className={classes.container }>
-        <Text className={classes.title + "text-left text-white font-bold"} pr={100} size={matches ? 40 : 48} color="white">
-          {title}
-        </Text>
-        {subTitle && (
-          <Title className={classes.subtitle + "text-left text-white font-bold"} size={matches ? 40 : 48} color="white" order={1}>
+    <div>
+      <Image alt="background-image" src={backgroundImage} />
+      <div>
+        {/* {subTitle && (
+          <Title
+            className={classes.subtitle + 'text-left text-white font-bold'}
+            size={matches ? 40 : 48}
+            color="white"
+            order={1}
+          >
             {subTitle}
           </Title>
-        )}
+        )} */}
         <Only when={!matches}>
-          <div className=" mt-4 left-10">
-            <Button component={NextLink} href={href} size="md" uppercase color="blue">
-              Shop Today
-            </Button>
-          </div>
+        <div className="absolute top-1/2 -translate-x-1/2 left-[10.5%]">
+          <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">
+            Shop Today
+          </Button>
+        </div>
         </Only>
       </div>
     </div>
@@ -67,7 +69,6 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan('md')]: {
       textAlign: 'center',
       width: 'auto',
-      
     },
   },
 

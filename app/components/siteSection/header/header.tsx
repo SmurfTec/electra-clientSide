@@ -68,8 +68,8 @@ export const Header = () => {
                 Sell Now
               </Button> */}
 
-              <ActionIcon variant="transparent" className="block" size={'sm'} onClick={() => toggleSearch()}>
-                <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
+              <ActionIcon variant="transparent" className="block" size={30} onClick={() => toggleSearch()}>
+                <Avatar radius={'xl'} variant="filled" color="black" size="sm">
                   <IconSearch size={15} strokeWidth={1} />
                 </Avatar>
               </ActionIcon>
