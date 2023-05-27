@@ -1,5 +1,6 @@
 import { Only } from '@elektra/customComponents';
 import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Heart } from 'tabler-icons-react';
 
@@ -28,20 +29,22 @@ export function ProductCard({
 }: ProductCardProps) {
 
   const theme = useMantineTheme();
+  const phone = useMediaQuery('(max-width: 600px)');
 
   return (
     <Card className='relative rounded-none'>
       <Anchor component={NextLink} href={link} className="cursor-pointer" align='unset' underline={false}>
       <Card.Section >
-        <Paper bg={'#F5F5F5'} className="p-12 flex justify-center items-center">
-          <Image height={120} width={100} alt={image} src={image} className="h-1/4 w-1/2" />
+        <Paper bg={'#F5F5F5'} className="p-6 md:p-12 flex justify-center items-center">
+          <Image height={phone ? 90 :120} width={phone ? 80 :100} alt={image} src={image} className="h-1/4 w-1/2" />
         </Paper>
       </Card.Section>
       <Only when={!!rating}>
         <Badge
+        size={phone?'sm':'md'}
           className={clsx(
             rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
-            'absolute text-white pointer-events-none bg-black top-6 right-2'
+            'absolute text-white pointer-events-none  bg-black top-6 right-2'
           )}
         >
           {rating}

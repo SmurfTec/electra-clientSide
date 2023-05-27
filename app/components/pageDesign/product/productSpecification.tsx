@@ -23,6 +23,7 @@ export type ProductSpecificationProps = {
   lowestAsk: number;
   highestAsk: number;
   price: number;
+  scrollIntoView?: ({ alignment }?: any | undefined) => void;
 };
 
 export function ProductSpecification({
@@ -41,6 +42,7 @@ export function ProductSpecification({
   sellerCarrier,
   sellerColor,
   sellerCondition,
+  scrollIntoView,
 }: ProductSpecificationProps) {
   const theme = useMantineTheme();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
@@ -239,7 +241,19 @@ export function ProductSpecification({
               </Button>
             </Grid.Col>
             <Grid.Col span={12}>
-              <Button component={NextLink} href="/shop" size="16px" className="font-[500] h-12 w-full" bg="#3C82D6">
+              <Button
+                onClick={() => {
+                  if (scrollIntoView) {
+                    scrollIntoView({
+                      // alignment: 'center',
+                      
+                    });
+                  }
+                }}
+                size="16px"
+                className="font-[500] h-12 w-full"
+                bg="#3C82D6"
+              >
                 Shop used starting at $400
               </Button>
               <Group mt={14} align="center">
@@ -247,7 +261,7 @@ export function ProductSpecification({
                 <Text size="md" color="rgba(101, 101, 101, 0.55)">
                   {' '}
                   First Time buying click to see{' '}
-                  <Text component="a" underline className='font-[600]' size="md" color="black" href="/how-it-works">
+                  <Text component="a" underline className="font-[600]" size="md" color="black" href="/how-it-works">
                     how it works
                   </Text>{' '}
                 </Text>

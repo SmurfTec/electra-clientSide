@@ -1,19 +1,23 @@
 import { Carousel } from '@mantine/carousel';
-import { Image } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import Autoplay from 'embla-carousel-autoplay';
-import { useRef } from 'react';
-import { IHerocomponentProps } from './hero';
 import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import Herocomponent from './hero';
 
-const data: Array<IHerocomponentProps> = [
+const data = [
   {
     backgroundImage: '/images/img.png',
+    tabletImage: '/images/tabletBackground.png',
+    phoneImage: '/images/phoneBackground.png',
     title: 'New Iphone 14',
     subTitle: ' Packages',
     href: '/shop',
   },
   {
     backgroundImage: '/images/img.png',
+    tabletImage: '/images/tabletBackground.png',
+    phoneImage: '/images/phoneBackground.png',
     title: 'New Iphone 12',
     subTitle: ' Packages',
     href: '/shop',
@@ -22,7 +26,11 @@ const data: Array<IHerocomponentProps> = [
 
 export function HeroImage() {
   const autoplay = useRef(Autoplay({ delay: 4000 }));
-  const router = useRouter()
+  const router = useRouter();
+  const phone = useMediaQuery('(max-width: 400px)');
+
+  const tablet = useMediaQuery('(max-width: 900px)');
+
   return (
     <Carousel
       plugins={[autoplay.current]}
@@ -49,14 +57,14 @@ export function HeroImage() {
       className="w-full"
     >
       {data.map((item, index) => (
-        <Carousel.Slide className='cursor-pointer' onClick={() => router.push("/shop")} key={index}>
-          {/* <Herocomponent
-            backgroundImage={item.backgroundImage}
+        <Carousel.Slide className="cursor-pointer" onClick={() => router.push('/shop')} key={index}>
+          <Herocomponent
+            backgroundImage={phone ? item.phoneImage : tablet ? item.tabletImage : item.backgroundImage}
             title={item.title}
             subTitle={item.subTitle}
             href={item.href}
-          /> */}
-          <Image alt="background-image" src={item.backgroundImage} />
+          />
+          {/* <Image alt="background-image" src={item.backgroundImage} fit='fill' height={phone ? "200px" : undefined} /> */}
         </Carousel.Slide>
       ))}
     </Carousel>

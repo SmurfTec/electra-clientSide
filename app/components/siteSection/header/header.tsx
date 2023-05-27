@@ -1,5 +1,5 @@
 import { ActionIcon, Avatar, Button, Center, Flex, Grid, Group, Menu, Text, createStyles } from '@mantine/core';
-import { useToggle } from '@mantine/hooks';
+import { useDisclosure, useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ArrowNarrowRight, Bell, CaretDown, CaretUp, Search as IconSearch, Settings, User } from 'tabler-icons-react';
 import { HeaderMenu } from './menuBar';
@@ -8,7 +8,7 @@ import { Search } from './search';
 import { HeaderTopBar } from './topBar';
 
 export const Header = () => {
-  const [isMenuOpen, toggle] = useToggle<boolean>([false, true]);
+  const [isMenuOpen, {toggle}]  = useDisclosure(false);
   const [isSearchOpen, toggleSearch] = useToggle<boolean>([false, true]);
   const { classes } = useStylesMenu();
   return (
@@ -28,12 +28,12 @@ export const Header = () => {
               keepMounted={false}
             >
               <Menu.Target>
-                <ActionIcon onClick={() => toggle()} size={'xl'} className="space-x-1" variant="transparent">
-                  <Settings size={35} color="black" strokeWidth={1} />
+                <ActionIcon onClick={toggle} size={'xl'} className="space-x-1" variant="transparent">
+                  <Settings size={70} color="black" strokeWidth={1} />
                   {isMenuOpen ? (
-                    <CaretUp color="black" fill="black" size={10} />
+                    <CaretUp color="black" fill="black" size={20} />
                   ) : (
-                    <CaretDown color="black" fill="black" size={10} />
+                    <CaretDown color="black" fill="black" size={20} />
                   )}
                 </ActionIcon>
               </Menu.Target>
@@ -59,18 +59,10 @@ export const Header = () => {
             </Grid.Col>
             <Grid.Col span={3}>
             <Flex justify={"flex-end"} gap={8}>
-              {/* <ActionIcon component={NextLink} className='hidden md:block' variant="transparent" size={'sm'} href={'/selling-search'}>
-                <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-                  <ShoppingCart size={15} strokeWidth={1} />
-                </Avatar>
-              </ActionIcon> */}
-              <Button component={NextLink} className="hidden md:block" size={'xs'} href={'/selling-search'}>
-                Sell Now
-              </Button>
 
-              <ActionIcon variant="transparent" className="block" size={'sm'} onClick={() => toggleSearch()}>
-                <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-                  <IconSearch size={15} strokeWidth={1} />
+              <ActionIcon variant="transparent" className="block" size={30} onClick={() => toggleSearch()}>
+                <Avatar radius={'xl'} variant="filled" color="black" size={30}>
+                  <IconSearch size={18} strokeWidth={1} />
                 </Avatar>
               </ActionIcon>
              <Notification />
@@ -85,9 +77,9 @@ export const Header = () => {
                 keepMounted={false}
               >
                 <Menu.Target>
-                  <ActionIcon className="hidden md:block" variant="transparent" size={'sm'}>
-                    <Avatar radius={'xl'} variant="filled" color="black" size={'sm'}>
-                      <User size={15} strokeWidth={1} />
+                  <ActionIcon className="hidden md:block" variant="transparent" size={30}>
+                    <Avatar radius={'xl'} variant="filled" color="black" size={30}>
+                      <User size={18} strokeWidth={1} />
                     </Avatar>
                   </ActionIcon>
                 </Menu.Target>

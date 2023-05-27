@@ -1,5 +1,5 @@
 import { Button, CloseButton, Group, Text, TextInput } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useFocusTrap, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Dispatch, SetStateAction } from 'react';
 import { Search } from 'tabler-icons-react';
@@ -11,6 +11,7 @@ type HeaderSearchProps = {
 };
 
 export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
+  const focusTrapRef = useFocusTrap();
   const matches = useMediaQuery('(min-width: 810px)', false);
   return (
     <Group position="apart" my={15} className="md:px-10 px-4">
@@ -18,14 +19,15 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
         Elektra
       </Text>
       <TextInput
+        ref={focusTrapRef}
         icon={<Search size="1.1rem" strokeWidth={1.5} />}
         radius="xl"
         value={state}
-        styles={(theme)=>({
+        styles={(theme) => ({
           input: {
-             paddingRight: 250,
-             backgroundColor:'rgba(17, 17, 17, 1)',
-             color: 'white',
+            paddingRight: 250,
+            backgroundColor: 'rgba(17, 17, 17, 1)',
+            color: 'white',
             [theme.fn.smallerThan(810)]: {
               paddingRight: 50,
             },
@@ -39,7 +41,7 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
       />
       <Button
         onClick={close}
-        styles={(theme)=>({
+        styles={(theme) => ({
           root: {
             borderRadius: 0,
             [theme.fn.smallerThan(810)]: {

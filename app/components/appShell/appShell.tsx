@@ -1,3 +1,4 @@
+import { Only } from '@elektra/customComponents';
 import { ActionIcon, Affix, Container, Stack, Text, rem } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -17,7 +18,8 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
       {header}
       <Container size={1300}>{children}</Container>
       {footer}
-      <Affix position={{ bottom: rem(phone?90:30), right: rem(20) }}>
+      <Only when={!phone}>
+      <Affix position={{ bottom: rem(30), right: rem(20) }}>
         <ActionIcon color="blue" radius="xl" size={60} variant="filled" component={NextLink} href="/selling-search">
           <Stack align='center' spacing={0}>
           <ShoppingCartPlus size={20} />
@@ -27,6 +29,7 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
           </Stack>
         </ActionIcon>
       </Affix>
+      </Only>
     </>
   );
 };

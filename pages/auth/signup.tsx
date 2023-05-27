@@ -1,8 +1,9 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
 import { Modal } from '@elektra/customComponents';
 import { useEmailVerificationModel } from '@elektra/hooks';
-import { Button, Container, Grid, Group, PasswordInput, Text, TextInput, createStyles } from '@mantine/core';
+import { Button, Container, Grid, Group, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 
 export const useStyles = createStyles((theme) => ({
@@ -39,6 +40,8 @@ export default function Signup() {
     },
   });
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
+  const phone = useMediaQuery('(max-width: 600px)');
+
   return (
     <Grid m={0}>
       <Modal
@@ -48,6 +51,14 @@ export default function Signup() {
          open={emailOpened}
        />
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
+      <ScrollArea
+          h={phone ? "auto" :'100vh'}
+          styles={{
+            scrollbar: {
+              '&[data-orientation="vertical"]': { marginRight: '-5px !important' },
+            },
+          }}
+        >
         <Container className="my-5">
           <Group className="mb-10">
             <Logo />
@@ -103,6 +114,7 @@ export default function Signup() {
           </div>
           <BottomLine />
         </Container>
+        </ScrollArea>
       </Grid.Col>
       <Grid.Col order={1} orderSm={2} xs={12} sm={7} md={8} className={classes.wrapper}>
         <RightPanel />

@@ -59,12 +59,12 @@ const BiddingSummaryData: BiddingSummaryProps = {
 };
 
 export default function BuyingSummary() {
-  const router = useRouter()
-  const isOffer = router.query['type'] === 'offer'
-  const [plan, setPlan] = useState<string>('')
+  const router = useRouter();
+  const isOffer = router.query['type'] === 'offer';
+  const [plan, setPlan] = useState<string>('');
   return (
-    <Radio.Group mt={50} onChange={(value) => setPlan(value)}>
-      <PageTitle title={isOffer ? "Offer Summary" :"Buying Summary"} />
+    <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
+      <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
 
       <Grid>
         <Grid.Col xs={12} sm={6}>
@@ -97,7 +97,7 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
 
-        <Grid.Col xs={12} sm={6}>
+        <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData.title)}>
           <div className="overflow-y-auto h-full">
             <ProtectPlan
               title={protectPlanData.title}
@@ -106,7 +106,7 @@ export default function BuyingSummary() {
             />
           </div>
         </Grid.Col>
-        <Grid.Col xs={12} sm={6}>
+        <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData2.title)}>
           <ProtectPlan
             title={protectPlanData2.title}
             content={protectPlanData2.content}
@@ -114,8 +114,9 @@ export default function BuyingSummary() {
           />
         </Grid.Col>
       </Grid>
-
-      <SummaryFooter />
+      <div onClick={() => setPlan("No")}>
+        <SummaryFooter />
+      </div>
     </Radio.Group>
   );
 }
