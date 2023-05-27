@@ -52,12 +52,12 @@ export function ProductSpecification({
   const phone = useMediaQuery('(max-width: 600px)');
   return (
     <div>
-      <div className="space-y-2 mt-8 xs:mt-auto">
+      <div className="space-y-2 ">
         <Title className="uppercase" color={'#656565'} order={6}>
           About Product
         </Title>
         <Group position="apart" align="center">
-          <Title className="font-bold uppercase" size={phone ? '20px' : '40px'} color={'black'} order={3}>
+          <Title className="font-bold uppercase" size={phone ? '20px' : '30px'} color={'black'} order={3}>
             {title}
           </Title>
           <span className="bg-[#D9E2E98F] rounded-2xl w-8 h-8 relative">
@@ -174,7 +174,7 @@ export function ProductSpecification({
           </Only>
 
           <Only when={condition === 'New'}>
-            <div className="space-y-5">
+            <div className="space-y-3">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
                   CONDITION
@@ -223,7 +223,7 @@ export function ProductSpecification({
                 component={NextLink}
                 href={condition === 'New' ? '/buy-offer?condition=new' : '/buy-offer'}
                 size={phone ? '16px' : '20px'}
-                className="w-full h-12 uppercase font-[200]"
+                className="w-full h-10 uppercase font-[200]"
                 bg="black"
               >
                 BUY NOW
@@ -234,24 +234,21 @@ export function ProductSpecification({
                 component={NextLink}
                 href={condition === 'New' ? '/place-offer?condition=new' : '/place-offer'}
                 size={phone ? '16px' : '20px'}
-                className="w-full h-12 uppercase font-[200]"
+                className="w-full h-10 uppercase font-[200]"
                 bg="black"
               >
                 PLACE OFFER
               </Button>
             </Grid.Col>
-            <Grid.Col span={12}>
+            <Grid.Col span={12} className='mt-[-15px]'>
               <Button
                 onClick={() => {
                   if (scrollIntoView) {
-                    scrollIntoView({
-                      // alignment: 'center',
-                      
-                    });
+                    scrollIntoView();
                   }
                 }}
                 size="16px"
-                className="font-[500] h-12 w-full"
+                className="font-[500] h-10 w-full"
                 bg="#3C82D6"
               >
                 Shop used starting at $400
@@ -273,7 +270,7 @@ export type ChipDisplayProps = {
 export function ChipDisplay({ data, item }: ChipDisplayProps) {
   const theme = useMantineTheme();
   return (
-    <div>
+    
       <Chip.Group>
         <Group className="space-x-4">
           {data.map((value, index) => (
@@ -308,6 +305,6 @@ export function ChipDisplay({ data, item }: ChipDisplayProps) {
           ))}
         </Group>
       </Chip.Group>
-    </div>
+    
   );
 }
