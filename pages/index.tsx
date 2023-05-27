@@ -426,7 +426,7 @@ export function Index() {
         />
         </div>
       </section>
-      <section className="md:mt-[-60px]">
+      <section className="">
         <SectionTitle title="Brands" />
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
           <ScrollArea type="hover" scrollbarSize={5}>

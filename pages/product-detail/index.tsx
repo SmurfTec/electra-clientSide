@@ -22,6 +22,7 @@ import {
   Divider,
   Grid,
   Image,
+  Pagination,
   Paper,
   Stack,
   Text,
@@ -171,56 +172,56 @@ const productData: ProductCardProps[] = [
     highestPrice: 500,
     price: 187,
   },
-  // {
-  //   image: '/images/product.png',
-  //   link: '#',
-  //   title: 'Iphone 14 Pro max',
-  //   description: '9/10 condition with charger and box',
-  //   wishlist: false,
-  //   lowestPrice: null,
-  //   highestPrice: 500,
-  //   price: 187,
-  // },
-  // {
-  //   image: '/images/product.png',
-  //   link: '#',
-  //   title: 'Iphone 14 Pro max',
-  //   description: '9/10 condition with charger and box',
-  //   wishlist: false,
-  //   lowestPrice: null,
-  //   highestPrice: 500,
-  //   price: 187,
-  // },
-  // {
-  //   image: '/images/product.png',
-  //   link: '#',
-  //   title: 'Iphone 14 Pro max',
-  //   description: '9/10 condition with charger and box',
-  //   wishlist: false,
-  //   lowestPrice: null,
-  //   highestPrice: 500,
-  //   price: 187,
-  // },
-  // {
-  //   image: '/images/product.png',
-  //   link: '#',
-  //   title: 'Iphone 14 Pro max',
-  //   description: '9/10 condition with charger and box',
-  //   wishlist: false,
-  //   lowestPrice: null,
-  //   highestPrice: 500,
-  //   price: 187,
-  // },
-  // {
-  //   image: '/images/product.png',
-  //   link: '#',
-  //   title: 'Iphone 14 Pro max',
-  //   description: '9/10 condition with charger and box',
-  //   wishlist: false,
-  //   lowestPrice: null,
-  //   highestPrice: 500,
-  //   price: 187,
-  // },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
+  {
+    image: '/images/product.png',
+    link: '#',
+    title: 'Iphone 14 Pro max',
+    description: '9/10 condition with charger and box',
+    wishlist: false,
+    lowestPrice: null,
+    highestPrice: 500,
+    price: 187,
+  },
   // {
   //   image: '/images/product.png',
   //   link: '#',
@@ -334,13 +335,15 @@ const items = [
 
 export default function ProductPage() {
   const router = useRouter();
+  const [activePage, setPage] = useState(1);
   const [FilterModal, filterOpened, filterHandler] = useFilterModal();
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
-  const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
-    offset: 60,
+  const { scrollIntoView, targetRef, } = useScrollIntoView<HTMLDivElement>({
+    // offset: 60, 
+    duration: 100,
   });
   return (
     <div>
@@ -418,12 +421,29 @@ export default function ProductPage() {
       </div>
 
       <Center className="mt-20 space-x-3">
-        <Text size={16} className="font-[600]" color="black" >
-          View More
-        </Text>
-        <ActionIcon variant="outline" className="rounded-xl w-9 border-black" onClick={() => setLimit((prev) => prev + 5)}>
-          <ArrowDown size={20} color="black" />
-        </ActionIcon>
+        <Only when={limit <= 5}>
+          <Text size={16} className="font-[600]" color="black">
+            View More
+          </Text>
+
+          <ActionIcon
+            variant="outline"
+            className="rounded-xl w-9 border-black"
+            onClick={() => setLimit((prev) => prev + 10)}
+          >
+            <ArrowDown size={20} color="black" />
+          </ActionIcon>
+        </Only>
+        <Only when={limit > 5}>
+          <Pagination
+            className="mb-16"
+            withControls={false}
+            position="center"
+            value={activePage}
+            onChange={setPage}
+            total={10}
+          />
+        </Only>
       </Center>
       <div className="mt-4">
         <ProductStats />
@@ -447,7 +467,7 @@ export default function ProductPage() {
       <div className="pb-6">
         <SectionTitle title="Recommended New Items" />
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
+          {productData.slice(0, 5).map((product, index) => {
             return (
               <ProductCard
                 key={index}
