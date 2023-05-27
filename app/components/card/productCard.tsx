@@ -41,9 +41,10 @@ export function ProductCard({
       </Card.Section>
       <Only when={!!rating}>
         <Badge
+        size={phone?'sm':'md'}
           className={clsx(
             rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
-            'absolute text-white pointer-events-none bg-black top-6 right-2'
+            'absolute text-white pointer-events-none  bg-black top-6 right-2'
           )}
         >
           {rating}
