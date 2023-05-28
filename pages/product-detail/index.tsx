@@ -343,13 +343,12 @@ export default function ProductPage() {
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
-    // offset: 60,
     duration: 100,
   });
   return (
-    <Container size={1100}>
+    <>
       {!matches && (
-        <Breadcrumbs separator=">" mt={10} mb={20}>
+        <Breadcrumbs separator=">" mt={30} mb={20}>
           {items}
         </Breadcrumbs>
       )}
@@ -486,6 +485,6 @@ export default function ProductPage() {
           })}
         </div>
       </div>
-    </Container>
+    </>
   );
 }

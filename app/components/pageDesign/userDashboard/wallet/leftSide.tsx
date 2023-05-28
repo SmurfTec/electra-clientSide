@@ -34,16 +34,16 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
           />
         </Flex>
       </Paper>
-      <Group position="apart"  mt={40}>
+      <Group  mt={40}>
         <MarketCard
           withBorder={mediumdScreen?true:false}
           icon={'/images/marketplace1.png'}
           label="Total Sales"
           amount={330}
-          px={mediumdScreen?38:20}
+          px={30}
           py={40}
+          miw={150}
           mah={mediumdScreen?140:100}
-          maw={mediumdScreen?170:140}
         />
 
         <MarketCard
@@ -51,20 +51,20 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
           icon={'/images/marketplace2.png'}
           label="Proceeds"
           amount={215}
-          px={mediumdScreen?40:20}
+          px={30}
           py={40}
+          miw={150}
           mah={mediumdScreen?140:100}
-          maw={mediumdScreen?190:140}
         />
         <MarketCard
         withBorder={mediumdScreen?true:false}
           icon={'/images/marketplace3.png'}
           label="Marketplace fee"
           amount={115}
-          px={mediumdScreen?30:20}
+          px={30}
           py={40}
+          miw={150}
           mah={mediumdScreen?140:100}
-          maw={mediumdScreen?170:140}
         />
       </Group>
       <Text className="text-[11px] md:text-base font-medium mt-10">
@@ -83,7 +83,7 @@ function MarketCard({ icon, label, amount, ...rest }: MarketCardProps) {
   return (
     <Paper radius={25} className="relative" {...rest}>
       <div className='text-center'>
-      <Text className="text-[10px] md:text-sm font-medium" >
+      <Text className="text-[11px]  font-medium" >
         {label}
       </Text>
       <Text className="text-base md:text-4xl text-black font-bold">

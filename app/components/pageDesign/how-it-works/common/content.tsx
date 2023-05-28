@@ -9,8 +9,8 @@ type HIWContentProps = {
 export function HIWContent({ image, content, title }: HIWContentProps) {
   const theme = useMantineTheme();
   return (
-    <div className="mt-16">
-      <Grid>
+    <div className="my-16 mb-[200px]">
+      <Grid className='mb-20'>
         <Grid.Col xs={6}>
           <div className="relative">
             <Image className="md:absolute right-0 -top-8" alt={image} width="80%" src={image} />

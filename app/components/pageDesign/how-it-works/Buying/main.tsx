@@ -26,7 +26,7 @@ const tabViewData: tabViewData[] = [
 export function Buying() {
   return (
     <section className="mt-24">
-      <Container size="md">
+      <Container size="md" className='mb-20'>
         <TabView
           position="center"
           styles={{ 

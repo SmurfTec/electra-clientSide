@@ -29,14 +29,13 @@ export function BiddingSummary({
   disabled,
   protectionPlan,
 }: BiddingSummaryProps) {
-  const theme = useMantineTheme();
   const router = useRouter();
   const { classes } = useStylesforGlobal();
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const isBuying = router.query['condition'] === 'buying';
   return (
     <div
-      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'auto' }}
+      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'hidden' }}
       className="p-8 rounded-xl space-y-3 h-full md:absolute md:h-full md:w-full"
     >
       <Group className="space-x-4" position="apart">
