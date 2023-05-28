@@ -294,7 +294,6 @@ export function Index() {
               return (
                 <div key={index} className='min-w-[15%]'>
                   <ProductCard
-                    
                     image={product.image}
                     description={product.description}
                     link={product.link}
@@ -426,7 +425,7 @@ export function Index() {
 
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className="-mt-36 md:-mt-64 text-center">
+        <div className="-mt-36 md:-mt-64 text-center ml-8 md:-ml-12">
           <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
