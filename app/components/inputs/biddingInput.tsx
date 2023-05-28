@@ -14,7 +14,7 @@ export function BiddingInput({ title, value }: BiddingInputProps) {
         styles={{
           root: {
             border: '2.5px solid black !important',
-            padding: '6px !important',
+            padding: '2px !important',
           },
           input: {
             '&[data-disabled]': {
@@ -27,7 +27,7 @@ export function BiddingInput({ title, value }: BiddingInputProps) {
             fontWeight: 'bold',
           },
           label: {
-            fontSize: '12px',
+            fontSize: '10px',
             color: '#656565',
             paddingLeft: '14px !important',
             display: 'block',

@@ -83,7 +83,7 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>
-          <div className="relative h-full">
+          <div className=" relative h-full">
             <BiddingSummary
               yourOffer={BiddingSummaryData.yourOffer}
               discount={BiddingSummaryData.discount}

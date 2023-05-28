@@ -13,7 +13,7 @@ export function SectionTitle({ title, label }: SectionTitleProps) {
   const phone = useMediaQuery('(max-width: 600px)');
   return (
     <Group position="apart" mb={20}>
-      <Title className="font-bold" order={4} size={phone ? 16 : "auto"}>
+      <Title className="font-bold" order={4} size={phone ? 16 : 30}>
         {title}
       </Title>
       <Only when={!!label}>
