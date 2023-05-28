@@ -53,7 +53,7 @@ export function ProductSpecification({
   return (
     <div>
       <div className="space-y-2 ">
-        <Title className="uppercase" color={'#656565'} order={6}>
+        <Title className="uppercase mt-6 md:mt-0" color={'#656565'} order={6}>
           About Product
         </Title>
         <Group position="apart" align="center">

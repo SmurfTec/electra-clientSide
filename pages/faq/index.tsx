@@ -1,11 +1,12 @@
-import { Accordion, Container, Divider, SimpleGrid, Title, useMantineTheme } from '@mantine/core';
+import { Accordion, Divider, SimpleGrid, Title, useMantineTheme } from '@mantine/core';
 import { Plus } from 'tabler-icons-react';
 
 export default function FAQ() {
   const theme = useMantineTheme();
   return (
-    <Container size="xl" mt={70}>
-      <Title className="font-bold" order={4}>
+    // <Container size="xl" mt={70}>
+    <>
+      <Title className="font-bold" mt={70} order={4}>
         FAQs
       </Title>
       <Divider my={'sm'}></Divider>
@@ -76,6 +77,6 @@ export default function FAQ() {
           </Accordion.Item>
         </SimpleGrid>
       </Accordion>
-    </Container>
+    </>
   );
 }
