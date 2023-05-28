@@ -1,12 +1,12 @@
   .active img{
-    width: 400px !important;
-    height: 450px !important;
+    width: 370px !important;
+    height: 400px !important;
   }
 
   @media screen and (max-width: 800px) {
     .active img{
-      width: 250px !important;
-      height: 300px !important;
+      width: 200px !important;
+      height: 220px !important;
     }
   }
 
