@@ -78,13 +78,13 @@ export function ProductCard({
           Condition : {rating ?? "Used"}
         </Text>
         <Group className="mt-4">
-          <div>
+          <div className='max-w-[30%]'>
             <Text className="text-[#656565]" size={'xs'}>
               Lowest Price
             </Text>
             <Title order={5}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
           </div>
-          <div>
+          <div className='max-w-[30%]'>
             <Text className="text-[#656565]" size={'xs'}>
               Highest Price
             </Text>

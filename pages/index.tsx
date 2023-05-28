@@ -287,27 +287,29 @@ export function Index() {
 
       <section className="mt-8 md:mt-20">
         <SectionTitle title="Recommended For You" label="View All" />
-        <ScrollArea offsetScrollbars h={350}>
-          <Center className='space-x-8 md:space-x-16'>
-        {/* <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5"> */}
-          {productData.map((product, index) => {
-            return (
-              <ProductCard
-                key={index}
-                image={product.image}
-                description={product.description}
-                link={product.link}
-                title={product.title}
-                rating={product.rating}
-                wishlist={product.wishlist}
-                lowestPrice={product.lowestPrice ?? null}
-                highestPrice={product.highestPrice ?? null}
-                price={product.price}
-              />
-            );
-          })}
-        {/* </div> */}
-        </Center>
+        <ScrollArea>
+          <Center className="space-x-8 md:space-x-16">
+            {/* <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5"> */}
+            {productData.map((product, index) => {
+              return (
+                <div key={index} className='min-w-[15%]'>
+                  <ProductCard
+                    
+                    image={product.image}
+                    description={product.description}
+                    link={product.link}
+                    title={product.title}
+                    rating={product.rating}
+                    wishlist={product.wishlist}
+                    lowestPrice={product.lowestPrice ?? null}
+                    highestPrice={product.highestPrice ?? null}
+                    price={product.price}
+                  />
+                </div>
+              );
+            })}
+            {/* </div> */}
+          </Center>
         </ScrollArea>
       </section>
 
@@ -424,10 +426,8 @@ export function Index() {
 
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className='-mt-36 md:-mt-64 text-center'>
-        <BannerCarousel
-          carouselData={carouselData}
-        />
+        <div className="-mt-36 md:-mt-64 text-center">
+          <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
       <section className="">
