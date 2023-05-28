@@ -343,21 +343,20 @@ export default function ProductPage() {
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
-    // offset: 60,
     duration: 100,
   });
   return (
-    <Container size={1100}>
+    <>
       {!matches && (
-        <Breadcrumbs separator=">" mt={30}>
+        <Breadcrumbs separator=">" mt={30} mb={20}>
           {items}
         </Breadcrumbs>
       )}
       <Grid>
-        <Grid.Col sm={6} mt={matches ? 0 : 140}>
+        <Grid.Col sm={6} mt={matches ? 0 : 40}>
           <Stack align="center" justify="center" className="w-full">
             <Only when={!isNew}>
-              <div className="md:ml-10 -ml-4 md:w-auto w-screen mt-5">
+              <div className="md:ml-10 -ml-4 md:w-auto w-screen md:mt-[-70px] ">
                 <ProductCarousel className="ml-2" />
               </div>
             </Only>
@@ -391,7 +390,7 @@ export default function ProductPage() {
           />
         </Grid.Col>
       </Grid>
-      <Divider className="my-10" />
+      <Divider className="my-4" />
       <SectionTitle title="Used iPhone 14 Pro Max" />
       <Only when={matches}>
         <Button onClick={filterHandler.open} leftIcon={<Filter />}>
@@ -486,6 +485,6 @@ export default function ProductPage() {
           })}
         </div>
       </div>
-    </Container>
+    </>
   );
 }

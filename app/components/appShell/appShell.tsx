@@ -16,7 +16,7 @@ export const AppShell = ({ header, children, footer }: AppShellProps) => {
   return (
     <>
       {header}
-      <Container size={1300}>{children}</Container>
+      <Container size={1100}>{children}</Container>
       {footer}
       <Only when={!phone}>
       <Affix position={{ bottom: rem(30), right: rem(20) }}>

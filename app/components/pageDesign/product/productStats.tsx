@@ -57,7 +57,7 @@ export const ProductStats = () => {
   const statData = isNew ? statDataNew : statDataUsed;
   return (
     <div>
-      <Paper radius={0} withBorder py={30} >
+      <Paper radius={0} withBorder py={10} >
         <Group position="apart" px={60}>
           {statData.map((item, key) => (
             <span key={key} className="md:flex space-x-4 md:max-w-[20%]">

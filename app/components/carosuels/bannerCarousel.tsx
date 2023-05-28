@@ -53,7 +53,7 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
             <Center>
               <Image src={item.imgSrc} alt="carousel" />
             </Center>
-            <Group position="center" className='-mt-16'>
+            <Group position="center" className='-mt-10 ml-12 md:-mt-16'>
               {item.title && (
                 <>
                   <Text size="xl">{item.title}</Text>
