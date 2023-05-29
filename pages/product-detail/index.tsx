@@ -22,9 +22,11 @@ import {
   Container,
   Divider,
   Grid,
+  Group,
   Image,
   Pagination,
   Paper,
+  ScrollArea,
   Stack,
   Text,
 } from '@mantine/core';
@@ -391,12 +393,14 @@ export default function ProductPage() {
         </Grid.Col>
       </Grid>
       <Divider className="my-4" />
+      <Group position='apart'  align='top'>
       <SectionTitle title="Used iPhone 14 Pro Max" />
       <Only when={matches}>
         <Button onClick={filterHandler.open} leftIcon={<Filter />}>
           Filter
         </Button>
       </Only>
+      </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!matches}>
         <ProductFilter />
@@ -461,13 +465,14 @@ export default function ProductPage() {
           </Paper>
         </div>
       </Only>
-      <div className="my-24">
+      <div className="my-10">
         <ProductCharts />
       </div>
-      <div className="pb-6">
+      <div className="">
         <SectionTitle title="Recommended New Items" />
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.slice(0, 5).map((product, index) => {
+        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          <Center className="space-x-8 md:space-x-16">
+            {productData.slice(0, 5).map((product, index) => {
             return (
               <ProductCard
                 key={index}
@@ -483,7 +488,8 @@ export default function ProductPage() {
               />
             );
           })}
-        </div>
+         </Center>
+        </ScrollArea>
       </div>
     </>
   );

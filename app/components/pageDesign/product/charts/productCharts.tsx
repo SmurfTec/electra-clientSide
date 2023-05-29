@@ -4,7 +4,7 @@ import { BarChart } from './barChart';
 import { useMediaQuery } from '@mantine/hooks';
 ChartJS.register(...registerables);
 
-const chartLables = [
+const chartLables1Y = [
   'January',
   'February',
   'March',
@@ -18,13 +18,26 @@ const chartLables = [
   'November',
   'December',
 ];
+const chartLables6M = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+];
+const chartLables3M = [
+  'January',
+  'February',
+  'March',
+];
 const chartdataset3 = [
-  { label: 'Price', data: [6000, 6200, 4200, 3200, 6800, 4000, 4300, 7400, 5100, 7200, 4200, 7000] },
-  { label: 'Sales', data: [5000, 4800, 4600, 4200, 4100, 5000, 6700, 4800, 6600, 9200, 6200, 6900] },
+  { label: 'Price', data: [6000, 6200, 4200 ] },
+  { label: 'Sales', data: [5000, 4800, 4600] },
 ];
 const chartdataset6 = [
-  { label: 'Price', data: [4000, 6800, 4900, 3200, 5800, 4000, 6300, 5400, 5100, 6200, 4200, 4000] },
-  { label: 'Sales', data: [5800, 4800, 4600, 5200, 4100, 5800, 4700, 7800, 3600, 4200, 7200, 9100] },
+  { label: 'Price', data: [4000, 6800, 4900, 3200, 5800, 4000] },
+  { label: 'Sales', data: [5800, 4800, 4600, 5200, 4100, 5800] },
 ];
 const chartdataset1 = [
   { label: 'Price', data: [5000, 6800, 4900, 3200, 3800, 4000, 4300, 5400, 5100, 6200, 4200, 4000] },
@@ -37,7 +50,7 @@ export const ProductCharts = () => {
     <Paper withBorder radius={0}>
       <Stack>
         <Tabs
-          defaultValue="3"
+          defaultValue="1"
           styles={{
             tabsList: {
               borderBottom: 'unset',
@@ -61,13 +74,13 @@ export const ProductCharts = () => {
           </Group>
           <Divider my={2} style={{ border: '1px solid rgba(212, 212, 212, 1)' }} />
           <Tabs.Panel value="3" px={phone?0:40} pt={20}>
-            <BarChart labels={chartLables} datasets={chartdataset3} />
+            <BarChart labels={chartLables3M} datasets={chartdataset3} />
           </Tabs.Panel>
           <Tabs.Panel value="6" px={phone?0:40} pt={20}>
-            <BarChart labels={chartLables} datasets={chartdataset6} />
+            <BarChart labels={chartLables6M} datasets={chartdataset6} />
           </Tabs.Panel>
           <Tabs.Panel value="1" px={phone?0:40} pt={20}>
-            <BarChart labels={chartLables} datasets={chartdataset1} />
+            <BarChart labels={chartLables1Y} datasets={chartdataset1} />
           </Tabs.Panel>
         </Tabs>
         <Group position="right" className="px-5 md:px-10 md:pt-4 pb-4">
