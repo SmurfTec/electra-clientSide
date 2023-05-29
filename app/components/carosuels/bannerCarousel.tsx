@@ -6,9 +6,9 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { Options } from 'react-owl-carousel';
 import { ArrowNarrowRight } from 'tabler-icons-react';
-const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
-  ssr: false,
-});
+// const OwlCarousel = dynamic(() => import('react-owl-carousel'), {
+//   ssr: false,
+// });
 
 type carouselData = {
   imgSrc: string;
@@ -46,7 +46,8 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
   };
 
   return (
-    <OwlCarousel id="product-testimonoals" className="owl-carousel owl-theme" {...options}>
+    <>
+    {/* <OwlCarousel id="product-testimonoals" className="owl-carousel owl-theme" {...options}> */}
       {carouselData.map((item, index) => {
         return (
           <div key={index} className="item">
@@ -70,6 +71,7 @@ export function BannerCarousel({ carouselData }: BannerCarousel) {
           </div>
         );
       })}
-    </OwlCarousel>
+     {/* </OwlCarousel> */}
+    </>
   );
 }
