@@ -1,6 +1,5 @@
 import {
   Banner,
-  BannerCarousel,
   BannerProps,
   CategoryCard,
   FooterProductCarousel,
@@ -278,7 +277,7 @@ const brandData = [
 
 export function Index() {
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
-  const phone = useMediaQuery('(max-width: 600px)');
+  const phone = useMediaQuery('(max-width: 600px)', false);
   return (
     <div>
       <section className="mt-4">
@@ -287,12 +286,11 @@ export function Index() {
 
       <section className="mt-8 md:mt-20">
         <SectionTitle title="Recommended For You" label="View All" />
-        <ScrollArea>
+        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {/* <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5"> */}
             {productData.map((product, index) => {
               return (
-                <div key={index} className='min-w-[15%]'>
+                <div key={index} className="min-w-[15%]">
                   <ProductCard
                     image={product.image}
                     description={product.description}
@@ -307,39 +305,38 @@ export function Index() {
                 </div>
               );
             })}
-            {/* </div> */}
           </Center>
         </ScrollArea>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-4 md:mt-16">
         <SectionTitle title="Trending Now" label="View All" />
-
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
-            return (
-              <ProductCard
-                key={index}
-                image={product.image}
-                description={product.description}
-                link={product.link}
-                title={product.title}
-                rating={product.rating}
-                wishlist={product.wishlist}
-                lowestPrice={product.lowestPrice ?? null}
-                highestPrice={product.highestPrice ?? null}
-                price={product.price}
-              />
-            );
-          })}
-        </div>
+        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          <Center className="space-x-8 md:space-x-16" >
+            {productData.map((product, index) => {
+              return (
+                <ProductCard
+                  key={index}
+                  image={product.image}
+                  description={product.description}
+                  link={product.link}
+                  title={product.title}
+                  rating={product.rating}
+                  wishlist={product.wishlist}
+                  lowestPrice={product.lowestPrice ?? null}
+                  highestPrice={product.highestPrice ?? null}
+                  price={product.price}
+                />
+              );
+            })}
+          </Center>
+        </ScrollArea>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-4 md:mt-12">
         <SectionTitle title="Categories" />
-
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
-          <ScrollArea type="hover" scrollbarSize={5}>
+          <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
               {categoryData.map((category, index) => {
                 return (
@@ -377,50 +374,52 @@ export function Index() {
         </Grid>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-8 md:mt-12">
         <SectionTitle title="Most Sold Items" label="View All" />
-
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
-            return (
-              <ProductCard
-                key={index}
-                image={product.image}
-                description={product.description}
-                link={product.link}
-                title={product.title}
-                rating={product.rating}
-                wishlist={product.wishlist}
-                lowestPrice={product.lowestPrice ?? null}
-                highestPrice={product.highestPrice ?? null}
-                price={product.price}
-              />
-            );
-          })}
-        </div>
+        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          <Center className="space-x-8 md:space-x-16">
+            {productData.map((product, index) => {
+              return (
+                <ProductCard
+                  key={index}
+                  image={product.image}
+                  description={product.description}
+                  link={product.link}
+                  title={product.title}
+                  rating={product.rating}
+                  wishlist={product.wishlist}
+                  lowestPrice={product.lowestPrice ?? null}
+                  highestPrice={product.highestPrice ?? null}
+                  price={product.price}
+                />
+              );
+            })}
+          </Center>
+        </ScrollArea>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-4 md:mt-12">
         <SectionTitle title="Latest Items" />
-
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
-          {productData.map((product, index) => {
-            return (
-              <ProductCard
-                key={index}
-                image={product.image}
-                description={product.description}
-                link={product.link}
-                title={product.title}
-                rating={product.rating}
-                wishlist={product.wishlist}
-                lowestPrice={product.lowestPrice ?? null}
-                highestPrice={product.highestPrice ?? null}
-                price={product.price}
-              />
-            );
-          })}
-        </div>
+        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          <Center className="space-x-8 md:space-x-16">
+            {productData.map((product, index) => {
+              return (
+                <ProductCard
+                  key={index}
+                  image={product.image}
+                  description={product.description}
+                  link={product.link}
+                  title={product.title}
+                  rating={product.rating}
+                  wishlist={product.wishlist}
+                  lowestPrice={product.lowestPrice ?? null}
+                  highestPrice={product.highestPrice ?? null}
+                  price={product.price}
+                />
+              );
+            })}
+          </Center>
+        </ScrollArea>
       </section>
 
       <section className="mt-20">
