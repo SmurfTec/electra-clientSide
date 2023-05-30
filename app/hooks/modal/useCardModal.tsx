@@ -1,6 +1,7 @@
 import { useStylesforGlobal } from '@elektra/customComponents';
 import {
   Button,
+  Center,
   Chip,
   createStyles,
   Grid,
@@ -22,7 +23,6 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();
-  const theme = useMantineTheme();
 
   const initialValues = {
     cardType: 'visa',
@@ -79,10 +79,10 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
   const phone = useMediaQuery('(max-width: 800px)');
 
   const Modal = (
-    <div className='p-4'>
+    <div>
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Grid>
-          <Grid.Col xs={8} lg={8}>
+          <Grid.Col md={8} lg={8}>
             <Text className="mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
               <Group position="apart">
@@ -91,36 +91,36 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                   value="visa"
                 >
-                  <Group position="center" sx={{ marginTop: '10px' }}>
+                  <Center sx={{ marginTop: '10px' }}>
                     <Image alt="" height={50} width={50} fit="contain" src={'/images/visa.png'} />
-                  </Group>
+                  </Center>
                 </Chip>
                 <Chip
                   color="blue"
                   value="master"
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
-                  <Group position="center" sx={{ marginTop: '10px' }}>
+                  <Center sx={{ marginTop: '10px' }}>
                     <Image alt="" height={50} width={50} fit="contain" src={'/images/master.png'} />
-                  </Group>
+                  </Center>
                 </Chip>
                 <Chip
                   color="blue"
                   value="discover"
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
-                  <Group position="center" sx={{ marginTop: '10px' }}>
+                  <Center sx={{ marginTop: '10px' }}>
                     <Image alt="" height={50} width={50} fit="contain" src={'/images/discover.png'} />
-                  </Group>
+                  </Center>
                 </Chip>
                 <Chip
                   color="blue"
                   value="paypal"
                   classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
                 >
-                  <Group position="center" sx={{ marginTop: '10px' }}>
+                  <Center sx={{ marginTop: '10px' }}>
                     <Image alt="" height={50} width={50} fit="contain" src={'/images/paypal.png'} />
-                  </Group>
+                  </Center>
                 </Chip>
               </Group>
             </Chip.Group>

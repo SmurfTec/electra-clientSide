@@ -14,19 +14,19 @@ const useStyles = createStyles((theme) => ({
   menuTarget: {
     paddingTop: 'unset',
     paddingBottom: 'unset',
-    [theme.fn.smallerThan(840)]: {
+    [theme.fn.smallerThan(841)]: {
       paddingTop: '0.75rem',
       paddingBottom: '0.75rem',
     },
   },
   flex: {
-    [theme.fn.smallerThan(840)]: {
+    [theme.fn.smallerThan(841)]: {
       display: 'none',
     },
   },
   group: {
     display: 'block',
-    [theme.fn.smallerThan(840)]: {
+    [theme.fn.smallerThan(841)]: {
       display: 'none',
     },
   },
@@ -109,7 +109,7 @@ export const HeaderMenu = () => {
   return (
     <>
       <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={classes.group}>
-        <Group position="apart" className="pt-3 px-4">
+        <Flex  className="pt-3 justify-center space-x-5 lg:space-x-12">
           {menuData.map((item, index) => (
             <HoverCard
               key={index}
@@ -118,7 +118,7 @@ export const HeaderMenu = () => {
               {item.content}
             </HoverCard>
           ))}
-        </Group>
+        </Flex>
       </Group>
       <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
         <Menu
