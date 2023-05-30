@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Chip,
+  clsx,
   createStyles,
   Grid,
   Group,
@@ -13,7 +14,6 @@ import {
   Stack,
   Text,
   TextInput,
-  useMantineTheme,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
@@ -85,44 +85,54 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
           <Grid.Col md={8} lg={8}>
             <Text className="mb-4">Choose billing method</Text>
             <Chip.Group defaultValue={'visa'} {...form.getInputProps('cardType', { type: 'checkbox' })}>
-              <Group position="apart">
-                <Chip
-                  color="blue"
-                  classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
-                  value="visa"
-                >
-                  <Center sx={{ marginTop: '10px' }}>
-                    <Image alt="" height={50} width={50} fit="contain" src={'/images/visa.png'} />
-                  </Center>
-                </Chip>
-                <Chip
-                  color="blue"
-                  value="master"
-                  classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
-                >
-                  <Center sx={{ marginTop: '10px' }}>
-                    <Image alt="" height={50} width={50} fit="contain" src={'/images/master.png'} />
-                  </Center>
-                </Chip>
-                <Chip
-                  color="blue"
-                  value="discover"
-                  classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
-                >
-                  <Center sx={{ marginTop: '10px' }}>
-                    <Image alt="" height={50} width={50} fit="contain" src={'/images/discover.png'} />
-                  </Center>
-                </Chip>
-                <Chip
-                  color="blue"
-                  value="paypal"
-                  classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
-                >
-                  <Center sx={{ marginTop: '10px' }}>
-                    <Image alt="" height={50} width={50} fit="contain" src={'/images/paypal.png'} />
-                  </Center>
-                </Chip>
-              </Group>
+              {/* <Group position="apart"> */}
+              <Grid >
+                <Grid.Col p={0} span={3}>
+                  <Chip
+                    color="blue"
+                    classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
+                    value="visa"
+                  >
+                    <Center sx={{ marginTop: '10px' }}>
+                      <Image alt="" height={50} width={50} fit="contain" src={'/images/visa.png'} />
+                    </Center>
+                  </Chip>
+                </Grid.Col>
+                <Grid.Col p={0} span={3}>
+                  <Chip
+                    color="blue"
+                    value="master"
+                    classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
+                  >
+                    <Center sx={{ marginTop: '10px' }}>
+                      <Image alt="" height={50} width={50} fit="contain" src={'/images/master.png'} />
+                    </Center>
+                  </Chip>
+                </Grid.Col>
+                <Grid.Col p={0} span={3}>
+                  <Chip
+                    color="blue"
+                    value="discover"
+                    classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
+                  >
+                    <Center sx={{ marginTop: '10px' }}>
+                      <Image alt="" height={50} width={50} fit="contain" src={'/images/discover.png'} />
+                    </Center>
+                  </Chip>
+                </Grid.Col>
+                <Grid.Col p={0} span={3}>
+                  <Chip
+                    color="blue"
+                    value="paypal"
+                    classNames={{ label: classes.checkboxLabel, iconWrapper: classes.checkboxiconWrapper }}
+                  >
+                    <Center sx={{ marginTop: '10px' }}>
+                      <Image alt="" height={50} width={50} fit="contain" src={'/images/paypal.png'} />
+                    </Center>
+                  </Chip>
+                </Grid.Col>
+              </Grid>
+              {/* </Group> */}
             </Chip.Group>
             <Paper radius={0} className="mt-4" bg="black">
               <Stack align="flex-start" h={230}>
@@ -145,26 +155,25 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                 />
                 <Text
                   color={'white'}
-                  className="uppercase tracking-wider font-medium text-sm md:text-lg pt-3"
+                  className={clsx("uppercase tracking-wider font-medium pt-3",classes.font)}
                   sx={{ marginTop: '-20px', marginLeft: '1.5rem' }}
                   // size={phone ? "13px" : "auto"}
                 >
                   HUZAYFAH HANIF
                 </Text>
-                <Group position="apart" spacing={phone ? 15 :35}>
+                <Group position="apart" spacing={phone ? 15 : 35}>
                   <div>
                     <Text
                       color={'white'}
-                      className=" uppercase tracking-wider font-medium text-sm md:text-lg"
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
                       sx={{ marginLeft: '1.5rem' }}
-                      
                     >
                       {getCardNumber(form.values.cardNo)}
                     </Text>
                     <Text
                       color={'white'}
-                      fz="sm"
-                      className=" uppercase tracking-wider font-semibold text-sm md:text-lg"
+                      
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
                       sx={{ marginLeft: '1.5rem' }}
                     >
                       Card Number
@@ -173,15 +182,14 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   <div>
                     <Text
                       color={'white'}
-                      className="uppercase tracking-wider font-medium text-sm md:text-lg"
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
                       //sx={{ marginLeft: '1.5rem' }}
                     >
                       {getExpiryNumber(form.values.expiry)}
                     </Text>
                     <Text
                       color={'white'}
-                      fz="sm"
-                      className="uppercase tracking-wider font-semibold text-sm md:text-lg"
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
                       //sx={{ marginLeft: '4.5rem' }}
                     >
                       expiry
@@ -190,12 +198,15 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
                   <div>
                     <Text
                       color={'white'}
-                      className="uppercase tracking-wider font-medium text-sm md:text-lg"
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
                       // sx={{ marginLeft: '1.5rem' }}
                     >
                       {getCvcNumber(form.values.cvc)}
                     </Text>
-                    <Text color={'white'} fz="sm" className=" uppercase tracking-wider font-semibold text-sm md:text-lg">
+                    <Text
+                      color={'white'}
+                      className={clsx("uppercase tracking-wider font-medium",classes.font)}
+                    >
                       cvc
                     </Text>
                   </div>
@@ -390,12 +401,28 @@ const useStyles = createStyles((theme) => ({
   label: {
     fontWeight: 'bold',
   },
+  font: {
+    fontSize:18,
+    [theme.fn.smallerThan(980)]: {
+      fontSize:16,
+    },
+    [theme.fn.smallerThan(400)]: {
+      fontSize:12,
+    },
+  },
   checkboxLabel: {
     height: '4.25rem',
     width: '5.25rem',
+    [theme.fn.smallerThan(430)]:{
+      width: '4.25rem',
+    },
+    [theme.fn.smallerThan(361)]:{
+      width: '4rem',
+    },
     borderRadius: 'unset',
   },
   checkboxiconWrapper: {
     display: 'none',
   },
 }));
+
