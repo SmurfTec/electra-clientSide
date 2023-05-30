@@ -7,13 +7,26 @@ import { LaptopMenu, PhoneMenu } from './menuContent';
 
 const useStyles = createStyles((theme) => ({
   burger: {
-    [theme.fn.largerThan(809)]: {
+    [theme.fn.largerThan(840)]: {
       display: 'none',
     },
   },
-
+  menuTarget: {
+    paddingTop: 'unset',
+    paddingBottom: 'unset',
+    [theme.fn.smallerThan(840)]: {
+      paddingTop: '0.75rem',
+      paddingBottom: '0.75rem',
+    },
+  },
   flex: {
-    [theme.fn.smallerThan(810)]: {
+    [theme.fn.smallerThan(840)]: {
+      display: 'none',
+    },
+  },
+  group: {
+    display: 'block',
+    [theme.fn.smallerThan(840)]: {
       display: 'none',
     },
   },
@@ -95,8 +108,8 @@ export const HeaderMenu = () => {
   };
   return (
     <>
-      <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className="hidden md:block">
-        <Group position='apart'className='pt-3 px-4'>
+      <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={classes.group}>
+        <Group position="apart" className="pt-3 px-4">
           {menuData.map((item, index) => (
             <HoverCard
               key={index}
@@ -117,11 +130,11 @@ export const HeaderMenu = () => {
           position="bottom-end"
           offset={5}
         >
-          <Flex align={'center'} className="py-3 md:py-0">
+          <Flex align={'center'} className={classes.menuTarget}>
             <Menu.Target>
               <Burger mx={10} opened={opened} onClick={toggle} className={classes.burger} />
             </Menu.Target>
-            <Text size={17} className="text-black font-bold md:hidden">
+            <Text size={17} className={clsx('text-black font-bold', classes.burger)}>
               Categories
             </Text>
           </Flex>

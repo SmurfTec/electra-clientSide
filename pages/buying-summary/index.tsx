@@ -98,7 +98,7 @@ export default function BuyingSummary() {
         </Grid.Col>
 
         <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData.title)}>
-          <div className="overflow-y-auto h-full">
+          <div className="overflow-y-auto h-full cursor-pointer">
             <ProtectPlan
               title={protectPlanData.title}
               content={protectPlanData.content}
@@ -107,14 +107,16 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData2.title)}>
+          <div className='cursor-pointer'>
           <ProtectPlan
             title={protectPlanData2.title}
             content={protectPlanData2.content}
             price={protectPlanData2.price}
           />
+          </div>
         </Grid.Col>
       </Grid>
-      <div onClick={() => setPlan("No")}>
+      <div onClick={() => setPlan("No")} className='cursor-pointer'>
         <SummaryFooter />
       </div>
     </Radio.Group>

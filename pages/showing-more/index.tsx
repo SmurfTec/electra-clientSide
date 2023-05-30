@@ -138,7 +138,7 @@ export function ShowingMore() {
         </div>
         <section className="mt-5">
           <SectionTitle title="1000+ Results for iphone" />
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -161,7 +161,7 @@ export function ShowingMore() {
         <section className="mt-20">
           <SectionTitle key={1} title="Trending Now" label="View All" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -184,7 +184,7 @@ export function ShowingMore() {
         <section className="mt-20">
           <SectionTitle title="Most Sold Items" label="View All" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -207,7 +207,7 @@ export function ShowingMore() {
         <section className="mt-20">
           <SectionTitle title="Latest Items" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
             {productData.map((product, index) => {
               return (
                 <ProductCard

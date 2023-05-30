@@ -1,5 +1,6 @@
 import {
   Banner,
+  BannerCarousel,
   BannerProps,
   CategoryCard,
   FooterProductCarousel,
@@ -56,7 +57,7 @@ const bannerData: BannerProps[] = [
 const productData: ProductCardProps[] = [
   {
     image: '/images/product.png',
-    link: '/product-detail?condition=new',
+    link: '/product-detail/?condition=new',
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
     rating: 'New',
@@ -421,14 +422,13 @@ export function Index() {
           </Center>
         </ScrollArea>
       </section>
-
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className="-mt-36 md:-mt-64 text-center ml-8 md:-ml-12">
-          {/* <BannerCarousel carouselData={carouselData} /> */}
+        <div className="-mt-20 md:-mt-36">
+          <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
-      <section className="mt-72">
+      <section>
         <SectionTitle title="Brands" />
         <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
           <ScrollArea type="hover" scrollbarSize={5}>

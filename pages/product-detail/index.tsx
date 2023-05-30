@@ -342,6 +342,7 @@ export default function ProductPage() {
   const [FilterModal, filterOpened, filterHandler] = useFilterModal();
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
+  const filters = useMediaQuery('(max-width: 1100px)', false);
   const isNew = router.query['condition'] === 'new';
   const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
@@ -355,11 +356,11 @@ export default function ProductPage() {
         </Breadcrumbs>
       )}
       <Grid>
-        <Grid.Col sm={6} mt={matches ? 0 : 40}>
+        <Grid.Col md={6} mt={matches ? 0 : 40}>
           <Stack align="center" justify="center" className="w-full">
             <Only when={!isNew}>
-              <div className="md:ml-10 -ml-4 md:w-auto w-screen md:mt-[-70px] ">
-                <ProductCarousel className="ml-2" />
+              <div className=" md:w-auto w-screen ">
+                <ProductCarousel />
               </div>
             </Only>
             <Only when={isNew}>
@@ -371,7 +372,7 @@ export default function ProductPage() {
             </Button>
           </Stack>
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col md={6}>
           <ProductSpecification
             title={productSpecificationData.title}
             condition={productSpecificationData.condition as condition}
@@ -395,17 +396,17 @@ export default function ProductPage() {
       <Divider className="my-4" />
       <Group position='apart'  align='top'>
       <SectionTitle title="Used iPhone 14 Pro Max" />
-      <Only when={matches}>
+      <Only when={filters}>
         <Button onClick={filterHandler.open} leftIcon={<Filter />}>
           Filter
         </Button>
       </Only>
       </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <Only when={!matches}>
+      <Only when={!filters}>
         <ProductFilter />
       </Only>
-      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {productData.slice(0, limit).map((product, index) => {
           return (
             <ProductCard

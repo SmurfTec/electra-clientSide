@@ -27,10 +27,10 @@ export default function Confirmation() {
     <div>
       <PageTitle title="Confirmation" className="mt-14" />
       <Grid>
-        <Grid.Col sm={6} mt={50}>
+        <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">
             <Only when={condition !== 'New'}>
-            <div className="md:ml-10 -ml-3 md:w-auto w-screen">
+            <div className="md:w-auto w-screen">
                 <ProductCarousel  />
               </div>
             </Only>
@@ -39,7 +39,7 @@ export default function Confirmation() {
             </Only>
           </Stack>
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col md={6}>
           <div className="space-y-2 mt-8 xs:mt-auto">
             <Title className="uppercase" color={'#656565'} order={6}>
               About Product

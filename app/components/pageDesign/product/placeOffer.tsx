@@ -169,7 +169,7 @@ export function PlaceOfferComponent({
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-2  lg:px-24 py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="mt-6 px-2  lg:px-24 py-1 md:py-6 border-black border-solid ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>

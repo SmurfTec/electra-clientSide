@@ -53,17 +53,17 @@ export default function PlaceOffer() {
         <PageTitle title="Placing Offer" />
       </div>
       <Grid className="my-10">
-        <Grid.Col sm={6}>
+        <Grid.Col md={6}>
           <Only when={condition !== 'New'}>
-            <div className="md:ml-10 -ml-12 md:w-auto w-screen mt-5 ">
-              <ProductCarousel className="-ml-1" />
+            <div className="-ml-11 md:ml-0 md:w-auto w-screen mt-5 ">
+              <ProductCarousel />
             </div>
           </Only>
           <Only when={condition === 'New'}>
             <Image alt="product image" src="/images/productImage.png" />
           </Only>
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col md={6}>
           <PlaceOfferComponent
             carrier={ListingDescriptionData.carrier}
             carrierData={ListingDescriptionData.carrierData}

@@ -252,7 +252,7 @@ export default function ShopPage() {
       </div>
       <SectionTitle title="All Phones" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-12 place-content-center mt-5">
+      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (
             <ProductCard
