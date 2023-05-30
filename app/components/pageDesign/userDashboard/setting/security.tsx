@@ -110,7 +110,7 @@ export function Security() {
         <Modal
           size={800}
           title="Buying Info"
-          className="mx-10 mb-7 mt-4"
+          className="md:mx-10 mb-7 mt-4"
           titlePosition="left"
           children={CardModal}
           onClose={cardHandler.close}
