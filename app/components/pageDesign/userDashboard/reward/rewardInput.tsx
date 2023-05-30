@@ -8,7 +8,7 @@ export const RewardInput = () => {
   return (
     <>    
       <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />
-      <Paper shadow="xl" p="xl" className="w-4/5 md:w-1/5">
+      <Paper shadow="xl" p="xl" className="w-full md:w-1/3">
         <Group position="left">
           <Avatar src="images/coin.png" size={'lg'} radius="lg" />
           <div>

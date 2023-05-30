@@ -12,7 +12,7 @@ export default function FAQ() {
       <Divider my={'sm'}></Divider>
 
       {/* TODO: need to remove bottom border from here */}
-
+      
       <Accordion
         className="space-y-10"
         multiple={true}
@@ -51,10 +51,10 @@ export default function FAQ() {
           ]}
         >
           <Accordion.Item value="focus-r">
-            <Accordion.Control>Lorem ipsum dolor sit amet, consectetur adipiscing elit?</Accordion.Control>
+            <Accordion.Control>Lorem ipsum dolor sit amet?</Accordion.Control>
             <Accordion.Panel>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras quis ipsum sem. Nunc bibendum mi mauris, eget
-              iaculis nisl sagittis ut.{' '}
+              iaculis nisl sagittis ut.
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="focus-rin">

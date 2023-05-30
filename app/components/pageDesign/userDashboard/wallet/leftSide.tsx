@@ -1,5 +1,5 @@
 import { Only } from '@elektra/customComponents';
-import { Button, Center, Flex, Group, Image, Paper, PaperProps, Stack, Text } from '@mantine/core';
+import { Button, Center, Flex, Grid, Image, Paper, PaperProps, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 type WalletLeftSide = {
@@ -34,39 +34,44 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
           />
         </Flex>
       </Paper>
-      <Group  mt={40}>
+      <Grid>
+        <Grid.Col span={4}>
+          <MarketCard
+            withBorder={mediumdScreen ? true : false}
+            icon={'/images/marketplace1.png'}
+            label="Total Sales"
+            amount={330}
+            px={30}
+            py={40}
+            miw={mediumdScreen ? 150 : 100}
+            mah={mediumdScreen ? 140 : 100}
+          />
+        </Grid.Col>
+        <Grid.Col span={4}>
         <MarketCard
-          withBorder={mediumdScreen?true:false}
-          icon={'/images/marketplace1.png'}
-          label="Total Sales"
-          amount={330}
-          px={30}
-          py={40}
-          miw={150}
-          mah={mediumdScreen?140:100}
-        />
-
-        <MarketCard
-        withBorder={mediumdScreen?true:false}
+          withBorder={mediumdScreen ? true : false}
           icon={'/images/marketplace2.png'}
           label="Proceeds"
           amount={215}
           px={30}
           py={40}
-          miw={150}
-          mah={mediumdScreen?140:100}
+          miw={mediumdScreen ? 150 : 100}
+          mah={mediumdScreen ? 140 : 100}
         />
+        </Grid.Col>
+        <Grid.Col span={4}>
         <MarketCard
-        withBorder={mediumdScreen?true:false}
+          withBorder={mediumdScreen ? true : false}
           icon={'/images/marketplace3.png'}
           label="Marketplace fee"
           amount={115}
           px={30}
           py={40}
-          miw={150}
-          mah={mediumdScreen?140:100}
+          miw={mediumdScreen ? 150 : 100}
+          mah={mediumdScreen ? 140 : 100}
         />
-      </Group>
+        </Grid.Col>
+      </Grid>
       <Text className="text-[11px] md:text-base font-medium mt-10">
         Note : Total sales = Proceeds + Marketplace fee
       </Text>
@@ -82,13 +87,9 @@ type MarketCardProps = {
 function MarketCard({ icon, label, amount, ...rest }: MarketCardProps) {
   return (
     <Paper radius={25} className="relative" {...rest}>
-      <div className='text-center'>
-      <Text className="text-[11px]  font-medium" >
-        {label}
-      </Text>
-      <Text className="text-base md:text-4xl text-black font-bold">
-        ${amount}
-      </Text>
+      <div className="text-center">
+        <Text className="text-[11px]  font-medium">{label}</Text>
+        <Text className="text-base md:text-4xl text-black font-bold">${amount}</Text>
       </div>
       <div className="h-[32px] w-[32px] rounded-full absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Image

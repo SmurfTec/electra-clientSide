@@ -58,9 +58,9 @@ export const ProductStats = () => {
   return (
     <div>
       <Paper radius={0} withBorder py={10} >
-        <Group position="apart" px={60}>
+        <Group position="apart" px={phone ? 0 : 60}>
           {statData.map((item, key) => (
-            <span key={key} className="md:flex space-x-4 md:max-w-[20%]">
+            <span key={key} className="md:flex md:space-x-4 text-center md:text-left min-w-[100%] md:min-w-max md:max-w-[20%]">
               <Stats difference={item.difference} label={item.label} value={item.value} price={item.price} />
               {statData.length !== key + 1 && (
                 <Divider

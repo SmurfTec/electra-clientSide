@@ -10,9 +10,13 @@
     }
   }
 
+  .owl-item.active.center{
+    display: flex;
+    justify-content: center;
+  }
+
   #product-testimonoals .item {
     text-align: center;
-    padding: 50px;
     margin-bottom: 0px;
     transform: scale3d(0.8, 0.8, 1);
     transition: all 0.3s ease-in-out;

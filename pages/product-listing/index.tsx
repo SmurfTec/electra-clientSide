@@ -51,12 +51,12 @@ export default function ProductListingPage() {
         <PageTitle title="Listing Item" />
       </div>
       <Grid className="my-10">
-        <Grid.Col xs={6}>
-          <div className="md:ml-10 -ml-12 md:w-auto w-screen mt-5">
-            {condition === 'Used' ? <ProductCarousel /> : <Image alt="product image" src="/images/productImage.png" />}
-          </div>
+        <Grid.Col md={6}>
+          
+            {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
+          </div>}
         </Grid.Col>
-        <Grid.Col xs={6}>
+        <Grid.Col md={6}>
           <ListingDescription
             carrier={ListingDescriptionData.carrier}
             carrierData={ListingDescriptionData.carrierData}
