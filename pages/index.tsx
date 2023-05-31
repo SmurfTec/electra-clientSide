@@ -424,7 +424,7 @@ export function Index() {
       </section>
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className="-mt-20 md:-mt-36">
+        <div className="-mt-20 md:-mt-36 ml-5 md:ml-0">
           <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
