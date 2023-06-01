@@ -34,7 +34,7 @@ export function Footer() {
   
   const phone = useMediaQuery('(max-width: 600px)');
   return (
-    <div className="mt-10 md:mt-24 mb-14 sm:mb-0">
+    <div className="mt-16 md:mt-24 mb-14 sm:mb-0">
       <Container size={1100}>
         <section className="my-8">
           <Grid gutter={50} gutterXs={0}>
