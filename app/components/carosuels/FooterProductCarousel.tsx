@@ -1,105 +1,43 @@
-import { Carousel, Embla } from '@mantine/carousel';
-import { Button, Center, Image, Stack, Text, createStyles } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
+import { Image, createStyles } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
-import { useCallback, useEffect, useState } from 'react';
+import { ArrowNarrowLeft, ArrowNarrowRight } from 'tabler-icons-react';
 const carosuelData = [
-  {
-    imgsrc: '/images/brands/iphone.png',
-    subimgs: [
-      '/images/brands/iphone.png','/images/brands/iphone.png','/images/brands/iphone.png',],
-  },
-  {
-    imgsrc: '/images/brands/iphone.png',
-    subimgs: [
-      '/images/brands/iphone.png','/images/brands/iphone.png','/images/brands/iphone.png',],
-  },
-  {
-    imgsrc: '/images/carousel/headphone.png',
-    subimgs: ['/images/carousel/headphone.png', '/images/carousel/headphone.png', '/images/carousel/headphone.png'],
-  },
-  {
-    imgsrc: '/images/brands/iphone.png',
-    subimgs: [
-      '/images/brands/iphone.png','/images/brands/iphone.png','/images/brands/iphone.png',],
-  },
-  {
-    imgsrc: '/images/brands/iphone.png',
-    subimgs: [
-      '/images/brands/iphone.png','/images/brands/iphone.png','/images/brands/iphone.png',],
-  },
-  {
-    imgsrc: '/images/carousel/headphone.png',
-    subimgs: ['/images/carousel/headphone.png', '/images/carousel/headphone.png', '/images/carousel/headphone.png'],
-  },
+  '/images/carousel/c1.png',
+  '/images/carousel/c2.png',
+  '/images/carousel/c3.png',
+  '/images/carousel/c2.png',
+  '/images/carousel/c1.png',
+  '/images/carousel/c3.png',
+  '/images/carousel/c1.png',
+  '/images/carousel/c3.png',
+  '/images/carousel/c2.png',
 ];
 export const FooterProductCarousel = () => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [embla, setEmbla] = useState<Embla | null>(null);
   const { classes } = useStyles();
-  const phone = useMediaQuery('(max-width: 600px)');
-  const onSelect = useCallback(() => {
-    if (!embla) return;
-    setSelectedIndex(embla.selectedScrollSnap());
-  }, [embla, setSelectedIndex]);
-
-  useEffect(() => {
-    if (!embla) return;
-    onSelect();
-    embla.on('select', onSelect);
-    embla.on('reInit', onSelect);
-  }, [embla, onSelect]);
+  const medium = useMediaQuery('(max-width: 769px)');
+  const phone = useMediaQuery('(max-width: 500px)');
   return (
-    <Stack align="center">
-      <Carousel
-        maw={"98vw"}
-        loop
-        // slideGap={}
-        nextControlIcon={
-          <div className="-mt-[8rem] md:-mt-[30rem] bg-transparent">
-            <Image alt="arrow" className='h-16 w-16 sm:h-0 sm:w-0' src={'/images/carousel/VectorArrowRight.png '} fit="contain" />
-          </div>
-        }
-        previousControlIcon={
-          <div className="-mt-[8rem] md:-mt-[30rem] bg-transparent">
-            <Image alt="arrow" className='h-16 w-16 sm:h-0 sm:w-0' src={'/images/carousel/VectorArrowLeft.png '} fit="contain" />
-          </div>
-        }
-        withIndicators={false}
-        classNames={classes}
-        
-        height={350}
-        slideSize="33.33%"
-        getEmblaApi={setEmbla}
-        initialSlide={2}
-      >
-        {carosuelData.map((item, index) => (
-          <Carousel.Slide key={index}>
-            <Center>
-              <Image src={item.imgsrc} alt="product" fit="contain" height={350} width={"100%"} />
-            </Center>
-          </Carousel.Slide>
-        ))}
-      </Carousel>
-      <Text size={16} className="font-medium">
-        Starting as low as
-      </Text>
-      <Text size={40} className="font-semibold text-black">
-        $245
-      </Text>
-      <Text size={phone ? 13 : 26} component={NextLink} href="/shop" bg={'rgba(60, 130, 214, 1)'} className="text-white px-6 py-1 cursor-pointer">
-        Used Starting at $187
-      </Text>
-      <Center inline className="space-x-3 my-3">
-        {carosuelData[selectedIndex].subimgs.map((item, index) => (
-          <Center className="" mah={50} maw={50} key={index}>
-            <Image src={item} alt="product" fit="contain" />
-          </Center>
-        ))}
-      </Center>
-
-      <Button component={NextLink} href="/product-detail" className="font-light text-base">View Product</Button>
-    </Stack>
+    <Carousel
+      classNames={classes}
+      breakpoints={[
+        { maxWidth: 769, slideSize: '50%' },
+        { maxWidth: 500, slideSize: '100%' },
+      ]}
+      withIndicators
+      nextControlIcon={<ArrowNarrowRight size={20} color="rgba(17, 17, 17, 1)" />}
+      previousControlIcon={<ArrowNarrowLeft size={20} color="rgba(17, 17, 17, 1)" />}
+      slideSize="33.333333%"
+      slideGap="md"
+      align="start"
+      slidesToScroll={phone ? 1 : medium ? 2 : 3}
+    >
+      {carosuelData.map((item, index) => (
+        <Carousel.Slide key={index}>
+          <Image src={item} alt="" fit="contain" />
+        </Carousel.Slide>
+      ))}
+    </Carousel>
   );
 };
 const useStyles = createStyles((theme) => ({
@@ -109,28 +47,40 @@ const useStyles = createStyles((theme) => ({
     margin: 2,
     borderRadius: '10px',
     transition: 'width 250ms ease',
-    background: '#D9D9D9',
+    background: 'rgba(180, 180, 180, 1)',
     '&[data-active]': {
       width: 7,
       background: 'black',
     },
   },
   indicators: {
-    position: 'absolute',
-    bottom: '0px',
-    top: '0px',
-    left: '-25px',
-    [theme.fn.smallerThan(810)]: {
-      left: '-13px',
-    },
-    display: 'flex',
-    flexDirection: 'column',
+    bottom: -25,
+  },
+  controls: {
     justifyContent: 'center',
+    gap: 5,
+    bottom: -360,
+    [theme.fn.smallerThan(1050)]: {
+      bottom: -320,
+    },
+    [theme.fn.smallerThan(900)]: {
+      bottom: -300,
+    },
+    [theme.fn.smallerThan(820)]: {
+      bottom: -280,
+    },
+    [theme.fn.smallerThan(769)]: {
+      display: 'none',
+    },
   },
   control: {
-    border: 'unset',
-    borderRadius: 'unset',
-    boxShadow: 'unset',
-    backgroundColor: 'transparent',
+    border: '2px solid rgba(17, 17, 17, 1)',
+    minHeight: 'unset',
+    width: 60,
+    borderRadius: 30,
+    '&[data-inactive]': {
+      cursor: 'default',
+      border: '2px solid rgba(180, 180, 180, 1)',
+    },
   },
 }));

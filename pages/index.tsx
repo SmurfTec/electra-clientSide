@@ -9,7 +9,7 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import { Center, Grid, Image, ScrollArea, Stack, Text } from '@mantine/core';
+import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 const carouselData = [
@@ -313,7 +313,7 @@ export function Index() {
       <section className="mt-4 md:mt-16">
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16" >
+          <Center className="space-x-8 md:space-x-16">
             {productData.map((product, index) => {
               return (
                 <ProductCard
@@ -450,16 +450,8 @@ export function Index() {
           </ScrollArea>
         </Grid>
       </section>
-      <div className="mt-24">
-        <Stack justify="center" align="center">
-          <Text size={phone ? 14 : 24} className="font-bold text-black">
-            Popular Products
-          </Text>
-          <Text size={phone ? 24 : 48} className="font-extrabold text-black text-center">
-            Beats Headphones
-          </Text>
-          <FooterProductCarousel />
-        </Stack>
+      <div className="mt-10">
+        <FooterProductCarousel />
       </div>
     </div>
   );
