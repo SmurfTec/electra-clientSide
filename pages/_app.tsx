@@ -19,7 +19,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
       </Head>
       <main>
         <StoreProvider>
-          <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
+          <MantineProvider withGlobalStyles  withNormalizeCSS theme={themeOverride}>
             <Global styles={globalStyles} />
             <RouterTransition />
             <Notifications position="bottom-center" />

@@ -1,7 +1,8 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
 import { Modal } from '@elektra/customComponents';
 import { useEmailVerificationModel } from '@elektra/hooks';
-import { Button, Container, Grid, Group, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
+import { RootState, signupAsync, useAppDispatch, useSelector } from '@elektra/store';
+import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -24,21 +25,27 @@ export const useStyles = createStyles((theme) => ({
 
 export default function Signup() {
   const { classes } = useStyles();
-
+  const dispatch = useAppDispatch();
+  const signupLoading = useSelector((state: RootState) => state.auth.loading);
   const initialValues = {
     email: '',
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     password: '',
   };
 
   const form = useForm({
     initialValues: initialValues,
-
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: (value) => (value.length < 6 ? 'Password must be atleast 6 characters' : null),
     },
   });
+  const handleSignupSubmit = async (values:typeof initialValues)=>{
+    console.log(values)
+    const res = await dispatch(signupAsync(values));
+    console.log(res);
+  }
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const phone = useMediaQuery('(max-width: 600px)');
 
@@ -59,6 +66,7 @@ export default function Signup() {
             },
           }}
         >
+        <LoadingOverlay visible={signupLoading} />
         <Container className="my-5">
           <Group className="mb-10">
             <Logo />
@@ -66,19 +74,19 @@ export default function Signup() {
           <TitleHead title="Signup" description="Signup and explore the best products." />
           <SocialButton title="Signup" />
           <div className="mt-10">
-            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+            <form onSubmit={form.onSubmit(handleSignupSubmit)}>
               <div className="space-y-5">
                 <TextInput
                   placeholder="First Name"
                   label="FIRST NAME"
                   classNames={{ input: classes.input }}
-                  {...form.getInputProps('firstName')}
+                  {...form.getInputProps('firstname')}
                 />
                 <TextInput
                   placeholder="Last Name"
                   label="LAST NAME"
                   classNames={{ input: classes.input }}
-                  {...form.getInputProps('lastName')}
+                  {...form.getInputProps('lastname')}
                 />
                 <TextInput
                   placeholder="Email"
@@ -97,7 +105,7 @@ export default function Signup() {
                 <Text size={'sm'}>Password Length must be between 6-15</Text>
               </div>
               <div className="space-y-4 mt-10">
-                <Button type="submit" onClick={emailHandler.open} className="w-full h-16 font-medium text-base" uppercase>
+                <Button type="submit" className="w-full h-16 font-medium text-base" uppercase>
                   SignUp
                 </Button>
                 <Button
