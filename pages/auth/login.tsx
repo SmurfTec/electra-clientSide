@@ -1,30 +1,34 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
 import { Modal } from '@elektra/customComponents';
 import { usePasswordChangeModal } from '@elektra/hooks';
-import { Button, Container, Grid, Group, PasswordInput, ScrollArea, TextInput } from '@mantine/core';
+import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { useStyles } from './signup';
 import { useMediaQuery } from '@mantine/hooks';
+import { RootState, loginAsync, useAppDispatch, useSelector } from '@elektra/store';
 
 export default function Login() {
   const { classes } = useStyles();
+  const dispatch = useAppDispatch();
+  const loginLoading = useSelector((state: RootState) => state.auth.loading);
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   const initialValues = {
     email: '',
     password: '',
   };
-
   const form = useForm({
     initialValues: initialValues,
-
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
-  const router = useRouter();
   const phone = useMediaQuery('(max-width: 600px)');
+  const handleLoginSubmit = async (values:typeof initialValues)=>{
+    const res = await dispatch(loginAsync(values));
+    console.log(res);
+  }
 
   return (
     <Grid m={0}>
@@ -37,6 +41,7 @@ export default function Login() {
             },
           }}
         >
+          <LoadingOverlay visible={loginLoading} />
           <Container className="my-5">
             <Group className="mb-8">
               <Logo />
@@ -44,7 +49,7 @@ export default function Login() {
             <TitleHead title="Log in" description="Login to buy & sell on our platform." />
             <SocialButton title="Login" />
             <div className="mt-10">
-              <form onSubmit={form.onSubmit((values) => router.push('/userdashboard'))}>
+              <form onSubmit={form.onSubmit(handleLoginSubmit)}>
                 <div className="space-y-5">
                   <TextInput
                     placeholder="Enter Email"

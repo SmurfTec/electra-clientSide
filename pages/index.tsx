@@ -9,8 +9,10 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
+import { login, loginAsync, useAppDispatch } from '@elektra/store';
 import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useEffect } from 'react';
 
 const carouselData = [
   {
@@ -279,6 +281,18 @@ const brandData = [
 export function Index() {
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
+  const dispatch = useAppDispatch();
+  useEffect(()=>{
+    // const login=async ()=>{
+    //   const logind = await dispatch(loginAsync({
+    //     email:'pator11004@onlcool.com',
+    //     password:'client123'
+    //   }))
+    //   // console.log();
+    // }
+    // login()
+  },[])
+  
   return (
     <div>
       <section className="mt-4">
