@@ -25,6 +25,7 @@
     "axios": "^1.4.0",
     "embla-carousel-autoplay": "^7.0.9",
     "jquery": "^3.7.0",
+    "localforage": "^1.10.0",
     "next": "^12.3.1",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -33,6 +34,7 @@
     "react-owl-carousel": "^2.3.3",
     "react-redux": "^8.0.5",
     "react-responsive-carousel": "^3.2.23",
+    "redux-persist": "^6.0.0",
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
