@@ -1,7 +1,7 @@
 import { AppShell, Footer, Header } from '@elektra/components';
 import { RouterTransition, createThemeoverride, globalStyles } from '@elektra/customComponents';
 import { StoreProvider } from '@elektra/store';
-import { Global, Loader, MantineProvider, createEmotionCache } from '@mantine/core';
+import { Global, LoadingOverlay, MantineProvider, createEmotionCache } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -18,7 +18,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <StoreProvider LoadingOverlay={<Loader />}>
+        <StoreProvider LoadingOverlay={<LoadingOverlay visible />}>
           <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
             <Global styles={globalStyles} />
             <RouterTransition />
@@ -33,7 +33,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
               </AppShell>
             )}
-          </MantineProvider>  
+          </MantineProvider>
         </StoreProvider>
       </main>
     </>
