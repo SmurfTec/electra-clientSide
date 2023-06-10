@@ -6,6 +6,7 @@ import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollAr
 import { useForm } from '@mantine/form';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { useState } from 'react';
 
 export const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -27,8 +28,7 @@ export default function Signup() {
   const { classes } = useStyles();
   
   const dispatch = useAppDispatch();
-  const [loading, loadingHandlers] = useDisclosure(false);
-  // const signup = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState<boolean>(false);
   const initialValues = {
     email: '',
     firstname: '',
@@ -44,20 +44,22 @@ export default function Signup() {
     },
   });
   const handleSignupSubmit = async (values:typeof initialValues)=>{
-    loadingHandlers.toggle();
+    setLoading(true);
     const res = await http.request({
-      url: 'auth/login',
+      url: 'auth/signup',
       data: values,
+      method: 'POST',
     });
     if (res.isError) {
-      loadingHandlers.toggle();
-      console.log(res.data);
+      // form.setErrors({
+      //   email: res.errorPayload?.['message'] ?? 'Invalid email or password',
+      //   password: res.errorPayload?.['message'] ?? 'Invalid email or password',
+      // });
+      console.log(res.errorPayload)
+      setLoading(false);
     } else {
-      const profile = res.data['profile'];
-      const user = res.data['user'];
-      console.log(user, profile);
-      dispatch(login({ isAuthenticated: true, user, profile }));
-      loadingHandlers.toggle();
+      
+      setLoading(false);
     }
   }
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});

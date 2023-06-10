@@ -1,8 +1,21 @@
+import { ReactNode } from 'react';
 import { Provider, useDispatch, useSelector, useStore } from 'react-redux';
-import { store } from './configureStore';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './configureStore';
 
-function StoreProvider({ children }: React.PropsWithChildren) {
-  return <Provider store={store}>{children}</Provider>;
+type StoreProviderProps = {
+  children: ReactNode;
+  LoadingOverlay?: ReactNode;
+};
+
+function StoreProvider({ children, LoadingOverlay }: StoreProviderProps) {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={LoadingOverlay ?? <>loading</>} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 }
 
 function useAppStore() {
@@ -15,5 +28,5 @@ function useAppDispatch() {
 
 type RootState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
-export { StoreProvider, useDispatch, useSelector, store, useStore, useAppStore, useAppDispatch };
-export type { RootState, AppDispatch };
+export { StoreProvider, store, useAppDispatch, useAppStore, useDispatch, useSelector, useStore };
+export type { AppDispatch, RootState };
