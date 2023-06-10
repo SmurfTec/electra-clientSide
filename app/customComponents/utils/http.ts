@@ -7,6 +7,11 @@ const httpRequest = axios.create({
 });
 interface AxiosResponseWithError extends AxiosResponse {
   isError?: boolean;
+  errorPayload?:Record<string, any> | null;
+}
+interface AxiosErrorWithError extends AxiosError {
+  isError?: boolean;
+  errorPayload?:Record<string, any> | null;
 }
 httpRequest.interceptors.request.use(
   (config) => {
@@ -18,25 +23,18 @@ httpRequest.interceptors.request.use(
 );
 httpRequest.interceptors.response.use(
   (response: AxiosResponseWithError) => {
-    console.log(response?.config.url === 'auth/login')
-    if (response?.config.url === 'auth/login') {
-      httpRequest.defaults.headers.common = {
-        ...httpRequest.defaults.headers.common,
-        ...response.headers,
-      };
-    }
-    return { ...response, isError: false };
+    return { ...response, isError: false,errorPayload:null };
   },
-  (error: AxiosError) => {
-    console.error(error);
+  (error: AxiosErrorWithError) => {
     const errorMessage = {
       statusCode: error.response?.status,
       statusText: error.response?.statusText,
       message: error.message,
       isError: true,
-      errorResponse: error.response?.data,
+      errorPayload: error.response?.data,
     };
-    return Promise.reject(errorMessage);
+
+    return errorMessage;
   }
 );
 function request<R = AxiosResponseWithError, D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
@@ -45,5 +43,6 @@ function request<R = AxiosResponseWithError, D = unknown>(config: AxiosRequestCo
 
 export { HttpStatusCode };
 export type { Method };
-export const http = { ...httpRequest, request };
+export const http = { ...httpRequest,request};
+
 

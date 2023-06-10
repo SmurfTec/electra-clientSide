@@ -4,17 +4,17 @@ import { usePasswordChangeModal } from '@elektra/hooks';
 import { login, useAppDispatch } from '@elektra/store';
 import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useStyles } from './signup';
 
 export default function Login() {
   const { classes } = useStyles();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [loading, loadingHandlers] = useDisclosure(false);
-  // const {isAuthenticated,loading,user} = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState<boolean>(false);
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   const initialValues = {
     email: '',
@@ -26,29 +26,33 @@ export default function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
-  // useEffect(()=>{
-  //   if(isAuthenticated&&!loading)
-  //   router.push('/userdashboard')
-  // },[router,loading,isAuthenticated])
   const phone = useMediaQuery('(max-width: 600px)');
   const handleLoginSubmit = async (values: typeof initialValues) => {
-    loadingHandlers.toggle();
+    setLoading(true);
     const res = await http.request({
       url: 'auth/login',
       data: values,
+      method: 'POST',
     });
     if (res.isError) {
-      loadingHandlers.toggle();
-      console.log(res.data);
+      form.setErrors({
+        email: res.errorPayload?.['message'] ?? 'Invalid email or password',
+        password: res.errorPayload?.['message'] ?? 'Invalid email or password',
+      });
+      setLoading(false);
     } else {
-      const profile = res.data['profile'];
       const user = res.data['user'];
-      console.log(user, profile);
+      const profile = user['profile'];
+      delete user['profile'];
+      http.defaults.headers.common = {
+        ...http.defaults.headers.common,
+        ...res.headers,
+      };
       dispatch(login({ isAuthenticated: true, user, profile }));
-      loadingHandlers.toggle();
+      router.push('/userdashboard');
+      setLoading(false);
     }
   };
-
   return (
     <Grid m={0}>
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
