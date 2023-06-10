@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from '@reduxjs/toolkit';
+import  {http, HttpStatusCode } from '../../customComponents/utils/http';
 import * as actions from '../actions';
-import http, { HttpStatusCode } from './http';
 
 export const apiMiddleWare =
   ({ dispatch }: MiddlewareAPI) =>

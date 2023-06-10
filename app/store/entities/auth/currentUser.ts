@@ -1,33 +1,21 @@
-import { apiRequest } from '@elektra/store/middleware';
-import { AppDispatch, store } from '@elektra/store/storeContext';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 
-const URL = 'auth'
 
 type User = {
-  [x:string]: string
+  [x: string]: string | object;
 };
 
-type LoginBody = {
-  email: string;
-  password: string;
-}
-
-type signupBody ={
-  firstname: string,
-  lastname: string,
-} & LoginBody
 
 export type AuthSession = {
   user: User | null;
-  loading:boolean;
+  profile:User | null;
   isAuthenticated: boolean;
 };
 
 const initialState: AuthSession = {
   user: null,
-  loading:false,
+  profile:null,
   isAuthenticated: false,
 };
 
@@ -35,25 +23,19 @@ const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginSignupRequested: (authSession)=>{
-      console.log('hey')
-      authSession.loading=true
-      console.log(authSession)
-    },
+   
     login: (authSession, action: PayloadAction<AuthSession>) => {
-      authSession.isAuthenticated = true;
+      authSession.isAuthenticated = action.payload.isAuthenticated;
       authSession.user = action.payload.user;
+      authSession.profile = action.payload.profile;
+
     },
     logout: (authSession) => {
       authSession.user = null;
+      authSession.profile = null;
       authSession.isAuthenticated = false;
     },
-    loginSignupSuccess: (authSession)=>{
-      authSession.loading=false
-    },
-    loginSignupFailed: (authSession)=>{
-      authSession.loading=false
-    },
+    
   },
 });
 
@@ -74,26 +56,3 @@ export const logout = () => {
   };
 };
 
-export const loginAsync = (loginBody: LoginBody) => async (dispatch: AppDispatch, getState: typeof store.getState) => {
-  return await dispatch(
-    apiRequest({
-      url: URL+'/login',
-      data:loginBody,
-      method: 'POST',
-       onStart: slice.actions.loginSignupRequested.type,
-      // onSuccess: slice.actions.login.type,
-      // onError: slice.actions.loginSignupFailed.type,
-    })
-  );
-};
-export const signupAsync = (signupBody: signupBody) => async (dispatch: AppDispatch, getState: typeof store.getState) => {
-  return await dispatch(
-    apiRequest({
-      url: URL + '/signup',
-      data:signupBody,
-      method: 'POST',
-      onStart:slice.actions.loginSignupRequested.type,
-      onError:slice.actions.loginSignupFailed.type,
-    })
-  );
-};

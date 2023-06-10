@@ -1,18 +1,20 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Modal } from '@elektra/customComponents';
+import { Modal, http } from '@elektra/customComponents';
 import { usePasswordChangeModal } from '@elektra/hooks';
+import { login, useAppDispatch } from '@elektra/store';
 import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { useStyles } from './signup';
-import { useMediaQuery } from '@mantine/hooks';
-import { RootState, loginAsync, useAppDispatch, useSelector } from '@elektra/store';
 
 export default function Login() {
   const { classes } = useStyles();
+  const router = useRouter();
   const dispatch = useAppDispatch();
-  const loginLoading = useSelector((state: RootState) => state.auth.loading);
+  const [loading, loadingHandlers] = useDisclosure(false);
+  // const {isAuthenticated,loading,user} = useSelector((state: RootState) => state.auth);
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   const initialValues = {
     email: '',
@@ -24,24 +26,41 @@ export default function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
+  // useEffect(()=>{
+  //   if(isAuthenticated&&!loading)
+  //   router.push('/userdashboard')
+  // },[router,loading,isAuthenticated])
   const phone = useMediaQuery('(max-width: 600px)');
-  const handleLoginSubmit = async (values:typeof initialValues)=>{
-    const res = await dispatch(loginAsync(values));
-    console.log(res);
-  }
+  const handleLoginSubmit = async (values: typeof initialValues) => {
+    loadingHandlers.toggle();
+    const res = await http.request({
+      url: 'auth/login',
+      data: values,
+    });
+    if (res.isError) {
+      loadingHandlers.toggle();
+      console.log(res.data);
+    } else {
+      const profile = res.data['profile'];
+      const user = res.data['user'];
+      console.log(user, profile);
+      dispatch(login({ isAuthenticated: true, user, profile }));
+      loadingHandlers.toggle();
+    }
+  };
 
   return (
     <Grid m={0}>
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
         <ScrollArea
-          h={phone ? "auto" :'100vh'}
+          h={phone ? 'auto' : '100vh'}
           styles={{
             scrollbar: {
               '&[data-orientation="vertical"]': { marginRight: '-5px !important' },
             },
           }}
         >
-          <LoadingOverlay visible={loginLoading} />
+          <LoadingOverlay visible={loading} />
           <Container className="my-5">
             <Group className="mb-8">
               <Logo />

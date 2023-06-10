@@ -24,7 +24,6 @@ httpRequest.interceptors.response.use(
         ...httpRequest.defaults.headers.common,
         ...response.headers,
       };
-      console.log(response)
     }
     return { ...response, isError: false };
   },
@@ -37,16 +36,14 @@ httpRequest.interceptors.response.use(
       isError: true,
       errorResponse: error.response?.data,
     };
-    console.log(errorMessage);
     return Promise.reject(errorMessage);
   }
 );
-
 function request<R = AxiosResponseWithError, D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
   return httpRequest.request(config);
 }
 
 export { HttpStatusCode };
 export type { Method };
-const http = { ...httpRequest, request };
-export default http;
+export const http = { ...httpRequest, request };
+

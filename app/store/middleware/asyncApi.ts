@@ -1,6 +1,5 @@
+import { http, HttpStatusCode, Method } from '@elektra/customComponents';
 import { AppDispatch } from '../storeContext';
-import http, { HttpStatusCode, Method } from './http';
-
 
 type ApiRequestParams = {
   url: string;
@@ -22,12 +21,12 @@ export const apiRequest = ({ url, method, data, params, onSuccess, onError, onSt
       params,
     });
     if (onStart) {
+      console.log(onStart);
       dispatch({ type: onStart });
     }
     if (response.isError) {
       if (response.status === HttpStatusCode.Unauthorized) {
-        if (response.data)
-        console.log('Unauthorized')
+        if (response.data) console.log('Unauthorized');
       }
       if (onError) dispatch({ type: onError, payload: response });
       return { response, isError: response.isError };
@@ -36,9 +35,8 @@ export const apiRequest = ({ url, method, data, params, onSuccess, onError, onSt
       dispatch({ type: onSuccess, payload: response.data, status: response.status, message: response.statusText });
       return { data: response.data, isError: response.isError };
     }
-    //  return response
+    return response;
   };
-  
 };
 
 export default apiRequest;
