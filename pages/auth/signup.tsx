@@ -1,10 +1,10 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Modal } from '@elektra/customComponents';
+import { Modal, http } from '@elektra/customComponents';
 import { useEmailVerificationModel } from '@elektra/hooks';
-import { RootState, signupAsync, useAppDispatch, useSelector } from '@elektra/store';
+import { RootState, login, useAppDispatch, useSelector } from '@elektra/store';
 import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useMediaQuery } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 
 export const useStyles = createStyles((theme) => ({
@@ -25,8 +25,10 @@ export const useStyles = createStyles((theme) => ({
 
 export default function Signup() {
   const { classes } = useStyles();
+  
   const dispatch = useAppDispatch();
-  const signupLoading = useSelector((state: RootState) => state.auth.loading);
+  const [loading, loadingHandlers] = useDisclosure(false);
+  // const signup = useSelector((state: RootState) => state.auth);
   const initialValues = {
     email: '',
     firstname: '',
@@ -42,9 +44,21 @@ export default function Signup() {
     },
   });
   const handleSignupSubmit = async (values:typeof initialValues)=>{
-    console.log(values)
-    const res = await dispatch(signupAsync(values));
-    console.log(res);
+    loadingHandlers.toggle();
+    const res = await http.request({
+      url: 'auth/login',
+      data: values,
+    });
+    if (res.isError) {
+      loadingHandlers.toggle();
+      console.log(res.data);
+    } else {
+      const profile = res.data['profile'];
+      const user = res.data['user'];
+      console.log(user, profile);
+      dispatch(login({ isAuthenticated: true, user, profile }));
+      loadingHandlers.toggle();
+    }
   }
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const phone = useMediaQuery('(max-width: 600px)');
@@ -66,7 +80,7 @@ export default function Signup() {
             },
           }}
         >
-        <LoadingOverlay visible={signupLoading} />
+        <LoadingOverlay visible={loading} />
         <Container className="my-5">
           <Group className="mb-10">
             <Logo />
