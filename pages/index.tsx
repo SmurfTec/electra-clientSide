@@ -9,7 +9,7 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import { login, loginAsync, useAppDispatch } from '@elektra/store';
+import {  useAppDispatch } from '@elektra/store';
 import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect } from 'react';
