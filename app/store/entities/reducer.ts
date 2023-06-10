@@ -1,30 +1,18 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
 import { authReducer } from './auth';
 import { entitiesReducers } from './combinedEnititesReducers';
-import { localStorage } from './presistStorage';
-import { persistReducer } from 'redux-persist';
-
-const authConfig = {
-  key: 'auth',
-  storage:localStorage, 
-};
-
-const entitiesConfig = {
-  key: 'entities',
-  storage:localStorage, 
-};
+import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
   key: 'root',
-  storage: localStorage,
-  blacklist: ['entities'],
-  debug: false,
+  storage,
 };
 
 const rootReducers = combineReducers({
-  entities: persistReducer(entitiesConfig, entitiesReducers),
-  auth: persistReducer(authConfig, authReducer),
+  entities: entitiesReducers,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
-export { rootReducers ,persistedReducer};
+export { persistedReducer, rootReducers };
