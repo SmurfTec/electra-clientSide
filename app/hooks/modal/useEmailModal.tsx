@@ -1,22 +1,34 @@
-import { Modal as Mdol } from '@elektra/customComponents';
+import { Modal as CModal, HttpStatusCode, http } from '@elektra/customComponents';
 import { Avatar, Button, Center, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useInterval } from '@mantine/hooks';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { Mail } from 'tabler-icons-react';
+import { usePasswordChangeModal } from './usePasswordModal';
+import { useSignUpSuccesfullModal, useSignUpUnSuccesfullModal } from './useSignupModal';
 
 type EmailModelProps = {
   email: string;
+  purpose: 'signup' | 'passwordChange';
 };
 
 export const useEmailVerificationModel = ({
+  purpose,
   email,
 }: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const timer_limit = 59;
-  const [opened, { open, close }] = useDisclosure(false);
-  const [emailModal, emailOpened, emailHandler] = useEmailSentModal({ email: 'dummy@example.com' });
+  const router = useRouter();
+  const [opened, { open, close}] = useDisclosure(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [seconds, setSeconds] = useState(timer_limit);
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
+  const [SignUpSuccesModal, signUpSuccesOpened, signUpSuccesHandler] = useSignUpSuccesfullModal();
+  const [SignUpUnSuccesModal, signUpUnSuccesOpened, signUpUnSuccesHandler] = useSignUpUnSuccesfullModal();
+  useEffect(() => {
+    router.prefetch('/auth/login');
+  }, [router]);
   const interval = useInterval(() => {
     setSeconds((s) => {
       if (s === 0) {
@@ -33,12 +45,52 @@ export const useEmailVerificationModel = ({
       code: (value) => (value.length < 6 ? 'atleast 6 digit' : null),
     },
   });
-  const handleSubmit = (code: string) => {
-    if (Number(code) === 1234) {
-      setError(false);
-      console.log(code);
+  const handleSubmit = async (code: string) => {
+    setLoading(true);
+    if (purpose === 'signup') {
+      const res = await http.request({
+        url: 'auth/confirm-signup',
+        data: { code },
+        method: 'POST',
+      });
+      if (res.isError) {
+        if (res.status === HttpStatusCode.InternalServerError) {
+          setLoading(false);
+          close();
+          signUpUnSuccesHandler.open();
+        }
+        setLoading(false);
+        setError(true);
+      } else {
+        setLoading(false);
+        close();
+        signUpSuccesHandler.open();
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 3000);
+      }
     }
-    setError(true);
+    if (purpose === 'passwordChange') {
+      const res = await http.request({
+        url: `auth/validate-code/${code}`,
+        method: 'PUT',
+      });
+      if (res.isError) {
+        setLoading(false);
+        setError(true);
+      } else {
+        setLoading(false);
+        close();
+        passwordHandler.open()
+      }
+    }
+  };
+  const handleResend = async () => {
+    const res = await http.request({
+      url: 'auth/resend-code',
+      data: { email },
+      method: 'POST',
+    });
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
@@ -52,13 +104,21 @@ export const useEmailVerificationModel = ({
           Please enter correct code
         </Text>
       )}
-      <Mdol title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
+      <CModal
+        title="Changing Password"
+        children={PasswordChangeModal}
+        onClose={passwordHandler.close}
+        open={passwordOpened}
+      />
+      <CModal children={SignUpSuccesModal} onClose={signUpSuccesHandler.close} open={signUpSuccesOpened} />
+      <CModal children={SignUpUnSuccesModal} onClose={signUpUnSuccesHandler.close} open={signUpUnSuccesOpened} />
       <form onSubmit={form.onSubmit(({ code }) => handleSubmit(code))}>
         <NumberInput
           className="w-[100%] mr-20"
           size="lg"
           type="number"
           min={0}
+          data-autofocus
           hideControls
           styles={{
             input: {
@@ -75,16 +135,18 @@ export const useEmailVerificationModel = ({
         {seconds === timer_limit && (
           <Center className="space-x-2 my-2 cursor-pointer" onClick={interval.start}>
             <Avatar size={12} src={'/images/refresh.png'} />
-            <Text className="text-sm md:text-base font-medium">Resend</Text>
+            <Text className="text-sm md:text-base font-medium" onClick={handleResend}>
+              Resend
+            </Text>
           </Center>
         )}
         {seconds !== timer_limit && (
-          <Center className='my-2'>
+          <Center className="my-2">
             <Text className="text-base font-medium">Resend after 0 : {seconds} s</Text>
           </Center>
         )}
         <Center>
-          <Button type="submit" uppercase onClick={emailHandler.open}>
+          <Button type="submit" loading={loading} uppercase>
             Verify
           </Button>
         </Center>
@@ -105,7 +167,7 @@ export const useEmailSentModal = ({
         Email Sent!
       </Title>
       <Text size="sm" className="text-center w-2/3">
-      An OTP  has been sent of {email}. An email change was requested. .
+        An OTP has been sent of {email}. An email change was requested. .
       </Text>
     </Stack>
   );

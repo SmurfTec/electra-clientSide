@@ -1,21 +1,29 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Modal, http } from '@elektra/customComponents';
-import { usePasswordChangeModal } from '@elektra/hooks';
+import { Modal, http, isAuthenticated } from '@elektra/customComponents';
+import { useEmailVerificationModel, usePasswordChangeModal } from '@elektra/hooks';
 import { login, useAppDispatch } from '@elektra/store';
 import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStyles } from './signup';
+import { setCookie } from "cookies-next";
+
+export async function getServerSideProps(context: NextPageContext) {
+  const { req } = context;
+  const isAuth = await isAuthenticated(req);
+  if (isAuth) {
+    return { redirect: { permanent: false, destination: '/userdashboard' } };
+  }
+  return { props: {} };
+}
 
 export default function Login() {
   const { classes } = useStyles();
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   const initialValues = {
     email: '',
     password: '',
@@ -26,6 +34,12 @@ export default function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
   });
+  useEffect(() => {
+    router.prefetch('/userdashboard');
+  }, [router]);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: form.values.email,purpose:'passwordChange' });
   const phone = useMediaQuery('(max-width: 600px)');
   const handleLoginSubmit = async (values: typeof initialValues) => {
     setLoading(true);
@@ -44,13 +58,35 @@ export default function Login() {
       const user = res.data['user'];
       const profile = user['profile'];
       delete user['profile'];
-      http.defaults.headers.common = {
-        ...http.defaults.headers.common,
-        ...res.headers,
-      };
+      const authToken = String(res.data['authentication']);
+      const refreshToken = String(res.data['refresh']);
+      setCookie('authentication', authToken);
+      setCookie('refresh', refreshToken);
       dispatch(login({ isAuthenticated: true, user, profile }));
       router.push('/userdashboard');
       setLoading(false);
+    }
+  };
+  const handleForgetPassword = async () => {
+    const { hasError } = form.validateField('email');
+    if (!hasError) {
+      setLoading(true);
+      const { email } = form.values;
+      const res = await http.request({
+        url: 'auth/forgot-password',
+        data: {email},
+        method: 'POST',
+      });
+      if(res.isError){
+        form.setErrors({
+          email: res.errorPayload?.['message'] ?? 'user not found',
+        });
+        setLoading(false);
+      }
+      else{
+        emailHandler.open();
+        setLoading(false);
+      }
     }
   };
   return (
@@ -100,7 +136,7 @@ export default function Login() {
                         background: 'white',
                       },
                     }}
-                    onClick={passwordHandler.open}
+                    onClick={handleForgetPassword}
                   >
                     Forgot Password ?
                   </Button>
@@ -125,12 +161,7 @@ export default function Login() {
           </Container>
         </ScrollArea>
       </Grid.Col>
-      <Modal
-        title="Changing Password"
-        children={PasswordChangeModal}
-        onClose={passwordHandler.close}
-        open={passwordOpened}
-      />
+      <Modal title="Email Verfication" children={EmailModal} onClose={emailHandler.close} open={emailOpened} />
       <Grid.Col order={1} orderSm={2} xs={12} sm={7} md={8} className={classes.wrapper}>
         <RightPanel />
       </Grid.Col>

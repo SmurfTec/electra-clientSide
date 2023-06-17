@@ -14,7 +14,7 @@ type ModalProps = {
 export const Modal = ({ title,size=550, children, open, onClose,className ,titlePosition='center',...rest }: ModalProps) => {
   return (
     <>
-      <MantineModel.Root  keepMounted={false}  size={size} opened={open} onClose={onClose} centered {...rest}>
+      <MantineModel.Root keepMounted={true} size={size} opened={open} onClose={onClose} centered {...rest}>
         <MantineModel.Overlay />
         <MantineModel.Content className="rounded-none">
           <MantineModel.Header sx={{zIndex:100}} className={title ? 'h-20' : ''}>

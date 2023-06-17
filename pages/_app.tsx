@@ -1,7 +1,7 @@
 import { AppShell, Footer, Header } from '@elektra/components';
 import { RouterTransition, createThemeoverride, globalStyles } from '@elektra/customComponents';
 import { StoreProvider } from '@elektra/store';
-import { Global, LoadingOverlay, MantineProvider, createEmotionCache } from '@mantine/core';
+import { Global, Loader, MantineProvider, createEmotionCache } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -12,21 +12,20 @@ export const cache = createEmotionCache({ key: 'elektra', prepend: true });
 function ElektraApp({ Component, pageProps }: AppProps) {
   const themeOverride = createThemeoverride();
   const router = useRouter();
+  const notHeader = ['/auth/login', '/auth/signup', '/selling-search', '/notifications'];
   return (
     <>
       <Head>
         <title>Welcome to Elektra!</title>
       </Head>
       <main>
-        <StoreProvider LoadingOverlay={<LoadingOverlay visible />}>
+        <StoreProvider LoadingOverlay={<Loader />}>
           <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
             <Global styles={globalStyles} />
             <RouterTransition />
             <Notifications position="bottom-center" />
-            {router.pathname === '/auth/login' ||
-            router.pathname === '/auth/signup' ||
-            router.pathname === '/selling-search' ||
-            router.pathname === '/notifications' ? (
+
+            {notHeader.includes(router.pathname) ? (
               <Component {...pageProps} />
             ) : (
               <AppShell header={<Header />} footer={<Footer />}>

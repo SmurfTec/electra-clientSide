@@ -1,15 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-
-
-type User = {
-  [x: string]: string | object;
-};
-
+import { Profile,User} from '@elektra/types'
 
 export type AuthSession = {
   user: User | null;
-  profile:User | null;
+  profile:Profile | null;
   isAuthenticated: boolean;
 };
 

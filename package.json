@@ -23,8 +23,10 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-table": "^8.8.2",
     "axios": "^1.4.0",
+    "cookies-next": "^2.1.2",
     "embla-carousel-autoplay": "^7.0.9",
     "jquery": "^3.7.0",
+    "lodash": "^4.17.21",
     "next": "^12.3.1",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -37,6 +39,8 @@
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.3",
+    "@types/lodash": "^4.14.195",
     "@types/node": "18.15.11",
     "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",

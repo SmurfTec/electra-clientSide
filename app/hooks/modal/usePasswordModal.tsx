@@ -1,8 +1,8 @@
-import { Modal as Modl } from '@elektra/customComponents';
+import { http } from '@elektra/customComponents';
 import { Button, Center, PasswordInput, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 import { useStylesforGlobal } from '../../customComponents/theme';
-import { useEmailVerificationModel } from './useEmailModal';
 
 type usePasswordChangeModalProps = {
   login?: boolean;
@@ -12,8 +12,22 @@ export const usePasswordChangeModal = ({
   login = false,
 }: usePasswordChangeModalProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
+  const [loading, setLoading] = useState<boolean>(false);
   const { classes } = useStylesforGlobal();
+
+  const handleReset = async () => {
+    const res = await http.request({
+      url: 'auth/confirm-signup',
+      // data: { code },
+      method: 'POST',
+    });
+    if (res.isError) {
+      setLoading(false);
+    } else {
+      setLoading(false);
+      close();
+    }
+  };
 
   const Modal = (
     <>
@@ -28,16 +42,14 @@ export const usePasswordChangeModal = ({
             classNames={{ input: classes.input, innerInput: classes.innerInput }}
           />
         </div>
-        <Modl title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       </Stack>
       {login ? (
         <div className="text-center -ml-32 mt-1">
           <Text className="text-xs font-medium">Min password length 6 characters</Text>
         </div>
       ) : (
-        <Center className="space-x-5">
+        <Center className="space-x-5 ml-1">
           <Text className="text-xs font-medium">Min password length 6 characters</Text>
-
           <Button
             styles={{
               root: {
@@ -57,7 +69,7 @@ export const usePasswordChangeModal = ({
         </Center>
       )}
       <div className="text-center">
-        <Button onClick={emailHandler.open}>Update</Button>
+        <Button onClick={handleReset}>Update</Button>
       </div>
     </>
   );

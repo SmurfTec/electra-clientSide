@@ -1,7 +1,10 @@
-import { RootState, useSelector } from '@elektra/store';
+import { RootState, logout, useAppDispatch, useSelector } from '@elektra/store';
 import { ActionIcon, Avatar, Flex, Grid, Indicator, Menu, Text, createStyles } from '@mantine/core';
 import { useDisclosure, useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { CaretDown, CaretUp, Search as IconSearch, Settings, User } from 'tabler-icons-react';
 import { HeaderMenu } from './menuBar';
 import { Notification } from './notification';
@@ -10,9 +13,14 @@ import { HeaderTopBar } from './topBar';
 
 export const Header = () => {
   const [isMenuOpen, { toggle }] = useDisclosure(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const isUserAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const [isSearchOpen, toggleSearch] = useToggle<boolean>([false, true]);
   const { classes } = useStylesMenu();
+  useEffect(() => {
+    router.prefetch('/auth/login');
+  }, [router]);
   return (
     <header>
       <HeaderTopBar />
@@ -78,13 +86,13 @@ export const Header = () => {
                   keepMounted={false}
                 >
                   <Menu.Target>
-                      <ActionIcon className="hidden md:block" variant="transparent" size={30}>
-                    <Indicator color="rgba(60, 130, 214, 1)" offset={3} disabled={!isUserAuthenticated}>
+                    <ActionIcon className="hidden md:block" variant="transparent" size={30}>
+                      <Indicator color="rgba(60, 130, 214, 1)" offset={3} disabled={!isUserAuthenticated}>
                         <Avatar radius={'xl'} variant="filled" color="black" size={30}>
                           <User size={18} strokeWidth={1} />
                         </Avatar>
-                    </Indicator>
-                      </ActionIcon>
+                      </Indicator>
+                    </ActionIcon>
                   </Menu.Target>
                   {isUserAuthenticated ? (
                     <Menu.Dropdown>
@@ -93,19 +101,29 @@ export const Header = () => {
                       </Menu.Item>
                       <Menu.Divider />
                       <Menu.Item component={NextLink} className="uppercase" href={'/userdashboard?tab=purchasing'}>
-                      Purchasing
+                        Purchasing
                       </Menu.Item>
                       <Menu.Divider />
                       <Menu.Item component={NextLink} className="uppercase" href={'/userdashboard?tab=wishlist'}>
-                      wishlist
+                        wishlist
                       </Menu.Item>
                       <Menu.Divider />
                       <Menu.Item component={NextLink} className="uppercase" href={'/userdashboard?tab=settings'}>
-                      settings
+                        settings
                       </Menu.Item>
                       <Menu.Divider />
-                      <Menu.Item component={NextLink} className="uppercase" href={'/auth/signup'}>
-                      logout
+                      <Menu.Item
+                        onClick={() => {
+                          router.push('/auth/login');
+                          deleteCookie('authentication');
+                          deleteCookie('refresh');
+                          setTimeout(() => {
+                            dispatch(logout());
+                          }, 1000);
+                        }}
+                        className="uppercase"
+                      >
+                        logout
                       </Menu.Item>
                     </Menu.Dropdown>
                   ) : (

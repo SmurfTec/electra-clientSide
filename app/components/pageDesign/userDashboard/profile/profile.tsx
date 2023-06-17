@@ -1,6 +1,7 @@
 import { Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
-import { useEmailSentModal, useEmailVerificationModel } from '@elektra/hooks';
-import { Button, createStyles, Grid, Group, Stack, TextInput } from '@mantine/core';
+import { useEmailVerificationModel } from '@elektra/hooks';
+import { RootState, useSelector } from '@elektra/store';
+import { Button, Grid, Group, Stack, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
@@ -44,15 +45,15 @@ type Profile = {
 
 export function Profile() {
   const { classes } = useStyles();
+  const { user, profile } = useSelector((state: RootState) => state.entities.auth);
   const { classes: button } = useStylesforGlobal();
   const [isEditing, setIsEditing] = useState(false);
-
   const initialValues = {
-    firstName: 'Huzayfah',
-    lastName: 'Hanif',
-    email: 'huzayfahhanif@gmail.com',
-    phone: '-',
-    username: '3423vc',
+    firstName: profile?.firstname ?? '-',
+    lastName: profile?.lastname ?? '-',
+    email: user?.email ?? '-',
+    phone: profile?.mobile_no ?? '-',
+    username: profile?.username ?? '-',
   };
   const form = useForm({
     initialValues: initialValues,
@@ -64,16 +65,11 @@ export function Profile() {
   const handleFormSubmit = (values: Profile) => {
     console.log(values);
   };
-  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
 
   return (
     <div className="m-0">
-      <Modal
-      title="Email Verification"
-         children={emailModal}
-         onClose={emailHandler.close}
-         open={emailOpened}
-       />
+      <Modal title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
       <Stack align="flex-start" justify="space-around" spacing="lg">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Grid gutter={30} m={0}>
@@ -124,7 +120,7 @@ export function Profile() {
                 label="User Name"
                 placeholder="Enter Username"
                 className="text-black text-sm font-semibold uppercase"
-                {...form.getInputProps('lastName')}
+                {...form.getInputProps('username')}
               />
             </Grid.Col>
             <Grid.Col xs={12}>
@@ -138,7 +134,9 @@ export function Profile() {
                   <Button onClick={() => setIsEditing(false)} classNames={{ root: button.grayButtonRoot }}>
                     Cancel
                   </Button>
-                  <Button type="submit" onClick={emailHandler.open}>Update</Button>
+                  <Button type="submit" onClick={emailHandler.open}>
+                    Update
+                  </Button>
                 </Group>
               </Only>
             </Grid.Col>
