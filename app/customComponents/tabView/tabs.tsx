@@ -19,9 +19,9 @@ export function TabView({ data, position, ...rest }: tabViewDataProps) {
     {...rest}>
       <Tabs.List   position={position}>
       <ScrollArea type='never' scrollbarSize={2} h={34}>
-        <Center className="md:space-x-8 lg:space-x-16">
+        <Center className="md:space-x-6 lg:space-x-10">
         {data.map((item, index) => (
-          <Tabs.Tab key={index} value={item.title.toLowerCase()}>
+          <Tabs.Tab key={index} value={item.title.toLowerCase()} >
             {item.title}
           </Tabs.Tab>
         ))}

@@ -9,7 +9,7 @@ import {
   SimpleStateCard,
 } from '@elektra/components';
 import { ProductCharts } from '@elektra/components/pageDesign/product/charts/productCharts';
-import { Drawer, Modal, useStylesforGlobal } from '@elektra/customComponents';
+import { Drawer, Modal, http, useStylesforGlobal } from '@elektra/customComponents';
 import {
   useOfferModal,
   useOfferPlaceModal,
@@ -206,6 +206,13 @@ export default function Testing() {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer();
+
+    const handleTest =async ()=>{
+      const res = await http.request({
+        url: 'orders/me',
+        // method: 'POST',
+      });
+    }
   return (
     <div>
       <div className="my-96 w-full">
@@ -214,6 +221,11 @@ export default function Testing() {
       
       <div>
         <HeroImage />
+      </div>
+      <div className='my-96'>
+        <Button onClick={handleTest}>
+          Click
+        </Button>
       </div>
 
       <div className="my-96">

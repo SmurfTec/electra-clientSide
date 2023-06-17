@@ -11,15 +11,15 @@ type HeaderSearchProps = {
 };
 
 export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
-  const focusTrapRef = useFocusTrap();
   const matches = useMediaQuery('(min-width: 810px)', false);
+  const small = useMediaQuery('(max-width: 390px)', false);
   return (
-    <Group position="apart" my={15} className="md:px-10 px-4">
+    <Group position="apart" my={7} className="md:px-10 px-4">
       <Text component={NextLink} href="/" color="black" className="hidden md:block font-bold md:ml-3">
         Elektra
       </Text>
       <TextInput
-        ref={focusTrapRef}
+        autoFocus
         icon={<Search size="1.1rem" strokeWidth={1.5} />}
         radius="xl"
         value={state}
@@ -35,8 +35,9 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
         })}
         onChange={(event) => setState(event.currentTarget.value)}
         color="rgba(238, 238, 238, 1)"
-        size={matches ? 'md' : 'sm'}
-        rightSection={<CloseButton onClick={close} />}
+        size={matches ? 'md' :'sm'}
+        maw={small?210:undefined}
+        rightSection={<CloseButton variant='transparent' onClick={close} />}
         rightSectionWidth={42}
       />
       <Button

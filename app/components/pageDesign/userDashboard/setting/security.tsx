@@ -1,15 +1,37 @@
-import { Modal, useStylesforGlobal } from '@elektra/customComponents';
+import { Modal, http, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, useEmailVerificationModel, usePasswordChangeModal, useShippingChangeModal } from '@elektra/hooks';
-import { Button, Divider, Group, Switch, Text } from '@mantine/core';
+import { Button, Divider, Group, LoadingOverlay, Switch, Text } from '@mantine/core';
 import { Pencil } from 'tabler-icons-react';
-import { PageTitle } from '../../../AppTitle';
+import {useSelector,RootState} from '@elektra/store'
+import { useState } from 'react';
 
 export function Security() {
+  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const [loading, setLoading] = useState<boolean>(false);
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({});
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const { classes } = useStylesforGlobal();
+
+  const handleVerification = async (value:boolean) =>{
+    setLoading(true)
+    const res = await http.request({
+      url: 'users/me',
+      method: 'PATCH',
+      data: {
+        is_two_step_verification_enabled:value
+      },
+    });
+    if(res.isError){
+      console.log(res.errorPayload)
+      setLoading(false)
+    }
+    else{
+      console.log(res)
+      setLoading(false)
+    }
+  }
   return (
     <div>
       
@@ -41,7 +63,7 @@ export function Security() {
               Shipping Address
             </Text>
             <Text  className=" text-[13px] md:text-base font-semibold text-black">
-              16 Street , Town Abc, City, USA , 213434
+              {profile?.shipping_address_line_1?`${profile?.shipping_address_line_1}, ${profile?.shipping_adress_line_2?profile?.shipping_adress_line_2+',':''} ${profile?.shipping_city},  ${profile?.shipping_stateOrProvince}, ${profile?.shipping_country}, ${profile?.shipping_postalcode}`:'-'}
             </Text>
           </div>
           <Button
@@ -65,7 +87,7 @@ export function Security() {
               Billing Address
             </Text>
             <Text  className="text-[13px] md:text-base font-semibold text-black">
-              16 Street , Town Abc, City, USA , 213434
+            {profile?.billing_address_line_1?`${profile?.billing_address_line_1}, ${profile?.billing_adress_line_2?profile?.billing_adress_line_2+',':''} ${profile?.billing_city},  ${profile?.billing_state_or_province}, ${profile?.billing_country}, ${profile?.billing_postalCode}`:'-'}
             </Text>
           </div>
           <Button
@@ -143,6 +165,9 @@ export function Security() {
         <Divider className='w-full md:hidden block' />
         <Switch
           size="md"
+          thumbIcon={<LoadingOverlay visible={loading} radius={'lg'}  />}
+            onChange={(event) => handleVerification(event.currentTarget.checked)}
+            checked={profile?.is_two_step_verification_enabled??false}
           styles={{
             label: {
               [`@media (min-width: 768px)`]: {

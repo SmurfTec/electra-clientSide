@@ -1,10 +1,11 @@
 import { useRedeemInputModal } from '@elektra/hooks';
 import { Avatar, Button, Group, Paper, Text, Title } from '@mantine/core';
 import { Modal } from '@elektra/customComponents';
+import { RootState, useSelector } from '@elektra/store';
 
 export const RewardInput = () => {
+  const profile = useSelector((state: RootState) => state.entities.auth.profile);
   const [RedeemInputModal, count, opened, { open, close }] = useRedeemInputModal();
-  
   return (
     <>    
       <Modal title="Redeem Points" children={RedeemInputModal} onClose={close} open={opened} />

@@ -1,33 +1,26 @@
 import { BottomLine, Logo, RightPanel, SocialButton, TitleHead } from '@elektra/components';
-import { Modal, http } from '@elektra/customComponents';
+import { Modal, http, isAuthenticated } from '@elektra/customComponents';
 import { useEmailVerificationModel } from '@elektra/hooks';
 import { RootState, login, useAppDispatch, useSelector } from '@elektra/store';
 import { Button, Container, Grid, Group, LoadingOverlay, PasswordInput, ScrollArea, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { NextPageContext } from 'next';
 import { useState } from 'react';
 
-export const useStyles = createStyles((theme) => ({
-  wrapper: {
-    position: 'relative',
-    padding: 0,
-    margin: 0,
-  },
-  input: {
-    borderRadius: 'unset',
-    border: '1px solid black',
-    height: '52px',
-  },
-  innerInput: {
-    height: '52px',
-  },
-}));
+
+export async function getServerSideProps(context: NextPageContext) {
+  const { req } = context;
+  const isAuth = await isAuthenticated(req);
+  if (isAuth) {
+    return { redirect: { permanent: false, destination: '/userdashboard' } };
+  }
+  return { props: {} };
+}
 
 export default function Signup() {
   const { classes } = useStyles();
-  
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const initialValues = {
     email: '',
@@ -35,7 +28,6 @@ export default function Signup() {
     lastname: '',
     password: '',
   };
-
   const form = useForm({
     initialValues: initialValues,
     validate: {
@@ -43,6 +35,8 @@ export default function Signup() {
       password: (value) => (value.length < 6 ? 'Password must be atleast 6 characters' : null),
     },
   });
+  
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:form.values.email,purpose:'signup'});
   const handleSignupSubmit = async (values:typeof initialValues)=>{
     setLoading(true);
     const res = await http.request({
@@ -51,18 +45,15 @@ export default function Signup() {
       method: 'POST',
     });
     if (res.isError) {
-      // form.setErrors({
-      //   email: res.errorPayload?.['message'] ?? 'Invalid email or password',
-      //   password: res.errorPayload?.['message'] ?? 'Invalid email or password',
-      // });
-      console.log(res.errorPayload)
+      form.setErrors({
+        email: res.errorPayload?.['message'] ?? 'No recipients defined',
+      });
       setLoading(false);
     } else {
-      
       setLoading(false);
+      emailHandler.open()
     }
   }
-  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({email:'dummy@example.com'});
   const phone = useMediaQuery('(max-width: 600px)');
 
   return (
@@ -146,3 +137,20 @@ export default function Signup() {
     </Grid>
   );
 }
+
+
+export const useStyles = createStyles((theme) => ({
+  wrapper: {
+    position: 'relative',
+    padding: 0,
+    margin: 0,
+  },
+  input: {
+    borderRadius: 'unset',
+    border: '1px solid black',
+    height: '52px',
+  },
+  innerInput: {
+    height: '52px',
+  },
+}));

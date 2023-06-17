@@ -16,7 +16,8 @@
     "incremental": true,
     "paths": {
       "@elektra/*": ["./app/*"],
-      "@elektra/public": ["./public/socialButton"]
+      "@elektra/public": ["./public/socialButton"],
+      "@elektra/types": ["./types"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

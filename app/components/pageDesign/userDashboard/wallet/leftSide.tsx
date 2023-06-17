@@ -1,4 +1,5 @@
 import { Only } from '@elektra/customComponents';
+import { RootState, useSelector } from '@elektra/store';
 import { Button, Center, Grid, Group, Image, Paper, PaperProps, SimpleGrid, Stack, Text, clsx, createStyles } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
@@ -8,6 +9,7 @@ type WalletLeftSide = {
 };
 
 export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
+  const  profile  = useSelector((state: RootState) => state.entities.auth.profile);
   const mediumdScreen = useMediaQuery('(min-width: 800px)', true);
   return (
     <Only when={state}>
@@ -20,7 +22,7 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
                   Available funds
                 </Text>
               </Center>
-              <Text className="text-black text-[40px] md:text-[62px] font-bold">$250.00</Text>
+              <Text className="text-black text-[40px] md:text-[62px] font-bold">${profile?.available_funds}</Text>
               <Button className="text-xs   md:text-sm font-medium" onClick={toogle}>
                 Cashout From Hyperwallet
               </Button>
@@ -38,7 +40,7 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
             withBorder={mediumdScreen ? true : false}
             icon={'/images/marketplace1.png'}
             label="Total Sales"
-            amount={330}
+            amount={Number(profile?.totalsales)}
             p={30}
             
           />
@@ -48,7 +50,7 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
             withBorder={mediumdScreen ? true : false}
             icon={'/images/marketplace2.png'}
             label="Proceeds"
-            amount={215}
+            amount={Number(profile?.proceeds)}
             p={30}
           />
         </Grid.Col>
@@ -57,7 +59,7 @@ export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
             withBorder={mediumdScreen ? true : false}
             icon={'/images/marketplace3.png'}
             label="Marketplace fee"
-            amount={115}
+            amount={Number(profile?.marketplace_fees)}
             p={30}
           />
         </Grid.Col>
