@@ -13,6 +13,7 @@ import { Drawer, Modal, http, useStylesforGlobal } from '@elektra/customComponen
 import {
   useOfferModal,
   useOfferPlaceModal,
+  usePasswordChangeModal,
   useSellerDetailDrawer,
   useTechinalSpecificationDrawer,
 } from '@elektra/hooks';
@@ -213,17 +214,26 @@ export default function Testing() {
         // method: 'POST',
       });
     }
+    
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   return (
     <div>
       <div className="my-96 w-full">
         <ProductCharts />
       </div>
+
+      <Modal
+        title="Changing Password"
+        children={PasswordChangeModal}
+        onClose={passwordHandler.close}
+        open={passwordOpened}
+      />
       
       <div>
         <HeroImage />
       </div>
       <div className='my-96'>
-        <Button onClick={handleTest}>
+        <Button onClick={passwordHandler.open}>
           Click
         </Button>
       </div>

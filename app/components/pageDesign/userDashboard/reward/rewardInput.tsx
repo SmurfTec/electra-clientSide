@@ -4,7 +4,7 @@ import { Modal } from '@elektra/customComponents';
 import { RootState, useSelector } from '@elektra/store';
 
 export const RewardInput = () => {
-  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const [RedeemInputModal, count, opened, { open, close }] = useRedeemInputModal();
   return (
     <>    

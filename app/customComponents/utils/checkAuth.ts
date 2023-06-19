@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
-import { http } from './http';
-import { has } from 'lodash'
+import { has } from 'lodash';
+import { http, setAxiosHeader } from './http';
 
 export const isAuthenticated = async (request: IncomingMessage | undefined) => {
   const req = request as {
@@ -16,6 +16,12 @@ export const isAuthenticated = async (request: IncomingMessage | undefined) => {
     method: 'GET',
     headers,
   });
-  if (res.isError) return false;
-  else return true;
+  if (res.isError) {
+  return false;
+}
+  else {
+    setAxiosHeader(headers);
+    return true;
+  }
 };
+

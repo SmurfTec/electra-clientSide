@@ -17,4 +17,4 @@ function initStore() {
 const store = initStore();
 const persistor = persistStore(store);
 
-export { persistor, store };
+export { persistor, store,initStore };

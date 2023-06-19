@@ -1,14 +1,14 @@
 import { Divider, Grid, Loader, LoadingOverlay, Switch } from '@mantine/core';
 import { Security } from './security';
-import { RootState, useSelector } from '@elektra/store';
+import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
 import { useState } from 'react';
 import { http } from '@elektra/customComponents';
 import { PageTitle } from '@elektra/components';
 
 export function Settings() {
-  const  profile  = useSelector((state: RootState) => state.entities.auth.profile);
+  const  profile  = useSelector((state: RootState) => state.auth.profile);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const handleNotification = async (value:boolean) =>{
     setLoading(true)
     const res = await http.request({
@@ -23,7 +23,10 @@ export function Settings() {
       setLoading(false)
     }
     else{
-      console.log(res)
+      const user = res.data['user'];
+      const profile = user['profile'];
+      delete user['profile'];
+      dispatch(updateUser({ isAuthenticated: true, user, profile }));
       setLoading(false)
     }
   }

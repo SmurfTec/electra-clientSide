@@ -6,9 +6,15 @@ import {
   ProtectPlan,
   SummaryFooter,
 } from '@elektra/components';
+import { isAuthenticated } from '@elektra/customComponents';
+import { RootState, initStore, useAppDispatch, useSelector } from '@elektra/store';
+import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
+import { ProtectionPlan } from '@elektra/types';
+
 import { Grid, Radio } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -58,10 +64,40 @@ const BiddingSummaryData: BiddingSummaryProps = {
   totalPrice: 460,
 };
 
-export default function BuyingSummary() {
+export async function getServerSideProps({ req }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  const store = initStore();
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  const { isError, data } = await store.dispatch(loadProtectionPlan());
+  if (isError) return { props: { protectionPlanData: [] } };
+  return { props: { protectionPlanData: data } };
+}
+
+type summaryPageProps = {
+  protectionPlanData: ProtectionPlan[];
+};
+
+export default function BuyingSummary({ protectionPlanData }: summaryPageProps) {
   const router = useRouter();
   const isOffer = router.query['type'] === 'offer';
   const [plan, setPlan] = useState<string>('');
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    let unsubscribe = false;
+    if (!unsubscribe) {
+      dispatch(rehydrateProtectionPlan(protectionPlanData));
+    }
+    return () => {
+      unsubscribe = true;
+    };
+  }, []);
+  const protectionPlan = useSelector((state: RootState) => state.entities.protectionPlan.list);
+
+  const data = protectionPlan.protectionplans.map((item)=> item.description);
+  console.log(data)
+
   return (
     <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
       <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
@@ -107,16 +143,16 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData2.title)}>
-          <div className='cursor-pointer'>
-          <ProtectPlan
-            title={protectPlanData2.title}
-            content={protectPlanData2.content}
-            price={protectPlanData2.price}
-          />
+          <div className="cursor-pointer">
+            <ProtectPlan
+              title={protectPlanData2.title}
+              content={protectPlanData2.content}
+              price={protectPlanData2.price}
+            />
           </div>
         </Grid.Col>
       </Grid>
-      <div onClick={() => setPlan("No")} className='cursor-pointer'>
+      <div onClick={() => setPlan('No')} className="cursor-pointer">
         <SummaryFooter />
       </div>
     </Radio.Group>

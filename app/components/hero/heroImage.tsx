@@ -1,8 +1,10 @@
+import { RootState } from '@elektra/store';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import Autoplay from 'embla-carousel-autoplay';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Herocomponent from './hero';
 
 const data = [
@@ -30,6 +32,8 @@ export function HeroImage() {
   const phone = useMediaQuery('(max-width: 400px)');
 
   const tablet = useMediaQuery('(max-width: 900px)');
+
+ 
 
   return (
     <Carousel

@@ -9,10 +9,12 @@ import {
   ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import {  useAppDispatch } from '@elektra/store';
+import { loadWebsiteSection, rehydrateWebsiteSection, store, useAppDispatch } from '@elektra/store';
 import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { NextPageContext } from 'next';
 import { useEffect } from 'react';
+import { WebsiteSection } from '../types/slices';
 
 const carouselData = [
   {
@@ -278,21 +280,35 @@ const brandData = [
   },
 ];
 
-export function Index() {
+export async function getServerSideProps(context: NextPageContext) {
+
+  // id: 1 means homepage data
+  const {data,isError} = await store.dispatch(loadWebsiteSection(1));
+  console.log(data,isError)
+  if(isError)
+  return { props: { websiteSection:[] } };
+  return { props: { websiteSection:data } };
+}
+
+type homePageProps = {
+  websiteSection: WebsiteSection;
+};
+
+export function Index({ ...rest }: homePageProps) {
+  useEffect(() => {
+    let unsubscribe = false;
+    if (!unsubscribe) {
+      dispatch(rehydrateWebsiteSection(rest.websiteSection));
+    }
+    return () => {
+      unsubscribe = true;
+    };
+  }, []);
+
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
   const dispatch = useAppDispatch();
-  useEffect(()=>{
-    // const login=async ()=>{
-    //   const logind = await dispatch(loginAsync({
-    //     email:'pator11004@onlcool.com',
-    //     password:'client123'
-    //   }))
-    //   // console.log();
-    // }
-    // login()
-  },[])
-  
+
   return (
     <div>
       <section className="mt-4">
@@ -464,7 +480,7 @@ export function Index() {
           </ScrollArea>
         </Grid>
       </section>
-      <div className="mt-10">
+      <div className="my-10 pb-20">
         <FooterProductCarousel />
       </div>
     </div>
