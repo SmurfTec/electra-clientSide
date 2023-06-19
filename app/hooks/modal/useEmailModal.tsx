@@ -6,12 +6,12 @@ import { useDisclosure, useInterval } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Mail } from 'tabler-icons-react';
-import { usePasswordChangeModal } from './usePasswordModal';
 import { useSignUpSuccesfullModal, useSignUpUnSuccesfullModal } from './useSignupModal';
+import { useLoginPasswordChangeModal } from './useLoginPasswordModal';
 
 type EmailModelProps = {
   email: string;
-  purpose: 'signup' | 'passwordChange' | '2fa';
+  purpose: 'signup' | '2fa' | 'passwordChange';
 };
 
 export const useEmailVerificationModel = ({
@@ -31,8 +31,7 @@ export const useEmailVerificationModel = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [seconds, setSeconds] = useState(timer_limit);
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({
-    login: true,
+  const [LoginPasswordChangeModal, loginPasswordOpened, loginPasswordHandler] = useLoginPasswordChangeModal({
     code: form.values.code,
   });
   const [SignUpSuccesModal, signUpSuccesOpened, signUpSuccesHandler] = useSignUpSuccesfullModal();
@@ -85,7 +84,7 @@ export const useEmailVerificationModel = ({
       } else {
         setLoading(false);
         close();
-        passwordHandler.open();
+        loginPasswordHandler.open();
       }
     }
     if (purpose === '2fa') {
@@ -137,9 +136,9 @@ export const useEmailVerificationModel = ({
       )}
       <CModal
         title="Changing Password"
-        children={PasswordChangeModal}
-        onClose={passwordHandler.close}
-        open={passwordOpened}
+        children={LoginPasswordChangeModal}
+        onClose={loginPasswordHandler.close}
+        open={loginPasswordOpened}
       />
       <CModal children={SignUpSuccesModal} onClose={signUpSuccesHandler.close} open={signUpSuccesOpened} />
       <CModal children={SignUpUnSuccesModal} onClose={signUpUnSuccesHandler.close} open={signUpUnSuccesOpened} />

@@ -81,7 +81,6 @@ export function Profile() {
 
   return (
     <div className="m-0">
-      {/* <Modal title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} /> */}
       <Stack align="flex-start" justify="space-around" spacing="lg">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Grid gutter={30} m={0}>
