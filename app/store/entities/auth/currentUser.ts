@@ -17,7 +17,6 @@ const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-   
     login: (authSession, action: PayloadAction<AuthSession>) => {
       authSession.isAuthenticated = action.payload.isAuthenticated;
       authSession.user = action.payload.user;
@@ -38,6 +37,13 @@ export const authReducer = slice.reducer;
 
 // Action Creators
 export const login = (authSession: AuthSession) => {
+  return {
+    payload: authSession,
+    type: slice.actions.login.type,
+  };
+};
+
+export const updateUser = (authSession: AuthSession) => {
   return {
     payload: authSession,
     type: slice.actions.login.type,

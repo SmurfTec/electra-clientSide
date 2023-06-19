@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode, Method } from 'axios';
 import { getCookie } from 'cookies-next';
 
-// const baseURL = 'http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000';
-const baseURL = 'https://1b93-103-169-64-13.ngrok-free.app';
+const baseURL = 'http://ec2-3-21-106-215.us-east-2.compute.amazonaws.com:5000';
+// const baseURL = 'https://14e9-103-169-64-13.ngrok-free.app';
 const httpRequest = axios.create({
   withCredentials: true,
   baseURL,

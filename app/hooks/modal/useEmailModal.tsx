@@ -1,4 +1,5 @@
 import { Modal as CModal, HttpStatusCode, http } from '@elektra/customComponents';
+import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
 import { Avatar, Button, Center, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useInterval } from '@mantine/hooks';
@@ -10,7 +11,7 @@ import { useSignUpSuccesfullModal, useSignUpUnSuccesfullModal } from './useSignu
 
 type EmailModelProps = {
   email: string;
-  purpose: 'signup' | 'passwordChange';
+  purpose: 'signup' | 'passwordChange' | '2fa';
 };
 
 export const useEmailVerificationModel = ({
@@ -19,11 +20,21 @@ export const useEmailVerificationModel = ({
 }: EmailModelProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const timer_limit = 59;
   const router = useRouter();
-  const [opened, { open, close}] = useDisclosure(false);
+  const form = useForm({
+    initialValues: {
+      code: '',
+    },
+  });
+  const dispatch = useAppDispatch();
+  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [seconds, setSeconds] = useState(timer_limit);
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({
+    login: true,
+    code: form.values.code,
+  });
   const [SignUpSuccesModal, signUpSuccesOpened, signUpSuccesHandler] = useSignUpSuccesfullModal();
   const [SignUpUnSuccesModal, signUpUnSuccesOpened, signUpUnSuccesHandler] = useSignUpUnSuccesfullModal();
   useEffect(() => {
@@ -37,14 +48,7 @@ export const useEmailVerificationModel = ({
       } else return s - 1;
     });
   }, 1000);
-  const form = useForm({
-    initialValues: {
-      code: '',
-    },
-    validate: {
-      code: (value) => (value.length < 6 ? 'atleast 6 digit' : null),
-    },
-  });
+
   const handleSubmit = async (code: string) => {
     setLoading(true);
     if (purpose === 'signup') {
@@ -81,7 +85,34 @@ export const useEmailVerificationModel = ({
       } else {
         setLoading(false);
         close();
-        passwordHandler.open()
+        passwordHandler.open();
+      }
+    }
+    if (purpose === '2fa') {
+      const res = await http.request({
+        url: `auth/email-2fa/${code}`,
+      });
+      if (res.isError) {
+        setLoading(false);
+        setError(true);
+      } else {
+        const res = await http.request({
+          url: 'users/me',
+          method: 'PATCH',
+          data: {
+            is_two_step_verification_enabled: !profile?.is_two_step_verification_enabled,
+          },
+        });
+        if (res.isError) {
+          setLoading(false);
+        } else {
+          const user = res.data['user'];
+          const profile = user['profile'];
+          delete user['profile'];
+          dispatch(updateUser({ isAuthenticated: true, user, profile }));
+          setLoading(false);
+          close()
+        }
       }
     }
   };

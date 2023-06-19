@@ -1,6 +1,5 @@
-import { Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
-import { useEmailVerificationModel } from '@elektra/hooks';
-import { RootState, useSelector } from '@elektra/store';
+import { Only, http, useStylesforGlobal } from '@elektra/customComponents';
+import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
 import { Button, Grid, Group, Stack, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -35,24 +34,19 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type Profile = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  username: string;
-};
 
 export function Profile() {
   const { classes } = useStyles();
   const { user, profile } = useSelector((state: RootState) => state.entities.auth);
   const { classes: button } = useStylesforGlobal();
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
   const initialValues = {
-    firstName: profile?.firstname ?? '-',
-    lastName: profile?.lastname ?? '-',
+    firstname: profile?.firstname ?? '-',
+    lastname: profile?.lastname ?? '-',
     email: user?.email ?? '-',
-    phone: profile?.mobile_no ?? '-',
+    mobile_no: profile?.mobile_no ?? '-',
     username: profile?.username ?? '-',
   };
   const form = useForm({
@@ -62,14 +56,32 @@ export function Profile() {
     },
   });
 
-  const handleFormSubmit = (values: Profile) => {
-    console.log(values);
+  const handleFormSubmit = async (values: typeof initialValues) => {
+    setLoading(true);
+    if (user?.email === values.email) {
+      const res = await http.request({
+        url: 'users/me',
+        method: 'PATCH',
+        data: values,
+      });
+      if (res.isError) {
+        setLoading(false)
+      } else {
+        const user = res.data['user'];
+        const profile = user['profile'];
+        delete user['profile'];
+        dispatch(updateUser({ isAuthenticated: true, user, profile }));
+        setLoading(false)
+        setIsEditing(false)
+
+      }
+    }
   };
-  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
+  // const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
 
   return (
     <div className="m-0">
-      <Modal title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
+      {/* <Modal title="Email Verification" children={emailModal} onClose={emailHandler.close} open={emailOpened} /> */}
       <Stack align="flex-start" justify="space-around" spacing="lg">
         <form onSubmit={form.onSubmit(handleFormSubmit)}>
           <Grid gutter={30} m={0}>
@@ -80,7 +92,7 @@ export function Profile() {
                 label="First Name"
                 placeholder="Enter First Name"
                 className="text-black text-sm font-semibold uppercase"
-                {...form.getInputProps('firstName')}
+                {...form.getInputProps('firstname')}
               />
             </Grid.Col>
             <Grid.Col xs={4}>
@@ -90,7 +102,7 @@ export function Profile() {
                 label="Last Name"
                 placeholder="Enter Last Name"
                 className="text-black text-sm font-semibolduppercase"
-                {...form.getInputProps('lastName')}
+                {...form.getInputProps('lastname')}
               />
             </Grid.Col>
             <Grid.Col xs={4}>
@@ -110,7 +122,7 @@ export function Profile() {
                 label="Phone No"
                 placeholder="Enter Phone no"
                 className="text-black text-sm font-semibold uppercase"
-                {...form.getInputProps('phone')}
+                {...form.getInputProps('mobile_no')}
               />
             </Grid.Col>
             <Grid.Col xs={4}>
@@ -131,10 +143,14 @@ export function Profile() {
               </Only>
               <Only when={isEditing}>
                 <Group>
-                  <Button onClick={() => setIsEditing(false)} classNames={{ root: button.grayButtonRoot }}>
+                  <Button
+                    disabled={loading}
+                    onClick={() => setIsEditing(false)}
+                    classNames={{ root: button.grayButtonRoot }}
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit" onClick={emailHandler.open}>
+                  <Button type="submit" loading={loading}>
                     Update
                   </Button>
                 </Group>
