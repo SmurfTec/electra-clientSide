@@ -21,7 +21,6 @@ export const apiRequest = ({ url, method, data, params, onSuccess, onError, onSt
       params,
     });
     if (onStart) {
-      console.log(onStart);
       dispatch({ type: onStart });
     }
     if (response.isError) {
