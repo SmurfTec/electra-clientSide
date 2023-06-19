@@ -12,8 +12,7 @@ import { useEffect, useState } from 'react';
 import { useStyles } from './signup';
 import { setCookie } from "cookies-next";
 
-export async function getServerSideProps(context: NextPageContext) {
-  const { req } = context;
+export async function getServerSideProps({req}: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (isAuth) {
     return { redirect: { permanent: false, destination: '/userdashboard' } };

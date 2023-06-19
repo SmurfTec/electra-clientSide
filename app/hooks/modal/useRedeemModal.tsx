@@ -8,7 +8,7 @@ import { CircleCheck, CircleX, Minus, Plus } from 'tabler-icons-react';
 
 export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const [offerModal, offerOpened, offerHandler] = useRedeemSuccesfullModal();
   const [count, handlers] = useCounter(profile?.coins, { min: 0 });
   const Modal = (

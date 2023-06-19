@@ -1,4 +1,5 @@
 import { http, HttpStatusCode, Method } from '@elektra/customComponents';
+import { logout } from '../entities';
 import { AppDispatch } from '../storeContext';
 
 type ApiRequestParams = {
@@ -21,19 +22,18 @@ export const apiRequest = ({ url, method, data, params, onSuccess, onError, onSt
       params,
     });
     if (onStart) {
-      console.log(onStart);
       dispatch({ type: onStart });
     }
     if (response.isError) {
       if (response.status === HttpStatusCode.Unauthorized) {
-        if (response.data) console.log('Unauthorized');
+        if (response.data) dispatch(logout());
       }
       if (onError) dispatch({ type: onError, payload: response });
-      return { response, isError: response.isError };
+      return response;
     }
     if (onSuccess) {
       dispatch({ type: onSuccess, payload: response.data, status: response.status, message: response.statusText });
-      return { data: response.data, isError: response.isError };
+      return response;
     }
     return response;
   };

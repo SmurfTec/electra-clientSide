@@ -37,7 +37,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Profile() {
   const { classes } = useStyles();
-  const { user, profile } = useSelector((state: RootState) => state.entities.auth);
+  const { user, profile } = useSelector((state: RootState) => state.auth);
   const { classes: button } = useStylesforGlobal();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);

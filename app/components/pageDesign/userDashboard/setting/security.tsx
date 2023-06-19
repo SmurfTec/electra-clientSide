@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
 
 export function Security() {
-  const { user, profile } = useSelector((state: RootState) => state.entities.auth);
+  const { user, profile } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();

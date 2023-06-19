@@ -1,2 +1,3 @@
-export * from './reducer'
-export * from './auth'
+export * from './auth';
+export * from './reducer';
+export * from './slices';

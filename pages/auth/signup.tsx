@@ -10,8 +10,7 @@ import { NextPageContext } from 'next';
 import { useState } from 'react';
 
 
-export async function getServerSideProps(context: NextPageContext) {
-  const { req } = context;
+export async function getServerSideProps({req}: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (isAuth) {
     return { redirect: { permanent: false, destination: '/userdashboard' } };

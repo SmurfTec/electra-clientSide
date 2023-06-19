@@ -9,7 +9,7 @@ type WalletLeftSide = {
 };
 
 export const WalletLeftSide = ({ state, toogle }: WalletLeftSide) => {
-  const  profile  = useSelector((state: RootState) => state.entities.auth.profile);
+  const  profile  = useSelector((state: RootState) => state.auth.profile);
   const mediumdScreen = useMediaQuery('(min-width: 800px)', true);
   return (
     <Only when={state}>

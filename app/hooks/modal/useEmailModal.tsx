@@ -26,7 +26,7 @@ export const useEmailVerificationModel = ({
     },
   });
   const dispatch = useAppDispatch();
-  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);

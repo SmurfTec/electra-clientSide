@@ -34,8 +34,7 @@ const tabViewData: tabViewData[] = [
     content: <Settings />,
   },
 ];
-export async function getServerSideProps(context: NextPageContext) {
-  const { req } = context;
+export async function getServerSideProps({req}: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
@@ -44,7 +43,7 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 export default function UserDashboard() {
-  const profile = useSelector((state: RootState) => state.entities.auth.profile);
+  const profile = useSelector((state: RootState) => state.auth.profile);
   return (
     <div className="my-12">
       <div className="ml-2 md:ml-8 mb-4">

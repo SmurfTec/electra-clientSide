@@ -18,7 +18,7 @@ export const usePasswordChangeModal = ({
   const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { classes } = useStylesforGlobal();
-  // const user = useSelector((state: RootState) => state.entities.auth.user);
+  // const user = useSelector((state: RootState) => state.auth.user);
   // const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({
   //   email: String("user?.email"),
   //   purpose: '2fa',
