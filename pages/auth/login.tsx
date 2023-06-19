@@ -38,7 +38,7 @@ export default function Login() {
   }, [router]);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: form.values.email,purpose:'loginPasswordChange' });
+  const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: form.values.email,purpose:'passwordChange' });
   const phone = useMediaQuery('(max-width: 600px)');
   const handleLoginSubmit = async (values: typeof initialValues) => {
     setLoading(true);
