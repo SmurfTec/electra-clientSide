@@ -6,9 +6,15 @@ import {
   ProtectPlan,
   SummaryFooter,
 } from '@elektra/components';
+import { setAxiosHeader } from '@elektra/customComponents';
+import { store, useAppDispatch } from '@elektra/store';
+import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
+import { ProtectionPlan } from '@elektra/types';
+
 import { Grid, Radio } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -58,10 +64,35 @@ const BiddingSummaryData: BiddingSummaryProps = {
   totalPrice: 460,
 };
 
-export default function BuyingSummary() {
+export async function getServerSideProps(context: NextPageContext) {
+  setAxiosHeader(context.req);
+  const protectionPlan = await store.dispatch(loadProtectionPlan());
+  if(protectionPlan.isError)
+  return { props: { protectionPlan:[] } };
+  return { props: { protectionPlan } };
+}
+
+type summaryPageProps = {
+  protectionPlan: ProtectionPlan[];
+};
+
+export default function BuyingSummary({ protectionPlan,...rest }: summaryPageProps) {
   const router = useRouter();
   const isOffer = router.query['type'] === 'offer';
   const [plan, setPlan] = useState<string>('');
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let unsubscribe = false;
+    if (!unsubscribe) {
+      dispatch(rehydrateProtectionPlan(protectionPlan));
+    }
+    return () => {
+      unsubscribe = true;
+    };
+  }, []);
+
   return (
     <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
       <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
@@ -107,16 +138,16 @@ export default function BuyingSummary() {
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData2.title)}>
-          <div className='cursor-pointer'>
-          <ProtectPlan
-            title={protectPlanData2.title}
-            content={protectPlanData2.content}
-            price={protectPlanData2.price}
-          />
+          <div className="cursor-pointer">
+            <ProtectPlan
+              title={protectPlanData2.title}
+              content={protectPlanData2.content}
+              price={protectPlanData2.price}
+            />
           </div>
         </Grid.Col>
       </Grid>
-      <div onClick={() => setPlan("No")} className='cursor-pointer'>
+      <div onClick={() => setPlan('No')} className="cursor-pointer">
         <SummaryFooter />
       </div>
     </Radio.Group>

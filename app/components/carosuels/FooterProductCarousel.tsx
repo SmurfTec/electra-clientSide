@@ -1,22 +1,19 @@
+import { baseURL } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
 import { Carousel } from '@mantine/carousel';
 import { Image, createStyles } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useSelector } from 'react-redux';
 import { ArrowNarrowLeft, ArrowNarrowRight } from 'tabler-icons-react';
-const carosuelData = [
-  '/images/carousel/c1.png',
-  '/images/carousel/c2.png',
-  '/images/carousel/c3.png',
-  '/images/carousel/c2.png',
-  '/images/carousel/c1.png',
-  '/images/carousel/c3.png',
-  '/images/carousel/c1.png',
-  '/images/carousel/c3.png',
-  '/images/carousel/c2.png',
-];
 export const FooterProductCarousel = () => {
   const { classes } = useStyles();
   const medium = useMediaQuery('(max-width: 769px)');
   const phone = useMediaQuery('(max-width: 500px)');
+  const carouselData = useSelector((state: RootState) => state.entities.websiteSection.response.data.sections)?.find(
+    (item) => item.section === 'Carousel'
+  )?.images;
+
+  console.log(carouselData);
   return (
     <Carousel
       classNames={classes}
@@ -30,11 +27,11 @@ export const FooterProductCarousel = () => {
       slideSize="33.333333%"
       slideGap="md"
       align="start"
-      slidesToScroll={phone ? 1 : medium ? 2 : 3}
+      slidesToScroll={1}
     >
-      {carosuelData.map((item, index) => (
+      {carouselData?.map((item, index) => (
         <Carousel.Slide key={index}>
-          <Image src={item} alt="" fit="contain" />
+          <Image src={baseURL + "/" + item.filename} alt="" fit='cover' />
         </Carousel.Slide>
       ))}
     </Carousel>
