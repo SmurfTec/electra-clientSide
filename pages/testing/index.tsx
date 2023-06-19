@@ -215,25 +215,19 @@ export default function Testing() {
       });
     }
     
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({ login: true });
   return (
     <div>
       <div className="my-96 w-full">
         <ProductCharts />
       </div>
 
-      <Modal
-        title="Changing Password"
-        children={PasswordChangeModal}
-        onClose={passwordHandler.close}
-        open={passwordOpened}
-      />
+      
       
       <div>
         <HeroImage />
       </div>
       <div className='my-96'>
-        <Button onClick={passwordHandler.open}>
+        <Button >
           Click
         </Button>
       </div>
