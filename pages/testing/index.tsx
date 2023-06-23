@@ -210,7 +210,7 @@ export default function Testing() {
 
     const handleTest =async ()=>{
       const res = await http.request({
-        url: 'orders/me',
+        url: '/websites/1',
         // method: 'POST',
       });
     }
@@ -227,7 +227,7 @@ export default function Testing() {
         <HeroImage />
       </div>
       <div className='my-96'>
-        <Button >
+        <Button onClick={handleTest}>
           Click
         </Button>
       </div>

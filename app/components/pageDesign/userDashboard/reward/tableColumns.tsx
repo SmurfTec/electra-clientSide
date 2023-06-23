@@ -1,7 +1,15 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { format } from 'date-fns';
 
-export function getHeaderColumn<T extends { id: string }>() {
-  const columns: Array<ColumnDef<T, unknown>> = [
+export type UserRewardDataTable = {
+  id: number;
+  coins: number;
+  date: string;
+  amount: number;
+};
+
+export function getHeaderColumn() {
+  const columns: Array<ColumnDef<UserRewardDataTable, unknown>> = [
     {
       id: 'id',
       accessorKey: 'id',
@@ -9,14 +17,15 @@ export function getHeaderColumn<T extends { id: string }>() {
       header: 'ID',
     },
     {
-      id: 'redeemedPoints',
-      accessorKey: 'redeemedPoints',
+      id: 'coins',
+      accessorKey: 'coins',
       footer: () => null,
       header: 'Points Redeemed',
     },
     {
-      id: 'redeemedDate',
-      accessorKey: 'redeemedDate',
+      id: 'date',
+      accessorKey: 'date',
+      accessorFn: (row) => format(new Date(row.date), 'dd MMM, yyyy'),
       footer: () => null,
       header: 'Redeemed Date',
     },
