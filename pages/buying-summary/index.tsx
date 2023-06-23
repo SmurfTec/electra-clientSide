@@ -29,32 +29,6 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-const protectPlanData = {
-  title: '13 Month Protect Plan',
-  price: 50.0,
-  content: [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-  ],
-};
-
-const protectPlanData2 = {
-  title: '24 Month Protect Plan',
-  price: 100.0,
-  content: [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis velit at tellus varius porttitor.',
-  ],
-};
-
 const BiddingSummaryData: BiddingSummaryProps = {
   yourOffer: 437,
   marketPlaceFee: 5,
@@ -93,10 +67,8 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       unsubscribe = true;
     };
   }, []);
-  const protectionPlan = useSelector((state: RootState) => state.entities.protectionPlan.list);
-
-  const data = protectionPlan.protectionplans.map((item)=> item.description);
-  console.log(data)
+  const protectionPlan = useSelector((state: RootState) => state.entities.protectionPlan.list).protectionplans;
+  console.log(protectionPlan);
 
   return (
     <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
@@ -132,8 +104,16 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             />
           </div>
         </Grid.Col>
-
-        <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData.title)}>
+        {protectionPlan.map((item, key) => {
+          return (
+            <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(item.id + item.name)}>
+              <div className="overflow-y-auto h-full cursor-pointer">
+                <ProtectPlan id={item.id} title={item.name} content={item.description} price={item.amount} />
+              </div>
+            </Grid.Col>
+          );
+        })}
+        {/* <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData.title)}>
           <div className="overflow-y-auto h-full cursor-pointer">
             <ProtectPlan
               title={protectPlanData.title}
@@ -150,7 +130,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               price={protectPlanData2.price}
             />
           </div>
-        </Grid.Col>
+        </Grid.Col> */}
       </Grid>
       <div onClick={() => setPlan('No')} className="cursor-pointer">
         <SummaryFooter />
