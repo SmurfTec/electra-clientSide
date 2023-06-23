@@ -15,7 +15,7 @@ export function TabView({ data, position, ...rest }: tabViewDataProps) {
     <Tabs color="blue" 
     keepMounted={false}
     value={router.query.tab===undefined? data[0].title.toLowerCase():String(router.query.tab).toLowerCase()}
-    onTabChange={(value) => router.push(`?tab=${value}`)} 
+    onTabChange={(value) => router.replace(`?tab=${value}`,undefined,{shallow:true})} 
     {...rest}>
       <Tabs.List   position={position}>
       <ScrollArea type='never' scrollbarSize={2} h={34}>

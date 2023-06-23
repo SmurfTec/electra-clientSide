@@ -1,8 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { websiteSectionReducer } from './slices/websiteSection';
-import { protectionPlanReducer } from './slices';
+import { protectionPlanReducer, userRewardReducer } from './slices';
 
 export const entitiesReducers = combineReducers({
   websiteSection: websiteSectionReducer,
-  protectionPlan: protectionPlanReducer
+  protectionPlan: protectionPlanReducer,
+  userReward: userRewardReducer,
 });

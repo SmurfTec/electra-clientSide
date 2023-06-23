@@ -1,2 +1,3 @@
-export * from "./websiteSection"
-export * from "./protectionPlan"
+export * from "./websiteSection.type"
+export * from "./protectionPlan.type"
+export * from "./userReward.type"
