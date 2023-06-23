@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { CircleCheck } from 'tabler-icons-react';
 
 type ProtectPlanProps = {
+  id: number;
   title: string;
   price: number;
   content: string[];
 };
 
-export function ProtectPlan({ title, price, content }: ProtectPlanProps) {
+export function ProtectPlan({ title, price, content, id }: ProtectPlanProps) {
   const theme = useMantineTheme();
   return (
     <div
@@ -18,7 +19,7 @@ export function ProtectPlan({ title, price, content }: ProtectPlanProps) {
     >
       <Group position="apart">
         <Group className="space-x-4">
-          <Radio color={'black'} value={title}  />
+          <Radio color={'black'} value={id+title}  />
           <Text className="font-bold" size="xl">
             {title}
           </Text>
