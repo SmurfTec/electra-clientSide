@@ -1,6 +1,6 @@
 import { Only, http, useStylesforGlobal } from '@elektra/customComponents';
 import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
-import { Button, Grid, Group, Stack, TextInput, createStyles } from '@mantine/core';
+import { Button, Grid, Group, Stack, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
@@ -42,6 +42,7 @@ export function Profile() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState<{error:boolean,message:string}>({error:false,message:''});
   const initialValues = {
     firstname: profile?.firstname ?? '-',
     lastname: profile?.lastname ?? '-',
@@ -66,6 +67,7 @@ export function Profile() {
       });
       if (res.isError) {
         setLoading(false)
+        setError({error:true,message:res.errorPayload?.['message']})
       } else {
         const user = res.data['user'];
         const profile = user['profile'];
@@ -73,12 +75,9 @@ export function Profile() {
         dispatch(updateUser({ isAuthenticated: true, user, profile }));
         setLoading(false)
         setIsEditing(false)
-
       }
     }
   };
-  // const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: 'dummy@example.com' });
-
   return (
     <div className="m-0">
       <Stack align="flex-start" justify="space-around" spacing="lg">
@@ -134,6 +133,7 @@ export function Profile() {
                 {...form.getInputProps('username')}
               />
             </Grid.Col>
+            {error.error&& <Text color='red' className='text-sm'>{error.message}</Text>}
             <Grid.Col xs={12}>
               <Only when={!isEditing}>
                 <Button leftIcon={<Pencil />} onClick={() => setIsEditing(true)}>

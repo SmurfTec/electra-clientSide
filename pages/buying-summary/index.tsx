@@ -40,20 +40,20 @@ const BiddingSummaryData: BiddingSummaryProps = {
 
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
-  const store = initStore();
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
+  const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());
   if (isError) return { props: { protectionPlanData: [] } };
   return { props: { protectionPlanData: data } };
 }
 
-type summaryPageProps = {
+type BuyingSummaryPageProps = {
   protectionPlanData: ProtectionPlan[];
 };
 
-export default function BuyingSummary({ protectionPlanData }: summaryPageProps) {
+export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageProps) {
   const router = useRouter();
   const isOffer = router.query['type'] === 'offer';
   const [plan, setPlan] = useState<string>('');

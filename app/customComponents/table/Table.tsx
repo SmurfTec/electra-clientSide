@@ -21,7 +21,7 @@ type tableDataType = {
   };
 };
 
-type DataTableProps<T extends { id: string }> = {
+type DataTableProps<T extends { id: string | number }> = {
   data: T[];
   columns?: ColumnDef<T>[];
   search?: string;
@@ -31,7 +31,7 @@ type DataTableProps<T extends { id: string }> = {
   setSelectedRows?: OnChangeFn<RowSelectionState>;
 };
 
-function getHeaderColumn<T extends { id: string }>(data: Array<T>) {
+function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
   return Object.keys(data[0]).map(
     (key) =>
       ({
@@ -42,7 +42,7 @@ function getHeaderColumn<T extends { id: string }>(data: Array<T>) {
   );
 }
 
-export function DataTable<T extends { id: string }>({
+export function DataTable<T extends { id: string |number}>({
   data,
   columns,
   RowUI,
@@ -54,7 +54,7 @@ export function DataTable<T extends { id: string }>({
   const defaultRowUI = {
     cell: (props: CellContext<T, unknown>) => (RowUI ? <RowUI {...props} /> : props.cell.getValue()),
   };
-  const tableData = useMemo(() => columns, [columns]) 
+  const tableData = useMemo(() => columns, [columns]);
   const table = useReactTable<T>({
     data,
     columns: columns ? tableData! : getHeaderColumn(data),
@@ -71,7 +71,7 @@ export function DataTable<T extends { id: string }>({
 
   const { classes } = useStyles();
   return (
-    <div className='overflow-x-auto w-full'>
+    <div className="overflow-x-auto w-full">
       <Table className={clsx(classes.table, className)} striped>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

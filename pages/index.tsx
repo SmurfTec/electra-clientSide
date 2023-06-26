@@ -284,7 +284,6 @@ export async function getServerSideProps(context: NextPageContext) {
 
   // id: 1 means homepage data
   const {data,isError} = await store.dispatch(loadWebsiteSection(1));
-  console.log(data,isError)
   if(isError)
   return { props: { websiteSection:[] } };
   return { props: { websiteSection:data } };

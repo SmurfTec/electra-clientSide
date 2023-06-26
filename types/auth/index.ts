@@ -1,2 +1,2 @@
-export * from './profile'
-export * from './user'
+export * from './profile.type'
+export * from './user.type'
