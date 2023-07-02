@@ -1,7 +1,9 @@
-import { Only, http, useStylesforGlobal } from '@elektra/customComponents';
+import { Modal, Only, http, useStylesforGlobal } from '@elektra/customComponents';
+import { useEmailVerificationModel } from '@elektra/hooks';
 import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
 import { Button, Grid, Group, Stack, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { omit } from 'lodash';
 import { useState } from 'react';
 import { Pencil } from 'tabler-icons-react';
 
@@ -34,7 +36,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
 export function Profile() {
   const { classes } = useStyles();
   const { user, profile } = useSelector((state: RootState) => state.auth);
@@ -42,7 +43,7 @@ export function Profile() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState<{error:boolean,message:string}>({error:false,message:''});
+  const [error, setError] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
   const initialValues = {
     firstname: profile?.firstname ?? '-',
     lastname: profile?.lastname ?? '-',
@@ -54,29 +55,45 @@ export function Profile() {
     initialValues: initialValues,
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      username: (value) => (value === '-' ? null : value.length < 2 ? 'username must have at least 2 letters' : null),
+      firstname: (value) => (value.length < 2 ? 'username must have at least 2 letters' : null),
+      lastname: (value) => (value.length < 2 ? 'username must have at least 2 letters' : null),
+      mobile_no: (value) => (value === '-' ? null : value.length < 11 ? 'username must have at least 11 digits' : null),
     },
   });
-
+  const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({
+    email: String(user?.email),
+    purpose: 'emailChange',
+  });
   const handleFormSubmit = async (values: typeof initialValues) => {
-    setLoading(true);
-    if (user?.email === values.email) {
+    setError({ error: false, message: '' });
+    if (form.isDirty()) {
+      setLoading(true);
+      let data = values as Partial<typeof initialValues>;
+      if (!form.isDirty('mobile_no')) data = omit(data, 'mobile_no');
+      if (!form.isDirty('email')) data = omit(data, 'email');
+      if (!form.isDirty('firstname')) data = omit(data, 'firstname');
+      if (!form.isDirty('lastname')) data = omit(data, 'lastname');
+      if (!form.isDirty('username')) data = omit(data, 'username');
       const res = await http.request({
         url: 'users/me',
         method: 'PATCH',
-        data: values,
+        data: data,
       });
       if (res.isError) {
-        setLoading(false)
-        setError({error:true,message:res.errorPayload?.['message']})
+        setLoading(false);
+        setError({ error: true, message: res.errorPayload?.['message'] });
       } else {
         const user = res.data['user'];
         const profile = user['profile'];
         delete user['profile'];
         dispatch(updateUser({ isAuthenticated: true, user, profile }));
-        setLoading(false)
-        setIsEditing(false)
+        if (!user['is_active']) emailHandler.open();
+        setLoading(false);
+        setIsEditing(false);
       }
-    }
+      form.resetDirty();
+    } else setIsEditing(false);
   };
   return (
     <div className="m-0">
@@ -133,7 +150,12 @@ export function Profile() {
                 {...form.getInputProps('username')}
               />
             </Grid.Col>
-            {error.error&& <Text color='red' className='text-sm'>{error.message}</Text>}
+            <Modal title="Email Verfication" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
+            {error.error && (
+              <Text color="red" className="text-sm ml-4">
+                {error.message}
+              </Text>
+            )}
             <Grid.Col xs={12}>
               <Only when={!isEditing}>
                 <Button leftIcon={<Pencil />} onClick={() => setIsEditing(true)}>

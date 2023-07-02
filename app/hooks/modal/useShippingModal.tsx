@@ -1,32 +1,53 @@
-import { Button, createStyles, Grid, Group, Select, TextInput } from '@mantine/core';
+import { useStylesforGlobal } from '@elektra/customComponents';
+import { RootState, useSelector } from '@elektra/store';
+import { Button, createStyles, Grid, Group, Select, SelectItem, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { City, Country, State } from 'country-state-city';
 import { CaretDown } from 'tabler-icons-react';
-import { useStylesforGlobal } from '../../customComponents/theme';
 
 export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyles();
   const { classes: button } = useStylesforGlobal();
-
+  const profile = useSelector((state: RootState) => state.auth.profile);
+  const defaultCountry = 'PK';
   const initialValues = {
-    address1: '',
-    address2: '',
-    country: '',
-    state: '',
-    city: '',
-    postalCode: '',
+    address1: profile?.shipping_address_line_1 ?? '',
+    address2: profile?.shipping_adress_line_2 ?? '',
+    country: profile?.shipping_country ?? defaultCountry,
+    state: profile?.shipping_stateorprovince ?? '',
+    city: profile?.shipping_city ?? '',
+    postalCode: profile?.shipping_postalcode ?? '',
   };
 
   const form = useForm({
     initialValues: initialValues,
-
     validate: {},
   });
+  const handleSubmit = (values: typeof initialValues) => {
+    
+  };
+
+  const countryTransformer = () => {
+    const country = Country.getCountryByCode(defaultCountry);
+    return [{ value: String(country?.isoCode), label: String(country?.name) }] as SelectItem[];
+  };
+  const stateTransformer = () => {
+    const states = State.getStatesOfCountry(defaultCountry);
+    return states.map((state) => ({ value: String(state.isoCode), label: String(state?.name) } as SelectItem));
+  };
+  const cityTransformer = () => {
+    if (form.values.state) {
+      const cities = City.getCitiesOfState(defaultCountry, form.values.state);
+      return cities.map((city) => (String(city?.name)));
+    }
+    return [];
+  };
 
   const Modal = (
     <div>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid>
           <Grid.Col xs={12}>
             <TextInput
@@ -57,7 +78,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               nothingFound="No options"
               classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
-              data={['Pakistan', 'India', 'China', 'USA']}
+              data={countryTransformer()}
               {...form.getInputProps('country')}
             />
           </Grid.Col>
@@ -72,7 +93,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               nothingFound="No options"
               classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
-              data={['Punjab', 'Sindh', 'Balochistan', 'KPK']}
+              data={stateTransformer()}
               {...form.getInputProps('state')}
             />
           </Grid.Col>
@@ -87,7 +108,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
               nothingFound="No options"
               classNames={{ input: classes.input, description: classes.description, label: classes.label }}
               styles={{ rightSection: { pointerEvents: 'none' } }}
-              data={['Lahore', 'Islamabad', 'Karachi', 'Multan', 'Rawalpindi']}
+              data={cityTransformer()}
               {...form.getInputProps('city')}
             />
           </Grid.Col>
