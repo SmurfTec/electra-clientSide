@@ -13,7 +13,6 @@ export const FooterProductCarousel = () => {
     (item) => item.section === 'Carousel'
   )?.images;
 
-  console.log(carouselData);
   return (
     <Carousel
       classNames={classes}

@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export type WebsiteSectionData = {
   list: WebsiteSection;
+  
   loading: boolean;
 };
 
