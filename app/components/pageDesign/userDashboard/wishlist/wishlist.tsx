@@ -1,6 +1,6 @@
+import { baseURL } from '@elektra/customComponents';
 import { Product } from '@elektra/types';
 import { ProductCard } from '../../../card';
-import { baseURL } from '@elektra/customComponents';
 
 type WishlistProps = {
   wishlist: Product[];
@@ -14,11 +14,11 @@ export function WishList({ wishlist }: WishlistProps) {
           <div key={index} className="min-w-[15%]">
             <ProductCard
               image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
-              description={product.description || '9/10 condition with charger and box'}
+              description={'9/10 condition with charger and box'}
               link={'/product-detail'}
               title={product.title}
-              rating={product.rating || 'New'}
-              wishlist={product.wishlist || false}
+              rating={'New'}
+              wishlist={false}
               lowestPrice={product.lowest_price || 500}
               highestPrice={product.highest_offer || 500}
               price={product.user_starting_price || 500}
