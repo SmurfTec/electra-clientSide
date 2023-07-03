@@ -59,6 +59,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const [plan, setPlan] = useState<string>('');
   const dispatch = useAppDispatch();
   useEffect(() => {
+    console.log(protectionPlanData)
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateProtectionPlan(protectionPlanData));
@@ -67,6 +68,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       unsubscribe = true;
     };
   }, []);
+  
   const protectionPlan = useSelector((state: RootState) => state.entities.protectionPlan.list).protectionplans;
   console.log(protectionPlan);
 
