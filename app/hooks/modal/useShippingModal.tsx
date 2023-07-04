@@ -26,7 +26,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
     validate: {},
   });
   const handleSubmit = (values: typeof initialValues) => {
-    
+    console.log(values)
   };
 
   const countryTransformer = () => {

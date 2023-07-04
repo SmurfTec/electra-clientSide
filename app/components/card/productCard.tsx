@@ -31,6 +31,7 @@ export function ProductCard({
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
 
+
   return (
     <Card className='relative rounded-none'>
       <Anchor component={NextLink} href={link} className="cursor-pointer" align='unset' underline={false}>
@@ -49,7 +50,7 @@ export function ProductCard({
         >
           {rating}
         </Badge>
-      </Only>
+      </Only> 
       </Anchor>
       <Card.Section  className="no-underline">
         <Grid align="center">

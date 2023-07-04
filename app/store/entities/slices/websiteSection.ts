@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export type WebsiteSectionData = {
   list: WebsiteSection;
+  
   loading: boolean;
 };
 
@@ -19,17 +20,17 @@ const slice = createSlice({
   name: 'websiteSection',
   initialState,
   reducers: {
-    sectionRequested: (fp) => {
-      fp.loading = true;
+    sectionRequested: (state) => {
+      state.loading = true;
     },
 
-    sectionReceived: (fp, action) => {
-      fp.list = action.payload;
-      fp.loading = false;
+    sectionReceived: (state, action) => {
+      state.list = action.payload;
+      state.loading = false;
     },
 
-    sectionFailed: (fp) => {
-      fp.loading = false;
+    sectionFailed: (state) => {
+      state.loading = false;
     },
 
     rehydrated: (state, action) => {

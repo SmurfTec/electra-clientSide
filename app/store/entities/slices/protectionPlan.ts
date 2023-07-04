@@ -22,17 +22,17 @@ const slice = createSlice({
   name: 'protectionPlan',
   initialState,
   reducers: {
-    planRequested: (fp) => {
-      fp.loading = true;
+    planRequested: (state) => {
+      state.loading = true;
     },
 
-    planReceived: (fp, action) => {
-      fp.list = action.payload;
-      fp.loading = false;
+    planReceived: (state, action) => {
+      state.list = action.payload;
+      state.loading = false;
     },
 
-    planFailed: (fp) => {
-      fp.loading = false;
+    planFailed: (state) => {
+      state.loading = false;
     },
 
     rehydrated: (state, action) => {

@@ -19,17 +19,17 @@ const slice = createSlice({
   name: 'userReward',
   initialState,
   reducers: {
-    userRewardRequested: (fp) => {
-      fp.loading = true;
+    userRewardRequested: (state) => {
+      state.loading = true;
     },
 
-    userRewardReceived: (fp, action) => {
-      fp.list = action.payload;
-      fp.loading = false;
+    userRewardReceived: (state, action) => {
+      state.list = action.payload['rewards'];
+      state.loading = false;
     },
 
-    userRewardFailed: (fp) => {
-      fp.loading = false;
+    userRewardFailed: (state) => {
+      state.loading = false;
     },
 
     rehydrated: (state, action) => {
