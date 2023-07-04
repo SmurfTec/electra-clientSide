@@ -7,11 +7,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Mail } from 'tabler-icons-react';
 import { useSignUpSuccesfullModal, useSignUpUnSuccesfullModal } from './useSignupModal';
-import { useLoginPasswordChangeModal } from './useLoginPasswordModal';
+import { useLoginPasswordChangeModal } from './usePasswordModal';
 
 type EmailModelProps = {
   email: string;
-  purpose: 'signup' | '2fa' | 'passwordChange';
+  purpose: 'signup' | '2fa' | 'passwordChange' | 'emailChange';
 };
 
 export const useEmailVerificationModel = ({
@@ -69,8 +69,33 @@ export const useEmailVerificationModel = ({
         close();
         signUpSuccesHandler.open();
         setTimeout(() => {
-          router.push('/auth/login');
-        }, 3000);
+          router.push('/auth/login',undefined,{shallow:true});
+        }, 1500);
+      }
+    }
+    if (purpose === 'emailChange') {
+      const res = await http.request({
+        url: 'auth/confirm-signup',
+        data: { code },
+        method: 'POST',
+      });
+      if (res.isError) {
+        if (res.status === HttpStatusCode.InternalServerError) {
+          setLoading(false);
+          close();
+        }
+        setLoading(false);
+        setError(true);
+      } else {
+        const user = res.data;
+        const profile = user['profile'];
+        delete user['profile'];
+        dispatch(updateUser({ isAuthenticated: true, user, profile }));
+        setLoading(false);
+        close();
+        setTimeout(() => {
+          router.push('/auth/login',undefined,{shallow:true});
+        }, 500);
       }
     }
     if (purpose === 'passwordChange') {

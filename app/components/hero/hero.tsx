@@ -6,29 +6,17 @@ import { NextLink } from '@mantine/next';
 
 export interface IHerocomponentProps {
   backgroundImage: string;
-  title: string;
-  subTitle?: string;
   href: string;
 }
 
-export const Herocomponent = ({ backgroundImage, title, subTitle, href }: IHerocomponentProps) => {
+export const Herocomponent = ({ backgroundImage, href }: IHerocomponentProps) => {
   // const { classes } = useStyles();
 
   const matches = useMediaQuery('(max-width: 900px)');
   return (
     <div>
-      <Image alt="background-image" src={backgroundImage} />
+      <Image alt="background-image" src={backgroundImage} height={350} fit="cover" />
       <div>
-        {/* {subTitle && (
-          <Title
-            className={classes.subtitle + 'text-left text-white font-bold'}
-            size={matches ? 40 : 48}
-            color="white"
-            order={1}
-          >
-            {subTitle}
-          </Title>
-        )} */}
         <Only when={!matches}>
         <div className="absolute top-1/2 -translate-x-1/2 left-[10.5%]">
           <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">

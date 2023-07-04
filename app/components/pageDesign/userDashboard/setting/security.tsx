@@ -16,7 +16,7 @@ export function Security() {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const dispatch = useAppDispatch();
-  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal({});
+  const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
   const [emailModal, emailOpened, emailHandler] = useEmailVerificationModel({
     email: String(user?.email),
     purpose: '2fa',
@@ -137,7 +137,7 @@ export function Security() {
             ></Button>
           </Grid.Col>
         </Grid>
-        <Modal
+        {/* <Modal
           size={800}
           title="Billing Address"
           className="mx-10 mb-7 mt-4"
@@ -145,7 +145,7 @@ export function Security() {
           children={ShippingChangeModal}
           onClose={shippingHandler.close}
           open={shippingOpened}
-        />
+        /> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={10}>
             <div>

@@ -114,12 +114,12 @@ export const Header = () => {
                       <Menu.Divider />
                       <Menu.Item
                         onClick={() => {
-                          router.push('/auth/login');
+                          router.push('/auth/login',undefined,{shallow:true});
                           deleteCookie('authentication');
                           deleteCookie('refresh');
                           setTimeout(() => {
                             dispatch(logout());
-                          }, 1000);
+                          }, 2000);
                         }}
                         className="uppercase"
                       >

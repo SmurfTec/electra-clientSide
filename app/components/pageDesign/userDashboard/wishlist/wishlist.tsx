@@ -1,111 +1,36 @@
-import { ProductCard } from '../../../card';
-
-const productData = [
-  {
-    id: 4,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 5,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: 'Used',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 6,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 7,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: 'Used',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 8,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: null,
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 9,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: null,
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    id: 10,
-    img: '/images/product.png',
-    link: '#',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    rating: null,
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-];
+import { ProductCard } from '@elektra/components/card';
+import { Only, baseURL } from '@elektra/customComponents';
+import { RootState, useSelector } from '@elektra/store';
+import { Text } from '@mantine/core';
 
 export function WishList() {
+  const { favourites, results } = useSelector((state: RootState) => state.entities.userFavourite.list);
   return (
+    <>
+    <Only when={results===0}>
+      <Text className='text-base'>No wishList item to show.</Text>
+    </Only>
+    <Only when={results!==0}>
     <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-      {productData.map((product, index) => {
+      {favourites.map((product, index) => {
         return (
-          <ProductCard
-            key={index}
-            image={product.img}
-            description={product.description}
-            link={product.link}
-            title={product.title}
-            rating={String(product.rating)}
-            wishlist={product.wishlist}
-            lowestPrice={product.lowestPrice ?? null}
-            highestPrice={product.highestPrice ?? null}
-            price={product.price}
-          />
+          <div key={index} className="min-w-[15%]">
+            <ProductCard
+              image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
+              description={'9/10 condition with charger and box'}
+              link={'/product-detail'}
+              title={product.title}
+              rating={'New'}
+              wishlist={false}
+              lowestPrice={product.lowest_price || 500}
+              highestPrice={product.highest_offer || 500}
+              price={product.user_starting_price || 500}
+            />
+          </div>
         );
       })}
     </div>
+    </Only>
+    </>
   );
 }

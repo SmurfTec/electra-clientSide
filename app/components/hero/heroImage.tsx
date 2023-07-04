@@ -1,3 +1,4 @@
+import { baseURL } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
@@ -33,7 +34,9 @@ export function HeroImage() {
 
   const tablet = useMediaQuery('(max-width: 900px)');
 
- 
+  const carouselData = useSelector((state: RootState) =>
+    state.entities.websiteSection.list.sections?.find((item) => item.section === 'Carousel')
+  );
 
   return (
     <Carousel
@@ -60,13 +63,13 @@ export function HeroImage() {
       }}
       className="w-full"
     >
-      {data.map((item, index) => (
+      {carouselData?.images.map((item, index) => (
         <Carousel.Slide className="cursor-pointer" onClick={() => router.push('/shop')} key={index}>
           <Herocomponent
-            backgroundImage={phone ? item.phoneImage : tablet ? item.tabletImage : item.backgroundImage}
-            title={item.title}
-            subTitle={item.subTitle}
-            href={item.href}
+            backgroundImage={baseURL + '/' + item.filename}
+            // backgroundImage={}
+
+            href={'/shop'}
           />
           {/* <Image alt="background-image" src={item.backgroundImage} fit='fill' height={phone ? "200px" : undefined} /> */}
         </Carousel.Slide>
