@@ -1,11 +1,16 @@
-import { baseURL } from '@elektra/customComponents';
-import { Product } from '@elektra/types';
-import { ProductCard } from '../../../card';
+import { ProductCard } from '@elektra/components/card';
+import { Only, baseURL } from '@elektra/customComponents';
 import { RootState, useSelector } from '@elektra/store';
+import { Text } from '@mantine/core';
 
 export function WishList() {
   const { favourites, results } = useSelector((state: RootState) => state.entities.userFavourite.list);
   return (
+    <>
+    <Only when={results===0}>
+      <Text className='text-base'>No wishList item to show.</Text>
+    </Only>
+    <Only when={results!==0}>
     <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
       {favourites.map((product, index) => {
         return (
@@ -25,5 +30,7 @@ export function WishList() {
         );
       })}
     </div>
+    </Only>
+    </>
   );
 }
