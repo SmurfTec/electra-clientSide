@@ -297,7 +297,6 @@ export async function getServerSideProps(context: NextPageContext) {
     url: '/products/?sort=-sold',
   });
 
-
   if (isError) return { props: { websiteSection: [] } };
   return {
     props: {
@@ -344,19 +343,19 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Recommended For You" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-          {trending.map((product, index) => {
+            {trending.map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
-                    description={product.description || '9/10 condition with charger and box'}
+                    description={'9/10 condition with charger and box'}
                     link={'/product-detail'}
                     title={product.title}
-                    rating={product.rating || 'New'}
-                    wishlist={product.wishlist || false}
-                    lowestPrice={product.lowest_price || 500 }
-                    highestPrice={product.highest_offer || 500 }
-                    price={product.user_starting_price || 500 }
+                    rating={'New'}
+                    wishlist={false}
+                    lowestPrice={product.lowest_price || 500}
+                    highestPrice={product.highest_offer || 500}
+                    price={product.user_starting_price || 500}
                   />
                 </div>
               );
@@ -367,21 +366,21 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-4 md:mt-16">
         <SectionTitle title="Trending Now" label="View All" />
-        <ScrollArea  type="scroll" scrollbarSize={5}>
+        <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
             {trending.map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     image={baseURL + '/' + product.images[0].filename}
-                    description={product.description || '9/10 condition with charger and box'}
+                    description={'9/10 condition with charger and box'}
                     link={'/product-detail'}
                     title={product.title}
-                    rating={product.rating || 'New'}
-                    wishlist={product.wishlist || false}
-                    lowestPrice={product.lowest_price || 500 }
-                    highestPrice={product.highest_offer || 500 }
-                    price={product.user_starting_price || 500 }
+                    rating={'New'}
+                    wishlist={false}
+                    lowestPrice={product.lowest_price || 500}
+                    highestPrice={product.highest_offer || 500}
+                    price={product.user_starting_price || 500}
                   />
                 </div>
               );
@@ -435,19 +434,19 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-          {trending.map((product, index) => {
+            {trending.map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
-                    description={product.description || '9/10 condition with charger and box'}
+                    description={'9/10 condition with charger and box'}
                     link={'/product-detail'}
                     title={product.title}
-                    rating={product.rating || 'New'}
-                    wishlist={product.wishlist || false}
-                    lowestPrice={product.lowest_price || 500 }
-                    highestPrice={product.highest_offer || 500 }
-                    price={product.user_starting_price || 500 }
+                    rating={'New'}
+                    wishlist={false}
+                    lowestPrice={product.lowest_price || 500}
+                    highestPrice={product.highest_offer || 500}
+                    price={product.user_starting_price || 500}
                   />
                 </div>
               );
@@ -464,15 +463,15 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + (product?.images[0]?.filename )}
-                    description={product.description || '9/10 condition with charger and box'}
+                    image={baseURL + '/' + product?.images[0]?.filename}
+                    description={'9/10 condition with charger and box'}
                     link={'/product-detail'}
                     title={product.title}
-                    rating={product.rating || 'New'}
-                    wishlist={product.wishlist || false}
-                    lowestPrice={product.lowest_price || 500 }
-                    highestPrice={product.highest_offer || 500 }
-                    price={product.user_starting_price || 500 }
+                    rating={'New'}
+                    wishlist={false}
+                    lowestPrice={product.lowest_price || 500}
+                    highestPrice={product.highest_offer || 500}
+                    price={product.user_starting_price || 500}
                   />
                 </div>
               );
