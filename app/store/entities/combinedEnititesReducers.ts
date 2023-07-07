@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import {
-  protectionPlanReducer,
+  purchasingOrdersReducer,sellingOrdersReducer, protectionPlanReducer,
   specialProductReducer,
   userFavouriteReducer,
   userRewardReducer,
@@ -12,5 +12,7 @@ export const entitiesReducers = combineReducers({
   protectionPlan: protectionPlanReducer,
   userReward: userRewardReducer,
   userFavourite: userFavouriteReducer,
+  purchasingOrders: purchasingOrdersReducer,
+  sellingOrders: sellingOrdersReducer,
   specialProducts: specialProductReducer,
 });

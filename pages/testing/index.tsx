@@ -19,7 +19,9 @@ import {
 } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
+import axios from 'axios';
 import Autoplay from 'embla-carousel-autoplay';
+import { NextPageContext } from 'next';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
@@ -210,7 +212,7 @@ export default function Testing() {
 
     const handleTest =async ()=>{
       const res = await http.request({
-        url: '/orders/me',
+        url: '/asks/me',
         // method: 'POST',
       });
     }

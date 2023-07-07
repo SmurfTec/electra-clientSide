@@ -6,284 +6,123 @@ import { ArrowDown, ArrowNarrowDown } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
-
-const pendingTileData: SimpleStatCardProps[] = [
-  {
-    title: 'Total Value',
-    value: 3000,
-    type: '$',
-  },
-  {
-    title: 'Pending Orders',
-    value: 5,
-    type: 'N/A',
-  },
-];
-const completedTileData: SimpleStatCardProps[] = [
-  {
-    title: 'Total Spent',
-    value: 3000,
-    type: '$',
-  },
-  {
-    title: 'No of Purchase',
-    value: 5,
-    type: 'N/A',
-  },
-  {
-    title: 'Points Eared',
-    value: 2500,
-    type: 'N/A',
-  },
-];
-
-const activeTileData: SimpleStatCardProps[] = [
-  {
-    title: 'Active Offers',
-    value: 10,
-    type: 'N/A',
-  },
-  {
-    title: 'Total Value',
-    value: 2000,
-    type: '$',
-  },
-];
-const activetabledata = [
-  {
-    id: '#1',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$500',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#2',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#3',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#4',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#5',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#6',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#7',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-
-  {
-    id: '#8',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#9',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#10',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#11',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#12',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#13',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#16',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#17',
-    itemName: 'Iphone Unlocked',
-    highestOffer: '$400',
-    lowestOffer: '$100',
-    myOffer: '$200',
-    offerDate: '20 Aug,2022',
-  },
-];
-const pendingtabledata = [
-  {
-    id: '#18',
-    itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
-    trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#19',
-    itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
-    trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#20',
-    itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
-    trackingNo: '123452',
-    orderStatus: 'Declined',
-    offerDate: '20 Aug,2022',
-  },
-  {
-    id: '#21',
-    itemName: 'Iphone Unlocked',
-    purchasePrice: '$500',
-    trackingNo: '123452',
-    orderStatus: 'Pending',
-    offerDate: '20 Aug,2022',
-  },
-];
-const completedtabledata = [
-  {
-    id: '#111',
-    itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan: 'None',
-    orderNo: '12',
-  },
-  {
-    id: '#222',
-    itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan: 'None',
-    orderNo: '42',
-  },
-  {
-    id: '#333',
-    itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan: 'None',
-    orderNo: '132',
-  },
-  {
-    id: '#444',
-    itemName: 'Iphone Unlocked',
-    purchaseDate: '20 Aug,2022',
-    coveragePlan: 'None',
-    orderNo: '122',
-  },
-];
+import { RootState, useSelector } from '@elektra/store';
+import { format } from 'date-fns';
 
 export function Purchasing() {
+  const intialLimit = 4
   const [value, setValue] = useState('active');
-  const [search, setSearch] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
-  const [limit, setLimit] = useState(4);
-
+  const [limit, setLimit] = useState(intialLimit);
+  const {purchasingActiveOrders,purchasingCompletedOrders,purchasingPendingOrders} = useSelector((state: RootState) => state.entities.purchasingOrders.list);
+  const activeTileData: SimpleStatCardProps[] = [
+    {
+      title: 'Active Offers',
+      value: Number(purchasingActiveOrders?.bidStats?.active_bids),
+      type: 'N/A',
+    },
+    {
+      title: 'Total Value',
+      value: Number(purchasingActiveOrders?.bidStats?.total_value),
+      type: '$',
+    },
+  ];
+  const pendingTileData: SimpleStatCardProps[] = [
+    {
+      title: 'Total Value',
+      value: Number(purchasingPendingOrders?.orderStats[0].total_value),
+      type: '$',
+    },
+    {
+      title: 'Pending Orders',
+      value: Number(purchasingPendingOrders?.orderStats[0].pending_orders),
+      type: 'N/A',
+    },
+  ];
+  const completedTileData: SimpleStatCardProps[] = [
+    {
+      title: 'Total Spent',
+      value: Number(purchasingCompletedOrders?.orderStats[0].total_spent),
+      type: '$',
+    },
+    {
+      title: 'No of Purchase',
+      value: Number(purchasingCompletedOrders?.orderStats[0].no_of_purchases),
+      type: 'N/A',
+    },
+    {
+      title: 'Points Eared',
+      value: Number(purchasingCompletedOrders?.orderStats[0].points_earned),
+      type: 'N/A',
+    },
+  ];
+  const PurchasingActiveOrdersData = purchasingActiveOrders.bids.map((order)=>({
+    id: order?.id,
+    itemName: order?.product?.title??"-",
+    highestOffer: `$${order?.highest_offer??0}`,
+    lowestOffer: `$${order?.lowest_ask??0}`,
+    myOffer: `$${order?.my_offer??0}`,
+    offerDate: format(new Date(order?.offer_date), 'dd MMM, yyyy'),
+  }))
+  const PurchasingPendingOrdersData = purchasingPendingOrders.orders.map((order)=>({
+    id: order?.id,
+    itemName: order?.product?.title??'-',
+    purchasePrice: order?.saleprice,
+    trackingNo: order?.trackingid,
+    orderStatus: order?.status,
+    offerDate: format(new Date(order?.created_on), 'dd MMM, yyyy'),
+  }))
+  const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order)=>({
+    id: order?.id,
+    itemName: order?.product?.title??'-',
+    purchaseDate: format(new Date(order?.created_on), 'dd MMM, yyyy'),
+    coveragePlan: order?.protection_plan?.name??'-',
+    orderNo: order?.trackingid,
+  }))
   const tableData: tableDataType = {
     active: {
       columns: getHeaderColumn('active'),
-      data: activetabledata,
+      data: PurchasingActiveOrdersData,
       RowUI: ActiveSimpleRow,
       tileData: activeTileData,
     },
     pending: {
       columns: getHeaderColumn('pending'),
-      data: pendingtabledata,
+      data: PurchasingPendingOrdersData,
       RowUI: PendingSimpleRow,
       tileData: pendingTileData,
     },
     completed: {
       columns: getHeaderColumn('completed'),
-      data: completedtabledata,
+      data: PurchasingCompletedOrdersData,
       RowUI: CompletedSimpleRow,
       tileData: completedTileData,
     },
   };
 
   const selected = tableData[value as keyof tableDataType];
-
   return (
     <div className="mt-5">
       <TableHeaderBar
         data={selected['tileData']}
-        searchSetState={setSearch}
-        searchstate={search}
+        searchValueSetState={setSearchValue}
+        searchValuestate={searchValue}
+        searchDateSetState={setSearchDate}
+        searchDatestate={searchDate}
         segmentedSetState={setValue}
         segmentedstate={value}
       />
       <DataTable
         data={value === 'active' ? selected.data.slice(0, limit) : selected.data}
         columns={selected.columns}
-        search={search}
+        search={searchValue || searchDate}
         RowUI={selected.RowUI}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
       />
-      <Only when={value === 'active'}>
+      <Only when={value === 'active' && limit!==selected.data.length && intialLimit <selected.data.length}>
       <Center className="mt-5 space-x-3">
         <Text size={16} className="font-[600]" color="black" >
           View More

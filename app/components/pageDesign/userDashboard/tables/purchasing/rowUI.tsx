@@ -5,7 +5,7 @@ import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { Pencil } from 'tabler-icons-react';
 
-export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
+export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
   const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal();
 
@@ -29,7 +29,7 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
       return <Text color="inherit" className='text-[11px] md:text-sm font-medium'>{cell.getValue() as string}</Text>;
   }
 }
-export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
+export function PendingSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
 
   switch (props.cell.column.id) {
@@ -59,7 +59,7 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
           }}
           radius="xl"
           component={NextLink}
-          href='/order-detail'
+          href={`/order-detail?${row.original.id}`}
         >
           View Details
         </Button>
@@ -68,7 +68,7 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
       return <Text color="inherit">{cell.getValue() as string}</Text>;
   }
 }
-export function CompletedSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
+export function CompletedSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
 
   switch (props.cell.column.id) {

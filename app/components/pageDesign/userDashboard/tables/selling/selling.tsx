@@ -7,125 +7,12 @@ import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
+import { RootState, useSelector } from '@elektra/store';
 
-const pendingTileData: SimpleStatCardProps[] = [
-  {
-    title: 'Pending Sales',
-    value: 5,
-    type: 'N/A',
-  },
-  {
-    title: 'Gross Value',
-    value: 2000,
-    type: '$',
-  },
-  {
-    title: 'Net Value',
-    value: 2100,
-    type: '$',
-  },
-];
-const completedTileData: SimpleStatCardProps[] = [
-  {
-    title: 'Total Sale',
-    value: 20,
-    type: 'N/A',
-  },
-  {
-    title: 'Gross Value',
-    value: 3,
-    type: '$',
-  },
-  {
-    title: 'Net Value',
-    value: 17,
-    type: '$',
-  },
-  {
-    title: 'Total Points Eared',
-    value: 17,
-    type: 'N/A',
-  },
-];
-const activeTileData: SimpleStatCardProps[] = [
-  {
-    title: 'No of Listings',
-    value: 20,
-    type: 'N/A',
-  },
-  {
-    title: 'Gross Value',
-    value: 2000,
-    type: '$',
-  },
-  {
-    title: 'Net Value',
-    value: 1900,
-    type: '$',
-  },
-];
-const activetabledata = [
-  {
-    id: '#1',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#2',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#3',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#4',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#5',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#6',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#7',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#8',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#9',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-  {
-    id: '#10',
-    itemName: 'Iphone Unlocked',
-    askPrice: '$100',
-    highestOffer: '$500',
-  },
-];
+
+
+
+
 const pendingtabledata = [
   {
     id: '#11',
@@ -192,15 +79,82 @@ const completedtabledata = [
 ];
 
 export function Selling() {
+  const intialLimit = 4
   const [value, setValue] = useState('active');
-  const [search, setSearch] = useState<string>('');
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(intialLimit);
+  const {sellingActiveOrders,sellingCompletedOrders,sellingPendingOrders} = useSelector((state: RootState) => state.entities.sellingOrders.list);
+  
+  const activeTileData: SimpleStatCardProps[] = [
+    {
+      title: 'No of Listings',
+      value: Number(sellingActiveOrders?.askStats?.no_of_listing),
+      type: 'N/A',
+    },
+    {
+      title: 'Gross Value',
+      value: Number(sellingActiveOrders?.askStats?.gross_value),
+      type: '$',
+    },
+    {
+      title: 'Net Value',
+      value: Number(sellingActiveOrders?.askStats?.net_value),
+      type: '$',
+    },
+  ];
+  const pendingTileData: SimpleStatCardProps[] = [
+    {
+      title: 'Pending Sales',
+      value: 5,
+      type: 'N/A',
+    },
+    {
+      title: 'Gross Value',
+      value: 2000,
+      type: '$',
+    },
+    {
+      title: 'Net Value',
+      value: 2100,
+      type: '$',
+    },
+  ];
+  const completedTileData: SimpleStatCardProps[] = [
+    {
+      title: 'Total Sale',
+      value: 20,
+      type: 'N/A',
+    },
+    {
+      title: 'Gross Value',
+      value: 3,
+      type: '$',
+    },
+    {
+      title: 'Net Value',
+      value: 17,
+      type: '$',
+    },
+    {
+      title: 'Total Points Eared',
+      value: 17,
+      type: 'N/A',
+    },
+  ];
+
+  const SellingActiveOrdersData = sellingActiveOrders.asks.map((order)=>({
+    id: order?.bid_id,
+    itemName: order?.product?.title??'-',
+    askPrice: `$${order?.my_offer}`,
+    highestOffer: `$${order?.highest_ask}`,
+  }))
 
   const tableData: tableDataType = {
     active: {
       columns: getHeaderColumn('active'),
-      data: activetabledata,
+      data: SellingActiveOrdersData,
       RowUI: ActiveSimpleRow,
       tileData: activeTileData,
     },
@@ -219,13 +173,14 @@ export function Selling() {
   };
 
   const selected = tableData[value as keyof tableDataType];
-
   return (
     <div className="mt-5">
       <TableHeaderBar
         data={selected['tileData']}
-        searchSetState={setSearch}
-        searchstate={search}
+        searchValueSetState={setSearchValue}
+        searchValuestate={searchValue}
+        searchDateSetState={setSearchDate}
+        searchDatestate={searchDate}
         segmentedSetState={setValue}
         segmentedstate={value}
       />
@@ -301,12 +256,12 @@ export function Selling() {
       <DataTable
         data={value === 'active' ? selected.data.slice(0, limit) : selected.data}
         columns={selected.columns}
-        search={search}
+        search={searchValue}
         RowUI={selected.RowUI}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
       />
-      <Only when={value === 'active'}>
+      <Only when={value === 'active' && limit!==selected.data.length && intialLimit <selected.data.length}>
         <Center className="mt-5 space-x-3">
           <Text size={16} className="font-[600]" color="black">
             View More
