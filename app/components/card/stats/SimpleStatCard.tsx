@@ -18,7 +18,7 @@ export function SimpleStateCard({ title, value, type }: SimpleStatCardProps) {
       <Text color={'#656565'} className='text-[10px] md:text-sm font-medium'>
         {title}
       </Text>
-      <Text mt={16}  className="text-lg md:text-[32px] text-black font-bold">
+      <Text mt={16}  className="text-lg md:text-[30px] text-black font-bold">
         {assignValue() as string}
       </Text>
     </Paper>

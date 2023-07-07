@@ -3,14 +3,18 @@ import { TabView, isAuthenticated, tabViewData } from '@elektra/customComponents
 import {
   RootState,
   initStore,
+  loadOrderPurchasing,
+  loadOrderSelling,
   loadUserFavourite,
   loadUserReward,
+  rehydrateOrderPurchasing,
+  rehydrateOrderSelling,
   rehydrateUserFavourite,
   rehydrateUserReward,
   useAppDispatch,
   useSelector,
 } from '@elektra/store';
-import type { UserFavourite, UserReward } from '@elektra/types';
+import type { PurchasingOrders, SellingOrders, UserFavourite, UserReward } from '@elektra/types';
 import { Title } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
@@ -20,20 +24,19 @@ export async function getServerSideProps({ req }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-
-
   const store = initStore();
-
-
   const userFavourite = store.dispatch(loadUserFavourite());
   const userReward = store.dispatch(loadUserReward());
+  const orderPurchasing = store.dispatch(loadOrderPurchasing());
+  const orderSelling = store.dispatch(loadOrderSelling());
 
-  await Promise.all([userFavourite, userReward]);
-
+  await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling]);
   return {
     props: {
       userRewardData: store.getState().entities.userReward.list,
       userFavouriteData: store.getState().entities.userFavourite.list,
+      orderPurchasingData: store.getState().entities.purchasingOrders.list,
+      orderSellingData: store.getState().entities.sellingOrders.list,
     },
   };
 }
@@ -41,9 +44,16 @@ export async function getServerSideProps({ req }: NextPageContext) {
 type UserDashBoardPageProps = {
   userRewardData: UserReward[];
   userFavouriteData: UserFavourite;
+  orderPurchasingData: PurchasingOrders;
+  orderSellingData: SellingOrders;
 };
 
-export default function UserDashboard({ userRewardData, userFavouriteData }: UserDashBoardPageProps) {
+export default function UserDashboard({
+  userRewardData,
+  userFavouriteData,
+  orderPurchasingData,
+  orderSellingData
+}: UserDashBoardPageProps) {
   const tabViewData: tabViewData[] = [
     {
       title: 'Profile',
@@ -81,7 +91,9 @@ export default function UserDashboard({ userRewardData, userFavouriteData }: Use
     if (!unsubscribe) {
       dispatch(rehydrateUserReward(userRewardData));
       dispatch(rehydrateUserFavourite(userFavouriteData));
-    }
+      dispatch(rehydrateOrderPurchasing(orderPurchasingData));
+      dispatch(rehydrateOrderSelling(orderSellingData));
+      }
     return () => {
       unsubscribe = true;
     };

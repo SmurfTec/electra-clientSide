@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-export function getHeaderColumn<T extends { id: string }>(tile:"active"|"pending"|"completed") {
+export function getHeaderColumn<T extends { id: string | number }>(tile:"active"|"pending"|"completed") {
 
     
   const ActiveColumns: Array<ColumnDef<T, unknown>> = [

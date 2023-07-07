@@ -1,7 +1,9 @@
 import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
-import { Drawer } from '@elektra/customComponents';
+import { Drawer, isAuthenticated } from '@elektra/customComponents';
 import { useTechinalSpecificationDrawer } from '@elektra/hooks';
+import { initStore, loadUserFavourite } from '@elektra/store';
 import { Container, Grid, Text, useMantineTheme } from '@mantine/core';
+import { NextPageContext } from 'next';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -24,6 +26,29 @@ const BiddingSummaryData: BiddingSummaryProps = {
   discount: 0,
   totalPrice: 460,
 };
+
+// export async function getServerSideProps({ req }: NextPageContext) {
+//   const isAuth = await isAuthenticated(req);
+//   if (!isAuth) {
+//     return { redirect: { permanent: false, destination: '/auth/login' } };
+//   }
+//   const store = initStore();
+//   const userFavourite = store.dispatch(loadUserFavourite());
+//   const userReward = store.dispatch(loadUserReward());
+//   const orderPurchasing = store.dispatch(loadOrderPurchasing());
+//   const orderSelling = store.dispatch(loadOrderSelling());
+
+//   await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling]);
+//   return {
+//     props: {
+//       userRewardData: store.getState().entities.userReward.list,
+//       userFavouriteData: store.getState().entities.userFavourite.list,
+//       orderPurchasingData: store.getState().entities.purchasingOrders.list,
+//       orderSellingData: store.getState().entities.sellingOrders.list,
+//     },
+//   };
+// }
+
 
 export default function OrderDetail() {
   const theme = useMantineTheme();

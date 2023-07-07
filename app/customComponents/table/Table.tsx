@@ -64,6 +64,7 @@ export function DataTable<T extends { id: string |number}>({
     },
     onRowSelectionChange: setSelectedRows,
     defaultColumn: defaultRowUI,
+    manualPagination:true,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -85,13 +86,14 @@ export function DataTable<T extends { id: string |number}>({
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => (
+          {table.getRowModel().rows.map((row,index) => {
+             return (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
             </tr>
-          ))}
+          )})}
         </tbody>
       </Table>
     </div>

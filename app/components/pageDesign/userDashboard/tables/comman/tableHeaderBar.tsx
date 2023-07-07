@@ -5,18 +5,23 @@ import { useMediaQuery } from '@mantine/hooks';
 import { Dispatch, SetStateAction } from 'react';
 import { Calendar, Search } from 'tabler-icons-react';
 import { StateCard } from './stateCard';
+import { format } from 'date-fns';
 type TableHeaderBarProps = {
   segmentedstate: string;
   segmentedSetState: Dispatch<SetStateAction<string>>;
-  searchstate: string;
-  searchSetState: Dispatch<SetStateAction<string>>;
+  searchValuestate: string;
+  searchValueSetState: Dispatch<SetStateAction<string>>;
+  searchDatestate: string;
+  searchDateSetState: Dispatch<SetStateAction<string>>;
   data: Array<SimpleStatCardProps>;
 };
 
 export const TableHeaderBar = ({
-  searchSetState,
+  searchValueSetState,
   data,
-  searchstate,
+  searchDateSetState,
+  searchDatestate,
+  searchValuestate,
   segmentedSetState,
   segmentedstate,
 }: TableHeaderBarProps) => {
@@ -51,8 +56,8 @@ export const TableHeaderBar = ({
               styles={{ input: { backgroundColor: '#F1F1F1' } }}
               radius={'md'}
               size={mediumdScreen ? 'lg' : 'sm'}
-              value={searchstate}
-              onChange={(event) => searchSetState(event.currentTarget.value)}
+              value={searchValuestate}
+              onChange={(event) => searchValueSetState(event.currentTarget.value)}
               icon={<Search />}
               placeholder="Search by Id, name"
               // maw={'65%'}
@@ -61,13 +66,14 @@ export const TableHeaderBar = ({
           <Grid.Col span={5}>
             <DateInput
               maxDate={new Date()}
+              clearable
+              unselectable='on'
+              
               styles={{ input: { backgroundColor: '#F1F1F1' } }}
               size={mediumdScreen ? 'lg' : 'sm'}
-              onChange={(v) => console.log(v)}
+              onChange={(v) => searchDateSetState(v?format(new Date(String(v)), 'dd MMM, yyyy'):'')}
               rightSection={<Calendar color="white" fill="black" />}
               placeholder="Filter Date"
-              // maw={mediumdScreen ? '30%' : '35%'}
-              // maw={mediumdScreen ? 155 : 120}
             />
           </Grid.Col>
         </Grid>

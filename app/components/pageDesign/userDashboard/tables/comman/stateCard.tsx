@@ -10,7 +10,7 @@ export const StateCard = ({ data,className }: StateCardProps) => {
   return (
     <Grid className={className} >
       {data.map((item, key) => (
-        <Grid.Col key={key}  span={4} md={2}>
+        <Grid.Col key={key}  span={4} md={2.5}>
           <SimpleStateCard key={key} title={item.title} value={item.value} type={item.type} />
         </Grid.Col>
       ))}
