@@ -210,7 +210,7 @@ export default function Testing() {
 
     const handleTest =async ()=>{
       const res = await http.request({
-        url: '/favourites',
+        url: '/orders/me',
         // method: 'POST',
       });
     }

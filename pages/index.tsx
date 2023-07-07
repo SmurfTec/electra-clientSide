@@ -6,11 +6,16 @@ import {
   FooterProductCarousel,
   HeroImage,
   ProductCard,
-  ProductCardProps,
   SectionTitle,
 } from '@elektra/components';
-import { baseURL, http } from '@elektra/customComponents';
+import { baseURL } from '@elektra/customComponents';
 import { loadWebsiteSection, rehydrateWebsiteSection, store, useAppDispatch } from '@elektra/store';
+import {
+  loadLatestProducts,
+  loadMostSoldProducts,
+  loadTrendingProducts,
+  rehydrateSpecialProducts,
+} from '@elektra/store/entities/slices/specialProducts';
 import { Product, WebsiteSection } from '@elektra/types';
 import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
@@ -56,60 +61,6 @@ const bannerData: BannerProps[] = [
     title: 'NEW APPLE',
     heading: 'Iphone 14 Pro',
     label: 'Shop Today',
-  },
-];
-
-const productData: ProductCardProps[] = [
-  {
-    image: '/images/product.png',
-    link: '/product-detail/?condition=new',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
   },
 ];
 
@@ -206,104 +157,24 @@ const categoryData = [
   },
 ];
 
-const brandData = [
-  {
-    id: 1,
-    image: '/images//brands/brand.png',
-    title: 'Apple',
-    link: '/shop',
-  },
-  {
-    id: 2,
-    image: '/images//brands/brand.png',
-    title: 'HP',
-    link: '/shop',
-  },
-  {
-    id: 3,
-    image: '/images//brands/brand.png',
-    title: 'Razor',
-    link: '/shop',
-  },
-  {
-    id: 4,
-    image: '/images//brands/brand.png',
-    title: 'Dell',
-    link: '/shop',
-  },
-  {
-    id: 5,
-    image: '/images//brands/brand.png',
-    title: 'Nvidia',
-    link: '/shop',
-  },
-  {
-    id: 6,
-    image: '/images//brands/brand.png',
-    title: 'AMD',
-    link: '/shop',
-  },
-  {
-    id: 7,
-    image: '/images//brands/brand.png',
-    title: 'Apple',
-    link: '/shop',
-  },
-  {
-    id: 8,
-    image: '/images//brands/brand.png',
-    title: 'HP',
-    link: '/shop',
-  },
-  {
-    id: 9,
-    image: '/images//brands/brand.png',
-    title: 'Razor',
-    link: '/shop',
-  },
-  {
-    id: 10,
-    image: '/images//brands/brand.png',
-    title: 'Dell',
-    link: '/shop',
-  },
-  {
-    id: 11,
-    image: '/images//brands/brand.png',
-    title: 'Nvidia',
-    link: '/shop',
-  },
-  {
-    id: 12,
-    image: '/images//brands/brand.png',
-    title: 'AMD',
-    link: '/shop',
-  },
-];
-
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
-  const { data, isError } = await store.dispatch(loadWebsiteSection(1));
+  const websiteSection = store.dispatch(loadWebsiteSection(1));
 
-  const trending = await http.request({
-    url: '/products/?sort=-clicks,interactions&page=1&limit=5',
-  });
+  const trending = store.dispatch(loadTrendingProducts());
 
-  const latest = await http.request({
-    url: '/products/?sort=-created_on',
-  });
+  const latest = store.dispatch(loadLatestProducts());
 
-  const mostSold = await http.request({
-    url: '/products/?sort=-sold',
-  });
+  const mostSold = store.dispatch(loadMostSoldProducts());
 
-  if (isError) return { props: { websiteSection: [] } };
+  await Promise.all([websiteSection, trending, latest, mostSold]);
+
   return {
     props: {
-      websiteSection: data,
-      trending: trending.data.products,
-      mostSold: mostSold.data.products,
-      latest: latest.data.products,
+      websiteSection: store.getState().entities.websiteSection.list,
+      trending: store.getState().entities.specialProducts.list.trending,
+      mostSold: store.getState().entities.specialProducts.list.mostSold,
+      latest: store.getState().entities.specialProducts.list.latest,
     },
   };
 }
@@ -321,13 +192,14 @@ export function Index({ ...rest }: homePageProps) {
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateWebsiteSection(websiteSection));
+      dispatch(rehydrateSpecialProducts({ mostSold, trending, latest }));
     }
     return () => {
       unsubscribe = true;
     };
   }, []);
 
-  console.log(trending);
+  // console.log(trendingData);
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);

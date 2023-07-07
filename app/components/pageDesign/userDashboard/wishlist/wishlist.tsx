@@ -22,9 +22,9 @@ export function WishList() {
               title={product.title}
               rating={'New'}
               wishlist={false}
-              lowestPrice={product.lowest_price || 500}
-              highestPrice={product.highest_offer || 500}
-              price={product.user_starting_price || 500}
+              lowestPrice={product.lowest_price}
+              highestPrice={product.highest_offer}
+              price={Number(product.user_starting_price)}
             />
           </div>
         );
