@@ -188,6 +188,7 @@ type homePageProps = {
 
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection } = rest;
+  const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -203,7 +204,7 @@ export function Index({ ...rest }: homePageProps) {
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
-  const dispatch = useAppDispatch();
+  
 
   return (
     <div>
@@ -216,12 +217,13 @@ export function Index({ ...rest }: homePageProps) {
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
             {trending.map((product, index) => {
+              console.log(product.id);
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
+                    id={product.id}
                     image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
                     title={product.title}
                     rating={'New'}
                     wishlist={false}
@@ -244,9 +246,9 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
+                    id={product.id}
                     image={baseURL + '/' + product.images[0].filename}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
                     title={product.title}
                     rating={'New'}
                     wishlist={false}
@@ -312,7 +314,7 @@ export function Index({ ...rest }: homePageProps) {
                   <ProductCard
                     image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
+                    id={product.id}
                     title={product.title}
                     rating={'New'}
                     wishlist={false}
@@ -337,7 +339,7 @@ export function Index({ ...rest }: homePageProps) {
                   <ProductCard
                     image={baseURL + '/' + product?.images[0]?.filename}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
+                    id={product.id}
                     title={product.title}
                     rating={'New'}
                     wishlist={false}

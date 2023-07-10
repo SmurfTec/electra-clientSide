@@ -5,6 +5,7 @@ import {
   userFavouriteReducer,
   userRewardReducer,
   websiteSectionReducer,
+  productDataReducer,
   orderDetailReducer,
 } from './slices';
 
@@ -16,5 +17,6 @@ export const entitiesReducers = combineReducers({
   purchasingOrders: purchasingOrdersReducer,
   sellingOrders: sellingOrdersReducer,
   specialProducts: specialProductReducer,
+  productDetail: productDataReducer,
   orderDetail: orderDetailReducer,
 });

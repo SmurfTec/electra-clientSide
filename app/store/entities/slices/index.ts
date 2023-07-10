@@ -5,4 +5,5 @@ export * from './userFavourite'
 export * from "./specialProducts"
 export * from './purchasingOrders'
 export * from './sellingOrders'
+export * from "./productDetail"
 export * from './orderDetail'
