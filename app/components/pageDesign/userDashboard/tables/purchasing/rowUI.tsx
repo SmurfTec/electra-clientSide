@@ -59,7 +59,7 @@ export function PendingSimpleRow<T extends { id: string | number  }>(props: Cell
           }}
           radius="xl"
           component={NextLink}
-          href={`/order-detail?${row.original.id}`}
+          href={`/order-detail/${row.original.id}`}
         >
           View Details
         </Button>
@@ -85,7 +85,7 @@ export function CompletedSimpleRow<T extends { id: string | number }>(props: Cel
           }}
           radius="xl"
           component={NextLink}
-          href='/order-detail'
+          href={`/order-detail/${row.original.id}`}
         >
           View Details
         </Button>

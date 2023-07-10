@@ -2,58 +2,64 @@ import { Divider, Group, Paper } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
 import { Stats } from './stats';
+import { useSelector } from 'react-redux';
+import { RootState } from '@elektra/store';
 
-const statDataNew = [
-  {
-    label: 'Current Listings',
-    difference: 4,
-    value: '25',
-  },
-  {
-    label: 'Total Sold',
-    difference: 4,
-    value: '24',
-  },
-  {
-    label: 'Average Sale Price',
-    difference: -4,
-    price: '234',
-  },
-  {
-    label: 'Total Amount From Sales',
-    difference: 4,
-    price: '50000',
-  },
-];
 
-const statDataUsed = [
-  {
-    label: '12 month trade range',
-    difference: 4,
-    price: '234-250',
-  },
-  {
-    label: 'Price Premium',
-    difference: 4,
-    price: '234',
-  },
-  {
-    label: 'Average Sale Price',
-    difference: -4,
-    price: '234',
-  },
-  {
-    label: 'No of Sales',
-    difference: 4,
-    value: '2400',
-  },
-];
 
 export const ProductStats = () => {
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
-  const isNew = router.query['condition'] === 'new';
+  // const isNew = router.query['condition'] === 'new';
+  const isNew = false
+  const productStats = useSelector((state: RootState) => state.entities.productDetail.list.stats.stats)
 
+  const statDataNew = [
+    {
+      label: 'Current Listings',
+      difference: "NID",
+      value: '25',
+    },
+    {
+      label: 'Total Sold',
+      difference: "NID",
+      value: productStats.no_of_sales,
+    },
+    {
+      label: 'Average Sale Price',
+      difference: 'NID',
+      price: productStats.avg_sale_price.toFixed(),
+    },
+    {
+      label: 'Total Amount From Sales',
+      difference: "NID",
+      price: "NID",
+    },
+  ];
+  
+  const statDataUsed = [
+    {
+      label: '12 month trade range',
+      difference: "NID",
+      price: 'NID',
+    },
+    {
+      label: 'Price Premium',
+      difference: "NID",
+      price: productStats.price_premium,
+    },
+    {
+      label: 'Average Sale Price',
+      difference: "NID",
+      price: productStats.avg_sale_price.toFixed(),
+    },
+    {
+      label: 'No of Sales',
+      difference: "NID",
+      value: productStats.no_of_sales,
+    },
+  ];
+  
   const statData = isNew ? statDataNew : statDataUsed;
   return (
     <div>

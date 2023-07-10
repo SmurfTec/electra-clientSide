@@ -8,75 +8,14 @@ import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
 import { RootState, useSelector } from '@elektra/store';
+import { format } from 'date-fns';
 
 
 
 
 
-const pendingtabledata = [
-  {
-    id: '#11',
-    itemName: 'Iphone Unlocked',
-    salePrice: '$500',
-    trackingNo: '123452',
-    saleDate: '20 Aug,2022',
-    orderStatus: 'Shipped Pending',
-  },
-  {
-    id: '#22',
-    itemName: 'Iphone Unlocked',
-    salePrice: '$500',
-    trackingNo: '123452',
-    saleDate: '20 Aug,2022',
-    orderStatus: 'Shipped',
-  },
-  {
-    id: '#33',
-    itemName: 'Iphone Unlocked',
-    salePrice: '$500',
-    trackingNo: '123452',
-    saleDate: '20 Aug,2022',
-    orderStatus: 'Shipped',
-  },
-  {
-    id: '#44',
-    itemName: 'Iphone Unlocked',
-    salePrice: '$500',
-    trackingNo: '123452',
-    saleDate: '20 Aug,2022',
-    orderStatus: 'Shipped',
-  },
-];
-const completedtabledata = [
-  {
-    id: '#111',
-    itemName: 'Iphone Unlocked',
-    saleDate: '20 Aug,2022',
-    orderNo: '12',
-    status: true,
-  },
-  {
-    id: '#222',
-    itemName: 'Iphone Unlocked',
-    saleDate: '20 Aug,2022',
-    orderNo: '12',
-    status: false,
-  },
-  {
-    id: '#333',
-    itemName: 'Iphone Unlocked',
-    saleDate: '20 Aug,2022',
-    orderNo: '12',
-    status: true,
-  },
-  {
-    id: '444',
-    itemName: 'Iphone Unlocked',
-    saleDate: '20 Aug,2022',
-    orderNo: '12',
-    status: true,
-  },
-];
+
+
 
 export function Selling() {
   const intialLimit = 4
@@ -107,39 +46,39 @@ export function Selling() {
   const pendingTileData: SimpleStatCardProps[] = [
     {
       title: 'Pending Sales',
-      value: 5,
+      value: Number(sellingPendingOrders?.orderStats[0]?.pending_sales),
       type: 'N/A',
     },
     {
       title: 'Gross Value',
-      value: 2000,
+      value:  Number(sellingPendingOrders?.orderStats[0]?.gross_value_pending),
       type: '$',
     },
     {
       title: 'Net Value',
-      value: 2100,
+      value:  Number(sellingPendingOrders?.orderStats[0]?.net_value_pending),
       type: '$',
     },
   ];
   const completedTileData: SimpleStatCardProps[] = [
     {
       title: 'Total Sale',
-      value: 20,
+      value:  Number(sellingCompletedOrders?.orderStats[0]?.total_sales),
       type: 'N/A',
     },
     {
       title: 'Gross Value',
-      value: 3,
+      value: Number(sellingCompletedOrders?.orderStats[0]?.gross_value_completed),
       type: '$',
     },
     {
       title: 'Net Value',
-      value: 17,
+      value: Number(sellingCompletedOrders?.orderStats[0]?.net_value_completed),
       type: '$',
     },
     {
       title: 'Total Points Eared',
-      value: 17,
+      value: Number(sellingCompletedOrders?.orderStats[0]?.points_earned),
       type: 'N/A',
     },
   ];
@@ -149,6 +88,21 @@ export function Selling() {
     itemName: order?.product?.title??'-',
     askPrice: `$${order?.my_offer}`,
     highestOffer: `$${order?.highest_ask}`,
+  }))
+  const SellingPendingOrdersData = sellingPendingOrders.orders.map((order)=>({
+    id: order?.id,
+    itemName: order?.product?.title??'-',
+    salePrice: `$${order?.saleprice}`,
+    trackingNo: order?.trackingid,
+    saleDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+    orderStatus: order?.status,
+  }))
+  const SellingCompletedOrdersData = sellingCompletedOrders.orders.map((order)=>({
+    id:  order?.id,
+    itemName:  order?.product?.title??'-',
+    saleDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+    orderNo: order?.id,
+    status: order?.status === 'completed'?true:false,
   }))
 
   const tableData: tableDataType = {
@@ -160,18 +114,17 @@ export function Selling() {
     },
     pending: {
       columns: getHeaderColumn('pending'),
-      data: pendingtabledata,
+      data: SellingPendingOrdersData,
       RowUI: PendingSimpleRow,
       tileData: pendingTileData,
     },
     completed: {
       columns: getHeaderColumn('completed'),
-      data: completedtabledata,
+      data: SellingCompletedOrdersData,
       RowUI: CompletedSimpleRow,
       tileData: completedTileData,
     },
   };
-
   const selected = tableData[value as keyof tableDataType];
   return (
     <div className="mt-5">
@@ -190,9 +143,9 @@ export function Selling() {
             <Button
               bg="rgba(60, 130, 214, 1)"
               rightIcon={
-                <Avatar size={16} radius={16} bg="white" color="blue">
-                  17
-                </Avatar>
+                <span className='rounded-full bg-white text-blue-500 text-center w-5 h-5'>
+                   {Number(sellingCompletedOrders?.orderStats[0].completed_sales)}
+                </span>
               }
               styles={(theme) => ({
                 root: {
@@ -203,17 +156,17 @@ export function Selling() {
                 },
               })}
               className="text-[11px] font-medium md:text-sm"
-              component={NextLink}
-              href={'/selling-search'}
+              // component={NextLink}
+              // href={'/selling-search'}
             >
               Completed
             </Button>
             <Button
               bg="rgba(241, 241, 241, 1)"
               rightIcon={
-                <Avatar size={16} radius={16} variant="filled" color="black">
-                  17
-                </Avatar>
+                <span className='rounded-full bg-black text-white text-center w-5 h-5'>
+                   {Number(sellingCompletedOrders?.orderStats[0].rejectd_sales)}
+                </span>
               }
               styles={(theme) => ({
                 root: {
@@ -227,8 +180,8 @@ export function Selling() {
                 },
               })}
               className="text-[11px] font-medium md:text-sm text-black"
-              component={NextLink}
-              href={'/selling-search'}
+              // component={NextLink}
+              // href={'/selling-search'}
             >
               Rejected
             </Button>

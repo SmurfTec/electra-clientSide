@@ -54,7 +54,7 @@ export function Purchasing() {
     },
     {
       title: 'Points Eared',
-      value: Number(purchasingCompletedOrders?.orderStats[0].points_earned),
+      value: Number(purchasingCompletedOrders?.orderStats[0].points_earned_buyer),
       type: 'N/A',
     },
   ];
@@ -72,12 +72,12 @@ export function Purchasing() {
     purchasePrice: order?.saleprice,
     trackingNo: order?.trackingid,
     orderStatus: order?.status,
-    offerDate: format(new Date(order?.created_on), 'dd MMM, yyyy'),
+    offerDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
   }))
   const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order)=>({
     id: order?.id,
     itemName: order?.product?.title??'-',
-    purchaseDate: format(new Date(order?.created_on), 'dd MMM, yyyy'),
+    purchaseDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
     coveragePlan: order?.protection_plan?.name??'-',
     orderNo: order?.trackingid,
   }))
