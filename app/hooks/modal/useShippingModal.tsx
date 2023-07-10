@@ -15,7 +15,8 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
   const initialValues = {
     address1: profile?.shipping_address_line_1 ?? '',
     address2: profile?.shipping_adress_line_2 ?? '',
-    country: profile?.shipping_country ?? defaultCountry,
+    // country: profile?.shipping_country ?? defaultCountry,
+    country: 'Pakistan',
     state: profile?.shipping_stateorprovince ?? '',
     city: profile?.shipping_city ?? '',
     postalCode: profile?.shipping_postalcode ?? '',
@@ -31,7 +32,8 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
 
   const countryTransformer = () => {
     const country = Country.getCountryByCode(defaultCountry);
-    return [{ value: String(country?.isoCode), label: String(country?.name) }] as SelectItem[];
+    return [String(country?.name)] ;
+    // return [{ value: String(country?.isoCode), label: String(country?.name) }] as SelectItem[];
   };
   const stateTransformer = () => {
     const states = State.getStatesOfCountry(defaultCountry);

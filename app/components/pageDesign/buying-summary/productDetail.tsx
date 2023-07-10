@@ -13,9 +13,11 @@ type ProductDetailProps = {
   expiration: string;
   cardDetails: string;
   address: string;
-  status?: string;
-  saleDate?: string;
-  disabled?: boolean;
+  status: string;
+  saleDate: string;
+  orderNo:string;
+  disabled: boolean;
+  protectionPlan:string
 };
 
 export function ProductDetail({
@@ -30,11 +32,14 @@ export function ProductDetail({
   address,
   saleDate,
   status,
+  orderNo,
   disabled,
+  protectionPlan
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler] = useOfferModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
@@ -48,10 +53,10 @@ export function ProductDetail({
             <ProductDetails text={'CONDITION'} details={condition} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Status'} details={'Pending'} />
+            <ProductDetails text={'Status'} details={status} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Protection Plan'} details={'13 Months'} />
+            <ProductDetails text={'Protection Plan'} details={protectionPlan} />
           </Grid.Col>
         </Grid>
         <Grid>
@@ -59,7 +64,7 @@ export function ProductDetail({
             <ProductDetails text={'Sale Date'} details={String(saleDate)} />
           </Grid.Col>
           <Grid.Col p={0} span={4}>
-            <ProductDetails text={'Order No'} details={'14'} color={'#3C82D6'} />
+            <ProductDetails text={'Order No'} details={orderNo} color={'#3C82D6'} />
           </Grid.Col>
         </Grid>
         <ProductDetails

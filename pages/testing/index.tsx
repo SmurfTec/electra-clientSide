@@ -212,7 +212,7 @@ export default function Testing() {
 
     const handleTest =async ()=>{
       const res = await http.request({
-        url: '/asks/me',
+        url: '/orders/me/selling?status=completed',
         // method: 'POST',
       });
     }
