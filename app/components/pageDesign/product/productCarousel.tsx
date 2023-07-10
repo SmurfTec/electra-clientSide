@@ -1,15 +1,23 @@
+import { baseURL } from '@elektra/customComponents';
+import { ImageProps } from '@elektra/types';
 import { Carousel, Embla } from '@mantine/carousel';
 import { ActionIcon, Center, Group, Image, clsx, createStyles } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useEffect, useState } from 'react';
-const carouseldata = [
-  '/images/brands/iphone.png',
-  '/images/carousel/iphoneblack.png',
-  '/images/brands/iphone.png',
-  '/images/carousel/iphonefront.png',
-  '/images/brands/iphone.png',
-];
-export const ProductCarousel = ({ className }: { className?: string }) => {
+// const carouseldata = [
+//   '/images/brands/iphone.png',
+//   '/images/carousel/iphoneblack.png',
+//   '/images/brands/iphone.png',
+//   '/images/carousel/iphonefront.png',
+//   '/images/brands/iphone.png',
+// ];
+
+type productCarousel = {
+  className?: string;
+  images: ImageProps[];
+};
+
+export const ProductCarousel = ({ className, images }: productCarousel) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [embla, setEmbla] = useState<Embla | null>(null);
   const [emblaThumb, setEmblaThumb] = useState<Embla | null>(null);
@@ -38,7 +46,8 @@ export const ProductCarousel = ({ className }: { className?: string }) => {
     <div className="px-2">
       <Center>
         <Carousel
-          maw={matches ? 350 : 650}
+          // maw={matches ? 350 : 650}
+          maw={300}
           loop
           slideGap={100}
           nextControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowRight.png'} className="w-full" />}
@@ -49,10 +58,10 @@ export const ProductCarousel = ({ className }: { className?: string }) => {
           getEmblaApi={setEmbla}
           initialSlide={2}
         >
-          {carouseldata.map((item, index) => (
+          {images.map((item, index) => (
             <Carousel.Slide key={index}>
               <Center>
-                <Image src={item} alt="product" fit="contain" />
+                <Image src={baseURL + '/' + item.filename} alt="product" fit='none'  />
               </Center>
             </Carousel.Slide>
           ))}
@@ -68,7 +77,7 @@ export const ProductCarousel = ({ className }: { className?: string }) => {
         getEmblaApi={setEmblaThumb}
       >
         <Group position="center" spacing={10} className={clsx(className, ' md:ml-24')}>
-          {carouseldata.map((item, index) => (
+          {images.map((item, index) => (
             <ActionIcon
               radius={0}
               size={50}
@@ -79,7 +88,7 @@ export const ProductCarousel = ({ className }: { className?: string }) => {
               onClick={() => onThumbClick(index)}
               key={index}
             >
-              <Image src={item} alt="product" fit="contain" />
+              <Image src={baseURL + '/' + item.filename} alt="product" fit="none" />
             </ActionIcon>
           ))}
         </Group>
