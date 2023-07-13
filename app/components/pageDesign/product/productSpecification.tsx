@@ -6,6 +6,7 @@ import { NextLink } from '@mantine/next';
 import { ChevronRight, Heart } from 'tabler-icons-react';
 import { ProductVariant } from '../../../../types/slices';
 import { BiddingInput } from '../../inputs';
+import { RootState, useSelector } from '@elektra/store';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -48,8 +49,11 @@ export function ProductSpecification({
 }: ProductSpecificationProps) {
   const theme = useMantineTheme();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
+  const technicalSpecification = useSelector(
+    (state: RootState) => state.entities.productDetail.list.product.technical_specifications
+  );
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer();
+    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:technicalSpecification});
 
   const phone = useMediaQuery('(max-width: 600px)');
   return (

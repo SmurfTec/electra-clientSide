@@ -31,7 +31,6 @@ export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellC
 }
 export function PendingSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
-
   switch (props.cell.column.id) {
     case 'trackingNo':
       return <Text color="#3C82D6">{cell.getValue() as string}</Text>;

@@ -57,8 +57,11 @@ type OrderDetailPageProps = {
 };
 
 export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
+  // const technicalSpecification = useSelector(
+  //   (state: RootState) => state.entities.productDetail.list.product.technical_specifications
+  // );
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer();
+    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:[]});
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
