@@ -24,6 +24,8 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
   const { classes } = useStyles();
   const matches = useMediaQuery('(max-width: 800px)', false);
 
+  console.log(images)
+
   const onThumbClick = useCallback(
     (index: number) => {
       if (!embla || !emblaThumb) return;
@@ -58,7 +60,7 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
           getEmblaApi={setEmbla}
           initialSlide={2}
         >
-          {images.map((item, index) => (
+          {images?.map((item, index) => (
             <Carousel.Slide key={index}>
               <Center>
                 <Image src={baseURL + '/' + item.filename} alt="product" fit='none'  />
