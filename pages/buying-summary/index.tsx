@@ -80,6 +80,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         <Grid.Col xs={12} sm={6}>
           <div className="overflow-y-auto h-full">
             <ProductDetail
+            
               image={productDetailData.image}
               title={productDetailData.title}
               space={productDetailData.space}
@@ -88,8 +89,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               condition={productDetailData.condition}
               expiration={productDetailData.expiration}
               cardDetails={productDetailData.cardDetails}
-              address={productDetailData.address}
-            />
+              address={productDetailData.address} status={''} saleDate={''} orderNo={''} disabled={false} protectionPlan={''}            />
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>

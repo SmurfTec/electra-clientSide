@@ -208,7 +208,7 @@ export default function Testing() {
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer();
+    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:[]});
 
     const handleTest =async ()=>{
       const res = await http.request({
@@ -454,12 +454,13 @@ export default function Testing() {
             <ProductSpecification
               title={productSpecification[1].title}
               condition={productSpecification[1].condition as condition}
-              capacity={productSpecification[1].capacity}
-              capacityData={productSpecification[1].capacityData}
-              carrier={productSpecification[1].carrier}
-              carrierData={productSpecification[1].carrierData}
-              color={productSpecification[1].color}
-              colorData={productSpecification[1].colorData}
+              // capacity={productSpecification[1].capacity}
+              // capacityData={productSpecification[1].capacityData}
+              // carrier={productSpecification[1].carrier}
+              // carrierData={productSpecification[1].carrierData}
+              // color={productSpecification[1].color}
+              // colorData={productSpecification[1].colorData}
+              productVariants={[]}
               highestAsk={productSpecification[1].highestAsk}
               lowestAsk={productSpecification[1].lowestAsk}
               price={productSpecification[1].price}
@@ -473,12 +474,7 @@ export default function Testing() {
             <ProductSpecification
               title={productSpecification[0].title}
               condition={productSpecification[0].condition as condition}
-              capacity={productSpecification[0].capacity}
-              capacityData={productSpecification[0].capacityData}
-              carrier={productSpecification[0].carrier}
-              carrierData={productSpecification[0].carrierData}
-              color={productSpecification[0].color}
-              colorData={productSpecification[0].colorData}
+              productVariants={[]}
               highestAsk={productSpecification[0].highestAsk}
               lowestAsk={productSpecification[0].lowestAsk}
               price={productSpecification[0].price}

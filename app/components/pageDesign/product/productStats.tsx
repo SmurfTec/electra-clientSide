@@ -17,22 +17,22 @@ export const ProductStats = () => {
   const statDataNew = [
     {
       label: 'Current Listings',
-      difference: "NID",
+      difference: 0,
       value: '25',
     },
     {
       label: 'Total Sold',
-      difference: "NID",
+      difference: 0,
       value: productStats.no_of_sales,
     },
     {
       label: 'Average Sale Price',
-      difference: 'NID',
+      difference: 0,
       price: productStats.avg_sale_price.toFixed(),
     },
     {
       label: 'Total Amount From Sales',
-      difference: "NID",
+      difference: 0,
       price: "NID",
     },
   ];
@@ -40,22 +40,22 @@ export const ProductStats = () => {
   const statDataUsed = [
     {
       label: '12 month trade range',
-      difference: "NID",
+      difference: 0,
       price: 'NID',
     },
     {
       label: 'Price Premium',
-      difference: "NID",
-      price: productStats.price_premium,
+      difference: 0,
+      price: String(productStats.price_premium),
     },
     {
       label: 'Average Sale Price',
-      difference: "NID",
-      price: productStats.avg_sale_price.toFixed(),
+      difference: 0,
+      price: String(productStats.avg_sale_price.toFixed()),
     },
     {
       label: 'No of Sales',
-      difference: "NID",
+      difference: 0,
       value: productStats.no_of_sales,
     },
   ];

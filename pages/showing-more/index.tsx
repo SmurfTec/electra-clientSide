@@ -62,7 +62,7 @@ const bannerData: BannerProps[] = [
 const productData: ProductCardProps[] = [
   {
     image: '/images/product.png',
-    link: '/product-detail',
+    id:0,
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
     rating: 'New',
@@ -74,7 +74,7 @@ const productData: ProductCardProps[] = [
   {
     
     image: '/images/product.png',
-    link: '/product-detail',
+    id:0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -85,7 +85,7 @@ const productData: ProductCardProps[] = [
   {
     
     image: '/images/product.png',
-    link: '/product-detail',
+    id:0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -96,7 +96,7 @@ const productData: ProductCardProps[] = [
   {
     
     image: '/images/product.png',
-    link: '/product-detail',
+    id:0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -107,7 +107,7 @@ const productData: ProductCardProps[] = [
   {
     
     image: '/images/product.png',
-    link: '/product-detail',
+    id:0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -145,7 +145,7 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
                   rating={product.rating}
                   wishlist={product.wishlist}
@@ -168,7 +168,7 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
                   rating={product.rating}
                   wishlist={product.wishlist}
@@ -191,7 +191,7 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
                   rating={product.rating}
                   wishlist={product.wishlist}
@@ -214,7 +214,7 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
                   rating={product.rating}
                   wishlist={product.wishlist}
