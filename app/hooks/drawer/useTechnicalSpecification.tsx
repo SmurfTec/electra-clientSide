@@ -9,9 +9,8 @@ export const useTechinalSpecificationDrawer = (): [
   { open: () => void; close: () => void }
 ] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const technicalSpecification = useSelector(
-    (state: RootState) => state.entities.productDetail.list.product.technical_specifications
-  );
+  const technicalSpecification =
+    useSelector((state: RootState) => state.entities.productDetail.list.product.technical_specifications);
   const Modal = (
     <Stack align="stretch" spacing="xl" className="mt-6">
       <TextInput
