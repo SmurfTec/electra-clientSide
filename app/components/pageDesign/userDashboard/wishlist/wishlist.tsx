@@ -18,7 +18,8 @@ export function WishList() {
             <ProductCard
               image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
               description={'9/10 condition with charger and box'}
-              link={'/product-detail'}
+              // link={'/product-detail'}
+              id={product.id}
               title={product.title}
               rating={'New'}
               wishlist={false}

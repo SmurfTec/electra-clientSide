@@ -54,7 +54,7 @@ export default function PlaceOffer() {
         <Grid.Col md={6} className="text-left">
           <Only when={condition !== 'New'}>
             <div className="md:w-auto w-screen mt-5 ">
-              <ProductCarousel  />
+              <ProductCarousel  images={[]} />
             </div>
           </Only>
           <Only when={condition === 'New'}>

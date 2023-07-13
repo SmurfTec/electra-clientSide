@@ -188,6 +188,8 @@ type homePageProps = {
 
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection } = rest;
+
+  console.log(latest)
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -216,13 +218,12 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Recommended For You" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
-              console.log(product.id);
+            {latest.slice(0,5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     id={product.id}
-                    image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
+                    image={baseURL + '/' + (product?.images[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     rating={'New'}
@@ -242,7 +243,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(0,5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -308,11 +309,11 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(0,5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
+                    image={baseURL + '/' + (product?.images[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     id={product.id}
                     title={product.title}
@@ -333,7 +334,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Latest Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(0,5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard

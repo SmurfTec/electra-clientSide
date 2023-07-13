@@ -296,7 +296,7 @@ export default function ProductPage({ productDetail }: ProductPageProps) {
           <Stack align="center" justify="center" className="w-full">
             <Only when={!isNew}>
               <div className=" md:w-auto w-screen ">
-                <ProductCarousel images={productDetail.product.images} />
+                <ProductCarousel images={productDetail?.product?.images ?? []} />
               </div>
             </Only>
             <Only when={isNew}>
@@ -310,8 +310,8 @@ export default function ProductPage({ productDetail }: ProductPageProps) {
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
-            title={productDetail.product.title}
-            productVariants={productDetail.product.product_variants}
+            title={productDetail?.product?.title || ""}
+            productVariants={productDetail?.product?.product_variants || []}
             // condition={productSpecificationData.condition as condition}
             condition='New'
             // capacity={productSpecificationData.capacity}
