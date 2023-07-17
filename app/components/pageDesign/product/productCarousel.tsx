@@ -24,8 +24,6 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
   const { classes } = useStyles();
   const matches = useMediaQuery('(max-width: 800px)', false);
 
-  console.log(images)
-
   const onThumbClick = useCallback(
     (index: number) => {
       if (!embla || !emblaThumb) return;
@@ -48,8 +46,8 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
     <div className="px-2">
       <Center>
         <Carousel
-          // maw={matches ? 350 : 650}
-          maw={300}
+          maw={matches ? 350 : 650}
+          // maw={300}
           loop
           slideGap={100}
           nextControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowRight.png'} className="w-full" />}
