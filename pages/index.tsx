@@ -222,10 +222,7 @@ export function Index({ ...rest }: homePageProps) {
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     id={product.id}
-                    image={
-                      baseURL + '/' + (product && product.images && product.images[0] && product.images[0].filename) ||
-                      ''
-                    }
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     rating={'New'}
@@ -250,10 +247,7 @@ export function Index({ ...rest }: homePageProps) {
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     id={product.id}
-                    image={
-                      baseURL + '/' + (product && product.images && product.images[0] && product.images[0].filename) ||
-                      ''
-                    }
+                    image={baseURL + '/' + product.images?.[0].filename}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     rating={'New'}
@@ -318,10 +312,7 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={
-                      baseURL + '/' + (product && product.images && product.images[0] && product.images[0].filename) ||
-                      ''
-                    }
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     id={product.id}
                     title={product.title}
@@ -346,10 +337,7 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={
-                      baseURL + '/' + (product && product.images && product.images[0] && product.images[0].filename) ||
-                      ''
-                    }
+                    image={baseURL + '/' + product?.images?.[0]?.filename}
                     description={'9/10 condition with charger and box'}
                     id={product.id}
                     title={product.title}
