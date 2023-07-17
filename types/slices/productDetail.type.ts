@@ -1,4 +1,4 @@
-type Stats= {
+type Stats = {
   stats: {
     price_premium: number;
     avg_sale_price: number;
@@ -18,48 +18,48 @@ type Stats= {
     price: number;
     month: string;
   }[];
-}
+};
 
-type ProductProperty= {
+type ProductProperty = {
   id: number;
   description: string;
   listings: number;
   sold: number;
-}
+};
 
-type Category= {
+type Category = {
   id: number;
   name: string;
   fees: number;
-}
+};
 
-type Brand ={
+type Brand = {
   id: number;
   title: string;
   image: string;
-}
+};
 
-type TechnicalSpecification ={
+type TechnicalSpecification = {
   title: string;
   value: string;
-}
+};
 
- export type ImageProps ={
+export type ImageProps = {
   id: number;
   url: string;
   filename: string;
   mime_type: string;
   size: number;
-}
+};
 
-export type ProductVariant ={
+export type ProductVariant = {
   id: number;
   variant: string;
   value: string;
   values: string[];
   background_color: string;
   color: string;
-}
+};
 
 type Bid = {
   id: number;
@@ -69,9 +69,9 @@ type Bid = {
     id: number;
     email: string;
   };
-}
+};
 
-type  Ask = {
+type Ask = {
   id: number;
   price: number;
   expiration_date: string;
@@ -79,7 +79,7 @@ type  Ask = {
     id: number;
     email: string;
   };
-}
+};
 
 type Product = {
   id: number;
@@ -87,8 +87,11 @@ type Product = {
   is_active: boolean;
   created_on: string;
   updated_on: string;
+  user_starting_at: number | null;
   clicks: number;
   interactions: number;
+  highest_offer: number | null;
+  lowest_ask: number | null;
   product_properties: ProductProperty;
   category: Category;
   brand: Brand;
@@ -97,9 +100,57 @@ type Product = {
   product_variants: ProductVariant[];
   bids: Bid[];
   asks: Ask[];
-}
+};
 
 export type ProductData = {
   stats: Stats;
   product: Product;
 };
+
+interface ListingStats {
+  all_listings: string;
+  sold: string;
+  unsold: string;
+  flagged: string;
+}
+
+interface ListingUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
+
+interface ListingProductData {
+  id: number;
+  title: string;
+}
+
+export interface ListingData {
+  id: number;
+  created_on: string;
+  updated_on: string;
+  condition: string;
+  ask: number;
+  is_active: boolean;
+  is_repaired_before: boolean;
+  explain_repair: string;
+  condition_details: string;
+  more_info: string;
+  product: number;
+  user: ListingUser;
+  order: null;
+  saleprice: number;
+  is_flagged: boolean;
+  product_data: ListingProductData;
+  highest_offer: null;
+  lowest_offer: null;
+  listing_variants: null;
+  images: null;
+}
+
+export interface ListingsResponse {
+  results: number;
+  stats: Stats[];
+  listings: ListingProductData[];
+}

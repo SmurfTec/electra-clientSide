@@ -1,12 +1,12 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
+import { RootState, useSelector } from '@elektra/store';
 import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ChevronRight, Heart } from 'tabler-icons-react';
 import { ProductVariant } from '../../../../types/slices';
 import { BiddingInput } from '../../inputs';
-import { RootState, useSelector } from '@elektra/store';
 
 export type ProductSpecificationProps = {
   title: string;
@@ -47,13 +47,11 @@ export function ProductSpecification({
   sellerCondition,
   scrollIntoView,
 }: ProductSpecificationProps) {
-  const theme = useMantineTheme();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
-  const technicalSpecification = useSelector(
-    (state: RootState) => state.entities.productDetail.list.product.technical_specifications
-  );
+  const technicalSpecification =
+    useSelector((state: RootState) => state?.entities?.productDetail?.list.product?.technical_specifications) || [];
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:technicalSpecification});
+    useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
 
   const phone = useMediaQuery('(max-width: 600px)');
   return (
@@ -236,10 +234,10 @@ export function ProductSpecification({
         {/* <div> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={6}>
-            <BiddingInput title="Lowest Ask" value={169} />
+            <BiddingInput title="Lowest Ask" value={lowestAsk} />
           </Grid.Col>
           <Grid.Col span={6}>
-            <BiddingInput title="Highest Offer" value={179} />
+            <BiddingInput title="Highest Offer" value={highestAsk} />
           </Grid.Col>
         </Grid>
         {/* </div> */}
@@ -279,7 +277,7 @@ export function ProductSpecification({
                 className="font-[500] h-10 w-full"
                 bg="#3C82D6"
               >
-                Shop used starting at $400
+                Shop used starting at {price}
               </Button>
             </Grid.Col>
           </Grid>

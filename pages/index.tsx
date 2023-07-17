@@ -189,7 +189,7 @@ type homePageProps = {
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection } = rest;
 
-  console.log(latest)
+  console.log(latest);
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -206,7 +206,6 @@ export function Index({ ...rest }: homePageProps) {
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
-  
 
   return (
     <div>
@@ -218,7 +217,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Recommended For You" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0,5).map((product, index) => {
+            {latest.slice(10, 15).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -243,7 +242,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0,5).map((product, index) => {
+            {latest.slice(20, 25).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -309,7 +308,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0,5).map((product, index) => {
+            {latest.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -334,7 +333,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Latest Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0,5).map((product, index) => {
+            {latest.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
