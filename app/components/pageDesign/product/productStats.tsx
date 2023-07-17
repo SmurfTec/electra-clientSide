@@ -1,18 +1,16 @@
+import { RootState } from '@elektra/store';
 import { Divider, Group, Paper } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { Stats } from './stats';
 import { useSelector } from 'react-redux';
-import { RootState } from '@elektra/store';
-
-
+import { Stats } from './stats';
 
 export const ProductStats = () => {
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
   // const isNew = router.query['condition'] === 'new';
-  const isNew = false
-  const productStats = useSelector((state: RootState) => state.entities.productDetail.list.stats.stats)
+  const isNew = false;
+  const productStats = useSelector((state: RootState) => state.entities.productDetail?.list?.stats?.stats) || {};
 
   const statDataNew = [
     {
@@ -23,20 +21,20 @@ export const ProductStats = () => {
     {
       label: 'Total Sold',
       difference: 0,
-      value: productStats.no_of_sales,
+      value: productStats?.no_of_sales,
     },
     {
       label: 'Average Sale Price',
       difference: 0,
-      price: productStats.avg_sale_price.toFixed(),
+      price: productStats?.avg_sale_price?.toFixed() || 404,
     },
     {
       label: 'Total Amount From Sales',
       difference: 0,
-      price: "NID",
+      price: 'NID',
     },
   ];
-  
+
   const statDataUsed = [
     {
       label: '12 month trade range',
@@ -46,27 +44,30 @@ export const ProductStats = () => {
     {
       label: 'Price Premium',
       difference: 0,
-      price: String(productStats.price_premium),
+      price: String(productStats?.price_premium),
     },
     {
       label: 'Average Sale Price',
       difference: 0,
-      price: String(productStats.avg_sale_price.toFixed()),
+      price: String(productStats?.avg_sale_price?.toFixed() || 404),
     },
     {
       label: 'No of Sales',
       difference: 0,
-      value: productStats.no_of_sales,
+      value: productStats?.no_of_sales,
     },
   ];
-  
+
   const statData = isNew ? statDataNew : statDataUsed;
   return (
     <div>
-      <Paper radius={0} withBorder py={10} >
+      <Paper radius={0} withBorder py={10}>
         <Group position="apart" px={phone ? 0 : 60}>
           {statData.map((item, key) => (
-            <span key={key} className="md:flex md:space-x-4 text-center md:text-left min-w-[100%] md:min-w-max md:max-w-[20%]">
+            <span
+              key={key}
+              className="md:flex md:space-x-4 text-center md:text-left min-w-[100%] md:min-w-max md:max-w-[20%]"
+            >
               <Stats difference={item.difference} label={item.label} value={item.value} price={item.price} />
               {statData.length !== key + 1 && (
                 <Divider
