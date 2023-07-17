@@ -1,7 +1,9 @@
+import { RootState } from '@elektra/store';
 import { Badge, Center, Divider, Group, Paper, Stack, Tabs, Text } from '@mantine/core';
-import { Chart as ChartJS, registerables } from 'chart.js';
-import { BarChart } from './barChart';
 import { useMediaQuery } from '@mantine/hooks';
+import { Chart as ChartJS, registerables } from 'chart.js';
+import { useSelector } from 'react-redux';
+import { BarChart } from './barChart';
 ChartJS.register(...registerables);
 
 const chartLables1Y = [
@@ -18,21 +20,10 @@ const chartLables1Y = [
   'November',
   'December',
 ];
-const chartLables6M = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-];
-const chartLables3M = [
-  'January',
-  'February',
-  'March',
-];
+const chartLables6M = ['January', 'February', 'March', 'April', 'May', 'June'];
+const chartLables3M = ['January', 'February', 'March'];
 const chartdataset3 = [
-  { label: 'Price', data: [6000, 6200, 4200 ] },
+  { label: 'Price', data: [6000, 6200, 4200] },
   { label: 'Sales', data: [5000, 4800, 4600] },
 ];
 const chartdataset6 = [
@@ -45,7 +36,10 @@ const chartdataset1 = [
 ];
 
 export const ProductCharts = () => {
-    const phone = useMediaQuery('(max-width: 700px)',false);
+  const phone = useMediaQuery('(max-width: 700px)', false);
+
+  const tradeRange = useSelector((state: RootState) => state.entities?.productDetail?.list?.stats?.trade_range) || [];
+  console.log(tradeRange);
   return (
     <Paper withBorder radius={0}>
       <Stack>
@@ -64,7 +58,7 @@ export const ProductCharts = () => {
             },
           }}
         >
-          <Group position={phone?"center":'apart'} className="px-0 md:px-10 pt-4">
+          <Group position={phone ? 'center' : 'apart'} className="px-0 md:px-10 pt-4">
             <Text className="text-black font-bold text-xl md:text-2xl">Price and Sales History</Text>
             <Tabs.List>
               <Tabs.Tab value="3">3 Months</Tabs.Tab>
@@ -73,13 +67,13 @@ export const ProductCharts = () => {
             </Tabs.List>
           </Group>
           <Divider my={2} style={{ border: '1px solid rgba(212, 212, 212, 1)' }} />
-          <Tabs.Panel value="3" px={phone?0:40} pt={20}>
+          <Tabs.Panel value="3" px={phone ? 0 : 40} pt={20}>
             <BarChart labels={chartLables3M} datasets={chartdataset3} />
           </Tabs.Panel>
-          <Tabs.Panel value="6" px={phone?0:40} pt={20}>
+          <Tabs.Panel value="6" px={phone ? 0 : 40} pt={20}>
             <BarChart labels={chartLables6M} datasets={chartdataset6} />
           </Tabs.Panel>
-          <Tabs.Panel value="1" px={phone?0:40} pt={20}>
+          <Tabs.Panel value="1" px={phone ? 0 : 40} pt={20}>
             <BarChart labels={chartLables1Y} datasets={chartdataset1} />
           </Tabs.Panel>
         </Tabs>

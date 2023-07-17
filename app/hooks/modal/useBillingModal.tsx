@@ -8,7 +8,7 @@ import Joi from 'joi';
 import { useState } from 'react';
 import { CaretDown } from 'tabler-icons-react';
 
-export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { classes } = useStyles();
@@ -17,12 +17,12 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
   const profile = useSelector((state: RootState) => state.auth.profile);
   const defaultCountry = 'PK';
   const initialValues = {
-    address1: profile?.shipping_address_line_1 ?? '',
-    address2: profile?.shipping_adress_line_2 ?? '',
-    country: profile?.shipping_country_code ?? defaultCountry,
-    state: profile?.shipping_stateorprovince_code ?? '',
-    city: profile?.shipping_city ?? '',
-    postalCode: profile?.shipping_postalcode ?? '',
+    address1: profile?.billing_address_line_1 ?? '',
+    address2: profile?.billing_adress_line_2 ?? '',
+    country: profile?.billing_country_code ?? defaultCountry,
+    state: profile?.billing_state_or_province_code ?? '',
+    city: profile?.billing_city ?? '',
+    postalCode: profile?.billing_postalcode ?? '',
   };
   const schema = Joi.object({
     address1: Joi.string().optional(),
@@ -32,6 +32,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
     city: Joi.string().required(),
     postalCode: Joi.string().required(),
   });
+
   const form = useForm({
     initialValues: initialValues,
     validate: joiResolver(schema),
@@ -41,14 +42,14 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
     const country = Country.getCountryByCode(values.country);
     const state = State.getStateByCodeAndCountry(values.state,values.country);
     const data = {
-      shipping_address_line_1:values.address1,
-      shipping_adress_line_2:values.address2,
-      shipping_country_code:values.country,
-      shipping_country:country?.name,
-      shipping_stateorprovince_code:values.state,
-      shipping_stateorprovince:state?.name,
-      shipping_city:values.city,
-      shipping_postalcode:Number(values.postalCode)
+      billing_address_line_1:values.address1,
+      billing_address_line_2:values.address2,
+      billing_country_code:values.country,
+      billing_country:country?.name,
+      billing_state_or_province_code:values.state,
+      billing_state_or_province:state?.name,
+      billing_city:values.city,
+      billing_postalcode:Number(values.postalCode)
     }
       const res = await http.request({
         url: 'users/me',

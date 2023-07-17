@@ -247,7 +247,8 @@ const items = [
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
-
+  
+  console.log((await productData));
   await Promise.all([productData]);
 
   return {
@@ -262,6 +263,7 @@ type ProductPageProps = {
 };
 
 export default function ProductPage({ productDetail }: ProductPageProps) {
+  console.log(productDetail);
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -310,19 +312,19 @@ export default function ProductPage({ productDetail }: ProductPageProps) {
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
-            title={productDetail?.product?.title || ""}
+            title={productDetail?.product?.title || ''}
             productVariants={productDetail?.product?.product_variants || []}
             // condition={productSpecificationData.condition as condition}
-            condition='New'
+            condition="New"
             // capacity={productSpecificationData.capacity}
             // capacityData={productSpecificationData.capacityData}
             // carrier={productSpecificationData.carrier}
             // carrierData={productSpecificationData.carrierData}
             // color={productSpecificationData.color}
             // colorData={productSpecificationData.colorData}
-            highestAsk={productSpecificationData.highestAsk}
-            lowestAsk={productSpecificationData.lowestAsk}
-            price={productSpecificationData.price}
+            highestAsk={productDetail.product?.highest_offer || 404}
+            lowestAsk={productDetail.product?.lowest_ask || 404}
+            price={productDetail.product?.user_starting_at || 404}
             sellerCondition={productSpecificationData.sellerCondition}
             sellerColor={productSpecificationData.sellerColor}
             sellerCapacity={productSpecificationData.sellerCapacity}
