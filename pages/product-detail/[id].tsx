@@ -1,4 +1,5 @@
 import {
+  ProductCard,
   ProductCarousel,
   ProductCharts,
   // ProductCharts,
@@ -10,8 +11,10 @@ import {
 } from '@elektra/components';
 import { Modal, Only } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
-import { loadProductData, rehydrateProductData, store, useAppDispatch } from '@elektra/store';
+import { RootState, loadProductData, rehydrateProductData, store, useAppDispatch, useSelector } from '@elektra/store';
 
+import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
+import { ListingsResponse, ProductData } from '@elektra/types';
 import {
   ActionIcon,
   Anchor,
@@ -33,7 +36,6 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ArrowDown, Filter, ShoppingCart } from 'tabler-icons-react';
-import { ProductData } from '../../types/slices';
 
 const productSpecification = [
   //NEW PRODUCT
@@ -247,33 +249,38 @@ const items = [
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
-  
-  console.log((await productData));
-  await Promise.all([productData]);
+  const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
+
+  await Promise.all([productData, listingData]);
 
   return {
     props: {
       productDetail: store.getState().entities.productDetail.list,
+      productListing: store.getState().entities.productListing.list,
     },
   };
 }
 
 type ProductPageProps = {
   productDetail: ProductData;
+  productListing: ListingsResponse;
 };
 
-export default function ProductPage({ productDetail }: ProductPageProps) {
+export default function ProductPage({ productDetail, productListing }: ProductPageProps) {
   console.log(productDetail);
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateProductData(productDetail));
+      dispatch(rehydrateListingProductData(productListing));
     }
     return () => {
       unsubscribe = true;
     };
   }, []);
+
+  const listingProducts = useSelector((state: RootState)=> state.entities.productListing.list)
 
   const router = useRouter();
   const [activePage, setPage] = useState(1);
@@ -346,12 +353,12 @@ export default function ProductPage({ productDetail }: ProductPageProps) {
       <Only when={!filters}>
         <ProductFilter />
       </Only>
-      {/* <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productData.slice(0, limit).map((product, index) => {
+      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+        {listingProducts.listings.map((product, index) => {
           return (
             <ProductCard
               key={index}
-              image={product.image}
+              image={product.images[0].filename}
               description={product.description}
               link={product.link}
               title={product.title}
@@ -363,7 +370,7 @@ export default function ProductPage({ productDetail }: ProductPageProps) {
             />
           );
         })}
-      </div> */}
+      </div>
 
       <Center className="mt-20 space-x-3">
         <Only when={limit <= 5}>

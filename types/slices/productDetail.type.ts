@@ -146,11 +146,11 @@ export interface ListingData {
   highest_offer: null;
   lowest_offer: null;
   listing_variants: null;
-  images: null;
+  images: ImageProps[];
 }
 
 export interface ListingsResponse {
   results: number;
   stats: Stats[];
-  listings: ListingProductData[];
+  listings: ListingData[];
 }
