@@ -1,22 +1,22 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { ProductData } from '@elektra/types';
+import { ProductData, SingleProductListing } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-export type ProductDetailSlice = {
-  list: ProductData;
+export type ProductListingByIdSlice = {
+  list: SingleProductListing;
   loading: boolean;
 };
 
-const URL = '/products/';
+const URL = '/listings/';
 
-const initialState: ProductDetailSlice = {
-  list: {} as ProductData,
+const initialState: ProductListingByIdSlice = {
+  list: {} as SingleProductListing,
   loading: false,
 };
 
 const slice = createSlice({
-  name: 'productData',
+  name: 'single-product-listing',
   initialState,
   reducers: {
     productRequested: (state) => {
@@ -40,14 +40,14 @@ const slice = createSlice({
   },
 });
 
-export const rehydrateProductData = (payload: ProductData | null) => {
+export const rehydrateProductListingById = (payload: ProductData) => {
   return {
     type: slice.actions.rehydrated.type,
     payload,
   };
 };
 
-export const loadProductData = (id: number) => async (dispatch: AppDispatch) => {
+export const loadProductListingById = (id: number) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
       url: URL + id,
@@ -58,4 +58,4 @@ export const loadProductData = (id: number) => async (dispatch: AppDispatch) => 
   );
 };
 
-export const productDataReducer = slice.reducer;
+export const productLisingByIdReducer = slice.reducer;

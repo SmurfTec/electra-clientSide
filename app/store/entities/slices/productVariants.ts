@@ -1,6 +1,6 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { ListingsResponse, ProductVariant } from '@elektra/types';
+import { ProductVariant } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export type ProductVariantSlice = {
