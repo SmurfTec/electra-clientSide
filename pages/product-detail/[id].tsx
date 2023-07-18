@@ -295,6 +295,7 @@ export default function ProductPage({ productDetail, productListing, productVari
   }, []);
 
   const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
+  const graphData = productDetail.stats.trade_range
 
   const router = useRouter();
   const [activePage, setPage] = useState(1);
@@ -423,7 +424,7 @@ export default function ProductPage({ productDetail, productListing, productVari
         </div>
       </Only>
       <div className="my-10">
-        <ProductCharts />
+        <ProductCharts data={graphData} />
       </div>
       {/* <div className="">
         <SectionTitle title="Recommended New Items" />
