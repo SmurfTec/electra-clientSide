@@ -16,7 +16,7 @@ export type ProductSpecificationProps = {
   // capacity: string;
   // carrierData: string[];
   // carrier: string;
-  condition: 'New' | 'Used';
+  condition: 'new' | 'used';
   productVariants: ProductVariant[];
   sellerCondition?: string;
   sellerColor?: string;
@@ -104,7 +104,7 @@ export function ProductSpecification({
           >
             Technical Specifications
           </Button>
-          <Only when={condition !== 'New'}>
+          <Only when={condition !== 'new'}>
             <Drawer
               title="Details from seller"
               children={SellerDetailModal}
@@ -140,7 +140,7 @@ export function ProductSpecification({
             </Button>
           </Only>
 
-          <Only when={condition === 'Used'}>
+          <Only when={condition === 'used'}>
             <div className="space-y-5">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
@@ -177,7 +177,7 @@ export function ProductSpecification({
             </div>
           </Only>
 
-          <Only when={condition === 'New'}>
+          <Only when={condition === 'new'}>
             <div className="space-y-3">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
@@ -188,6 +188,7 @@ export function ProductSpecification({
                 </Text>
               </div>
               {productVariants.map((item, key) => {
+                console.log(item.value);
                 return (
                   <div key={key + item.color}>
                     <div>
@@ -200,34 +201,6 @@ export function ProductSpecification({
                 );
               })}
             </div>
-            {/* <div className="space-y-3">
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  CONDITION
-                </Title>
-                <Text size="sm" mt={4}>
-                  {condition}
-                </Text>
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Color
-                </Title>
-                <ChipDisplay data={colorData} item={color} />
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Capacity
-                </Title>
-                <ChipDisplay data={capacityData} item={capacity} />
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Carrier
-                </Title>
-                <ChipDisplay data={carrierData} item={carrier} />
-              </div>
-            </div> */}
           </Only>
         </div>
 
@@ -247,7 +220,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'New' ? '/buy-offer?condition=new' : '/buy-offer'}
+                href={condition === 'new' ? '/buy-offer?condition=new' : '/buy-offer'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
@@ -258,7 +231,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'New' ? '/place-offer?condition=new' : '/place-offer'}
+                href={condition === 'used' ? '/place-offer?condition=new' : '/place-offer'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
@@ -295,7 +268,7 @@ export type ChipDisplayProps = {
 export function ChipDisplay({ data, item }: ChipDisplayProps) {
   const theme = useMantineTheme();
   return (
-    <Chip.Group>
+    <Chip.Group value={item}>
       <Group className="space-x-4">
         {data.map((value, index) => (
           <Chip
