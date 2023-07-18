@@ -9,12 +9,21 @@ import {
   SalesTable,
   SectionTitle,
 } from '@elektra/components';
-import { Modal, Only } from '@elektra/customComponents';
+import { Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
-import { RootState, loadProductData, rehydrateProductData, store, useAppDispatch, useSelector } from '@elektra/store';
+import {
+  RootState,
+  loadProductData,
+  loadProductVariants,
+  rehydrateProductData,
+  rehydrateProductVariants,
+  store,
+  useAppDispatch,
+  useSelector,
+} from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
-import { ListingsResponse, ProductData } from '@elektra/types';
+import { ListingsResponse, ProductData, ProductVariant } from '@elektra/types';
 import {
   ActionIcon,
   Anchor,
@@ -248,15 +257,18 @@ const items = [
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
+  console.log(context.query);
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
+  const productVariants = store.dispatch(loadProductVariants());
 
-  await Promise.all([productData, listingData]);
+  await Promise.all([productData, listingData, productVariants]);
 
   return {
     props: {
       productDetail: store.getState().entities.productDetail.list,
       productListing: store.getState().entities.productListing.list,
+      productVariants: store.getState().entities.productVariants.list,
     },
   };
 }
@@ -264,23 +276,25 @@ export async function getServerSideProps(context: NextPageContext) {
 type ProductPageProps = {
   productDetail: ProductData;
   productListing: ListingsResponse;
+  productVariants: ProductVariant;
 };
 
-export default function ProductPage({ productDetail, productListing }: ProductPageProps) {
-  console.log(productDetail);
+export default function ProductPage({ productDetail, productListing, productVariants }: ProductPageProps) {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateProductData(productDetail));
       dispatch(rehydrateListingProductData(productListing));
+      dispatch(rehydrateProductVariants(productVariants));
     }
     return () => {
       unsubscribe = true;
     };
   }, []);
 
-  const listingProducts = useSelector((state: RootState)=> state.entities.productListing.list)
+  const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
 
   const router = useRouter();
   const [activePage, setPage] = useState(1);
@@ -288,11 +302,17 @@ export default function ProductPage({ productDetail, productListing }: ProductPa
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
-  const isNew = router.query['condition'] === 'new';
-  const productSpecificationData = isNew ? productSpecification[0] : productSpecification[1];
+  const isNew = productDetail.product.condition === 'new';
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     duration: 100,
   });
+
+  const handlePaginatedListing = (pageNumber: number) => {
+    setPage(pageNumber);
+    const productId = Number(router.query['id']);
+    dispatch(loadListingProducts(productId, `&limit=15&page=${pageNumber}`));
+  };
+
   return (
     <>
       {!matches && (
@@ -309,7 +329,11 @@ export default function ProductPage({ productDetail, productListing }: ProductPa
               </div>
             </Only>
             <Only when={isNew}>
-              <Image className="md:mt-[-80px]" alt="product image" src="/images/productImage.png" />
+              <Image
+                className=""
+                alt="product image"
+                src={baseURL + '/' + (productDetail.product?.images?.[0]?.filename || '')}
+              />
             </Only>
             <Text className="text-xs font-medium">Have this item?</Text>
             <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
@@ -321,28 +345,17 @@ export default function ProductPage({ productDetail, productListing }: ProductPa
           <ProductSpecification
             title={productDetail?.product?.title || ''}
             productVariants={productDetail?.product?.product_variants || []}
-            // condition={productSpecificationData.condition as condition}
-            condition="New"
-            // capacity={productSpecificationData.capacity}
-            // capacityData={productSpecificationData.capacityData}
-            // carrier={productSpecificationData.carrier}
-            // carrierData={productSpecificationData.carrierData}
-            // color={productSpecificationData.color}
-            // colorData={productSpecificationData.colorData}
+            condition={productDetail.product.condition}
             highestAsk={productDetail.product?.highest_offer || 404}
             lowestAsk={productDetail.product?.lowest_ask || 404}
             price={productDetail.product?.user_starting_at || 404}
-            sellerCondition={productSpecificationData.sellerCondition}
-            sellerColor={productSpecificationData.sellerColor}
-            sellerCapacity={productSpecificationData.sellerCapacity}
-            sellerCarrier={productSpecificationData.sellerCarrier}
             scrollIntoView={scrollIntoView}
           />
         </Grid.Col>
       </Grid>
       <Divider className="my-4" />
       <Group position="apart" align="top">
-        <SectionTitle title="Used iPhone 14 Pro Max" />
+        <SectionTitle title={`Used ${productDetail.product.title}`} />
         <Only when={filters}>
           <Button onClick={filterHandler.open} leftIcon={<Filter />}>
             Filter
@@ -354,45 +367,41 @@ export default function ProductPage({ productDetail, productListing }: ProductPa
         <ProductFilter />
       </Only>
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {listingProducts.listings.map((product, index) => {
+        {listingProducts?.listings?.slice(0, limit).map((product, index) => {
           return (
             <ProductCard
+              id={product.id}
               key={index}
-              image={product.images[0].filename}
-              description={product.description}
-              link={product.link}
-              title={product.title}
-              rating={product.rating}
-              wishlist={product.wishlist}
-              lowestPrice={product.lowestPrice ?? null}
-              highestPrice={product.highestPrice ?? null}
-              price={product.price}
+              image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+              description={product.condition_details}
+              title={product.product_data.title}
+              rating={product.condition}
+              wishlist={false}
+              lowestPrice={product.lowest_offer || 500}
+              highestPrice={product.highest_offer || 500}
+              price={product.saleprice || 500}
             />
           );
         })}
       </div>
 
       <Center className="mt-20 space-x-3">
-        <Only when={limit <= 5}>
+        <Only when={limit === 5}>
           <Text size={16} className="font-[600]" color="black">
             View More
           </Text>
 
-          <ActionIcon
-            variant="outline"
-            className="rounded-xl w-9 border-black"
-            onClick={() => setLimit((prev) => prev + 10)}
-          >
-            <ArrowDown size={20} color="black" />
+          <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+            <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
           </ActionIcon>
         </Only>
-        <Only when={limit > 5}>
+        <Only when={limit > 10}>
           <Pagination
             className="mb-16"
             withControls={false}
             position="center"
             value={activePage}
-            onChange={setPage}
+            onChange={(value) => handlePaginatedListing(value)}
             total={10}
           />
         </Only>

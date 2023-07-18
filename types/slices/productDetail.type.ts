@@ -89,6 +89,7 @@ type Product = {
   updated_on: string;
   user_starting_at: number | null;
   clicks: number;
+  condition: 'new' | 'used';
   interactions: number;
   highest_offer: number | null;
   lowest_ask: number | null;
@@ -130,7 +131,7 @@ export interface ListingData {
   id: number;
   created_on: string;
   updated_on: string;
-  condition: string;
+  condition: 'new' | 'used';
   ask: number;
   is_active: boolean;
   is_repaired_before: boolean;

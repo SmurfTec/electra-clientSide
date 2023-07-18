@@ -9,7 +9,7 @@ export type ProductCardProps = {
   image: string;
   title: string;
   description: string;
-  rating?: string;
+  rating: 'used' | 'new';
   wishlist: boolean;
   lowestPrice: number | null;
   highestPrice: number | null;
@@ -29,14 +29,13 @@ export function ProductCard({
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
-
   return (
-    <Card component={NextLink} href={`/product-detail/${id}`} className="relative rounded-none">
-      <Anchor
-        className="cursor-pointer"
-        align="unset"
-        underline={false}
-      >
+    <Card
+      component={NextLink}
+      href={rating === 'used' ? `/product-detail/${id}?condition=used` : `/product-detail/${id}`}
+      className="relative rounded-none"
+    >
+      <Anchor className="cursor-pointer" align="unset" underline={false}>
         <Card.Section>
           <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center">
             <Image height={phone ? 90 : 120} width={phone ? 80 : 100} alt={image} src={image} className="h-1/4 w-1/2" />
@@ -46,7 +45,7 @@ export function ProductCard({
           <Badge
             size={phone ? 'sm' : 'md'}
             className={clsx(
-              rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
+              rating === 'used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
               'absolute text-white pointer-events-none  bg-black top-6 right-2'
             )}
           >
@@ -57,11 +56,7 @@ export function ProductCard({
       <Card.Section className="no-underline">
         <Grid align="center">
           <Grid.Col span={9} px={0}>
-            <Text
-              className="block text-[13px] md:text-base font-bold text-black "
-              weight={500}
-        
-            >
+            <Text className="block text-[13px] md:text-base font-bold text-black " weight={500}>
               {title}
             </Text>
           </Grid.Col>

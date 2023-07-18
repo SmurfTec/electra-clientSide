@@ -1,6 +1,6 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { ListingsResponse, ProductData } from '@elektra/types';
+import { ListingsResponse } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export type ListingProductSlice = {
@@ -16,13 +16,12 @@ const initialState: ListingProductSlice = {
 };
 
 const slice = createSlice({
-  name: 'productData',
+  name: 'productListing',
   initialState,
   reducers: {
     productRequested: (state) => {
       state.loading = true;
     },
-
 
     listingProductReceived: (state, action) => {
       state.list = action.payload;
@@ -48,16 +47,17 @@ export const rehydrateListingProductData = (payload: ListingsResponse) => {
   };
 };
 
-
-export const loadListingProducts = (id: number, params: string = "&limit=10&page=1") => async (dispatch: AppDispatch) => {
-  return await dispatch(
-    apiRequest({
-      url: listingUrl + `/?product_data=${id}${params}`,
-      onStart: slice.actions.productRequested.type,
-      onSuccess: slice.actions.listingProductReceived.type,
-      onError: slice.actions.productFailed.type,
-    })
-  );
-};
+export const loadListingProducts =
+  (id: number, params: string = '&limit=15&page=1') =>
+  async (dispatch: AppDispatch) => {
+    return await dispatch(
+      apiRequest({
+        url: listingUrl + `?product_data=${id}${params}`,
+        onStart: slice.actions.productRequested.type,
+        onSuccess: slice.actions.listingProductReceived.type,
+        onError: slice.actions.productFailed.type,
+      })
+    );
+  };
 
 export const productListingReducer = slice.reducer;
