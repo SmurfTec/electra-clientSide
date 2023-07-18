@@ -52,7 +52,7 @@ export type ImageProps = {
   size: number;
 };
 
-export type ProductVariant = {
+type ProductVariant = {
   id: number;
   variant: string;
   value: string;

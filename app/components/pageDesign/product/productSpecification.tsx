@@ -268,7 +268,7 @@ export type ChipDisplayProps = {
 export function ChipDisplay({ data, item }: ChipDisplayProps) {
   const theme = useMantineTheme();
   return (
-    <Chip.Group value={item}>
+    <Chip.Group  value={item}>
       <Group className="space-x-4">
         {data.map((value, index) => (
           <Chip

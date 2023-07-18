@@ -1,7 +1,7 @@
 import { Only } from '@elektra/customComponents';
 import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
@@ -29,10 +29,10 @@ export function ProductCard({
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
+  const router = useRouter();
   return (
     <Card
-      component={NextLink}
-      href={rating === 'used' ? `/product-detail/${id}?condition=used` : `/product-detail/${id}`}
+      onClick={() => router.push( {pathname:`/product-detail/${id}`,query:rating === 'used' ?{ condition:"used" }:undefined})}
       className="relative rounded-none"
     >
       <Anchor className="cursor-pointer" align="unset" underline={false}>

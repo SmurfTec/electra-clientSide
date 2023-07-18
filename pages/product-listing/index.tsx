@@ -44,7 +44,7 @@ const usedProductListingData = {
 };
 
 export default function ProductListingPage() {
-  const [condition, setCondition] = useState<string>('New');
+  const [condition, setCondition] = useState<string>('Used');
   return (
     <Container fluid>
       <div className="my-10">
