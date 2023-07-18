@@ -9,6 +9,7 @@ import {
   orderDetailReducer,
   productListingReducer,
   productVariantReducer,
+  productLisingByIdReducer,
 } from './slices';
 
 export const entitiesReducers = combineReducers({
@@ -22,5 +23,6 @@ export const entitiesReducers = combineReducers({
   productDetail: productDataReducer,
   orderDetail: orderDetailReducer,
   productListing: productListingReducer,
-  productVariants: productVariantReducer
+  productVariants: productVariantReducer,
+  productListingById: productLisingByIdReducer
 });
