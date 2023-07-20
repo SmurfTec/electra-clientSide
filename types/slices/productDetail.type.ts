@@ -7,6 +7,10 @@ type Stats = {
       min_saleprice: number;
       max_saleprice: number;
     }[];
+    trade_range: [{
+      "min_saleprice": number | null,
+      "max_saleprice": number | null
+    }],
     min_max_saleprice_percentage: number;
     price_premium_percentage: number;
     average_saleprice_percentage: number;
@@ -108,12 +112,7 @@ export type ProductData = {
   product: Product;
 };
 
-interface ListingStats {
-  all_listings: string;
-  sold: string;
-  unsold: string;
-  flagged: string;
-}
+
 
 interface ListingUser {
   id: number;

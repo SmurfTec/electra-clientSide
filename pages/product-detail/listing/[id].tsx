@@ -1,11 +1,11 @@
 import {
   ProductCard,
   ProductCarousel,
-  ProductCharts,
   // ProductCharts,
   ProductFilter,
   ProductSpecification,
   ProductStats,
+  SalesTable,
   SectionTitle,
 } from '@elektra/components';
 import { Modal, Only, baseURL } from '@elektra/customComponents';
@@ -88,7 +88,6 @@ type ProductPageProps = {
 
 export default function ProductPage({ productListing, productVariants, productListingById }: ProductPageProps) {
   const dispatch = useAppDispatch();
-  console.log(productListing);
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -210,7 +209,7 @@ export default function ProductPage({ productListing, productVariants, productLi
         <ProductStats condition="used" />
       </div>
       <div className="my-10">
-        <ProductCharts />
+        <SalesTable />
       </div>
       {/* <div className="">
           <SectionTitle title="Recommended New Items" />

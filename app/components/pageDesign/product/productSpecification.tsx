@@ -1,6 +1,5 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
-import { RootState, useSelector } from '@elektra/store';
 import { TechnicalSpecification, Variant } from '@elektra/types';
 import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
@@ -20,7 +19,7 @@ export type ProductSpecificationProps = {
   highestAsk: number;
   price: number;
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
-  technicalSpecification: TechnicalSpecification[]
+  technicalSpecification: TechnicalSpecification[];
 };
 
 export function ProductSpecification({
@@ -35,10 +34,10 @@ export function ProductSpecification({
   sellerColor,
   sellerCondition,
   scrollIntoView,
-  technicalSpecification
+  technicalSpecification,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
- const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
+  const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
 
   const phone = useMediaQuery('(max-width: 600px)');
@@ -175,8 +174,7 @@ export function ProductSpecification({
                   {condition}
                 </Text>
               </div>
-              {productVariants.map((item, key) => {
-                console.log(item.value);
+              {productVariants?.map((item, key) => {
                 return (
                   <div key={key + item.color}>
                     <div>
@@ -208,7 +206,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'new' ? '/buy-offer?condition=new' : '/buy-offer'}
+                href={condition === 'new' ? '/buy-offer' : '/buy-offer/listing'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"

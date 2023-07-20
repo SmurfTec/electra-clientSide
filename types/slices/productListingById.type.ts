@@ -25,7 +25,7 @@ type SalesHistory = {
   item_name: string;
   condition: 'new' | 'used';
   listing_variants: Variant[] | null;
-  date: string;
+  date: Date;
   ask_price: number;
   lowest_offer: number | null;
 };

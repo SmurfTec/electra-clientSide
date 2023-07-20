@@ -22,7 +22,7 @@ export function ProductCard({
   title,
   description,
   wishlist,
-  condition,
+  condition = 'new',
   lowestPrice,
   highestPrice,
   price,
@@ -30,6 +30,8 @@ export function ProductCard({
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
+
+  console.log(condition);
   return (
     <Card
       onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}

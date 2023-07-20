@@ -7,3 +7,5 @@ export type ProtectionPlan = {
   updated_on: string;
   month: number;
 };
+
+export type protectionPlanProps = { result: number; protectionplans: ProtectionPlan[] };
