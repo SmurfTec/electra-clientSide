@@ -5,41 +5,45 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Stats } from './stats';
 
-export const ProductStats = () => {
+type ProductStatsProps = {
+  condition: "new" | "used"
+}
+
+export const ProductStats = ({condition}: ProductStatsProps) => {
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
-  // const isNew = router.query['condition'] === 'new';
-  const isNew = false;
-  const productStats = useSelector((state: RootState) => state.entities.productDetail?.list?.stats?.stats) || {};
 
-  const statDataNew = [
+  const productStats = useSelector((state: RootState) => state.entities.productDetail?.list?.stats?.stats) || {};
+  const listingStats = useSelector((state: RootState) => state.entities.productListingById.list.listing_stats);
+
+  const statDataUsed = [
     {
       label: 'Current Listings',
       difference: 0,
-      value: '25',
+      price: listingStats?.total_listings,
     },
     {
       label: 'Total Sold',
       difference: 0,
-      value: productStats?.no_of_sales,
+      price: listingStats?.total_sold,
     },
     {
       label: 'Average Sale Price',
       difference: 0,
-      price: productStats?.avg_sale_price?.toFixed() || 404,
+      price: (Number(listingStats?.total_amount_sold) / listingStats?.total_sold).toFixed(),
     },
     {
       label: 'Total Amount From Sales',
       difference: 0,
-      price: 'NID',
+      price: listingStats?.total_amount_sold,
     },
   ];
 
-  const statDataUsed = [
+  const statDataNew = [
     {
       label: '12 month trade range',
       difference: 0,
-      price: 'NID',
+      price: 404,
     },
     {
       label: 'Price Premium',
@@ -54,11 +58,11 @@ export const ProductStats = () => {
     {
       label: 'No of Sales',
       difference: 0,
-      value: productStats?.no_of_sales,
+      price: productStats?.no_of_sales,
     },
   ];
 
-  const statData = isNew ? statDataNew : statDataUsed;
+  const statData = condition === "new" ? statDataNew : statDataUsed;
   return (
     <div>
       <Paper radius={0} withBorder py={10}>
@@ -68,7 +72,7 @@ export const ProductStats = () => {
               key={key}
               className="md:flex md:space-x-4 text-center md:text-left min-w-[100%] md:min-w-max md:max-w-[20%]"
             >
-              <Stats difference={item.difference} label={item.label} value={item.value} price={item.price} />
+              <Stats difference={item.difference} label={item.label} price={String(item.price)} />
               {statData.length !== key + 1 && (
                 <Divider
                   orientation={phone ? 'horizontal' : 'vertical'}
