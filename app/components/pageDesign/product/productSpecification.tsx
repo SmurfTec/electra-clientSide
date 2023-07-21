@@ -127,7 +127,7 @@ export function ProductSpecification({
             </Button>
           </Only>
 
-          <Only when={condition === 'used'}>
+          {/* <Only when={condition === 'used'}>
             <div className="space-y-5">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
@@ -162,32 +162,32 @@ export function ProductSpecification({
                 </Text>
               </div>
             </div>
-          </Only>
+          </Only> */}
 
-          <Only when={condition === 'new'}>
-            <div className="space-y-3">
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  CONDITION
-                </Title>
-                <Text size="sm" mt={4}>
-                  {condition}
-                </Text>
-              </div>
-              {productVariants?.map((item, key) => {
-                return (
-                  <div key={key + item.color}>
-                    <div>
-                      <Title className="uppercase font-[600]" order={6}>
-                        {item.variant}
-                      </Title>
-                      <ChipDisplay data={item.values} item={item.value} />
-                    </div>
-                  </div>
-                );
-              })}
+          {/* <Only when={condition === 'new'}> */}
+          <div className="space-y-3">
+            <div>
+              <Title className="uppercase font-[600]" order={6}>
+                CONDITION
+              </Title>
+              <Text size="sm" mt={4}>
+                {condition}
+              </Text>
             </div>
-          </Only>
+            {productVariants?.map((item, key) => {
+              return (
+                <div key={key + item.color}>
+                  <div>
+                    <Title className="uppercase font-[600]" order={6}>
+                      {item.variant}
+                    </Title>
+                    <ChipDisplay data={item.values} item={item.value} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* </Only> */}
         </div>
 
         {/* <div> */}

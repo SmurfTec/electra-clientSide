@@ -107,7 +107,7 @@ export default function ProductPage({ productDetail, productListing, productVari
   const router = useRouter();
 
   const [activePage, setPage] = useState(1);
-  const [params, setParams] = useState<Array<{ label: string; value: string }>>([]);
+  const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
@@ -115,26 +115,42 @@ export default function ProductPage({ productDetail, productListing, productVari
     duration: 100,
   });
 
-  const handleFilter = async (label: string, value: string) => {
+  const handleFilter = async (label: string, value: string, id: number) => {
     const productId = Number(router.query['id']);
-    if (params.some((item)=>item.label=== label&&item.value===value ) && params.length === 1) {
-      dispatch(loadListingProducts(productId));
-      setParams([]);
+    let newParams = params;
+    const existParam = newParams.find((item) => item.id === id);
+
+    if (existParam) {
+      newParams = params.filter((item) => item.id !== id);
+      if (existParam.value !== value) newParams = [...newParams, { label, value, id }];
+
+      setParams(newParams);
     } else {
-      if (params.length === 0) {
-        dispatch(loadListingProducts(productId, `&${label}=${value}`));
-        setParams([ { label, value }]);
-      } else {
-        if(params.some((item)=>item.label=== label&&item.value===value)){
-          const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
-          dispatch(loadListingProducts(productId,"&"+ newParams));
-          setParams(newParams);
-        }
-        const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-        dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
-        setParams((prev) => [...prev, { label, value }]);
-      }
+      newParams = [...newParams, { label, value, id }];
+      setParams(newParams);
     }
+    if (newParams.length === 0) {
+      dispatch(loadListingProducts(productId));
+      return;
+    }
+    const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
+    dispatch(loadListingProducts(productId, '&' + paramString));
+
+    // else {
+    //   if (params.length === 0) {
+    //     dispatch(loadListingProducts(productId, `&${label}=${value}`));
+    //     setParams([ { label, value }]);
+    //   } else {
+    //     if(params.some((item)=>item.label=== label&&item.value===value)){
+    //       const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
+    //       dispatch(loadListingProducts(productId,"&"+ newParams));
+    //       setParams(newParams);
+    //     }
+    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+    //     dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
+    //     setParams((prev) => [...prev, { label, value }]);
+    //   }
+    // }
     // } else {
     //   if (params.length !== 0) {
     //     const productId = Number(router.query['id']);
