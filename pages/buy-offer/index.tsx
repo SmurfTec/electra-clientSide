@@ -54,7 +54,7 @@ export default function PlaceOffer() {
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}
             saleTax={ListingDescriptionData.saleTax}
             shippingFee={ListingDescriptionData.shippingFee}
-            averageSalePrice={ListingDescriptionData.averageSalePrice}
+            averageSalePrice={productDetail.stats.stats.avg_sale_price}
           />
         </Grid.Col>
       </Grid>

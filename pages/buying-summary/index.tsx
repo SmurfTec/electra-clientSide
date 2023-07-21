@@ -115,9 +115,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               productVariants={productDetail.product.product_variants}
               image={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''}
               title={productDetail.product.title}
-              space={productDetailData.space}
-              color={productDetailData.color}
-              company={productDetailData.company}
+             
               condition={productDetail.product.condition.toUpperCase()}
               expiration={productDetailData.expiration}
               cardDetails={productDetailData.cardDetails}
