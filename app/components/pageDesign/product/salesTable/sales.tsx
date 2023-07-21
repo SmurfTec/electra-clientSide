@@ -3,6 +3,7 @@ import { RootState } from '@elektra/store';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { SalesHistory } from '../../../../../types/slices';
 
 const tabledata = [
   {
@@ -516,17 +517,22 @@ const tabledata = [
     date: '20 Aug,2022',
   },
 ];
-export const SalesTable = () => {
-  const salesHistory = useSelector((state: RootState) => state.entities.productListingById.list.sales_history);
+type SalesTableProps = {
+  data:SalesHistory[]
+}
+export const SalesTable = ({data}:SalesTableProps) => {
   const salesTableData = useMemo(() => {
-    return salesHistory.map((item, key) => ({
-      id: item.id,
-      'Item Name': item.item_name,
-      Condition: item.condition,
-      Date: format(new Date(item.date), 'dd MMM, yyyy'),
-      'Lowest Offer': item.lowest_offer,
+    return data?.map((item, key) => ({
+      id: item?.id,
+      itemName: item?.item_name??"-",
+      condition: item?.condition,
+      capacity: 'NID',
+      carrier: 'NID',
+      color: 'NID',
+      lowestOffer: `$${item.lowest_offer}`,
+      date: format(new Date(item.date), 'dd MMM, yyyy'),
     }));
-  }, [salesHistory]);
+  }, [data]);
 
   return <>{salesTableData.length > 0 && <DataTable data={salesTableData} />}</>;
 };

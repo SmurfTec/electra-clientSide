@@ -83,7 +83,7 @@ export const useFilterModal = ({data,fetchListings}:ProductFilterProps): [React.
           Apply Filters
         </Text>
         <Flex gap={10} wrap={'wrap'}>
-        {data.map((item) => (
+        {data?.map((item) => (
           <FilterMenu key={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
         ))}
           {/* <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />

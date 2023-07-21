@@ -69,7 +69,6 @@ export async function getServerSideProps(context: NextPageContext) {
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
   const productVariants = store.dispatch(loadProductVariants());
   const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
-
   await Promise.all([listingData, productVariants, productListingById]);
   return {
     props: {
@@ -100,12 +99,12 @@ export default function ProductPage({ productListing, productVariants, productLi
     };
   }, []);
 
-  const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
+  // const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
 
   const router = useRouter();
 
   const [activePage, setPage] = useState(1);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
@@ -156,17 +155,17 @@ export default function ProductPage({ productListing, productVariants, productLi
       <Group position="apart" align="top">
         <SectionTitle title={`Used ${productListingById.listing.product.title}`} />
         <Only when={filters}>
-          <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+          {/* <Button onClick={filterHandler.open} leftIcon={<Filter />}>
             Filter
-          </Button>
+          </Button> */}
         </Only>
       </Group>
-      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
         <ProductFilter />
-      </Only>
+      </Only> */}
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {listingProducts?.listings?.slice(0, limit).map((product, index) => {
+        {productListing?.listings?.slice(0, limit).map((product, index) => {
           return (
             <ProductCard
               id={product.id}
@@ -209,7 +208,7 @@ export default function ProductPage({ productListing, productVariants, productLi
         <ProductStats condition="used" />
       </div>
       <div className="my-10">
-        <SalesTable />
+        <SalesTable data={productListingById.sales_history} />
       </div>
       {/* <div className="">
           <SectionTitle title="Recommended New Items" />
