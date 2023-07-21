@@ -1,7 +1,7 @@
 import { Only } from '@elektra/customComponents';
 import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
@@ -9,7 +9,7 @@ export type ProductCardProps = {
   image: string;
   title: string;
   description: string;
-  rating?: string;
+  condition: 'used' | 'new';
   wishlist: boolean;
   lowestPrice: number | null;
   highestPrice: number | null;
@@ -22,46 +22,43 @@ export function ProductCard({
   title,
   description,
   wishlist,
-  rating,
+  condition = 'new',
   lowestPrice,
   highestPrice,
   price,
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
+  const router = useRouter();
 
+  console.log(condition);
   return (
-    <Card component={NextLink} href={`/product-detail/${id}`} className="relative rounded-none">
-      <Anchor
-        className="cursor-pointer"
-        align="unset"
-        underline={false}
-      >
+    <Card
+      onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
+      className="relative rounded-none"
+    >
+      <Anchor className="cursor-pointer" align="unset" underline={false}>
         <Card.Section>
           <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center">
             <Image height={phone ? 90 : 120} width={phone ? 80 : 100} alt={image} src={image} className="h-1/4 w-1/2" />
           </Paper>
         </Card.Section>
-        <Only when={!!rating}>
+        <Only when={!!condition}>
           <Badge
             size={phone ? 'sm' : 'md'}
             className={clsx(
-              rating === 'Used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
+              condition === 'used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
               'absolute text-white pointer-events-none  bg-black top-6 right-2'
             )}
           >
-            {rating}
+            {condition}
           </Badge>
         </Only>
       </Anchor>
       <Card.Section className="no-underline">
         <Grid align="center">
           <Grid.Col span={9} px={0}>
-            <Text
-              className="block text-[13px] md:text-base font-bold text-black "
-              weight={500}
-        
-            >
+            <Text className="block text-[13px] md:text-base font-bold text-black " weight={500}>
               {title}
             </Text>
           </Grid.Col>
@@ -78,7 +75,7 @@ export function ProductCard({
         </Grid>
         <Anchor className="cursor-pointer" underline={false}>
           <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
-            Condition : {rating ?? 'Used'}
+            Condition : {condition ?? 'Used'}
           </Text>
           <Group className="mt-4">
             <div className="max-w-[30%]">

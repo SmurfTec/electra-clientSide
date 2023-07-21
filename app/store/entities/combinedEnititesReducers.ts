@@ -7,6 +7,9 @@ import {
   websiteSectionReducer,
   productDataReducer,
   orderDetailReducer,
+  productListingReducer,
+  productVariantReducer,
+  productLisingByIdReducer,
 } from './slices';
 
 export const entitiesReducers = combineReducers({
@@ -19,4 +22,7 @@ export const entitiesReducers = combineReducers({
   specialProducts: specialProductReducer,
   productDetail: productDataReducer,
   orderDetail: orderDetailReducer,
+  productListing: productListingReducer,
+  productVariants: productVariantReducer,
+  productListingById: productLisingByIdReducer
 });

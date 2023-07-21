@@ -1,10 +1,8 @@
 import { Modal, Only, PencilButton, TransparentButton, useStylesforGlobal } from '@elektra/customComponents';
 import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
-import { Avatar, Button, Divider, Grid, Group, Text, useMantineTheme } from '@mantine/core';
+import { Avatar, Button, Divider, Grid, Group, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
-import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/router';
-import { AlertTriangle } from 'tabler-icons-react';
 
 export type BiddingSummaryProps = {
   yourOffer?: number;
@@ -16,6 +14,7 @@ export type BiddingSummaryProps = {
   totalPrice: number;
   disabled?: boolean;
   protectionPlan?: string;
+  onClick?: () => void;
 };
 
 export function BiddingSummary({
@@ -28,6 +27,7 @@ export function BiddingSummary({
   totalPrice,
   disabled,
   protectionPlan,
+  onClick,
 }: BiddingSummaryProps) {
   const router = useRouter();
   const { classes } = useStylesforGlobal();
@@ -49,7 +49,7 @@ export function BiddingSummary({
           ${yourOffer ?? itemPrice}
         </Text>
       </Group>
-      
+
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
       <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
@@ -66,32 +66,37 @@ export function BiddingSummary({
       <Only when={!disabled}>
         <Grid>
           <Grid.Col span={6}>
-            <Modal
+            {/* <Modal
               title={isBuying ? 'Product Purchased' : 'Offer Placed!'}
               children={OfferPlaceModal}
               onClose={offerPlaceHandler.close}
               open={offerPlaceOpened}
-            />
+            /> */}
 
             <Button
               className="w-full h-14"
               type="submit"
-              onClick={() => {
-                if (!!protectionPlan) {
-                  offerPlaceHandler.open();
-                } else {
-                  notifications.show({
-                    withCloseButton: false,
-                    styles: {
-                      icon: {
-                        backgroundColor: 'unset',
-                      },
-                    },
-                    message: 'Select atleast one option for proceeding',
-                    icon: <AlertTriangle color="red" />,
-                  });
+              onClick={
+                () => {
+                  if (onClick) onClick();
                 }
-              }}
+                //   {
+                //   if (!!protectionPlan) {
+                //     offerPlaceHandler.open();
+                //   } else {
+                //     notifications.show({
+                //       withCloseButton: false,
+                //       styles: {
+                //         icon: {
+                //           backgroundColor: 'unset',
+                //         },
+                //       },
+                //       message: 'Select atleast one option for proceeding',
+                //       icon: <AlertTriangle color="red" />,
+                //     });
+                //   }
+                // }
+              }
             >
               CONFIRM
             </Button>

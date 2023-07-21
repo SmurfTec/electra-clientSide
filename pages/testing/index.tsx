@@ -13,19 +13,16 @@ import { Drawer, Modal, http, useStylesforGlobal } from '@elektra/customComponen
 import {
   useOfferModal,
   useOfferPlaceModal,
-  usePasswordChangeModal,
   useSellerDetailDrawer,
   useTechinalSpecificationDrawer,
 } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
-import axios from 'axios';
 import Autoplay from 'embla-carousel-autoplay';
-import { NextPageContext } from 'next';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
-type condition = 'New' | 'Used';
+type condition = 'new' | 'used';
 
 const itemCardData: ItemCardProps = {
   color: 'black',
@@ -198,8 +195,6 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-
-
 export default function Testing() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
@@ -208,30 +203,26 @@ export default function Testing() {
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:[]});
+    useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
 
-    const handleTest =async ()=>{
-      const res = await http.request({
-        url: '/orders/me/selling?status=completed',
-        // method: 'POST',
-      });
-    }
-    
+  const handleTest = async () => {
+    const res = await http.request({
+      url: '/orders/me/selling?status=completed',
+      // method: 'POST',
+    });
+  };
+
   return (
     <div>
       <div className="my-96 w-full">
         <ProductCharts />
       </div>
 
-      
-      
       <div>
         <HeroImage />
       </div>
-      <div className='my-96'>
-        <Button onClick={handleTest}>
-          Click
-        </Button>
+      <div className="my-96">
+        <Button onClick={handleTest}>Click</Button>
       </div>
 
       <div className="my-96">
@@ -461,6 +452,7 @@ export default function Testing() {
               // color={productSpecification[1].color}
               // colorData={productSpecification[1].colorData}
               productVariants={[]}
+              technicalSpecification={[]}
               highestAsk={productSpecification[1].highestAsk}
               lowestAsk={productSpecification[1].lowestAsk}
               price={productSpecification[1].price}
@@ -472,6 +464,7 @@ export default function Testing() {
           </Grid.Col>
           <Grid.Col p={0} span={6}>
             <ProductSpecification
+              technicalSpecification={[]}
               title={productSpecification[0].title}
               condition={productSpecification[0].condition as condition}
               productVariants={[]}

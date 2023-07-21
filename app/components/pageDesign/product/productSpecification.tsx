@@ -1,23 +1,16 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
-import { RootState, useSelector } from '@elektra/store';
+import { TechnicalSpecification, Variant } from '@elektra/types';
 import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ChevronRight, Heart } from 'tabler-icons-react';
-import { ProductVariant } from '../../../../types/slices';
 import { BiddingInput } from '../../inputs';
 
 export type ProductSpecificationProps = {
   title: string;
-  // colorData: string[];
-  // color: string;
-  // capacityData: string[];
-  // capacity: string;
-  // carrierData: string[];
-  // carrier: string;
-  condition: 'New' | 'Used';
-  productVariants: ProductVariant[];
+  condition: 'new' | 'used';
+  productVariants: Variant[];
   sellerCondition?: string;
   sellerColor?: string;
   sellerCapacity?: string;
@@ -26,17 +19,12 @@ export type ProductSpecificationProps = {
   highestAsk: number;
   price: number;
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
+  technicalSpecification: TechnicalSpecification[];
 };
 
 export function ProductSpecification({
   condition,
   title,
-  // colorData,
-  // color,
-  // capacity,
-  // capacityData,
-  // carrier,
-  // carrierData,
   productVariants,
   highestAsk,
   lowestAsk,
@@ -46,10 +34,9 @@ export function ProductSpecification({
   sellerColor,
   sellerCondition,
   scrollIntoView,
+  technicalSpecification,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
-  const technicalSpecification =
-    useSelector((state: RootState) => state?.entities?.productDetail?.list.product?.technical_specifications) || [];
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
 
@@ -104,7 +91,7 @@ export function ProductSpecification({
           >
             Technical Specifications
           </Button>
-          <Only when={condition !== 'New'}>
+          <Only when={condition !== 'new'}>
             <Drawer
               title="Details from seller"
               children={SellerDetailModal}
@@ -140,7 +127,7 @@ export function ProductSpecification({
             </Button>
           </Only>
 
-          <Only when={condition === 'Used'}>
+          <Only when={condition === 'used'}>
             <div className="space-y-5">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
@@ -177,7 +164,7 @@ export function ProductSpecification({
             </div>
           </Only>
 
-          <Only when={condition === 'New'}>
+          <Only when={condition === 'new'}>
             <div className="space-y-3">
               <div>
                 <Title className="uppercase font-[600]" order={6}>
@@ -187,7 +174,7 @@ export function ProductSpecification({
                   {condition}
                 </Text>
               </div>
-              {productVariants.map((item, key) => {
+              {productVariants?.map((item, key) => {
                 return (
                   <div key={key + item.color}>
                     <div>
@@ -200,34 +187,6 @@ export function ProductSpecification({
                 );
               })}
             </div>
-            {/* <div className="space-y-3">
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  CONDITION
-                </Title>
-                <Text size="sm" mt={4}>
-                  {condition}
-                </Text>
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Color
-                </Title>
-                <ChipDisplay data={colorData} item={color} />
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Capacity
-                </Title>
-                <ChipDisplay data={capacityData} item={capacity} />
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Carrier
-                </Title>
-                <ChipDisplay data={carrierData} item={carrier} />
-              </div>
-            </div> */}
           </Only>
         </div>
 
@@ -247,7 +206,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'New' ? '/buy-offer?condition=new' : '/buy-offer'}
+                href={condition === 'new' ? '/buy-offer' : '/buy-offer/listing'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
@@ -258,7 +217,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'New' ? '/place-offer?condition=new' : '/place-offer'}
+                href={condition === 'used' ? '/place-offer?condition=new' : '/place-offer'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
@@ -295,7 +254,7 @@ export type ChipDisplayProps = {
 export function ChipDisplay({ data, item }: ChipDisplayProps) {
   const theme = useMantineTheme();
   return (
-    <Chip.Group>
+    <Chip.Group value={item}>
       <Group className="space-x-4">
         {data.map((value, index) => (
           <Chip

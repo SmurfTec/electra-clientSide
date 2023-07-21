@@ -7,7 +7,7 @@ export function SummaryFooter() {
   return (
     <div style={{ border: '1px solid', borderColor: '#B4B4B4' }} className="p-8 rounded-xl space-y-2 my-8">
       <Group position="center">
-        <Radio color={'black'} value={"No"} />
+        <Radio color={'black'} value={"0"} />
 
         <Text className='font-[500]' color={'#656565'} size="xl">
           No thanks i dont need any protection plan.

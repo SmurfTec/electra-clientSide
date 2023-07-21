@@ -82,10 +82,8 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">
         <ItemCard
-          color={productDetailData.color}
-          company={productDetailData.company}
+          productVariants={[]}
           image={productDetailData.image}
-          space={productDetailData.space}
           title={productDetailData.title}
           key={productDetailData.title}
         />
@@ -150,24 +148,25 @@ export const useOfferEditModal = (): [React.ReactNode, boolean, { open: () => vo
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">
-        <div className='ml-7 md:ml-16'>
-        <ItemCard
-          color={productDetailData.color}
-          company={productDetailData.company}
-          image={productDetailData.image}
-          space={productDetailData.space}
-          title={productDetailData.title}
-          key={productDetailData.title}
-        />
+        <div className="ml-7 md:ml-16">
+          <ItemCard
+            // color={productDetailData.color}
+            // company={productDetailData.company}
+            image={productDetailData.image}
+            productVariants={[]}
+            // space={productDetailData.space}
+            title={productDetailData.title}
+            key={productDetailData.title}
+          />
         </div>
         <Divider variant="dashed" />
       </div>
       <ProductModal
-              title={"Offer Placed!"}
-              children={OfferPlaceModal}
-              onClose={offerPlaceHandler.close}
-              open={offerPlaceOpened}
-            />
+        title={'Offer Placed!'}
+        children={OfferPlaceModal}
+        onClose={offerPlaceHandler.close}
+        open={offerPlaceOpened}
+      />
       <Text className="text-sm font-medium mt-5">Type your new offer here</Text>
       <Group position="center" spacing={0} className="mt-6 py-4 px-8 border-solid border-2 border-black">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>

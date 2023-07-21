@@ -1,38 +1,34 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { protectionPlanProps } from '@elektra/types';
+import { ProductVariant } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-
-export type ProtectionPlanSlice = {
-  list: protectionPlanProps;
+export type ProductVariantSlice = {
+  list: ProductVariant;
   loading: boolean;
 };
 
-const URL = '/protectionplans';
+const URL = '/variants';
 
-const initialState: ProtectionPlanSlice = {
-  list: {
-    result: 0,
-    protectionplans: [],
-  },
+const initialState: ProductVariantSlice = {
+  list: {} as ProductVariant,
   loading: false,
 };
 
 const slice = createSlice({
-  name: 'protectionPlan',
+  name: 'productVariant',
   initialState,
   reducers: {
-    planRequested: (state) => {
+    variantRequested: (state) => {
       state.loading = true;
     },
 
-    planReceived: (state, action) => {
+    productVariantReceived: (state, action) => {
       state.list = action.payload;
       state.loading = false;
     },
 
-    planFailed: (state) => {
+    variantFailed: (state) => {
       state.loading = false;
     },
 
@@ -44,22 +40,22 @@ const slice = createSlice({
   },
 });
 
-export const rehydrateProtectionPlan = (payload: protectionPlanProps) => {
+export const rehydrateProductVariants = (payload: ProductVariant) => {
   return {
     type: slice.actions.rehydrated.type,
     payload,
   };
 };
 
-export const loadProtectionPlan = () => async (dispatch: AppDispatch) => {
+export const loadProductVariants = () => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
       url: URL,
-      onStart: slice.actions.planRequested.type,
-      onSuccess: slice.actions.planReceived.type,
-      onError: slice.actions.planFailed.type,
+      onStart: slice.actions.variantRequested.type,
+      onSuccess: slice.actions.productVariantReceived.type,
+      onError: slice.actions.variantFailed.type,
     })
   );
 };
 
-export const protectionPlanReducer = slice.reducer;
+export const productVariantReducer = slice.reducer;

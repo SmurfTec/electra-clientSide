@@ -1,42 +1,31 @@
 import { ListItem, Only } from '@elektra/customComponents';
+import { Variant } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
 
 type ListingDescriptionProps = {
-  condition: string;
+  condition: 'new' | 'used';
   description: string[];
-  storageData?: string[];
-  storage: string;
-  carrierData?: string[];
-  carrier: string;
-  colorData?: string[];
-  color: string;
+
   averageSalePrice?: number;
-  lowestAsk: number;
-  highestAsk: number;
+  lowestAsk: number | null;
+  highestAsk: number | null;
   marketPlaceFee: number;
   saleTax: number;
   shippingFee: number;
   discount: number;
+  productVariants: Variant[];
 };
 
 export function BuyOfferComponent({
-  carrier,
-  color,
   condition,
   description,
-  storage,
-  averageSalePrice,
-  carrierData,
-  colorData,
-  storageData,
 
+  productVariants,
   lowestAsk,
   highestAsk,
   discount,
@@ -44,12 +33,9 @@ export function BuyOfferComponent({
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
-  const [count, handlers] = useCounter(0, { min: 0 });
-  const [storageState, setStorageState] = useState<string>(storage);
-  const [carrierState, setCarrierState] = useState<string>(carrier);
-  const [colorState, setColorState] = useState<string>(color);
-  const router = useRouter();
-  const isNew = router.query['condition'] === 'new';
+  const isNew = condition === 'new';
+
+  const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
   return (
     <div>
       <Group>
@@ -75,32 +61,25 @@ export function BuyOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition ?? 'Used'} />
+        <ButtonChip data={[isNew ? 'New' : 'Used']} state={isNew ? 'New' : 'Used'} />
       </div>
 
       <div className="my-8">
         <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
       </div>
 
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Storage
-        </Text>
-        <ButtonChip data={isNew ? storageData! : [storageState]} setState={setStorageState} state={storageState} />
-      </div>
-
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Carrier
-        </Text>
-        <ButtonChip data={isNew ? carrierData! : [carrierState]} setState={setCarrierState} state={carrierState} />
-      </div>
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Color
-        </Text>
-        <ButtonChip data={isNew ? colorData! : [colorState]} setState={setColorState} state={colorState} />
-      </div>
+      {productVariants.map((item, key) => {
+        return (
+          <div key={key + item.color}>
+            <div className="my-4">
+              <Text className="uppercase font-semibold my-4" size="sm">
+                {item.variant}
+              </Text>
+              <ButtonChip data={isNew ? item.values : [item.value]} state={item.value} />
+            </div>
+          </div>
+        );
+      })}
 
       <Group>
         <Only when={!!isNew}>
@@ -116,7 +95,7 @@ export function BuyOfferComponent({
                 },
               }}
               hideControls
-              value={lowestAsk}
+              value={Number(lowestAsk)}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
@@ -136,7 +115,7 @@ export function BuyOfferComponent({
                   },
                 }}
                 hideControls
-                value={highestAsk}
+                value={Number(highestAsk)}
                 parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                 formatter={(value) =>
                   !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
@@ -158,7 +137,7 @@ export function BuyOfferComponent({
                 },
               }}
               hideControls
-              value={lowestAsk}
+              value={Number(lowestAsk)}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
@@ -170,10 +149,20 @@ export function BuyOfferComponent({
       </Group>
 
       <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-32 py-6 border-black border-solid ">
-        <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
-          <Minus size={16} color="white" />
-        </ActionIcon>
+        <Only when={!isNew}>
+          <ActionIcon
+            component="button"
+            size="lg"
+            color="dark"
+            radius={0}
+            variant="filled"
+            onClick={handlers.decrement}
+          >
+            <Minus size={16} color="white" />
+          </ActionIcon>
+        </Only>
         <NumberInput
+          disabled={true}
           hideControls
           value={count}
           maw={200}
@@ -193,9 +182,18 @@ export function BuyOfferComponent({
             },
           }}
         />
-        <ActionIcon component="button" size="lg" radius={0} color="dark" variant="filled" onClick={handlers.increment}>
-          <Plus size={16} color="white" />
-        </ActionIcon>
+        <Only when={!isNew}>
+          <ActionIcon
+            component="button"
+            size="lg"
+            radius={0}
+            color="dark"
+            variant="filled"
+            onClick={handlers.increment}
+          >
+            <Plus size={16} color="white" />
+          </ActionIcon>
+        </Only>
       </Group>
 
       <div className="my-8">
@@ -233,7 +231,7 @@ export function BuyOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={'/buying-summary?condition=buying'}
+            href={'/buying-summary'}
           >
             Review Purchase
           </Button>

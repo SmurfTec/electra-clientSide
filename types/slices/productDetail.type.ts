@@ -7,6 +7,10 @@ type Stats = {
       min_saleprice: number;
       max_saleprice: number;
     }[];
+    trade_range: [{
+      "min_saleprice": number | null,
+      "max_saleprice": number | null
+    }],
     min_max_saleprice_percentage: number;
     price_premium_percentage: number;
     average_saleprice_percentage: number;
@@ -39,7 +43,7 @@ type Brand = {
   image: string;
 };
 
-type TechnicalSpecification = {
+export type TechnicalSpecification = {
   title: string;
   value: string;
 };
@@ -52,7 +56,7 @@ export type ImageProps = {
   size: number;
 };
 
-export type ProductVariant = {
+export type Variant = {
   id: number;
   variant: string;
   value: string;
@@ -89,6 +93,7 @@ type Product = {
   updated_on: string;
   user_starting_at: number | null;
   clicks: number;
+  condition: 'new' | 'used';
   interactions: number;
   highest_offer: number | null;
   lowest_ask: number | null;
@@ -97,7 +102,7 @@ type Product = {
   brand: Brand;
   technical_specifications: TechnicalSpecification[];
   images: ImageProps[];
-  product_variants: ProductVariant[];
+  product_variants: Variant[];
   bids: Bid[];
   asks: Ask[];
 };
@@ -107,12 +112,7 @@ export type ProductData = {
   product: Product;
 };
 
-interface ListingStats {
-  all_listings: string;
-  sold: string;
-  unsold: string;
-  flagged: string;
-}
+
 
 interface ListingUser {
   id: number;
@@ -130,7 +130,7 @@ export interface ListingData {
   id: number;
   created_on: string;
   updated_on: string;
-  condition: string;
+  condition: 'new' | 'used';
   ask: number;
   is_active: boolean;
   is_repaired_before: boolean;
@@ -146,11 +146,11 @@ export interface ListingData {
   highest_offer: null;
   lowest_offer: null;
   listing_variants: null;
-  images: null;
+  images: ImageProps[];
 }
 
 export interface ListingsResponse {
   results: number;
   stats: Stats[];
-  listings: ListingProductData[];
+  listings: ListingData[];
 }

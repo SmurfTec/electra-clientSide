@@ -1,19 +1,20 @@
 import {
   ProductCard,
-  ProductCharts,
+  ProductCarousel,
   // ProductCharts,
   ProductFilter,
   ProductSpecification,
   ProductStats,
+  SalesTable,
   SectionTitle,
 } from '@elektra/components';
 import { Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
   RootState,
-  loadProductData,
+  loadProductListingById,
   loadProductVariants,
-  rehydrateProductData,
+  rehydrateProductListingById,
   rehydrateProductVariants,
   store,
   useAppDispatch,
@@ -21,7 +22,7 @@ import {
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
-import { ListingsResponse, ProductData, ProductVariant, Variant } from '@elektra/types';
+import { ListingsResponse, ProductVariant, SingleProductListing } from '@elektra/types';
 import {
   ActionIcon,
   Anchor,
@@ -31,7 +32,6 @@ import {
   Divider,
   Grid,
   Group,
-  Image,
   Pagination,
   Stack,
   Text,
@@ -64,36 +64,36 @@ const items = [
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
-  const productData = store.dispatch(loadProductData(Number(context.query.id)));
 
+  console.log(context.query.id);
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
   const productVariants = store.dispatch(loadProductVariants());
+  const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
 
-  await Promise.all([productData, listingData, productVariants]);
+  await Promise.all([listingData, productVariants, productListingById]);
   return {
     props: {
-      productDetail: store.getState().entities.productDetail.list,
       productListing: store.getState().entities.productListing.list,
       productVariants: store.getState().entities.productVariants.list,
+      productListingById: store.getState().entities.productListingById.list,
     },
   };
 }
 
 type ProductPageProps = {
-  productDetail: ProductData;
   productListing: ListingsResponse;
   productVariants: ProductVariant;
+  productListingById: SingleProductListing;
 };
 
-export default function ProductPage({ productDetail, productListing, productVariants }: ProductPageProps) {
+export default function ProductPage({ productListing, productVariants, productListingById }: ProductPageProps) {
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
-      dispatch(rehydrateProductData(productDetail));
       dispatch(rehydrateListingProductData(productListing));
       dispatch(rehydrateProductVariants(productVariants));
+      dispatch(rehydrateProductListingById(productListingById));
     }
     return () => {
       unsubscribe = true;
@@ -101,51 +101,16 @@ export default function ProductPage({ productDetail, productListing, productVari
   }, []);
 
   const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
-  const graphData = productDetail.stats.trade_range;
-  const productFilters = productVariants.variants;
 
   const router = useRouter();
 
   const [activePage, setPage] = useState(1);
-  const [params, setParams] = useState<Array<{ label: string; value: string }>>([]);
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     duration: 100,
-  });
-
-  const handleFilter = async (label: string, value: string) => {
-    const productId = Number(router.query['id']);
-    if (params.some((item)=>item.label=== label&&item.value===value ) && params.length === 1) {
-      dispatch(loadListingProducts(productId));
-      setParams([]);
-    } else {
-      if (params.length === 0) {
-        dispatch(loadListingProducts(productId, `&${label}=${value}`));
-        setParams([ { label, value }]);
-      } else {
-        if(params.some((item)=>item.label=== label&&item.value===value)){
-          const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
-          dispatch(loadListingProducts(productId,"&"+ newParams));
-          setParams(newParams);
-        }
-        const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-        dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
-        setParams((prev) => [...prev, { label, value }]);
-      }
-    }
-    // } else {
-    //   if (params.length !== 0) {
-    //     const productId = Number(router.query['id']);
-    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-    //     dispatch(loadListingProducts(productId, paramString));
-    //   }
-    // }
-  };
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
-    data: productFilters,
-    fetchListings: handleFilter,
   });
 
   const handlePaginatedListing = (pageNumber: number) => {
@@ -164,11 +129,9 @@ export default function ProductPage({ productDetail, productListing, productVari
       <Grid>
         <Grid.Col md={6} mt={matches ? 0 : 40}>
           <Stack align="center" justify="center" className="w-full">
-            <Image
-              className=""
-              alt="product image"
-              src={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''}
-            />
+            <div className=" md:w-auto w-screen ">
+              <ProductCarousel images={productListingById?.listing?.images ?? []} />
+            </div>
 
             <Text className="text-xs font-medium">Have this item?</Text>
             <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
@@ -178,20 +141,20 @@ export default function ProductPage({ productDetail, productListing, productVari
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
-            technicalSpecification={productDetail.product.technical_specifications || []}
-            title={String(productDetail?.product?.title)}
-            productVariants={productDetail?.product.product_variants as Variant[]}
-            condition={productDetail?.product.condition as condition}
-            highestAsk={Number(productDetail?.product?.highest_offer)}
-            lowestAsk={Number(productDetail?.product?.lowest_ask)}
-            price={Number(productDetail?.product?.user_starting_at)}
+            technicalSpecification={productListingById.listing?.technical_specifications || []}
+            title={productListingById?.listing?.product?.title || ''}
+            productVariants={productListingById.listing?.listing_variants || []}
+            condition={productListingById.listing?.condition}
+            highestAsk={Number(productListingById?.listing?.highest_offer)}
+            lowestAsk={Number(productListingById?.listing?.lowest_offer)}
+            price={Number(productListingById?.listing?.user_starting_at)}
             scrollIntoView={scrollIntoView}
           />
         </Grid.Col>
       </Grid>
       <Divider className="my-4" />
       <Group position="apart" align="top">
-        <SectionTitle title={`Used ${productDetail?.product?.title}`} />
+        <SectionTitle title={`Used ${productListingById.listing.product.title}`} />
         <Only when={filters}>
           <Button onClick={filterHandler.open} leftIcon={<Filter />}>
             Filter
@@ -200,7 +163,7 @@ export default function ProductPage({ productDetail, productListing, productVari
       </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
-        <ProductFilter data={productFilters} fetchListings={handleFilter} />
+        <ProductFilter />
       </Only>
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {listingProducts?.listings?.slice(0, limit).map((product, index) => {
@@ -243,35 +206,34 @@ export default function ProductPage({ productDetail, productListing, productVari
         </Only>
       </Center>
       <div className="mt-4">
-        <ProductStats condition="new" />
+        <ProductStats condition="used" />
       </div>
-
       <div className="my-10">
-        <ProductCharts data={graphData} />
+        <SalesTable />
       </div>
       {/* <div className="">
-        <SectionTitle title="Recommended New Items" />
-        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16">
-            {productData.slice(0, 5).map((product, index) => {
-              return (
-                <ProductCard
-                  key={index}
-                  image={product.image}
-                  description={product.description}
-                  link={product.link}
-                  title={product.title}
-                  condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
-              );
-            })}
-          </Center>
-        </ScrollArea>
-      </div> */}
+          <SectionTitle title="Recommended New Items" />
+          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+            <Center className="space-x-8 md:space-x-16">
+              {productData.slice(0, 5).map((product, index) => {
+                return (
+                  <ProductCard
+                    key={index}
+                    image={product.image}
+                    description={product.description}
+                    link={product.link}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={product.wishlist}
+                    lowestPrice={product.lowestPrice ?? null}
+                    highestPrice={product.highestPrice ?? null}
+                    price={product.price}
+                  />
+                );
+              })}
+            </Center>
+          </ScrollArea>
+        </div> */}
     </>
   );
 }
