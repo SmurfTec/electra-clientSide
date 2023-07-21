@@ -1,17 +1,15 @@
 import { ListItem } from '@elektra/customComponents';
-import { Group, Radio, Text, useMantineTheme } from '@mantine/core';
-import { useState } from 'react';
+import { Group, Radio, Text } from '@mantine/core';
 import { CircleCheck } from 'tabler-icons-react';
 
 type ProtectPlanProps = {
-  id: number;
+  id: string;
   title: string;
   price: number;
   content: string[];
 };
 
 export function ProtectPlan({ title, price, content, id }: ProtectPlanProps) {
-  const theme = useMantineTheme();
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
@@ -19,7 +17,7 @@ export function ProtectPlan({ title, price, content, id }: ProtectPlanProps) {
     >
       <Group position="apart">
         <Group className="space-x-4">
-          <Radio color={'black'} value={id+title}  />
+          <Radio color={'black'} value={id} />
           <Text className="font-bold" size="xl">
             {title}
           </Text>

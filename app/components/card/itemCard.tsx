@@ -1,5 +1,6 @@
 import { Only, TransparentButton } from '@elektra/customComponents';
 import { useCarouselModal } from '@elektra/hooks';
+import { Variant } from '@elektra/types';
 import { Grid, Group, Image, Modal, Paper, ScrollArea, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 // import Image from 'next/image';
@@ -11,14 +12,12 @@ export type ItemCardProps = {
   date?: string;
   title: string;
   image: string;
-  space: string;
-  color: string;
-  company: string;
+  productVariants: Variant[];
 };
 
-export function ItemCard({ title, image, space, color, company, date, price, sale, status, ...rest }: ItemCardProps) {
+export function ItemCard({ title, image, productVariants, date, price, sale, status, ...rest }: ItemCardProps) {
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
-  const phone = useMediaQuery('(max-width: 600px)',false);
+  const phone = useMediaQuery('(max-width: 600px)', false);
   return (
     <Grid m={0} {...rest} gutter={phone ? 10 : 20}>
       <Grid.Col span={2}>
@@ -93,10 +92,12 @@ export function ItemCard({ title, image, space, color, company, date, price, sal
           </Only>
         </Group>
         <Group position="apart" spacing={0}>
-          <Group align="top" spacing={phone?8: 15}>
-            <TransparentButton label={space} />
-            <TransparentButton label={color} />
-            <TransparentButton label={company} />
+          <Group align="top" spacing={phone ? 8 : 15}>
+            {productVariants?.map((item, key) => (
+              <div key={key + item.id + item.value}>
+                <TransparentButton label={item.value} />
+              </div>
+            ))}
           </Group>
           <Only when={!!date}>
             <Text color="#656565" size="sm">

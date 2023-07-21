@@ -1,23 +1,16 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
-import { RootState, useSelector } from '@elektra/store';
+import { TechnicalSpecification, Variant } from '@elektra/types';
 import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { ChevronRight, Heart } from 'tabler-icons-react';
-import { ProductVariant } from '../../../../types/slices';
 import { BiddingInput } from '../../inputs';
 
 export type ProductSpecificationProps = {
   title: string;
-  // colorData: string[];
-  // color: string;
-  // capacityData: string[];
-  // capacity: string;
-  // carrierData: string[];
-  // carrier: string;
   condition: 'new' | 'used';
-  productVariants: ProductVariant[];
+  productVariants: Variant[];
   sellerCondition?: string;
   sellerColor?: string;
   sellerCapacity?: string;
@@ -26,17 +19,12 @@ export type ProductSpecificationProps = {
   highestAsk: number;
   price: number;
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
+  technicalSpecification: TechnicalSpecification[];
 };
 
 export function ProductSpecification({
   condition,
   title,
-  // colorData,
-  // color,
-  // capacity,
-  // capacityData,
-  // carrier,
-  // carrierData,
   productVariants,
   highestAsk,
   lowestAsk,
@@ -46,10 +34,9 @@ export function ProductSpecification({
   sellerColor,
   sellerCondition,
   scrollIntoView,
+  technicalSpecification,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
-  const technicalSpecification =
-    useSelector((state: RootState) => state?.entities?.productDetail?.list.product?.technical_specifications) || [];
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
 
@@ -187,8 +174,7 @@ export function ProductSpecification({
                   {condition}
                 </Text>
               </div>
-              {productVariants.map((item, key) => {
-                console.log(item.value);
+              {productVariants?.map((item, key) => {
                 return (
                   <div key={key + item.color}>
                     <div>
@@ -220,7 +206,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'new' ? '/buy-offer?condition=new' : '/buy-offer'}
+                href={condition === 'new' ? '/buy-offer' : '/buy-offer/listing'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
@@ -268,7 +254,7 @@ export type ChipDisplayProps = {
 export function ChipDisplay({ data, item }: ChipDisplayProps) {
   const theme = useMantineTheme();
   return (
-    <Chip.Group  value={item}>
+    <Chip.Group value={item}>
       <Group className="space-x-4">
         {data.map((value, index) => (
           <Chip

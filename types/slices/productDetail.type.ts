@@ -7,6 +7,10 @@ type Stats = {
       min_saleprice: number;
       max_saleprice: number;
     }[];
+    trade_range: [{
+      "min_saleprice": number | null,
+      "max_saleprice": number | null
+    }],
     min_max_saleprice_percentage: number;
     price_premium_percentage: number;
     average_saleprice_percentage: number;
@@ -39,7 +43,7 @@ type Brand = {
   image: string;
 };
 
-type TechnicalSpecification = {
+export type TechnicalSpecification = {
   title: string;
   value: string;
 };
@@ -52,7 +56,7 @@ export type ImageProps = {
   size: number;
 };
 
-type ProductVariant = {
+export type Variant = {
   id: number;
   variant: string;
   value: string;
@@ -98,7 +102,7 @@ type Product = {
   brand: Brand;
   technical_specifications: TechnicalSpecification[];
   images: ImageProps[];
-  product_variants: ProductVariant[];
+  product_variants: Variant[];
   bids: Bid[];
   asks: Ask[];
 };
@@ -108,12 +112,7 @@ export type ProductData = {
   product: Product;
 };
 
-interface ListingStats {
-  all_listings: string;
-  sold: string;
-  unsold: string;
-  flagged: string;
-}
+
 
 interface ListingUser {
   id: number;

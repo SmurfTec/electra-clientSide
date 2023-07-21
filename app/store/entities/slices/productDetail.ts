@@ -37,6 +37,10 @@ const slice = createSlice({
       state.list = action.payload;
       state.loading = false;
     },
+
+    resetSlice: (state) => {
+      state.list = {} as ProductData;
+    },
   },
 });
 
@@ -46,6 +50,14 @@ export const rehydrateProductData = (payload: ProductData | null) => {
     payload,
   };
 };
+
+export const resetProductDetailSlice = () => {
+  return {
+    type: slice.actions.resetSlice.type,
+  };
+};
+
+
 
 export const loadProductData = (id: number) => async (dispatch: AppDispatch) => {
   return await dispatch(

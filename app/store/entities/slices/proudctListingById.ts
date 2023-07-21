@@ -1,6 +1,6 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { ProductData, SingleProductListing } from '@elektra/types';
+import { SingleProductListing } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export type ProductListingByIdSlice = {
@@ -37,13 +37,22 @@ const slice = createSlice({
       state.list = action.payload;
       state.loading = false;
     },
+    resetSlice: (state) => {
+      state.list = {} as SingleProductListing;
+    },
   },
 });
 
-export const rehydrateProductListingById = (payload: ProductData) => {
+export const rehydrateProductListingById = (payload: SingleProductListing) => {
   return {
     type: slice.actions.rehydrated.type,
     payload,
+  };
+};
+
+export const resetProductListingByIdSlice = () => {
+  return {
+    type: slice.actions.resetSlice.type,
   };
 };
 

@@ -1,10 +1,11 @@
 import { apiRequest } from '@elektra/store/middleware';
 import { AppDispatch } from '@elektra/store/storeContext';
-import { ProtectionPlan } from '@elektra/types';
+import { protectionPlanProps } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
+
 export type ProtectionPlanSlice = {
-  list: { result: number; protectionplans: ProtectionPlan[] };
+  list: protectionPlanProps;
   loading: boolean;
 };
 
@@ -43,7 +44,7 @@ const slice = createSlice({
   },
 });
 
-export const rehydrateProtectionPlan = (payload: ProtectionPlan[]) => {
+export const rehydrateProtectionPlan = (payload: protectionPlanProps) => {
   return {
     type: slice.actions.rehydrated.type,
     payload,
