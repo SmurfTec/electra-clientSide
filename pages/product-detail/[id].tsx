@@ -100,7 +100,7 @@ export default function ProductPage({ productDetail, productListing, productVari
     };
   }, []);
 
-  const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
+  // const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
   const graphData = productDetail.stats.trade_range;
   const productFilters = productVariants.variants;
 
@@ -216,10 +216,10 @@ export default function ProductPage({ productDetail, productListing, productVari
       </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
-        <ProductFilter data={productFilters} fetchListings={handleFilter} />
+        <ProductFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
       </Only>
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {listingProducts?.listings?.slice(0, limit).map((product, index) => {
+        {productListing?.listings?.slice(0, limit).map((product, index) => {
           return (
             <ProductCard
               id={product.id}
