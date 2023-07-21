@@ -30,7 +30,7 @@ export const ProductStats = ({ condition }: ProductStatsProps) => {
     {
       label: 'Average Sale Price',
       difference: (
-        Number(listingStats?.total_amount_sold_percentage) / Number(listingStats.total_sold_percentage)
+        Number(listingStats?.total_amount_sold_percentage) / Number(listingStats?.total_sold_percentage)
       ).toFixed(),
       price: (Number(listingStats?.total_amount_sold) / listingStats?.total_sold).toFixed(),
       type: 'price',
@@ -47,7 +47,7 @@ export const ProductStats = ({ condition }: ProductStatsProps) => {
     {
       label: '12 month trade range',
       difference: 0,
-      price: `${productStats?.trade_range[0]?.max_saleprice} - $${productStats.trade_range[0].max_saleprice}`,
+      price: `${productStats?.trade_range?.[0]?.max_saleprice} - $${productStats.trade_range?.[0].max_saleprice}`,
       type: 'price',
     },
     {

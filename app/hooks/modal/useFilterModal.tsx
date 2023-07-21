@@ -2,7 +2,7 @@ import { FilterDisplay, FilterDisplayPrice, FilterMenu, FilterPrice, Only } from
 import { Button, Flex, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
-import { Variant } from '@elektra/types';
+import { FilterVariant, Variant } from '@elektra/types';
 
 const colorData = ['Black', 'Red', 'Blue', 'Green', 'Gold'];
 const conditionData = ['Poor', 'Fair', 'Good', 'Great', 'Flawless'];
@@ -12,10 +12,11 @@ const brandData = ['Apple', 'Sumsang', 'Oneplus', 'Song', 'Nothing'];
 const phoneData = ['11 Pro Max', 'Ultra 22', '7 Pro', '14 Pro', 'Ultra 23'];
 
 type ProductFilterProps = {
-  data: Variant[];
+  data: FilterVariant[];
+  fetchListings : (label:string,value:string)=>void
 };
 
-export const useFilterModal = ({data}:ProductFilterProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useFilterModal = ({data,fetchListings}:ProductFilterProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [condition, setCondition] = useState<Array<string>>([]);
   const [color, setColor] = useState<Array<string>>([]);
@@ -83,7 +84,7 @@ export const useFilterModal = ({data}:ProductFilterProps): [React.ReactNode, boo
         </Text>
         <Flex gap={10} wrap={'wrap'}>
         {data.map((item) => (
-          <FilterMenu key={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} />
+          <FilterMenu key={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
         ))}
           {/* <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
           <FilterMenu data={brandData} setState={setBrand} state={brand} label="Brands" width={117} />

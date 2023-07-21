@@ -108,7 +108,6 @@ export default function ProductPage({ productDetail, productListing, productVari
 
   const [activePage, setPage] = useState(1);
   const [params, setParams] = useState<Array<{ label: string; value: string }>>([]);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal({ data: productFilters });
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
@@ -117,14 +116,25 @@ export default function ProductPage({ productDetail, productListing, productVari
   });
 
   const handleFilter = async (label: string, value: string) => {
-    console.log(params.includes({ label, value }))
-    if (!params.includes({ label, value })) {setParams((prev) => [...prev, { label, value }]);
-    // console.log(params)
     const productId = Number(router.query['id']);
-    const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-    if (params.length === 0) dispatch(loadListingProducts(productId, `&${label}=${value}`));
-    else dispatch(loadListingProducts(productId, paramString + `&${label}=${value}`));
-  }
+    if (params.some((item)=>item.label=== label&&item.value===value ) && params.length === 1) {
+      dispatch(loadListingProducts(productId));
+      setParams([]);
+    } else {
+      if (params.length === 0) {
+        dispatch(loadListingProducts(productId, `&${label}=${value}`));
+        setParams([ { label, value }]);
+      } else {
+        if(params.some((item)=>item.label=== label&&item.value===value)){
+          const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
+          dispatch(loadListingProducts(productId,"&"+ newParams));
+          setParams(newParams);
+        }
+        const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+        dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
+        setParams((prev) => [...prev, { label, value }]);
+      }
+    }
     // } else {
     //   if (params.length !== 0) {
     //     const productId = Number(router.query['id']);
@@ -133,6 +143,10 @@ export default function ProductPage({ productDetail, productListing, productVari
     //   }
     // }
   };
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
+    data: productFilters,
+    fetchListings: handleFilter,
+  });
 
   const handlePaginatedListing = (pageNumber: number) => {
     setPage(pageNumber);

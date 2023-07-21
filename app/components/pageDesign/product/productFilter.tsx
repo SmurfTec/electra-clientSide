@@ -1,5 +1,5 @@
 import { FilterMenu } from '@elektra/customComponents';
-import type { Variant } from '@elektra/types';
+import { FilterVariant, Variant } from '@elektra/types';
 import { Group } from '@mantine/core';
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ const capacityData = ['64GB', '128GB', '256GB', '512GB', '1TB'];
 const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
 
 type ProductFilterProps = {
-  data: Variant[];
+  data: FilterVariant[];
   fetchListings : (label:string,value:string)=>void
 };
 export const ProductFilter = ({ data,fetchListings }: ProductFilterProps) => {
