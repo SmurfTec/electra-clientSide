@@ -1,4 +1,4 @@
-type Variant = {
+export type FilterVariant = {
   id: number;
   title: string;
   created_on: string;
@@ -13,5 +13,5 @@ type Variant = {
 export type ProductVariant = {
   results: number;
   stats: { all_variants: string }[]; // Assuming stats will always have an array with a single object
-  variants: Variant[];
+  variants: FilterVariant[];
 };

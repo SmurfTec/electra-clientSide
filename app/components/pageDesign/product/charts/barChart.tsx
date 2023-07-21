@@ -4,7 +4,7 @@ ChartJS.register(...registerables);
 
 type BarChartProps = {
   labels: Array<string>;
-  datasets: Array<{label:string,data:number[]}>;
+  datasets: { label: string; data: number[] };
 };
 
 export const BarChart = ({ labels, datasets }: BarChartProps) => {
@@ -12,39 +12,28 @@ export const BarChart = ({ labels, datasets }: BarChartProps) => {
     labels: labels,
     datasets: [
       {
-        label:datasets[0].label,
-        backgroundColor: 'rgba(222, 222, 222, 1)',
-        borderColor: 'rgba(222, 222, 222, 1)',
+        label: datasets.label,
+        backgroundColor: '#383837',
+        borderColor: '#383837',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(222, 222, 222, 1)',
-        hoverBorderColor: 'rgba(222, 222, 222, 1)',
-        data: datasets[0].data,
-      },
-
-      {
-        label:datasets[1].label,
-        backgroundColor: 'rgba(17, 17, 17, 1)',
-        borderColor: 'rgba(17, 17, 17, 1)',
-        borderWidth: 1,
-        hoverBackgroundColor: 'rgba(17, 17, 17, 1)',
-        hoverBorderColor: 'rgba(17, 17, 17, 1)',
-        data: datasets[1].data,
+        hoverBackgroundColor: '#383837',
+        hoverBorderColor: '#383837',
+        data: datasets.data,
       },
     ],
   };
   return (
-    
-      <Bar
-        style={{ width: '100%' }}
-        data={data}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-            },
+    <Bar
+      style={{ width: '100%' }}
+      data={data}
+      options={{
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
           },
-        }}
-      />
+        },
+      }}
+    />
   );
 };

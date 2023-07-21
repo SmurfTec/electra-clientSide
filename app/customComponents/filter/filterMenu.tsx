@@ -7,17 +7,20 @@ type FilterMenuProps = {
   data: Array<string>;
   state: Array<string>;
   setState: Dispatch<SetStateAction<Array<string>>>;
+  fetchListings: (label: string, value: string) => void;
 } & MenuProps;
 
-export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenuProps) => {
+export const FilterMenu = ({ label, data, fetchListings, ...rest }: FilterMenuProps) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [state, setState] = useState<string>('');
   const handleState = (value: string) => {
+    fetchListings(label, value);
     if (state.includes(value)) {
-      setState(state.filter((item) => item !== value));
+      setState('');
       return;
     }
-    setState([...state, value]);
+    setState(value);
   };
   return (
     <Menu
@@ -59,7 +62,7 @@ export const FilterMenu = ({ label, data, state, setState, ...rest }: FilterMenu
             >
               {item}
             </Menu.Item>
-            {data.length !== index + 1 && <Menu.Divider key={index+1} />}
+            {data.length !== index + 1 && <Menu.Divider key={index + 1} />}
           </div>
         ))}
       </Menu.Dropdown>

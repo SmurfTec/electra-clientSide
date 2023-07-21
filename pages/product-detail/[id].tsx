@@ -101,16 +101,51 @@ export default function ProductPage({ productDetail, productListing, productVari
   }, []);
 
   const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
+  const graphData = productDetail.stats.trade_range;
+  const productFilters = productVariants.variants;
 
   const router = useRouter();
 
   const [activePage, setPage] = useState(1);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  const [params, setParams] = useState<Array<{ label: string; value: string }>>([]);
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     duration: 100,
+  });
+
+  const handleFilter = async (label: string, value: string) => {
+    const productId = Number(router.query['id']);
+    if (params.some((item)=>item.label=== label&&item.value===value ) && params.length === 1) {
+      dispatch(loadListingProducts(productId));
+      setParams([]);
+    } else {
+      if (params.length === 0) {
+        dispatch(loadListingProducts(productId, `&${label}=${value}`));
+        setParams([ { label, value }]);
+      } else {
+        if(params.some((item)=>item.label=== label&&item.value===value)){
+          const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
+          dispatch(loadListingProducts(productId,"&"+ newParams));
+          setParams(newParams);
+        }
+        const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+        dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
+        setParams((prev) => [...prev, { label, value }]);
+      }
+    }
+    // } else {
+    //   if (params.length !== 0) {
+    //     const productId = Number(router.query['id']);
+    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+    //     dispatch(loadListingProducts(productId, paramString));
+    //   }
+    // }
+  };
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
+    data: productFilters,
+    fetchListings: handleFilter,
   });
 
   const handlePaginatedListing = (pageNumber: number) => {
@@ -165,7 +200,7 @@ export default function ProductPage({ productDetail, productListing, productVari
       </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
-        <ProductFilter />
+        <ProductFilter data={productFilters} fetchListings={handleFilter} />
       </Only>
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {listingProducts?.listings?.slice(0, limit).map((product, index) => {
@@ -212,7 +247,7 @@ export default function ProductPage({ productDetail, productListing, productVari
       </div>
 
       <div className="my-10">
-        <ProductCharts />
+        <ProductCharts data={graphData} />
       </div>
       {/* <div className="">
         <SectionTitle title="Recommended New Items" />
