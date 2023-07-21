@@ -101,9 +101,6 @@ export default function ProductPage({
 }: ProductPageProps) {
   const dispatch = useAppDispatch();
 
-
-  console.log(productVariants.variants)
-
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -117,11 +114,13 @@ export default function ProductPage({
   }, []);
 
   const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
-  const graphData = productDetail.stats.trade_range
+  const graphData = productDetail.stats.trade_range;
+  const productFilters = productVariants.variants;
 
   const router = useRouter();
   const [activePage, setPage] = useState(1);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  const [params, setParams] = useState<Array<{ label: string; value: string }>>([]);
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({ data: productFilters });
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
@@ -129,6 +128,24 @@ export default function ProductPage({
   const { scrollIntoView, targetRef } = useScrollIntoView<HTMLDivElement>({
     duration: 100,
   });
+
+  const handleFilter = async (label: string, value: string) => {
+    console.log(params.includes({ label, value }))
+    if (!params.includes({ label, value })) {setParams((prev) => [...prev, { label, value }]);
+    // console.log(params)
+    const productId = Number(router.query['id']);
+    const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+    if (params.length === 0) dispatch(loadListingProducts(productId, `&${label}=${value}`));
+    else dispatch(loadListingProducts(productId, paramString + `&${label}=${value}`));
+  }
+    // } else {
+    //   if (params.length !== 0) {
+    //     const productId = Number(router.query['id']);
+    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
+    //     dispatch(loadListingProducts(productId, paramString));
+    //   }
+    // }
+  };
 
   const handlePaginatedListing = (pageNumber: number) => {
     setPage(pageNumber);
@@ -191,7 +208,7 @@ export default function ProductPage({
       </Group>
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
-        <ProductFilter />
+        <ProductFilter data={productFilters} fetchListings={handleFilter} />
       </Only>
       <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {listingProducts?.listings?.slice(0, limit).map((product, index) => {

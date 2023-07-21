@@ -1,4 +1,4 @@
-type Variant = {
+export type Variant = {
   id: number;
   title: string;
   created_on: string;
