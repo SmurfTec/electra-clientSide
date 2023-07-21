@@ -1,7 +1,8 @@
 import { BuyOfferComponent, PageTitle, ProductCarousel } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
-import { Container, Grid, Image } from '@mantine/core';
-import { useRouter } from 'next/router';
+import { RootState } from '@elektra/store';
+import { Variant } from '@elektra/types';
+import { Container, Grid } from '@mantine/core';
+import { useSelector } from 'react-redux';
 
 export default function PlaceOffer() {
   const ListingDescriptionData = {
@@ -30,21 +31,7 @@ export default function PlaceOffer() {
     averageSalePrice: 200,
   };
 
-  const usedProductListingData = {
-    accessories: ['Charger Cable', 'Original Box', 'Charging Cube'],
-    itemConditions: ['Poor', 'Good', 'Fair', 'Great', 'Flawless', 'New'],
-    description: [
-      'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
-      'Fully functional with no operational problems',
-      'No chips or cracks in front or back glass',
-      'Above 80 percent battery health with no Service alert in Settings',
-      'All devices must be free of any lock, carrier blacklist, or financial obligations',
-      'Absolutely no Ghost Image',
-      'No LCD or display defects (aftermarket, burns, damage or no display)',
-    ],
-  };
-  const router = useRouter();
-  const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
+  const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
   return (
     <Container fluid>
       <div className="my-10">
@@ -52,32 +39,22 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6} className="text-left">
-          <Only when={condition !== 'New'}>
-            <div className="md:w-auto w-screen mt-5 ">
-              <ProductCarousel  images={[]} />
-            </div>
-          </Only>
-          <Only when={condition === 'New'}>
-            <Image alt="product image" src="/images/productImage.png" />
-          </Only>
+          <div className="md:w-auto w-screen mt-5 ">
+            <ProductCarousel images={productListingById?.listing?.images ?? []} />
+          </div>
         </Grid.Col>
         <Grid.Col md={6}>
           <BuyOfferComponent
-            carrier={ListingDescriptionData.carrier}
-            carrierData={ListingDescriptionData.carrierData}
-            color={ListingDescriptionData.color}
-            condition={condition}
+            productVariants={productListingById?.listing.listing_variants as Variant[]}
+            condition={'used'}
             description={ListingDescriptionData.description}
             discount={ListingDescriptionData.discount}
-            highestAsk={ListingDescriptionData.highestAsk}
-            lowestAsk={ListingDescriptionData.lowestAsk}
+            highestAsk={productListingById?.listing?.highest_offer}
+            lowestAsk={productListingById?.listing?.lowest_offer}
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}
             saleTax={ListingDescriptionData.saleTax}
             shippingFee={ListingDescriptionData.shippingFee}
-            storage={ListingDescriptionData.storage}
-            averageSalePrice={ListingDescriptionData.averageSalePrice}
-            colorData={ListingDescriptionData.colorData}
-            storageData={ListingDescriptionData.storageData}
+            averageSalePrice={Number(productListingById.listing.saleprice)}
           />
         </Grid.Col>
       </Grid>

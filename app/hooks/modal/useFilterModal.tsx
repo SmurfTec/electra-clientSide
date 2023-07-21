@@ -13,7 +13,7 @@ const phoneData = ['11 Pro Max', 'Ultra 22', '7 Pro', '14 Pro', 'Ultra 23'];
 
 type ProductFilterProps = {
   data: FilterVariant[];
-  fetchListings : (label:string,value:string)=>void
+  fetchListings : (label:string,value:string, id: number)=>void
 };
 
 export const useFilterModal = ({data,fetchListings}:ProductFilterProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -83,8 +83,8 @@ export const useFilterModal = ({data,fetchListings}:ProductFilterProps): [React.
           Apply Filters
         </Text>
         <Flex gap={10} wrap={'wrap'}>
-        {data.map((item) => (
-          <FilterMenu key={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
+        {data?.map((item) => (
+          <FilterMenu key={item.id} filterId={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
         ))}
           {/* <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
           <FilterMenu data={brandData} setState={setBrand} state={brand} label="Brands" width={117} />

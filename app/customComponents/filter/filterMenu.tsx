@@ -3,19 +3,20 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { CaretDown, CaretUp, CircleCheck } from 'tabler-icons-react';
 
 type FilterMenuProps = {
+  filterId: number;
   label: string;
   data: Array<string>;
   state: Array<string>;
   setState: Dispatch<SetStateAction<Array<string>>>;
-  fetchListings: (label: string, value: string) => void;
+  fetchListings: (label: string, value: string, id: number) => void;
 } & MenuProps;
 
-export const FilterMenu = ({ label, data, fetchListings, ...rest }: FilterMenuProps) => {
+export const FilterMenu = ({ label, data, fetchListings, filterId, ...rest }: FilterMenuProps) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const [state, setState] = useState<string>('');
   const handleState = (value: string) => {
-    fetchListings(label, value);
+    fetchListings(label, value, filterId);
     if (state.includes(value)) {
       setState('');
       return;

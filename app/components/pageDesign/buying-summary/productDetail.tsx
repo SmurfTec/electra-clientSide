@@ -7,9 +7,6 @@ import { ItemCard } from '../../card';
 type ProductDetailProps = {
   image: string;
   title: string;
-  space: string;
-  color: string;
-  company: string;
   condition: string;
   expiration: string;
   cardDetails: string;

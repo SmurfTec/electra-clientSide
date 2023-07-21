@@ -20,7 +20,7 @@ type User = {
   lastname: string;
 };
 
-type SalesHistory = {
+export type SalesHistory = {
   id: number;
   item_name: string;
   condition: 'new' | 'used';
