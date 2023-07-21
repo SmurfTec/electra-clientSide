@@ -1,5 +1,5 @@
 import { FilterMenu } from '@elektra/customComponents';
-import { FilterVariant, Variant } from '@elektra/types';
+import { FilterVariant } from '@elektra/types';
 import { Group } from '@mantine/core';
 import { useState } from 'react';
 
@@ -10,9 +10,9 @@ const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
 
 type ProductFilterProps = {
   data: FilterVariant[];
-  fetchListings : (label:string,value:string)=>void
+  fetchListings: (label: string, value: string, id: number) => void;
 };
-export const ProductFilter = ({ data,fetchListings }: ProductFilterProps) => {
+export const ProductFilter = ({ data, fetchListings }: ProductFilterProps) => {
   const [condition, setCondition] = useState<Array<string>>([]);
   const [color, setColor] = useState<Array<string>>([]);
   const [capacity, setCapacity] = useState<Array<string>>([]);
@@ -38,7 +38,15 @@ export const ProductFilter = ({ data,fetchListings }: ProductFilterProps) => {
         position="right"
       >
         {data.map((item) => (
-          <FilterMenu key={item.id} data={item.values} setState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
+          <FilterMenu
+            key={item.id}
+            filterId={Number(item?.id)}
+            data={item.values}
+            setState={setCondition}
+            state={condition}
+            label={item.title}
+            fetchListings={fetchListings}
+          />
         ))}
         {/* <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
         <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
