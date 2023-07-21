@@ -15,7 +15,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
   const dispatch = useAppDispatch();
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
-  const defaultCountry = 'PK';
+  const defaultCountry = 'US';
   const initialValues = {
     address1: profile?.shipping_address_line_1 ?? '',
     address2: profile?.shipping_adress_line_2 ?? '',

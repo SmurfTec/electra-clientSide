@@ -523,7 +523,7 @@ export const SalesTable = () => {
       id: item.id,
       'Item Name': item.item_name,
       Condition: item.condition,
-      Date: format(new Date(item.date), 'dd MM, yyyy'),
+      Date: format(new Date(item.date), 'dd MMM, yyyy'),
       'Lowest Offer': item.lowest_offer,
     }));
   }, [salesHistory]);
