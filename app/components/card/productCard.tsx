@@ -9,7 +9,7 @@ export type ProductCardProps = {
   image: string;
   title: string;
   description: string;
-  rating: 'used' | 'new';
+  condition: 'used' | 'new';
   wishlist: boolean;
   lowestPrice: number | null;
   highestPrice: number | null;
@@ -22,7 +22,7 @@ export function ProductCard({
   title,
   description,
   wishlist,
-  rating,
+  condition = 'new',
   lowestPrice,
   highestPrice,
   price,
@@ -30,9 +30,11 @@ export function ProductCard({
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
+
+  console.log(condition);
   return (
     <Card
-      onClick={() => router.push( {pathname:`/product-detail/${id}`,query:rating === 'used' ?{ condition:"used" }:undefined})}
+      onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
       className="relative rounded-none"
     >
       <Anchor className="cursor-pointer" align="unset" underline={false}>
@@ -41,15 +43,15 @@ export function ProductCard({
             <Image height={phone ? 90 : 120} width={phone ? 80 : 100} alt={image} src={image} className="h-1/4 w-1/2" />
           </Paper>
         </Card.Section>
-        <Only when={!!rating}>
+        <Only when={!!condition}>
           <Badge
             size={phone ? 'sm' : 'md'}
             className={clsx(
-              rating === 'used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
+              condition === 'used' ? `bg-[${'#3C82D6'}]` : `bg-[${theme.colors.dark}]`,
               'absolute text-white pointer-events-none  bg-black top-6 right-2'
             )}
           >
-            {rating}
+            {condition}
           </Badge>
         </Only>
       </Anchor>
@@ -73,7 +75,7 @@ export function ProductCard({
         </Grid>
         <Anchor className="cursor-pointer" underline={false}>
           <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
-            Condition : {rating ?? 'Used'}
+            Condition : {condition ?? 'Used'}
           </Text>
           <Group className="mt-4">
             <div className="max-w-[30%]">

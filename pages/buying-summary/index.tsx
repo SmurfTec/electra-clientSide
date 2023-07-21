@@ -6,15 +6,18 @@ import {
   ProtectPlan,
   SummaryFooter,
 } from '@elektra/components';
-import { isAuthenticated } from '@elektra/customComponents';
+import { Modal, baseURL, http, isAuthenticated } from '@elektra/customComponents';
+import { useOfferPlaceModal } from '@elektra/hooks';
 import { RootState, initStore, useAppDispatch, useSelector } from '@elektra/store';
 import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
-import { ProtectionPlan } from '@elektra/types';
+import { protectionPlanProps } from '@elektra/types';
 
 import { Grid, Radio } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { AlertTriangle } from 'tabler-icons-react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -45,21 +48,22 @@ export async function getServerSideProps({ req }: NextPageContext) {
   }
   const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());
+
   if (isError) return { props: { protectionPlanData: [] } };
   return { props: { protectionPlanData: data } };
 }
 
 type BuyingSummaryPageProps = {
-  protectionPlanData: ProtectionPlan[];
+  protectionPlanData: protectionPlanProps;
 };
 
 export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageProps) {
   const router = useRouter();
   const isOffer = router.query['type'] === 'offer';
-  const [plan, setPlan] = useState<string>('');
+  const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   useEffect(() => {
-    console.log(protectionPlanData)
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateProtectionPlan(protectionPlanData));
@@ -68,75 +72,99 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       unsubscribe = true;
     };
   }, []);
-  
-  const protectionPlan = useSelector((state: RootState) => state.entities.protectionPlan.list).protectionplans;
-  console.log(protectionPlan);
+  const protectionPlan = protectionPlanData.protectionplans;
+  const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
+  const profile = useSelector((state: RootState) => state.auth.profile);
+
+  const handleSubmit = async () => {
+    if (!!plan) {
+      const { data, isError } = await http.request({
+        url: `/products/${productDetail.product.id}/buy`,
+        method: 'POST',
+        data: {
+          protection_plan: plan,
+          coupon: '',
+        },
+      });
+
+      if (!isError) {
+        offerPlaceHandler.open();
+      }
+    } else {
+      notifications.show({
+        withCloseButton: false,
+        styles: {
+          icon: {
+            backgroundColor: 'unset',
+          },
+        },
+        message: 'Select atleast one option for proceeding',
+        icon: <AlertTriangle color="red" />,
+      });
+    }
+  };
 
   return (
-    <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
+    <Radio.Group mt={50} value={String(plan)} onChange={(value) => setPlan(Number(value))}>
       <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
 
       <Grid>
         <Grid.Col xs={12} sm={6}>
           <div className="overflow-y-auto h-full">
             <ProductDetail
-            
-              image={productDetailData.image}
-              title={productDetailData.title}
+              productVariants={productDetail.product.product_variants}
+              image={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''}
+              title={productDetail.product.title}
               space={productDetailData.space}
               color={productDetailData.color}
               company={productDetailData.company}
-              condition={productDetailData.condition}
+              condition={productDetail.product.condition.toUpperCase()}
               expiration={productDetailData.expiration}
               cardDetails={productDetailData.cardDetails}
-              address={productDetailData.address} status={''} saleDate={''} orderNo={''} disabled={false} protectionPlan={''}            />
+              address={productDetailData.address}
+              // status={''}
+              // saleDate={''}
+              // orderNo={''}
+              disabled={false}
+              // protectionPlan={''}
+            />
           </div>
         </Grid.Col>
         <Grid.Col xs={12} sm={6}>
           <div className=" relative h-full">
             <BiddingSummary
-              yourOffer={BiddingSummaryData.yourOffer}
-              discount={BiddingSummaryData.discount}
-              itemPrice={BiddingSummaryData.itemPrice}
-              marketPlaceFee={BiddingSummaryData.marketPlaceFee}
-              salesTax={BiddingSummaryData.salesTax}
-              shippingFee={BiddingSummaryData.shippingFee}
-              totalPrice={BiddingSummaryData.totalPrice}
-              protectionPlan={plan}
+              yourOffer={Number(productDetail.product.highest_offer)}
+              discount={0}
+              itemPrice={0}
+              marketPlaceFee={0}
+              salesTax={0}
+              shippingFee={0}
+              totalPrice={Number(productDetail.product.highest_offer)}
+              protectionPlan={String(plan)}
+              onClick={handleSubmit}
             />
           </div>
         </Grid.Col>
         {protectionPlan.map((item, key) => {
           return (
-            <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(item.id + item.name)}>
+            <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(Number(item.id))}>
               <div className="overflow-y-auto h-full cursor-pointer">
-                <ProtectPlan id={item.id} title={item.name} content={item.description} price={item.amount} />
+                <ProtectPlan id={String(item.id)} title={item.name} content={item.description} price={item.amount} />
               </div>
             </Grid.Col>
           );
         })}
-        {/* <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData.title)}>
-          <div className="overflow-y-auto h-full cursor-pointer">
-            <ProtectPlan
-              title={protectPlanData.title}
-              content={protectPlanData.content}
-              price={protectPlanData.price}
-            />
-          </div>
-        </Grid.Col>
-        <Grid.Col xs={12} sm={6} onClick={() => setPlan(protectPlanData2.title)}>
-          <div className="cursor-pointer">
-            <ProtectPlan
-              title={protectPlanData2.title}
-              content={protectPlanData2.content}
-              price={protectPlanData2.price}
-            />
-          </div>
-        </Grid.Col> */}
       </Grid>
-      <div onClick={() => setPlan('No')} className="cursor-pointer">
+      <div onClick={() => setPlan(0)} className="cursor-pointer">
         <SummaryFooter />
       </div>
+
+      <Modal
+        title={'Product Purchased'}
+        children={OfferPlaceModal}
+        onClose={offerPlaceHandler.close}
+        open={offerPlaceOpened}
+      />
     </Radio.Group>
   );
 }

@@ -53,7 +53,7 @@ const bannerData: BannerProps[] = [
     id: 1,
     image: '/images/banner/Iphone.png',
     link: '/shop',
-    title: 'NEW APPLE',
+    title: 'new APPLE',
     heading: 'Iphone 14 Pro',
     label: 'Shop Today',
   },
@@ -62,19 +62,19 @@ const bannerData: BannerProps[] = [
 const productData: ProductCardProps[] = [
   {
     image: '/images/product.png',
-    id:0,
+    id: 0,
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
-    rating: 'New',
+    condition: 'new',
     wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    id:0,
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -83,9 +83,9 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    id:0,
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -94,9 +94,10 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
+
     image: '/images/product.png',
-    id:0,
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -105,9 +106,9 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    id:0,
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -116,7 +117,6 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
 ];
-
 
 export function ShowingMore() {
   const router = useRouter();
@@ -147,7 +147,7 @@ export function ShowingMore() {
                   description={product.description}
                   id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -170,7 +170,7 @@ export function ShowingMore() {
                   description={product.description}
                   id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -193,7 +193,7 @@ export function ShowingMore() {
                   description={product.description}
                   id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -216,7 +216,7 @@ export function ShowingMore() {
                   description={product.description}
                   id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
