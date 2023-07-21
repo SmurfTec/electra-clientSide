@@ -3,7 +3,7 @@ import { Variant } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
+import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
 
@@ -24,7 +24,7 @@ type ListingDescriptionProps = {
 export function BuyOfferComponent({
   condition,
   description,
-
+  averageSalePrice,
   productVariants,
   lowestAsk,
   highestAsk,
@@ -68,7 +68,7 @@ export function BuyOfferComponent({
         <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
       </div>
 
-      {productVariants.map((item, key) => {
+      {productVariants?.map((item, key) => {
         return (
           <div key={key + item.color}>
             <div className="my-4">
@@ -137,7 +137,7 @@ export function BuyOfferComponent({
                 },
               }}
               hideControls
-              value={Number(lowestAsk)}
+              value={Number(averageSalePrice)}
               parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
@@ -149,7 +149,7 @@ export function BuyOfferComponent({
       </Group>
 
       <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-32 py-6 border-black border-solid ">
-        <Only when={!isNew}>
+        {/* <Only when={!isNew}>
           <ActionIcon
             component="button"
             size="lg"
@@ -160,7 +160,7 @@ export function BuyOfferComponent({
           >
             <Minus size={16} color="white" />
           </ActionIcon>
-        </Only>
+        </Only> */}
         <NumberInput
           disabled={true}
           hideControls
@@ -182,7 +182,7 @@ export function BuyOfferComponent({
             },
           }}
         />
-        <Only when={!isNew}>
+        {/* <Only when={!isNew}>
           <ActionIcon
             component="button"
             size="lg"
@@ -193,11 +193,11 @@ export function BuyOfferComponent({
           >
             <Plus size={16} color="white" />
           </ActionIcon>
-        </Only>
+        </Only> */}
       </Group>
 
       <div className="my-8">
-        <PositionApart text={'Your Offer'} number={160} />
+        <PositionApart text={'Your Offer'} number={Number(highestAsk)} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
           <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
@@ -206,7 +206,7 @@ export function BuyOfferComponent({
           <PositionApart text={'Discount'} number={discount} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={183} />
+        <PositionApart text={'Total Price'} number={Number(highestAsk)} />
       </div>
 
       <Grid>
@@ -231,7 +231,7 @@ export function BuyOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={'/buying-summary'}
+            href={'/buying-summary/listing'}
           >
             Review Purchase
           </Button>
