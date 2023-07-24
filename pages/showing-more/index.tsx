@@ -1,9 +1,11 @@
 import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { RootState, initStore, loadListingProducts, loadMoreProducts, useAppDispatch, useSelector } from '@elektra/store';
+import { RootState, fetchShowMoreProducts, initStore, loadListingProducts, loadMoreProducts, useAppDispatch, useSelector } from '@elektra/store';
 import { Container, Divider, Text } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Product } from '@elektra/types';
+import { baseURL } from '@elektra/customComponents';
 
 const carouselData = [
   {
@@ -125,16 +127,18 @@ export async function getServerSideProps(context: NextPageContext) {
  
   const store = initStore();
   console.log(context.query['show-more']);
-  // const products = store.dispatch(loadMoreProducts(String(context.query['show-more'])));
-  // await Promise.all([products]);
+  const products = store.dispatch(fetchShowMoreProducts(String(context.query['show-more'])));
+  await Promise.all([products]);
   return {
     props: {
-      // products: store.getState().entities.productDetail.list.product,
+      products: store.getState().entities.specialProducts.list.showMore,
     },
   };
 }
-
-export function ShowingMore() {
+type ShowingMore = {
+  products:Product[]
+}
+export function ShowingMore({products}:ShowingMore) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
@@ -178,14 +182,14 @@ export function ShowingMore() {
           <ItemFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
         </div>
         <section className="mt-5">
-          <SectionTitle title="1000+ Results for iphone" />
+          <SectionTitle title={`${products?.length} Results for ${search}`} />
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
+            {products.map((product, index) => {
               return (
                 <ProductCard
                   key={index}
-                  image={product.image}
-                  description={product.description}
+                  image={baseURL + "/" + product?.images?.[0].filename}
+                  description={"NID"}
                   id={product.id}
                   title={product.title}
                   condition={product.condition}

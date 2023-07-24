@@ -1,7 +1,10 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { Only } from '@elektra/customComponents';
+import { initStore, loadProductData } from '@elektra/store';
 import { Container, Divider, Grid, Image } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useState } from 'react';
+import { ProductData } from '@elektra/types';
 
 const ListingDescriptionData = {
   carrier: 'AT&T',
@@ -43,8 +46,24 @@ const usedProductListingData = {
   ],
 };
 
-export default function ProductListingPage() {
+export async function getServerSideProps(context: NextPageContext) {
+  // id: 1 means homepage data
+  const store = initStore();
+  const productData = store.dispatch(loadProductData(Number(context.query.id)));
+  await Promise.all([productData]);
+  return {
+    props: {
+      productDetail: store.getState().entities.productDetail.list,
+    },
+  };
+}
+type ProductListingPageProps = {
+  productDetail: ProductData;
+}
+
+export default function ProductListingPage({productDetail}:ProductListingPageProps) {
   const [condition, setCondition] = useState<string>('Used');
+  console.log(productDetail)
   return (
     <Container fluid>
       <div className="my-10">
@@ -52,7 +71,6 @@ export default function ProductListingPage() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          
             {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel images={[]} /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
           </div>}
         </Grid.Col>

@@ -60,8 +60,9 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
   // const technicalSpecification = useSelector(
   //   (state: RootState) => state.entities.productDetail.list.product.technical_specifications
   // );
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:[]});
+    useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -81,16 +82,22 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
             <ProductDetail
               image={baseURL + '/' + orderDetail?.product?.attachments[0]?.filename}
               title={String(orderDetail?.product?.title)}
-              space={'Not in Data'}
-              color={'Not in Data'}
-              company={'Not in Data'}
+              productVariants={orderDetail.product_variants || []}
               condition={'Not in Data'}
               expiration={'Not in Data'}
               orderNo={String(orderDetail?.id)}
               protectionPlan={String(orderDetail?.protection_plan?.name ?? '-')}
               status={String(orderDetail?.status)}
               cardDetails={'Not in Data'}
-              address={'Not in Data'}
+              address={
+                profile?.shipping_address_line_1
+                  ? `${profile?.shipping_address_line_1}, ${
+                      profile?.shipping_adress_line_2 ? profile?.shipping_adress_line_2 + ',' : ''
+                    } ${profile?.shipping_city},  ${profile?.shipping_stateorprovince}, ${profile?.shipping_country}, ${
+                      profile?.shipping_postalcode
+                    }`
+                  : '-'
+              }
               saleDate={format(new Date(String(orderDetail?.created_on)), 'dd MMM, yyyy')}
               disabled={true}
             />
