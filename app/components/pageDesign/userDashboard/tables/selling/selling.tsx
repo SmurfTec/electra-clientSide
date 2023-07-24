@@ -120,6 +120,8 @@ export function Selling() {
       tileData: completedTileData,
     },
   };
+
+  console.log(sellingActiveOrders)
   const selected = tableData[value as keyof tableDataType];
   return (
     <div className="mt-5">

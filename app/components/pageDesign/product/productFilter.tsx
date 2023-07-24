@@ -15,7 +15,6 @@ type ProductFilterProps = {
   fetchListings: (label: string, value: string, id: number) => void;
 };
 export const ProductFilter = ({ data, filter, setFilter, fetchListings }: ProductFilterProps) => {
-  const [condition, setCondition] = useState<Array<string>>([]);
   return (
     <div>
       <Flex wrap={'nowrap'} gap={20}>

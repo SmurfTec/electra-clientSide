@@ -6,11 +6,11 @@ import {
   ProtectPlan,
   SummaryFooter,
 } from '@elektra/components';
-import { baseURL, http, isAuthenticated } from '@elektra/customComponents';
+import { Modal, baseURL, http, isAuthenticated } from '@elektra/customComponents';
 import { useOfferPlaceModal } from '@elektra/hooks';
 import { RootState, initStore, useAppDispatch, useSelector } from '@elektra/store';
 import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
-import { protectionPlanProps } from '@elektra/types';
+import { ProductBuyOrderData, protectionPlanProps } from '@elektra/types';
 
 import { Grid, Radio } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -49,7 +49,6 @@ export async function getServerSideProps({ req }: NextPageContext) {
   const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());
 
-  console.log(data);
   if (isError) return { props: { protectionPlanData: [] } };
   return { props: { protectionPlanData: data } };
 }
@@ -61,10 +60,22 @@ type BuyingSummaryPageProps = {
 export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageProps) {
   const router = useRouter();
   const isOffer = router.query['type'] === 'offer';
-  const [plan, setPlan] = useState<string>('');
+  const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
+  const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
 
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  const [orderData, setOrderData] = useState<ProductBuyOrderData>();
+
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal({
+    address: '',
+    cardDetails: '',
+    condition: productListingById?.listing.condition,
+    image: baseURL + '/' + productListingById?.listing?.images[0].filename,
+    saleDate: String(orderData?.order.created_on),
+    title: productListingById?.listing.product.title,
+    productVariant: productListingById.listing.listing_variants,
+    expiration: '',
+  });
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -76,21 +87,19 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   }, []);
   const protectionPlan = protectionPlanData.protectionplans;
 
-  const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
-
   const handleSubmit = async () => {
-    if (!!plan) {
+    if (typeof plan === 'number') {
       const { data, isError } = await http.request({
-        url: `/products/${productListingById.listing.id}/buy`,
+        url: `/listings/${productListingById.listing.id}/buy`,
         method: 'POST',
         data: {
-          protection_plan: plan,
+          protection_plan: plan === 0 ? null : plan,
           coupon: '',
         },
       });
 
       if (!isError) {
-        offerPlaceHandler.open();
+        setOrderData(data);
       }
     } else {
       notifications.show({
@@ -106,8 +115,12 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     }
   };
 
+  useEffect(() => {
+    if (orderData) offerPlaceHandler.open();
+  }, [orderData]);
+
   return (
-    <Radio.Group mt={50} value={plan} onChange={(value) => setPlan(value)}>
+    <Radio.Group mt={50} value={String(plan)} onChange={(value) => setPlan(Number(value))}>
       <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
 
       <Grid>
@@ -132,20 +145,21 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         <Grid.Col xs={12} sm={6}>
           <div className=" relative h-full">
             <BiddingSummary
-              yourOffer={BiddingSummaryData.yourOffer}
-              discount={BiddingSummaryData.discount}
-              itemPrice={BiddingSummaryData.itemPrice}
-              marketPlaceFee={BiddingSummaryData.marketPlaceFee}
-              salesTax={BiddingSummaryData.salesTax}
-              shippingFee={BiddingSummaryData.shippingFee}
-              totalPrice={BiddingSummaryData.totalPrice}
-              protectionPlan={plan}
+              yourOffer={Number(productListingById.listing.highest_offer)}
+              discount={0}
+              itemPrice={0}
+              marketPlaceFee={0}
+              salesTax={0}
+              shippingFee={0}
+              totalPrice={Number(productListingById.listing.highest_offer)}
+              protectionPlan={String(plan)}
+              onClick={handleSubmit}
             />
           </div>
         </Grid.Col>
         {protectionPlan.map((item, key) => {
           return (
-            <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(item.id + item.name)}>
+            <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(Number(item.id))}>
               <div className="overflow-y-auto h-full cursor-pointer">
                 <ProtectPlan id={String(item.id)} title={item.name} content={item.description} price={item.amount} />
               </div>
@@ -153,9 +167,16 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
           );
         })}
       </Grid>
-      <div onClick={() => setPlan('No')} className="cursor-pointer">
+      <div onClick={() => setPlan(0)} className="cursor-pointer">
         <SummaryFooter />
       </div>
+
+      <Modal
+        title={'Product Purchased'}
+        children={OfferPlaceModal}
+        onClose={offerPlaceHandler.close}
+        open={offerPlaceOpened}
+      />
     </Radio.Group>
   );
 }

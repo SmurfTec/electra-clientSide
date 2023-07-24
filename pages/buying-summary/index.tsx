@@ -10,7 +10,7 @@ import { Modal, baseURL, http, isAuthenticated } from '@elektra/customComponents
 import { useOfferPlaceModal } from '@elektra/hooks';
 import { RootState, initStore, useAppDispatch, useSelector } from '@elektra/store';
 import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
-import { protectionPlanProps } from '@elektra/types';
+import { ProductBuyOrderData, protectionPlanProps } from '@elektra/types';
 
 import { Grid, Radio } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -62,7 +62,19 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const isOffer = router.query['type'] === 'offer';
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  const protectionPlan = protectionPlanData.protectionplans;
+  const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
+  const [orderData, setOrderData] = useState<ProductBuyOrderData>();
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal({
+    address: '',
+    cardDetails: '',
+    condition: productDetail?.product.condition,
+    image: baseURL + '/' + productDetail?.product?.images[0].filename,
+    saleDate: String(orderData?.order.created_on),
+    title: productDetail?.product.title,
+    productVariant: productDetail?.product?.product_variants,
+    expiration: '',
+  });
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -72,17 +84,18 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       unsubscribe = true;
     };
   }, []);
-  const protectionPlan = protectionPlanData.protectionplans;
-  const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
+
   const profile = useSelector((state: RootState) => state.auth.profile);
+  console.log(plan);
 
   const handleSubmit = async () => {
-    if (!!plan) {
+    console.log(plan);
+    if (plan) {
       const { data, isError } = await http.request({
         url: `/products/${productDetail.product.id}/buy`,
         method: 'POST',
         data: {
-          protection_plan: plan,
+          protection_plan: plan === 0 ? null : plan,
           coupon: '',
         },
       });
@@ -104,6 +117,10 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     }
   };
 
+  useEffect(() => {
+    if (orderData) offerPlaceHandler.open();
+  }, [orderData]);
+
   return (
     <Radio.Group mt={50} value={String(plan)} onChange={(value) => setPlan(Number(value))}>
       <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
@@ -115,7 +132,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               productVariants={productDetail.product.product_variants}
               image={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''}
               title={productDetail.product.title}
-             
               condition={productDetail.product.condition.toUpperCase()}
               expiration={productDetailData.expiration}
               cardDetails={productDetailData.cardDetails}

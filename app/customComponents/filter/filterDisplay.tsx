@@ -14,7 +14,7 @@ export const FilterDisplay = ({ filter, setState }: FilterDisplayProps) => {
   };
   return (
     <Stack align="start">
-      <Text className="text-base font-medium">{filter.label}</Text>
+      <Text className="text-base font-medium">{filter?.label}</Text>
       <Center inline className="space-x-2">
         <Button
           classNames={{ root: classes.filterbuttonRoot }}
@@ -22,7 +22,7 @@ export const FilterDisplay = ({ filter, setState }: FilterDisplayProps) => {
           rightIcon={<LetterX size={'14px'} />}
           onClick={() => handleStateClose(filter.id)}
         >
-          {filter.value}
+          {filter?.value}
         </Button>
       </Center>
     </Stack>
