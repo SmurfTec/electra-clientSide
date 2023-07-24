@@ -1,5 +1,6 @@
 import { ItemCard } from '@elektra/components';
 import { Modal as ProductModal } from '@elektra/customComponents';
+import { Variant } from '@elektra/types';
 import {
   ActionIcon,
   Button,
@@ -29,6 +30,17 @@ const productDetailData = {
   cardDetails: '3646 **** **** ****',
   address: '16 Street , Town Abc, City, USA , 213434',
   saleDate: '23/10/2023',
+};
+
+export type OfferModalProductProps = {
+  image: string;
+  title: string;
+  productVariant: Variant[];
+  condition: string;
+  expiration: string;
+  cardDetails: string;
+  address: string;
+  saleDate: string;
 };
 
 export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
@@ -76,16 +88,18 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
   return [Modal, opened, { open, close }];
 };
 
-export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useOfferPlaceModal = (
+  productDetailData: OfferModalProductProps
+): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">
         <ItemCard
-          productVariants={[]}
-          image={productDetailData.image}
-          title={productDetailData.title}
-          key={productDetailData.title}
+          productVariants={productDetailData?.productVariant || []}
+          image={productDetailData?.image}
+          title={productDetailData?.title}
+          key={productDetailData?.title}
         />
         <Divider variant="dashed" />
       </div>
@@ -121,7 +135,7 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
 
         <Button
           component={NextLink}
-          href="/product-listing"
+          href="/userdashboard?tab=purchasing"
           styles={{
             root: {
               borderRadius: 20,
@@ -141,9 +155,12 @@ export const useOfferPlaceModal = (): [React.ReactNode, boolean, { open: () => v
   return [Modal, opened, { open, close }];
 };
 
-export const useOfferEditModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useOfferEditModal = (
+  productDetailData: OfferModalProductProps
+): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+
+  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal(productDetailData);
   const [count, handlers] = useCounter(0, { min: 0 });
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
@@ -152,11 +169,11 @@ export const useOfferEditModal = (): [React.ReactNode, boolean, { open: () => vo
           <ItemCard
             // color={productDetailData.color}
             // company={productDetailData.company}
-            image={productDetailData.image}
+            image={productDetailData?.image}
             productVariants={[]}
             // space={productDetailData.space}
-            title={productDetailData.title}
-            key={productDetailData.title}
+            title={productDetailData?.title}
+            key={productDetailData?.title + productDetailData?.image}
           />
         </div>
         <Divider variant="dashed" />

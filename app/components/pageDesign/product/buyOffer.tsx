@@ -231,7 +231,7 @@ export function BuyOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={'/buying-summary/listing'}
+            href={condition === "new" ? "/buying-summary" :'/buying-summary/listing'}
           >
             Review Purchase
           </Button>
