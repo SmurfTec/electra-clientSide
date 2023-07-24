@@ -256,7 +256,7 @@ export function ChipDisplay({ data, item }: ChipDisplayProps) {
   return (
     <Chip.Group value={item}>
       <Group className="space-x-4">
-        {data.map((value, index) => (
+        {data?.map((value, index) => (
           <Chip
             key={index}
             value={value}
