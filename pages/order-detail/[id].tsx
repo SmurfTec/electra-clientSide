@@ -1,4 +1,4 @@
-import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
+import { BiddingSummary, PageTitle, ProductDetail } from '@elektra/components';
 import { Drawer, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useTechinalSpecificationDrawer } from '@elektra/hooks';
 import {
@@ -28,14 +28,14 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-const BiddingSummaryData: BiddingSummaryProps = {
-  itemPrice: 437,
-  marketPlaceFee: 5,
-  salesTax: 3,
-  shippingFee: 15,
-  discount: 0,
-  totalPrice: 460,
-};
+// const BiddingSummaryData: BiddingSummaryProps = {
+//   itemPrice: 437,
+//   marketPlaceFee: 5,
+//   salesTax: 3,
+//   shippingFee: 15,
+//   discount: 0,
+//   totalPrice: 460,
+// };
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
@@ -60,8 +60,9 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
   // const technicalSpecification = useSelector(
   //   (state: RootState) => state.entities.productDetail.list.product.technical_specifications
   // );
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer({techinalSpecificationDrawerData:[]});
+    useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -81,14 +82,22 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
             <ProductDetail
               image={baseURL + '/' + orderDetail?.product?.attachments[0]?.filename}
               title={String(orderDetail?.product?.title)}
-              productVariants={[]}
+              productVariants={orderDetail.product_variants || []}
               condition={'Not in Data'}
               expiration={'Not in Data'}
               orderNo={String(orderDetail?.id)}
               protectionPlan={String(orderDetail?.protection_plan?.name ?? '-')}
               status={String(orderDetail?.status)}
               cardDetails={'Not in Data'}
-              address={'Not in Data'}
+              address={
+                profile?.shipping_address_line_1
+                  ? `${profile?.shipping_address_line_1}, ${
+                      profile?.shipping_adress_line_2 ? profile?.shipping_adress_line_2 + ',' : ''
+                    } ${profile?.shipping_city},  ${profile?.shipping_stateorprovince}, ${profile?.shipping_country}, ${
+                      profile?.shipping_postalcode
+                    }`
+                  : '-'
+              }
               saleDate={format(new Date(String(orderDetail?.created_on)), 'dd MMM, yyyy')}
               disabled={true}
             />
@@ -97,6 +106,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="h-full relative">
             <BiddingSummary
+              reciptFee="0"
               // yourOffer={BiddingSummaryData.yourOffer}
               discount={0}
               itemPrice={orderDetail?.saleprice}

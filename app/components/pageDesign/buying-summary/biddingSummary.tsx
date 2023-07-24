@@ -15,6 +15,7 @@ export type BiddingSummaryProps = {
   disabled?: boolean;
   protectionPlan?: string;
   onClick?: () => void;
+  reciptFee:string
 };
 
 export function BiddingSummary({
@@ -28,6 +29,7 @@ export function BiddingSummary({
   disabled,
   protectionPlan,
   onClick,
+  reciptFee
 }: BiddingSummaryProps) {
   const router = useRouter();
   const { classes } = useStylesforGlobal();

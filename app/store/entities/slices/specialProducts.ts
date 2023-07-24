@@ -48,12 +48,11 @@ const slice = createSlice({
     },
 
     showMoreReceived: (state, action) => {
-      state.list.showMore = action.payload.showMore;
+      state.list.showMore = action.payload.products;
       state.loading = false;
     },
 
     rehydrateSpecialProduct: (state, action) => {
-      console.log(action.payload);
       state.loading = true;
       (state.list.latest = action.payload.latest), (state.list.mostSold = action.payload.mostSold);
       state.list.trending = action.payload.trending;
@@ -87,7 +86,7 @@ export const loadTrendingProducts = () => async (dispatch: AppDispatch) => {
 export const fetchShowMoreProducts = (param: string) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: URL + `/?title=%${param}%`,
+      url: URL + `?title=%${param}%`,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.showMoreReceived.type,
       onError: slice.actions.specialProductFailed.type,
