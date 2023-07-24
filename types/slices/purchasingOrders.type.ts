@@ -1,3 +1,5 @@
+import { Variant } from "./productDetail.type";
+
 export type PurchasingOrders = {
   purchasingActiveOrders: OrderPurchasingActive;
   purchasingCompletedOrders: OrderPurchasingCompleted;
@@ -47,13 +49,9 @@ export type Order = Partial<{
   ship_in: string;
   receipt: null | any;
   receipt_fees: any[];
-  product_variants: ProductVariant[];
+  product_variants: Variant[];
 }>;
-type ProductVariant = {
-  id: number;
-  variant: string;
-  value: string;
-};
+
 
 type Buyer = {
   id: number;

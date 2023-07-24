@@ -52,7 +52,6 @@ export default function ProductListingPage() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          
             {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel images={[]} /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
           </div>}
         </Grid.Col>
