@@ -24,17 +24,17 @@ import { ArrowNarrowRight } from 'tabler-icons-react';
 
 type condition = 'new' | 'used';
 
-const itemCardData: ItemCardProps = {
-  color: 'black',
-  company: 'AT&T',
-  image: '/images/product.png',
-  space: '128GB',
-  title: 'Iphone 14 Pro Max',
-  status: 'Sold',
-  price: 1000,
-  date: '29/10/10',
-  sale: true,
-};
+// const itemCardData: ItemCardProps = {
+//   color: 'black',
+//   company: 'AT&T',
+//   image: '/images/product.png',
+//   space: '128GB',
+//   title: 'Iphone 14 Pro Max',
+//   status: 'Sold',
+//   price: 1000,
+//   date: '29/10/10',
+//   sale: true,
+// };
 
 const productData = [
   {
@@ -200,7 +200,7 @@ export default function Testing() {
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  // const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
@@ -215,7 +215,7 @@ export default function Testing() {
   return (
     <div>
       <div className="my-96 w-full">
-        <ProductCharts />
+        {/* <ProductCharts /> */}
       </div>
 
       <div>
@@ -257,14 +257,12 @@ export default function Testing() {
 
       <div className="my-96">
         <ItemCard
-          color={productDetailData.color}
-          company={productDetailData.company}
           image={productDetailData.image}
-          space={productDetailData.space}
+          productVariants={[]}
           title={productDetailData.title}
           key={productDetailData.title}
         />
-        <Group position="center">
+        {/* <Group position="center">
           <Modal
             title="Offer Placed!"
             children={OfferPlaceModal}
@@ -272,7 +270,7 @@ export default function Testing() {
             open={offerPlaceOpened}
           />
           <Button onClick={offerPlaceHandler.open}>Offer Place Modal</Button>
-        </Group>
+        </Group> */}
       </div>
 
       <div>
@@ -481,7 +479,7 @@ export default function Testing() {
       </Container>
 
       <Container mb={100}>
-        <ItemCard
+        {/* <ItemCard
           color={itemCardData.color}
           company={itemCardData.company}
           image={itemCardData.image}
@@ -492,7 +490,7 @@ export default function Testing() {
           sale={itemCardData.sale}
           key={1}
           status={itemCardData.status}
-        />
+        /> */}
       </Container>
 
       <Container>

@@ -12,7 +12,7 @@ type ProductData = {
   mostSold: Product[];
   trending: Product[];
   latest: Product[];
-  showMore: Product[];
+  showMore?: Product[];
 };
 
 type specialProduct = {

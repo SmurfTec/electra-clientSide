@@ -31,7 +31,7 @@ export function BiddingSummary({
 }: BiddingSummaryProps) {
   const router = useRouter();
   const { classes } = useStylesforGlobal();
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  // const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const isBuying = router.query['condition'] === 'buying';
   return (
     <div

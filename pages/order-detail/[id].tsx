@@ -81,9 +81,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
             <ProductDetail
               image={baseURL + '/' + orderDetail?.product?.attachments[0]?.filename}
               title={String(orderDetail?.product?.title)}
-              space={'Not in Data'}
-              color={'Not in Data'}
-              company={'Not in Data'}
+              productVariants={[]}
               condition={'Not in Data'}
               expiration={'Not in Data'}
               orderNo={String(orderDetail?.id)}
