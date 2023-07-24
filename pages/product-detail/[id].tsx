@@ -136,28 +136,6 @@ export default function ProductPage({ productDetail, productListing, productVari
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, '&' + paramString));
 
-    // else {
-    //   if (params.length === 0) {
-    //     dispatch(loadListingProducts(productId, `&${label}=${value}`));
-    //     setParams([ { label, value }]);
-    //   } else {
-    //     if(params.some((item)=>item.label=== label&&item.value===value)){
-    //       const newParams = params.filter((item)=>!(item.label===label&&item.value===value))
-    //       dispatch(loadListingProducts(productId,"&"+ newParams));
-    //       setParams(newParams);
-    //     }
-    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-    //     dispatch(loadListingProducts(productId,"&"+ paramString + `&${label}=${value}`));
-    //     setParams((prev) => [...prev, { label, value }]);
-    //   }
-    // }
-    // } else {
-    //   if (params.length !== 0) {
-    //     const productId = Number(router.query['id']);
-    //     const paramString = params.map((item) => `${item.label}=${item.value}`).join('&');
-    //     dispatch(loadListingProducts(productId, paramString));
-    //   }
-    // }
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,

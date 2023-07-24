@@ -70,4 +70,15 @@ export const loadProductData = (id: number) => async (dispatch: AppDispatch) => 
   );
 };
 
+export const loadMoreProducts = (params:string) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: URL + params,
+      onStart: slice.actions.productRequested.type,
+      onSuccess: slice.actions.productReceived.type,
+      onError: slice.actions.productFailed.type,
+    })
+  );
+};
+
 export const productDataReducer = slice.reducer;

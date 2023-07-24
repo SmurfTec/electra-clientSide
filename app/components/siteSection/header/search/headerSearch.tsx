@@ -1,4 +1,4 @@
-import { Button, CloseButton, Group, Text, TextInput } from '@mantine/core';
+import { Button, CloseButton, Group, Loader, Text, TextInput } from '@mantine/core';
 import { useFocusTrap, useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { Dispatch, SetStateAction } from 'react';
@@ -7,10 +7,11 @@ import { Search } from 'tabler-icons-react';
 type HeaderSearchProps = {
   close: () => void;
   state: string;
+  loading:boolean
   setState: Dispatch<SetStateAction<string>>;
 };
 
-export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
+export const HeaderSearch = ({ close, state, setState,loading }: HeaderSearchProps) => {
   const matches = useMediaQuery('(min-width: 810px)', false);
   const small = useMediaQuery('(max-width: 390px)', false);
   return (
@@ -37,7 +38,7 @@ export const HeaderSearch = ({ close, state, setState }: HeaderSearchProps) => {
         color="rgba(238, 238, 238, 1)"
         size={matches ? 'md' :'sm'}
         maw={small?210:undefined}
-        rightSection={<CloseButton variant='transparent' onClick={close} />}
+        rightSection={loading?<Loader  size={'sm'} color='white'/>:<CloseButton variant='transparent' onClick={close} />}
         rightSectionWidth={42}
       />
       <Button
