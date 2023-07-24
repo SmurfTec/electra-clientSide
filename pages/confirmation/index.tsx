@@ -31,7 +31,7 @@ export default function Confirmation() {
           <Stack align="center" justify="center">
             <Only when={condition !== 'New'}>
             <div className="md:w-auto w-screen">
-                <ProductCarousel  />
+                <ProductCarousel images={[]} />
               </div>
             </Only>
             <Only when={condition === 'New'}>

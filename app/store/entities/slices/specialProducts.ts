@@ -6,20 +6,22 @@ import { createSlice } from '@reduxjs/toolkit';
 const trendingURL = '/products/?sort=-clicks,interactions&page=1&limit=5';
 const latestURL = '/products/?sort=-created_on';
 const mostSoldURL = '/products/?sort=-sold';
+const URL = '/products';
 
 type ProductData = {
   mostSold: Product[];
   trending: Product[];
   latest: Product[];
+  showMore?: Product[];
 };
 
 type specialProduct = {
-  list: { mostSold: Product[]; trending: Product[]; latest: Product[] };
+  list: { mostSold: Product[]; trending: Product[]; latest: Product[]; showMore: Product[] };
   loading: boolean;
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: [], trending: [], latest: [] },
+  list: { mostSold: [], trending: [], latest: [], showMore: [] },
   loading: false,
 };
 
@@ -45,8 +47,13 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    showMoreReceived: (state, action) => {
+      state.list.showMore = action.payload.showMore;
+      state.loading = false;
+    },
+
     rehydrateSpecialProduct: (state, action) => {
-        console.log(action.payload)
+      console.log(action.payload);
       state.loading = true;
       (state.list.latest = action.payload.latest), (state.list.mostSold = action.payload.mostSold);
       state.list.trending = action.payload.trending;
@@ -72,6 +79,17 @@ export const loadTrendingProducts = () => async (dispatch: AppDispatch) => {
       url: trendingURL,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.trendingReceived.type,
+      onError: slice.actions.specialProductFailed.type,
+    })
+  );
+};
+
+export const fetchShowMoreProducts = (param: string) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: URL + `/?title=%${param}%`,
+      onStart: slice.actions.specialProductRequested.type,
+      onSuccess: slice.actions.showMoreReceived.type,
       onError: slice.actions.specialProductFailed.type,
     })
   );

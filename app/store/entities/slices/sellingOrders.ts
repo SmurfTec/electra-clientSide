@@ -4,8 +4,8 @@ import { SellingOrders } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 const OrderSellingActiveURL = '/asks/me';
-const OrderSellingCompletedURL = '/asks/me';
-const OrderSellingPendingURL = '/asks/me';
+const OrderSellingCompletedURL = '/orders/me/selling?status=completed';
+const OrderSellingPendingURL = '/orders/me/selling?status=pending';
 
 type OrdersSlice = {
   list: SellingOrders;
@@ -20,14 +20,14 @@ const initialState: OrdersSlice = {
       askStats: { active_asks: '', gross_value: 0, net_value: 0, no_of_listing: '' },
     },
     sellingCompletedOrders: {
+      orders: [],
+      orderStats: [],
       results: 0,
-      asks: [],
-      askStats: { active_asks: '', gross_value: 0, net_value: 0, no_of_listing: '' },
     },
     sellingPendingOrders: {
+      orders: [],
+      orderStats: [],
       results: 0,
-      asks: [],
-      askStats: { active_asks: '', gross_value: 0, net_value: 0, no_of_listing: '' },
     },
   },
   loading: false,

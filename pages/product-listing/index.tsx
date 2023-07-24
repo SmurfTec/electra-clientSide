@@ -44,7 +44,7 @@ const usedProductListingData = {
 };
 
 export default function ProductListingPage() {
-  const [condition, setCondition] = useState<string>('New');
+  const [condition, setCondition] = useState<string>('Used');
   return (
     <Container fluid>
       <div className="my-10">
@@ -53,7 +53,7 @@ export default function ProductListingPage() {
       <Grid className="my-10">
         <Grid.Col md={6}>
           
-            {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
+            {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel images={[]} /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
           </div>}
         </Grid.Col>
         <Grid.Col md={6}>

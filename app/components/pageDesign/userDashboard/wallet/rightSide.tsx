@@ -1,9 +1,9 @@
-import { ItemCard, ItemCardProps } from '@elektra/components/card';
+import { ItemCard } from '@elektra/components/card';
 import { Avatar, Button, Center, Divider, Group, Menu, Paper, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
 import { useState } from 'react';
 import { CaretDown, CaretUp, Number2, Search } from 'tabler-icons-react';
 
-const itemCardData: ItemCardProps[] = [
+const itemCardData = [
   {
     color: 'black',
     company: 'AT&T',
@@ -49,10 +49,8 @@ const itemCardData: ItemCardProps[] = [
     sale: true,
   },
   {
-    color: 'black',
-    company: 'AT&T',
     image: '/images/product.png',
-    space: '128GB',
+
     title: 'Iphone 14 Pro Max',
     status: 'Sold',
     price: 1000,
@@ -86,10 +84,10 @@ export const WalletRightSide = () => {
             />
             <Center className="space-x-4">
               <Button
-                styles={(theme)=>({
+                styles={(theme) => ({
                   root: {
                     borderRadius: 20,
-                    width: theme.fn.smallerThan(1150)?70: 90,
+                    width: theme.fn.smallerThan(1150) ? 70 : 90,
                   },
                 })}
                 className="text-[13px] md:text-base font-medium"
@@ -99,7 +97,7 @@ export const WalletRightSide = () => {
               <Button
                 className="text-[13px] px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
-                styles={(theme)=>({
+                styles={(theme) => ({
                   root: {
                     borderRadius: 20,
                     width: 120,
@@ -119,10 +117,10 @@ export const WalletRightSide = () => {
               <Button
                 className="text-[13px]  px-0 md:text-base font-medium text-black"
                 bg={'rgba(241, 241, 241, 1)'}
-                styles={(theme)=>({
+                styles={(theme) => ({
                   root: {
                     borderRadius: 20,
-                    width:115,
+                    width: 115,
                     '&:not([data-disabled]):hover': {
                       backgroundColor: 'rgba(241, 241, 241, 5)',
                     },
@@ -132,9 +130,7 @@ export const WalletRightSide = () => {
                 Payouts
               </Button>
             </Center>
-            <Text className="text-[10px] md:text-sm font-medium">
-              Following Transactions has been processed
-            </Text>
+            <Text className="text-[10px] md:text-sm font-medium">Following Transactions has been processed</Text>
           </Stack>
           <Menu
             closeOnItemClick={true}
@@ -159,7 +155,7 @@ export const WalletRightSide = () => {
             <Menu.Target>
               <Button
                 variant="outline"
-                className='text-[13px] md:text-base font-normal'
+                className="text-[13px] md:text-base font-normal"
                 rightIcon={opened ? <CaretUp size={15} /> : <CaretDown size={15} />}
                 styles={{
                   root: {
@@ -183,23 +179,21 @@ export const WalletRightSide = () => {
         </Group>
         <Divider my={20} />
         <ScrollArea h={290}>
-        {itemCardData.map((item, index) => (
-          <div key={index}>
-            <ItemCard
-              color={item.color}
-              company={item.company}
-              image={item.image}
-              space={item.space}
-              title={item.title}
-              date={item.date}
-              price={item.price}
-              sale={item.sale}
-              key={index}
-              status={item.status}
-            />
-            {itemCardData.length !== index + 1 && <Divider key={index+1} />}
-          </div>
-        ))}
+          {itemCardData.map((item, index) => (
+            <div key={index}>
+              <ItemCard
+                image={item.image}
+                productVariants={[]}
+                title={item.title}
+                date={item.date}
+                price={item.price}
+                sale={item.sale}
+                key={index}
+                status={item.status}
+              />
+              {itemCardData.length !== index + 1 && <Divider key={index + 1} />}
+            </div>
+          ))}
         </ScrollArea>
       </Paper>
     </>

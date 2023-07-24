@@ -1,9 +1,22 @@
+import { RootState } from '@elektra/store';
 import { Divider, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useSelector } from 'react-redux';
 
-export const useTechinalSpecificationDrawer = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+type TechinalSpecificationDrawerData= {
+  title:string,
+  value:string,
+}
+type useTechinalSpecificationDrawerProps = {
+  techinalSpecificationDrawerData :Array<TechinalSpecificationDrawerData>
+}
+
+export const useTechinalSpecificationDrawer = ({techinalSpecificationDrawerData}:useTechinalSpecificationDrawerProps): [
+  React.ReactNode,
+  boolean,
+  { open: () => void; close: () => void }
+] => {
   const [opened, { open, close }] = useDisclosure(false);
-
   const Modal = (
     <Stack align="stretch" spacing="xl" className="mt-6">
       <TextInput
@@ -13,50 +26,17 @@ export const useTechinalSpecificationDrawer = (): [React.ReactNode, boolean, { o
         className="w-full px-2"
         placeholder="Filter Specification"
       />
-      <div>
-        <Title order={5} className="font-medium">
-          MPN
-        </Title>
-        <Text size={'sm'} >
-          535MWRL4355
-        </Text>
-        <Divider className="mt-2" />
-      </div>
-      <div>
-        <Title order={5} className="font-medium">
-          Storage
-        </Title>
-        <Text size={'sm'} >
-          128 GB
-        </Text>
-        <Divider className="mt-2" />
-      </div>
-      <div>
-        <Title order={5} className="font-medium">
-          Model No
-        </Title>
-        <Text size={'sm'} >
-          43GG
-        </Text>
-        <Divider className="mt-2" />
-      </div>
-      <div>
-        <Title order={5} className="font-medium">
-          Release Date
-        </Title>
-        <Text size={'sm'} >
-          20 Aug 2022
-        </Text>
-        <Divider className="mt-2" />
-      </div>
-      <div>
-        <Title order={5} className="font-medium">
-          RAM
-        </Title>
-        <Text size={'sm'} >
-          8GB
-        </Text>
-      </div>
+      {techinalSpecificationDrawerData.map((item, key) => {
+        return (
+          <div key={key + item?.title}>
+            <Title order={5} className="font-medium">
+              {item?.title}
+            </Title>
+            <Text size={'sm'}>{item?.value}</Text>
+            <Divider className="mt-2" />
+          </div>
+        );
+      })}
     </Stack>
   );
   return [Modal, opened, { open, close }];

@@ -1,32 +1,71 @@
-import { useStylesforGlobal } from '@elektra/customComponents';
-import { RootState, useSelector } from '@elektra/store';
+import { http, useStylesforGlobal } from '@elektra/customComponents';
+import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/store';
 import { Button, createStyles, Grid, Group, Select, SelectItem, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { joiResolver, useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { City, Country, State } from 'country-state-city';
+import Joi from 'joi';
+import { useState } from 'react';
 import { CaretDown } from 'tabler-icons-react';
 
 export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { classes } = useStyles();
+  const dispatch = useAppDispatch();
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
-  const defaultCountry = 'PK';
+  const defaultCountry = 'US';
   const initialValues = {
     address1: profile?.shipping_address_line_1 ?? '',
     address2: profile?.shipping_adress_line_2 ?? '',
-    country: profile?.shipping_country ?? defaultCountry,
-    state: profile?.shipping_stateorprovince ?? '',
+    country: profile?.shipping_country_code ?? defaultCountry,
+    state: profile?.shipping_stateorprovince_code ?? '',
     city: profile?.shipping_city ?? '',
     postalCode: profile?.shipping_postalcode ?? '',
   };
-
+  const schema = Joi.object({
+    address1: Joi.string().optional(),
+    address2: Joi.string().optional(),
+    country: Joi.string().required(),
+    state: Joi.string().required(),
+    city: Joi.string().required(),
+    postalCode: Joi.string().required(),
+  });
   const form = useForm({
     initialValues: initialValues,
-    validate: {},
+    validate: joiResolver(schema),
   });
-  const handleSubmit = (values: typeof initialValues) => {
-    console.log(values)
+  const handleSubmit = async (values: typeof initialValues) => {
+    setLoading(true);
+    const country = Country.getCountryByCode(values.country);
+    const state = State.getStateByCodeAndCountry(values.state,values.country);
+    const data = {
+      shipping_address_line_1:values.address1,
+      shipping_adress_line_2:values.address2,
+      shipping_country_code:values.country,
+      shipping_country:country?.name,
+      shipping_stateorprovince_code:values.state,
+      shipping_stateorprovince:state?.name,
+      shipping_city:values.city,
+      shipping_postalcode:Number(values.postalCode)
+    }
+      const res = await http.request({
+        url: 'users/me',
+        method: 'PATCH',
+        data
+      });
+      if (res.isError) {
+        setLoading(false);
+      } else {
+        const user = res.data['user'];
+        const profile = user['profile'];
+        delete user['profile'];
+        dispatch(updateUser({ isAuthenticated: true, user, profile }));
+        setLoading(false);
+        close()
+    }
+
   };
 
   const countryTransformer = () => {
@@ -123,10 +162,10 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
           </Grid.Col>
           <Grid.Col xs={8}>
             <Group className="ml-55 mt-4" spacing={'xl'}>
-              <Button onClick={close} className="xs:w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
+              <Button onClick={close} disabled={loading} className="xs:w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
                 Cancel
               </Button>
-              <Button type="submit" className="xs:w-1/3" size={'lg'}>
+              <Button type="submit" loading={loading} className="xs:w-1/3" size={'lg'}>
                 Update
               </Button>
             </Group>

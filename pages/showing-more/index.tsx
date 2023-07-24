@@ -1,6 +1,9 @@
 import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { RootState, initStore, loadListingProducts, loadMoreProducts, useAppDispatch, useSelector } from '@elektra/store';
 import { Container, Divider, Text } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const carouselData = [
   {
@@ -53,7 +56,7 @@ const bannerData: BannerProps[] = [
     id: 1,
     image: '/images/banner/Iphone.png',
     link: '/shop',
-    title: 'NEW APPLE',
+    title: 'new APPLE',
     heading: 'Iphone 14 Pro',
     label: 'Shop Today',
   },
@@ -62,19 +65,19 @@ const bannerData: BannerProps[] = [
 const productData: ProductCardProps[] = [
   {
     image: '/images/product.png',
-    link: '/product-detail',
+    id: 0,
     title: 'Iphone X',
     description: '9/10 condition with charger and box',
-    rating: 'New',
+    condition: 'new',
     wishlist: true,
     lowestPrice: null,
     highestPrice: 500,
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    link: '/product-detail',
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -83,9 +86,9 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    link: '/product-detail',
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -94,9 +97,10 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
+
     image: '/images/product.png',
-    link: '/product-detail',
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -105,9 +109,9 @@ const productData: ProductCardProps[] = [
     price: 187,
   },
   {
-    
+    condition: 'new',
     image: '/images/product.png',
-    link: '/product-detail',
+    id: 0,
     title: 'Iphone 14 Pro max',
     description: '9/10 condition with charger and box',
     wishlist: false,
@@ -117,10 +121,47 @@ const productData: ProductCardProps[] = [
   },
 ];
 
+export async function getServerSideProps(context: NextPageContext) {
+ 
+  const store = initStore();
+  console.log(context.query['show-more']);
+  // const products = store.dispatch(loadMoreProducts(String(context.query['show-more'])));
+  // await Promise.all([products]);
+  return {
+    props: {
+      // products: store.getState().entities.productDetail.list.product,
+    },
+  };
+}
 
 export function ShowingMore() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
+   const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
   const search = router.query['show-more'];
+  const handleFilter = async (label: string, value: string, id: number) => {
+    const productId = Number(router.query['id']);
+    let newParams = params;
+    const existParam = newParams.find((item) => item.id === id);
+
+    if (existParam) {
+      newParams = params.filter((item) => item.id !== id);
+      if (existParam.value !== value) newParams = [...newParams, { label, value, id }];
+
+      setParams(newParams);
+    } else {
+      newParams = [...newParams, { label, value, id }];
+      setParams(newParams);
+    }
+    if (newParams.length === 0) {
+      dispatch(loadListingProducts(productId));
+      return;
+    }
+    const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
+    dispatch(loadListingProducts(productId, '&' + paramString));
+
+  };
   return (
     <div>
       <Container fluid>
@@ -134,7 +175,7 @@ export function ShowingMore() {
           <Divider mt={15} />
         </section>
         <div className="mt-5">
-          <ItemFilter />
+          <ItemFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
         </div>
         <section className="mt-5">
           <SectionTitle title="1000+ Results for iphone" />
@@ -145,9 +186,9 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -168,9 +209,9 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -191,9 +232,9 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}
@@ -214,9 +255,9 @@ export function ShowingMore() {
                   key={index}
                   image={product.image}
                   description={product.description}
-                  link={product.link}
+                  id={product.id}
                   title={product.title}
-                  rating={product.rating}
+                  condition={product.condition}
                   wishlist={product.wishlist}
                   lowestPrice={product.lowestPrice ?? null}
                   highestPrice={product.highestPrice ?? null}

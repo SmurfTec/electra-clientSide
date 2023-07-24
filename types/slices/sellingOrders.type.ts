@@ -1,7 +1,9 @@
+import { OrderPurchasingCompleted } from "./purchasingOrders.type";
+
 export type SellingOrders ={
   sellingActiveOrders: OrdersSellingActive;
-  sellingCompletedOrders:  OrdersSellingActive;
-  sellingPendingOrders:  OrdersSellingActive;
+  sellingCompletedOrders:  OrderPurchasingCompleted;
+  sellingPendingOrders:  OrderPurchasingCompleted;
 };
 
 export type OrdersSellingActive = {

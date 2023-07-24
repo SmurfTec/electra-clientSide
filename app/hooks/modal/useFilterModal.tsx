@@ -2,6 +2,7 @@ import { FilterDisplay, FilterDisplayPrice, FilterMenu, FilterPrice, Only } from
 import { Button, Flex, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
+import { FilterVariant, Variant } from '@elektra/types';
 
 const colorData = ['Black', 'Red', 'Blue', 'Green', 'Gold'];
 const conditionData = ['Poor', 'Fair', 'Good', 'Great', 'Flawless'];
@@ -10,7 +11,12 @@ const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
 const brandData = ['Apple', 'Sumsang', 'Oneplus', 'Song', 'Nothing'];
 const phoneData = ['11 Pro Max', 'Ultra 22', '7 Pro', '14 Pro', 'Ultra 23'];
 
-export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+type ProductFilterProps = {
+  data: FilterVariant[];
+  fetchListings : (label:string,value:string, id: number)=>void
+};
+
+export const useFilterModal = ({data,fetchListings}:ProductFilterProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [condition, setCondition] = useState<Array<string>>([]);
   const [color, setColor] = useState<Array<string>>([]);
@@ -32,7 +38,7 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
   };
   const Modal = (
     <div className="mt-5">
-      <Only
+      {/* <Only
         when={
           condition.length != 0 ||
           color.length != 0 ||
@@ -71,20 +77,23 @@ export const useFilterModal = (): [React.ReactNode, boolean, { open: () => void;
             <FilterDisplay setState={setCondition} state={condition} label="Condition" />
           </div>
         </div>
-      </Only>
+      </Only> */}
       <div className="mt-5">
         <Text size={15} className="text-black font-semibold my-5">
           Apply Filters
         </Text>
         <Flex gap={10} wrap={'wrap'}>
-          <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
+        {/* {data?.map((item) => (
+          <FilterMenu key={item.id} filterId={item.id} data={item.values} filterState={setCondition} state={condition} label={item.title} fetchListings={fetchListings} />
+        ))} */}
+          {/* <FilterMenu data={phoneData} setState={setPhone} state={phone} label="Phones" width={120} />
           <FilterMenu data={brandData} setState={setBrand} state={brand} label="Brands" width={117} />
           <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
           <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
           <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
           <FilterPrice setState={setHighRange} state={highRange} label="Highest Offer" width={148} />
           <FilterPrice setState={setLowRange} state={lowRange} label="Lowest Offer" width={148} />
-          <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
+          <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} /> */}
         </Flex>
       </div>
       <Button mt={30} mb={15}>

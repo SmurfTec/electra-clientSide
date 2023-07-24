@@ -3,37 +3,29 @@ import { Dispatch, SetStateAction } from 'react';
 import { LetterX } from 'tabler-icons-react';
 
 type FilterDisplayProps = {
-  label: string;
-  state: Array<string>;
-  setState: Dispatch<SetStateAction<Array<string>>>;
+  filter: { id: number; label: string; value: string };
+  setState: Dispatch<SetStateAction<Array<{ id: number; label: string; value: string }>>>;
 };
 
-export const FilterDisplay = ({ label, state, setState }: FilterDisplayProps) => {
+export const FilterDisplay = ({ filter, setState }: FilterDisplayProps) => {
   const { classes } = useStyles();
-  const handleStateClose = (value: string) => {
-    setState(state.filter((item) => item !== value));
+  const handleStateClose = (value: number) => {
+    setState((prev)=>prev.filter((item) => item.id !== value));
   };
   return (
-    <>
-      {state.length != 0 && (
-        <Stack align='start'>
-          <Text className="text-base font-medium">{label}</Text>
-          <Center inline className="space-x-2">
-            {state.map((item, index) => (
-              <Button
-                key={index}
-                classNames={{ root: classes.filterbuttonRoot }}
-                className="text-black w-auto"
-                rightIcon={<LetterX size={'14px'} />}
-                onClick={() => handleStateClose(item)}
-              >
-                {item}
-              </Button>
-            ))}
-          </Center>
-        </Stack>
-      )}
-    </>
+    <Stack align="start">
+      <Text className="text-base font-medium">{filter?.label}</Text>
+      <Center inline className="space-x-2">
+        <Button
+          classNames={{ root: classes.filterbuttonRoot }}
+          className="text-black w-auto"
+          rightIcon={<LetterX size={'14px'} />}
+          onClick={() => handleStateClose(filter.id)}
+        >
+          {filter?.value}
+        </Button>
+      </Center>
+    </Stack>
   );
 };
 

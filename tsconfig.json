@@ -20,6 +20,6 @@
       "@elektra/types": ["./types"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/slices/.type.ts"],
   "exclude": ["node_modules"]
 }

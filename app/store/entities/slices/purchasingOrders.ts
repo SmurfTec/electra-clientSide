@@ -4,8 +4,8 @@ import { OrderPurchasingActive, OrderPurchasingCompleted, PurchasingOrders } fro
 import { createSlice } from '@reduxjs/toolkit';
 
 const OrderPurchasingActiveURL = '/bids/me';
-const OrderPurchasingCompletedURL = '/orders/me?status=completed';
-const OrderPurchasingPendingURL = '/orders/me?status=pending';
+const OrderPurchasingCompletedURL = '/orders/me/purchasing?status=completed';
+const OrderPurchasingPendingURL = '/orders/me/purchasing?status=pending';
 
 type OrdersSlice = {
   list: PurchasingOrders

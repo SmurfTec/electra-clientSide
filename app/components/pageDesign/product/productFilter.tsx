@@ -1,41 +1,52 @@
-import { FilterDisplay, FilterDisplayPrice, FilterMenu, FilterPrice } from '@elektra/customComponents';
+import { FilterDisplay, FilterMenu } from '@elektra/customComponents';
+import { FilterVariant } from '@elektra/types';
 import { Flex, Group } from '@mantine/core';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 const colorData = ['Black', 'Red', 'Blue', 'Green', 'Gold'];
 const conditionData = ['Poor', 'Fair', 'Good', 'Great', 'Flawless'];
 const capacityData = ['64GB', '128GB', '256GB', '512GB', '1TB'];
 const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
 
-export const ProductFilter = () => {
-  const [condition, setCondition] = useState<Array<string>>([]);
-  const [color, setColor] = useState<Array<string>>([]);
-  const [capacity, setCapacity] = useState<Array<string>>([]);
-  const [carrier, setCarrier] = useState<Array<string>>([]);
-  const [rangePrice, setRangePrice] = useState<Array<number>>([]);
+type ProductFilterProps = {
+  data: FilterVariant[];
+  filter: Array<{ id: number; label: string; value: string }>;
+  setFilter: Dispatch<SetStateAction<Array<{ id: number; label: string; value: string }>>>;
+  fetchListings: (label: string, value: string, id: number) => void;
+};
+export const ProductFilter = ({ data, filter, setFilter, fetchListings }: ProductFilterProps) => {
   return (
-    <Group position="apart">
+    <div>
       <Flex wrap={'nowrap'} gap={20}>
-        <FilterDisplay setState={setCondition} state={condition} label="Condition" />
-        <FilterDisplay setState={setColor} state={color} label="Color" />
-        <FilterDisplay setState={setCapacity} state={capacity} label="Capacity" />
-        <FilterDisplay setState={setCarrier} state={carrier} label="Carrier" />
-        <FilterDisplayPrice setState={setRangePrice} state={rangePrice} label="Price Range" />
+        {filter?.map((item) => (
+          <FilterDisplay key={item.id} setState={setFilter} filter={item} />
+        ))}
       </Flex>
       <div></div>
       <Group
-        className={
-          condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0 || rangePrice.length!=0
-            ? 'sm:-mt-40'
-            : '-mt-16'
-        }
+        // className={
+        //   condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0 || rangePrice.length!=0
+        //     ? 'sm:-mt-40'
+        //     : '-mt-16'
+        // }
+        position="right"
       >
-        <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
+        {data.map((item) => (
+          <FilterMenu
+            key={item.id}
+            filterId={Number(item?.id)}
+            data={item.values}
+            filterState={filter}
+            label={item.title}
+            fetchListings={fetchListings}
+          />
+        ))}
+        {/* <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
         <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
         <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
         <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-        <FilterPrice setState={setRangePrice} state={rangePrice} label='Price Range' width={148} />
+        <FilterPrice setState={setRangePrice} state={rangePrice} label='Price Range' width={148} /> */}
       </Group>
-    </Group>
+    </div>
   );
 };

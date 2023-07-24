@@ -2,7 +2,7 @@ import { AutoCompleteItem, FooterMenu, NotHeader } from '@elektra/components';
 import { Autocomplete, Container, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Search } from 'tabler-icons-react';
 
 type productDataType = {
@@ -48,11 +48,29 @@ const productData: productDataType[] = [
 export function SellingSearch() {
   const router = useRouter();
   const [value, setValue] = useState('');
+  const timeoutRef = useRef<number>(-1);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<string[]>([]);
 
   const phone = useMediaQuery('(max-width: 800px)', false);
   const handleSubmit = (item: productDataType) => {
     setValue(item.title);
     router.push(item.link);
+  };
+  const handleChange = (val: string) => {
+    window.clearTimeout(timeoutRef.current);
+    setValue(val);
+    setData([]);
+
+    if (val.trim().length === 0 || val.includes('@')) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+      timeoutRef.current = window.setTimeout(() => {
+        setLoading(false);
+        setData(['gmail.com', 'outlook.com', 'yahoo.com'].map((provider) => `${val}@${provider}`));
+      }, 1000);
+    }
   };
   return (
     <div>
@@ -73,7 +91,7 @@ export function SellingSearch() {
             item.value === '__show-more'
           }
           value={value}
-          onChange={setValue}
+          onChange={handleChange}
           onItemSubmit={handleSubmit}
           withinPortal={true}
           nothingFound={<div>No Product Found</div>}
