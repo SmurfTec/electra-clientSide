@@ -22,16 +22,15 @@ export const FilterMenu = ({ label, data, filterState, fetchListings, filterId, 
     }
     setState(value);
   };
-  useEffect(()=>{
-    console.log(filterState,state)
-    if(filterState?.length!==0&&state){
-      if(filterState?.some((item)=>item.value!==state))
-      setState('');
-      console.log(state)
-    console.log(filterState?.some((item)=>item.value===state))
-    // setState('');
+  useEffect(() => {
+    console.log(filterState, state);
+    if (filterState?.length !== 0 && state) {
+      if (filterState?.some((item) => item.value !== state)) setState('');
+      console.log(state);
+      console.log(filterState?.some((item) => item.value === state));
+      // setState('');
     }
-  },[filterState,state])
+  }, [filterState, state]);
   return (
     <Menu
       closeOnItemClick={false}
@@ -60,24 +59,21 @@ export const FilterMenu = ({ label, data, filterState, fetchListings, filterId, 
         </Button>
       </Menu.Target>
       <Menu.Dropdown>
-        {data
-          .map((item, index) => (
-            <div key={index}>
-              <Menu.Item
-                key={index}
-                rightSection={
-                  state.includes(item) ? (
-                    <CircleCheck size={17} color="white" fill="rgba(60, 130, 214, 1)" />
-                  ) : undefined
-                }
-                className="text-base  text-black font-normal"
-                onClick={() => handleState(item)}
-              >
-                {item}
-              </Menu.Item>
-              {data.length !== index + 1 && <Menu.Divider key={index + 1} />}
-            </div>
-          ))}
+        {data.map((item, index) => (
+          <div key={index}>
+            <Menu.Item
+              key={index}
+              rightSection={
+                state.includes(item) ? <CircleCheck size={17} color="white" fill="rgba(60, 130, 214, 1)" /> : undefined
+              }
+              className="text-base  text-black font-normal"
+              onClick={() => handleState(item)}
+            >
+              {item}
+            </Menu.Item>
+            {data.length !== index + 1 && <Menu.Divider key={index + 1} />}
+          </div>
+        ))}
       </Menu.Dropdown>
     </Menu>
   );

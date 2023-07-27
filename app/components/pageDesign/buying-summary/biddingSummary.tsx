@@ -1,40 +1,40 @@
 import { Modal, Only, PencilButton, TransparentButton, useStylesforGlobal } from '@elektra/customComponents';
-import { useDiscountModal, useOfferPlaceModal } from '@elektra/hooks';
+import { useDiscountModal } from '@elektra/hooks';
+import { RootState } from '@elektra/store';
 import { Avatar, Button, Divider, Grid, Group, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export type BiddingSummaryProps = {
-  yourOffer?: number;
   itemPrice?: number;
   marketPlaceFee: number;
   salesTax: number;
   shippingFee: number;
-  discount: number;
   totalPrice: number;
   disabled?: boolean;
   protectionPlan?: string;
   onClick?: () => void;
-  reciptFee:string
+  reciptFee:Array<{id:number,fees:number,title:string}>
 };
 
 export function BiddingSummary({
-  yourOffer,
   itemPrice,
   marketPlaceFee,
   salesTax,
   shippingFee,
-  discount,
   totalPrice,
   disabled,
   protectionPlan,
   onClick,
-  reciptFee
-}: BiddingSummaryProps) {
+}: // reciptFee,
+BiddingSummaryProps) {
   const router = useRouter();
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
+  const isOfferType = router.query.orderType === 'placeOffer';
   const { classes } = useStylesforGlobal();
+  const yourOffer = router.query.bidPrice;
   // const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
-  const isBuying = router.query['condition'] === 'buying';
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'hidden' }}
@@ -42,29 +42,30 @@ export function BiddingSummary({
     >
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
-          {yourOffer ? 'Your Offer' : 'Item Price'}
+          {isOfferType ? 'Your Offer' : 'Item Price'}
           <Only when={!disabled}>
             <PencilButton />
           </Only>
         </Text>
         <Text className="font-bold" color="black" size="xl">
-          ${yourOffer ?? itemPrice}
+          ${isOfferType ? yourOffer : itemPrice}
         </Text>
       </Group>
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
+      {reciptFee.map((item,index)=>(<PositionApart key={index+item.id} text={item.title} number={item.fees} />))}
+      {/* <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart text={'SHIPPING FEE'} number={shippingFee} />
       <Only when={!disabled}>
-        <PositionApart text={'DISCOUNT'} number={discount} discount={true} />
+        <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} />
       </Only>
       <Only when={!!disabled}>
         <PositionApart text={'PLATFORM FEE'} number={5} discount={false} />
-        <PositionApart text={'DISCOUNT'} number={discount} discount={false} />
+        <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={false} />
       </Only>
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
+      <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} /> */}
       <Only when={!disabled}>
         <Grid>
           <Grid.Col span={6}>

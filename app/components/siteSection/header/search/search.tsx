@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { HeaderSearch } from './headerSearch';
 import { SearchResult } from './searchResult';
+import { useRouter } from 'next/router';
 
 const categoryData = [
   {
@@ -76,6 +77,7 @@ type SearchProps = {
 };
 
 export const Search = ({ close }: SearchProps) => {
+  const router = useRouter()
   const [search, setSearch] = useState('');
   const [data, setdata] = useState<
     Array<{
@@ -85,6 +87,7 @@ export const Search = ({ close }: SearchProps) => {
       modal: string;
     }>
   >([]);
+  const [suggestions, setSuggestions] = useState<Array<{title:string}>>([]);
   const [loading, setLoading] = useState(false);
   const [debounced] = useDebouncedValue(search, 500);
   const handleChange = async (val: string) => {
@@ -93,16 +96,21 @@ export const Search = ({ close }: SearchProps) => {
       url: `products/?title=%${val}%&limit=7&page=1`,
       method: 'GET',
     });
-    if (res.isError) {
+    const sug = await http.request({
+      url: `products/suggestions/${val}`,
+      method: 'GET',
+    });
+    if (res.isError || sug.isError) {
       setLoading(false);
     } else {
       const productData = res?.data?.['products']?.map((item: Product) => ({
         id: item?.id,
         title: item?.title,
         image: baseURL + '/' + item.images?.[0].filename,
-        modal: 'NID',
+        modal: item?.product_properties?.model_no,
       }));
       setdata(productData);
+      setSuggestions(sug.data['products']);
       setLoading(false);
     }
   };
@@ -142,23 +150,23 @@ export const Search = ({ close }: SearchProps) => {
               <Center>No Item</Center>
             )}
           </SimpleGrid>
-          {data?.length !== 0 && (
+          {suggestions?.length !== 0 && (
             <div className="mt-16">
               <Text className="text-sm font-medium">Suggestions</Text>
               <Group position="apart">
                 <Center className="space-x-4">
-                  <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
-                    Iphone 14 Pro Max
-                  </Text>
-                  <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
-                    Iphone 13 Pro Max
-                  </Text>
-                  <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
-                    Iphone 12 Pro Max
-                  </Text>
-                  <Text className="text-base font-medium" component={NextLink} href={'/product-detail'} onClick={close}>
-                    Iphone 11 Pro
-                  </Text>
+                  {suggestions.map((item, index) => (
+                    <Text
+                      key={item.title + index}
+                      className="text-base font-medium cursor-pointer"
+                      onClick={()=>{
+                        router.push(`/showing-more?show-more=${item.title}`)
+                        close()
+                      }}
+                    >
+                      {item.title}
+                    </Text>
+                  ))}
                 </Center>
                 <Center className="space-x-3">
                   <Text className="text-base font-semibold text-black">More Results</Text>

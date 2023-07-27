@@ -1,11 +1,4 @@
-import {
-  BiddingSummary,
-  BiddingSummaryProps,
-  PageTitle,
-  ProductDetail,
-  ProtectPlan,
-  SummaryFooter,
-} from '@elektra/components';
+import { BiddingSummary, PageTitle, ProductDetail, ProtectPlan, SummaryFooter } from '@elektra/components';
 import { Modal, baseURL, http, isAuthenticated } from '@elektra/customComponents';
 import { useOfferPlaceModal } from '@elektra/hooks';
 import { RootState, initStore, useAppDispatch, useSelector } from '@elektra/store';
@@ -32,15 +25,6 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-const BiddingSummaryData: BiddingSummaryProps = {
-  yourOffer: 437,
-  marketPlaceFee: 5,
-  salesTax: 3,
-  shippingFee: 15,
-  discount: 0,
-  totalPrice: 460,
-};
-
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
@@ -59,7 +43,6 @@ type BuyingSummaryPageProps = {
 
 export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageProps) {
   const router = useRouter();
-  const isOffer = router.query['type'] === 'offer';
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
   const protectionPlan = protectionPlanData.protectionplans;
@@ -84,7 +67,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       unsubscribe = true;
     };
   }, []);
-
+  const isOfferType = router.query.orderType === 'placeOffer';
   const profile = useSelector((state: RootState) => state.auth.profile);
   console.log(plan);
 
@@ -123,7 +106,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
   return (
     <Radio.Group mt={50} value={String(plan)} onChange={(value) => setPlan(Number(value))}>
-      <PageTitle title={isOffer ? 'Offer Summary' : 'Buying Summary'} />
+      <PageTitle title={isOfferType ? 'Offer Summary' : 'Buying Summary'} />
 
       <Grid>
         <Grid.Col xs={12} sm={6}>
@@ -147,8 +130,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         <Grid.Col xs={12} sm={6}>
           <div className=" relative h-full">
             <BiddingSummary
-              yourOffer={Number(productDetail.product.highest_offer)}
-              discount={0}
               itemPrice={0}
               marketPlaceFee={0}
               salesTax={0}

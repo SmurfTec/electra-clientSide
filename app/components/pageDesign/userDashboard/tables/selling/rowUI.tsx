@@ -22,7 +22,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
               }}
               radius="xl"
               component={NextLink}
-              href="/product-listing"
+              href={`/product-listing/${row.original.id}`}
             >
               Sell Now
             </Button>

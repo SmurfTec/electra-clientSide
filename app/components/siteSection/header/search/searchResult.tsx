@@ -28,7 +28,7 @@ export const SearchResult = ({ id,image, title, modal,close }: ResultCardProps) 
             strokeWidth={1.5}
           />
       </Group>
-      {/* <Badge component={NextLink} href="/shop" bg='rgba(60, 130, 214, 1)' className='text-white' radius={2}>Model : {modal}</Badge> */}
+      <Badge bg='rgba(60, 130, 214, 1)' className='text-white' radius={2}>Model : {modal}</Badge>
     </Stack>
   );
 };

@@ -214,14 +214,14 @@ const productData: ProductCardProps[] = [
 
 export default function ShopPage() {
   const [activePage, setPage] = useState(1);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
 
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
       <Image className="mt-4" src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
       <div className="my-4">
-        <Group position="apart">
+        {/* <Group position="apart">
           <Only when={matches}>
             <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
@@ -230,10 +230,10 @@ export default function ShopPage() {
         </Group>
         <Only when={!matches}>
           <ItemFilter />
-        </Only>
+        </Only> */}
       </div>
       <SectionTitle title="All Phones" />
-      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} /> */}
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
         {productData.map((product, index) => {
           return (

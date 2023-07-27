@@ -67,7 +67,7 @@ export function SellingSearch() {
         image: baseURL + '/' + item.images?.[0].filename,
         link: `/product-listing/${item.id}`,
         title: item?.title,
-        modal: 'NID',
+        modal: item.product_properties.model_no,
         value: item?.title,
         label: item?.title,
         category: item.category.name,
