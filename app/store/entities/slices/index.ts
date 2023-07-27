@@ -10,3 +10,4 @@ export * from './orderDetail'
 export * from "./productListing"
 export * from "./productVariants"
 export * from "./proudctListingById"
+export * from "./coupon"

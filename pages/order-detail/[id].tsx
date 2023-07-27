@@ -1,4 +1,4 @@
-import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
+import { BiddingSummary, PageTitle, ProductDetail } from '@elektra/components';
 import { Drawer, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useTechinalSpecificationDrawer } from '@elektra/hooks';
 import {
@@ -85,6 +85,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="h-full relative">
             <BiddingSummary
+              reciptFee="0"
               // yourOffer={BiddingSummaryData.yourOffer}
               reciptFee={orderDetail.receipt_fees!}
               discount={0}

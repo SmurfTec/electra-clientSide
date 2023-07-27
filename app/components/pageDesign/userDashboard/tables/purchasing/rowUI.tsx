@@ -15,16 +15,16 @@ export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellC
     case 'action':
       return (
         <div>
-          <Modal
+          {/* <Modal
               title="Edit Offer"
               size={500}
               children={OfferEditModal}
               onClose={offerEditHandler.close}
               open={offerEditOpened}
-            />
-          <ActionIcon onClick={offerEditHandler.open}>
+            /> */}
+          {/* <ActionIcon onClick={offerEditHandler.open}>
             <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
-          </ActionIcon>
+          </ActionIcon> */}
         </div>
       );
     default:
