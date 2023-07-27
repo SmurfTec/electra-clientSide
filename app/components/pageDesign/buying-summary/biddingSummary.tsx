@@ -15,7 +15,7 @@ export type BiddingSummaryProps = {
   disabled?: boolean;
   protectionPlan?: string;
   onClick?: () => void;
-  reciptFee:string
+  reciptFee:Array<{id:number,fees:number,title:string}>
 };
 
 export function BiddingSummary({
@@ -53,7 +53,8 @@ export function BiddingSummary({
       </Group>
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
+      {reciptFee.map((item,index)=>(<PositionApart key={index+item.id} text={item.title} number={item.fees} />))}
+      {/* <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart text={'SHIPPING FEE'} number={shippingFee} />
       <Only when={!disabled}>
@@ -64,7 +65,7 @@ export function BiddingSummary({
         <PositionApart text={'DISCOUNT'} number={discount} discount={false} />
       </Only>
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} />
+      <PositionApart text={'TOTAL PRICE'} number={totalPrice} numberColor={'#3C82D6'} /> */}
       <Only when={!disabled}>
         <Grid>
           <Grid.Col span={6}>

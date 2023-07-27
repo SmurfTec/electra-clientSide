@@ -15,27 +15,6 @@ import { format } from 'date-fns';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
 
-const productDetailData = {
-  image: '/images/product.png',
-  title: 'Iphone 14 Pro Max',
-  space: '128 GB',
-  color: 'Black',
-  company: 'AT&T',
-  condition: 'New',
-  expiration: '23/10/2023',
-  cardDetails: '3646 **** **** ****',
-  address: '16 Street , Town Abc, City, USA , 213434',
-  saleDate: '23/10/2023',
-};
-
-const BiddingSummaryData: BiddingSummaryProps = {
-  itemPrice: 437,
-  marketPlaceFee: 5,
-  salesTax: 3,
-  shippingFee: 15,
-  discount: 0,
-  totalPrice: 460,
-};
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
@@ -107,6 +86,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
           <div className="h-full relative">
             <BiddingSummary
               // yourOffer={BiddingSummaryData.yourOffer}
+              reciptFee={orderDetail.receipt_fees!}
               discount={0}
               itemPrice={orderDetail?.saleprice}
               marketPlaceFee={0}
