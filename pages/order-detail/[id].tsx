@@ -1,4 +1,4 @@
-import { BiddingSummary, BiddingSummaryProps, PageTitle, ProductDetail } from '@elektra/components';
+import { BiddingSummary, PageTitle, ProductDetail } from '@elektra/components';
 import { Drawer, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useTechinalSpecificationDrawer } from '@elektra/hooks';
 import {
@@ -28,14 +28,14 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-const BiddingSummaryData: BiddingSummaryProps = {
-  itemPrice: 437,
-  marketPlaceFee: 5,
-  salesTax: 3,
-  shippingFee: 15,
-  discount: 0,
-  totalPrice: 460,
-};
+// const BiddingSummaryData: BiddingSummaryProps = {
+//   itemPrice: 437,
+//   marketPlaceFee: 5,
+//   salesTax: 3,
+//   shippingFee: 15,
+//   discount: 0,
+//   totalPrice: 460,
+// };
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
@@ -106,6 +106,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="h-full relative">
             <BiddingSummary
+              reciptFee="0"
               // yourOffer={BiddingSummaryData.yourOffer}
               discount={0}
               itemPrice={orderDetail?.saleprice}

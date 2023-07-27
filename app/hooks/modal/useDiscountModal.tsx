@@ -1,14 +1,15 @@
-import { Button, NumberInput, Stack, Text } from '@mantine/core';
+import { Modal as CModal } from '@elektra/customComponents';
+import { loadCoupon, useAppDispatch } from '@elektra/store';
+import { Button, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { useRedeemSuccesfullModal } from './useRedeemModal';
-import { Modal as CModal } from '@elektra/customComponents';
 
 export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const [RedeemSuccessfulModal, openedSuccess, redeemHandler] = useRedeemSuccesfullModal();
 
   const form = useForm({
@@ -20,11 +21,12 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
     },
   });
   const handleSubmit = (code: string) => {
-    if (Number(code) === 1234) {
-      setError(false);
-      console.log(code);
-    }
-    setError(true);
+    dispatch(loadCoupon(code));
+    // if (Number(code) === 1234) {
+    //   setError(false);
+    //   console.log(code);
+    // }
+    // setError(true);
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
@@ -39,12 +41,10 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
         </Text>
       )}
       <form onSubmit={form.onSubmit(({ code }) => handleSubmit(code))}>
-        <NumberInput
+        <TextInput
           className="w-[100%] mr-20"
           size="lg"
-          type="number"
           min={0}
-          hideControls
           styles={{
             input: {
               borderRadius: 'unset',
@@ -63,8 +63,12 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           </Button>
         </div>
       </form>
-      <CModal title="Redeem Successfully" children={RedeemSuccessfulModal} onClose={redeemHandler.close} open={openedSuccess} />
-         
+      <CModal
+        title="Redeem Successfully"
+        children={RedeemSuccessfulModal}
+        onClose={redeemHandler.close}
+        open={openedSuccess}
+      />
     </Stack>
   );
   return [Modal, opened, { open, close }];
