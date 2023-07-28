@@ -68,6 +68,8 @@ export async function getServerSideProps(context: NextPageContext) {
   const productVariants = store.dispatch(loadProductVariants());
 
   await Promise.all([productData, listingData, productVariants]);
+
+  
   return {
     props: {
       productDetail: store.getState().entities.productDetail.list,

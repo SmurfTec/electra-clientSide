@@ -29,6 +29,11 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    couponReset: (state, action) => {
+      state.list.coupon = null;
+      state.list.discount = null;
+    },
+
     couponFailed: (state) => {
       state.loading = false;
     },
@@ -45,6 +50,12 @@ export const rehydrateCoupon = (payload: Coupon) => {
   return {
     type: slice.actions.couponRehydrated.type,
     payload,
+  };
+};
+
+export const resetCoupon = () => {
+  return {
+    type: slice.actions.couponReset.type,
   };
 };
 
