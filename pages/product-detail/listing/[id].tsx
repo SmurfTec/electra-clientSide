@@ -8,17 +8,15 @@ import {
   SalesTable,
   SectionTitle,
 } from '@elektra/components';
-import { Modal, Only, baseURL } from '@elektra/customComponents';
+import { FilterDisplay, Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
-  RootState,
   loadProductListingById,
   loadProductVariants,
   rehydrateProductListingById,
   rehydrateProductVariants,
   store,
   useAppDispatch,
-  useSelector,
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
@@ -30,8 +28,8 @@ import {
   Button,
   Center,
   Divider,
+  Flex,
   Grid,
-  Group,
   Pagination,
   Stack,
   Text,
@@ -105,6 +103,36 @@ export default function ProductPage({ productListing, productVariants, productLi
 
   const [activePage, setPage] = useState(1);
   // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
+
+  const handleFilter = async (label: string, value: string, id: number) => {
+    const productId = Number(router.query['id']);
+    let newParams = params;
+    const existParam = newParams.find((item) => item.id === id);
+
+    if (existParam) {
+      newParams = params.filter((item) => item.id !== id);
+      if (existParam.value !== value) newParams = [...newParams, { label, value, id }];
+
+      setParams(newParams);
+    } else {
+      newParams = [...newParams, { label, value, id }];
+      setParams(newParams);
+    }
+    if (newParams.length === 0) {
+      dispatch(loadListingProducts(productId));
+      return;
+    }
+    const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
+    dispatch(loadListingProducts(productId, '&' + paramString));
+  };
+
+  const productFilters = productVariants.variants;
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
+    data: productFilters,
+    fetchListings: handleFilter,
+  });
+
   const [limit, setLimit] = useState(5);
   const matches = useMediaQuery('(max-width: 800px)', false);
   const filters = useMediaQuery('(max-width: 1100px)', false);
@@ -152,58 +180,81 @@ export default function ProductPage({ productListing, productVariants, productLi
         </Grid.Col>
       </Grid>
       <Divider className="my-4" />
-      <Group position="apart" align="top">
-        <SectionTitle title={`Used ${productListingById.listing.product.title}`} />
+      <Grid>
+        <Grid.Col span={12}>
+          <Flex wrap={'nowrap'} gap={20}>
+            {params?.map((item) => (
+              <FilterDisplay key={item.id} setState={setParams} filter={item} />
+            ))}
+          </Flex>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <SectionTitle title={`Used ${productListingById?.listing?.product?.title}`} />
+        </Grid.Col>
         <Only when={filters}>
-          {/* <Button onClick={filterHandler.open} leftIcon={<Filter />}>
-            Filter
-          </Button> */}
+          <Grid.Col span={6} className="text-right">
+            <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+              Filter
+            </Button>
+          </Grid.Col>
         </Only>
-      </Group>
+
+        <Grid.Col span={6}>
+          <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+          <Only when={!filters}>
+            <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
+          </Only>
+        </Grid.Col>
+      </Grid>
       {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
         <ProductFilter />
       </Only> */}
-      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productListing?.listings?.slice(0, limit).map((product, index) => {
-          return (
-            <ProductCard
-              id={product.id}
-              key={index}
-              image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
-              description={product.condition_details}
-              title={product.product_data.title}
-              condition={product.condition}
-              wishlist={false}
-              lowestPrice={product.lowest_offer || 500}
-              highestPrice={product.highest_offer || 500}
-              price={product.saleprice || 500}
+      <Only when={productListing?.listings?.length !== 0}>
+        <div
+          ref={targetRef}
+          className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
+        >
+          {productListing?.listings?.slice(0, limit).map((product, index) => {
+            return (
+              <ProductCard
+                id={product.id}
+                key={index}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                description={product.condition_details}
+                title={product.product_data.title}
+                condition={product.condition}
+                wishlist={false}
+                lowestPrice={product.lowest_offer || 500}
+                highestPrice={product.highest_offer || 500}
+                price={product.saleprice || 500}
+              />
+            );
+          })}
+        </div>
+
+        <Center className="mt-20 space-x-3">
+          <Only when={limit === 5}>
+            <Text size={16} className="font-[600]" color="black">
+              View More
+            </Text>
+
+            <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+              <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
+            </ActionIcon>
+          </Only>
+          <Only when={limit > 10}>
+            <Pagination
+              className="mb-16"
+              withControls={false}
+              position="center"
+              value={activePage}
+              onChange={(value) => handlePaginatedListing(value)}
+              total={10}
             />
-          );
-        })}
-      </div>
-
-      <Center className="mt-20 space-x-3">
-        <Only when={limit === 5}>
-          <Text size={16} className="font-[600]" color="black">
-            View More
-          </Text>
-
-          <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
-            <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
-          </ActionIcon>
-        </Only>
-        <Only when={limit > 10}>
-          <Pagination
-            className="mb-16"
-            withControls={false}
-            position="center"
-            value={activePage}
-            onChange={(value) => handlePaginatedListing(value)}
-            total={10}
-          />
-        </Only>
-      </Center>
+          </Only>
+        </Center>
+      </Only>
       <div className="mt-4">
         <ProductStats condition="used" />
       </div>

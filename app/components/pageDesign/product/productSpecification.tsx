@@ -11,10 +11,6 @@ export type ProductSpecificationProps = {
   title: string;
   condition: 'new' | 'used';
   productVariants: Variant[];
-  sellerCondition?: string;
-  sellerColor?: string;
-  sellerCapacity?: string;
-  sellerCarrier?: string;
   lowestAsk: number;
   highestAsk: number;
   price: number;
@@ -29,10 +25,6 @@ export function ProductSpecification({
   highestAsk,
   lowestAsk,
   price,
-  sellerCapacity,
-  sellerCarrier,
-  sellerColor,
-  sellerCondition,
   scrollIntoView,
   technicalSpecification,
 }: ProductSpecificationProps) {
@@ -126,43 +118,6 @@ export function ProductSpecification({
               Details From Seller
             </Button>
           </Only>
-
-          {/* <Only when={condition === 'used'}>
-            <div className="space-y-5">
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  CONDITION
-                </Title>
-                <Text size="sm" mt={4}>
-                  {sellerCondition}
-                </Text>
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Color
-                </Title>
-                <Text size="sm" mt={4}>
-                  {sellerColor}
-                </Text>
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Capacity
-                </Title>
-                <Text size="sm" mt={4}>
-                  {sellerCapacity}
-                </Text>
-              </div>
-              <div>
-                <Title className="uppercase font-[600]" order={6}>
-                  Carrier
-                </Title>
-                <Text size="sm" mt={4}>
-                  {sellerCarrier}
-                </Text>
-              </div>
-            </div>
-          </Only> */}
 
           {/* <Only when={condition === 'new'}> */}
           <div className="space-y-3">

@@ -69,6 +69,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   }, []);
   const isOfferType = router.query.orderType === 'placeOffer';
   const profile = useSelector((state: RootState) => state.auth.profile);
+  const coupon = useSelector((state: RootState) => state.entities.coupon.list);
   console.log(plan);
 
   const handleSubmit = async () => {
@@ -79,7 +80,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         method: 'POST',
         data: {
           protection_plan: plan === 0 ? null : plan,
-          coupon: '',
+          coupon: coupon?.coupon ?? null,
         },
       });
 
@@ -130,6 +131,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         <Grid.Col xs={12} sm={6}>
           <div className=" relative h-full">
             <BiddingSummary
+              reciptFee={[]}
               itemPrice={0}
               marketPlaceFee={0}
               salesTax={0}

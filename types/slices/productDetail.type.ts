@@ -37,6 +37,8 @@ type Category = {
   fees: number;
 };
 
+export type condition = "new" | "used"
+
 type Brand = {
   id: number;
   title: string;

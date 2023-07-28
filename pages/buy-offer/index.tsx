@@ -48,13 +48,12 @@ export default function PlaceOffer() {
             productVariants={productDetail?.product.product_variants as Variant[]}
             condition={'new'}
             description={ListingDescriptionData.description}
-            discount={ListingDescriptionData.discount}
             highestAsk={productDetail.product.highest_offer}
             lowestAsk={productDetail.product.lowest_ask}
-            marketPlaceFee={ListingDescriptionData.marketPlaceFee}
-            saleTax={ListingDescriptionData.saleTax}
-            shippingFee={ListingDescriptionData.shippingFee}
-            averageSalePrice={productDetail.stats.stats.avg_sale_price}
+            marketPlaceFee={0}
+            saleTax={0}
+            shippingFee={0}
+            averageSalePrice={productDetail?.stats?.stats?.avg_sale_price}
           />
         </Grid.Col>
       </Grid>

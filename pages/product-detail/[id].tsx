@@ -7,17 +7,15 @@ import {
   ProductStats,
   SectionTitle,
 } from '@elektra/components';
-import { Modal, Only, baseURL } from '@elektra/customComponents';
+import { FilterDisplay, Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
-  RootState,
   loadProductData,
   loadProductVariants,
   rehydrateProductData,
   rehydrateProductVariants,
   store,
   useAppDispatch,
-  useSelector,
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
@@ -29,8 +27,8 @@ import {
   Button,
   Center,
   Divider,
+  Flex,
   Grid,
-  Group,
   Image,
   Pagination,
   Stack,
@@ -135,7 +133,6 @@ export default function ProductPage({ productDetail, productListing, productVari
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, '&' + paramString));
-
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
@@ -184,58 +181,78 @@ export default function ProductPage({ productDetail, productListing, productVari
         </Grid.Col>
       </Grid>
       <Divider className="my-4" />
-      <Group position="apart" align="top">
-        <SectionTitle title={`Used ${productDetail?.product?.title}`} />
+
+      <Grid>
+        <Grid.Col span={12}>
+          <Flex wrap={'nowrap'} gap={20}>
+            {params?.map((item) => (
+              <FilterDisplay key={item.id} setState={setParams} filter={item} />
+            ))}
+          </Flex>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <SectionTitle title={`Used ${productDetail?.product?.title}`} />
+        </Grid.Col>
         <Only when={filters}>
-          <Button onClick={filterHandler.open} leftIcon={<Filter />}>
-            Filter
-          </Button>
+          <Grid.Col span={6} className="text-right">
+            <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+              Filter
+            </Button>
+          </Grid.Col>
         </Only>
-      </Group>
-      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <Only when={!filters}>
-        <ProductFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
-      </Only>
-      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productListing?.listings?.slice(0, limit).map((product, index) => {
-          return (
-            <ProductCard
-              id={product.id}
-              key={index}
-              image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
-              description={product.condition_details}
-              title={product.product_data.title}
-              condition={product.condition}
-              wishlist={false}
-              lowestPrice={product.lowest_offer || 500}
-              highestPrice={product.highest_offer || 500}
-              price={product.saleprice || 500}
+
+        <Grid.Col span={6}>
+          <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+          <Only when={!filters}>
+            <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
+          </Only>
+        </Grid.Col>
+      </Grid>
+      <Only when={productListing?.listings?.length !== 0}>
+        <div
+          ref={targetRef}
+          className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
+        >
+          {productListing?.listings?.slice(0, limit).map((product, index) => {
+            return (
+              <ProductCard
+                id={product.id}
+                key={index}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                description={product.condition_details}
+                title={product.product_data.title}
+                condition={product.condition}
+                wishlist={false}
+                lowestPrice={product.lowest_offer || 500}
+                highestPrice={product.highest_offer || 500}
+                price={product.saleprice || 500}
+              />
+            );
+          })}
+        </div>
+
+        <Center className="mt-20 space-x-3">
+          <Only when={limit === 5}>
+            <Text size={16} className="font-[600]" color="black">
+              View More
+            </Text>
+
+            <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+              <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
+            </ActionIcon>
+          </Only>
+          <Only when={limit > 10}>
+            <Pagination
+              className="mb-16"
+              withControls={false}
+              position="center"
+              value={activePage}
+              onChange={(value) => handlePaginatedListing(value)}
+              total={10}
             />
-          );
-        })}
-      </div>
-
-      <Center className="mt-20 space-x-3">
-        <Only when={limit === 5}>
-          <Text size={16} className="font-[600]" color="black">
-            View More
-          </Text>
-
-          <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
-            <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
-          </ActionIcon>
-        </Only>
-        <Only when={limit > 10}>
-          <Pagination
-            className="mb-16"
-            withControls={false}
-            position="center"
-            value={activePage}
-            onChange={(value) => handlePaginatedListing(value)}
-            total={10}
-          />
-        </Only>
-      </Center>
+          </Only>
+        </Center>
+      </Only>
       <div className="mt-4">
         <ProductStats condition="new" />
       </div>

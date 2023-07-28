@@ -27,7 +27,8 @@ export function BiddingSummary({
   disabled,
   protectionPlan,
   onClick,
-}: // reciptFee,
+  reciptFee,
+}: 
 BiddingSummaryProps) {
   const router = useRouter();
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
@@ -53,7 +54,7 @@ BiddingSummaryProps) {
       </Group>
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-      {reciptFee.map((item,index)=>(<PositionApart key={index+item.id} text={item.title} number={item.fees} />))}
+      {reciptFee?.map((item,index)=>(<PositionApart key={index+item.id} text={item.title} number={item.fees} />))}
       {/* <PositionApart text={'MARKETPLACE FEE'} number={marketPlaceFee} />
       <PositionApart text={'SALES TAX (8.025%)'} number={salesTax} />
       <PositionApart text={'SHIPPING FEE'} number={shippingFee} />
