@@ -176,41 +176,42 @@ export default function ProductPage({ productListing, productVariants, productLi
             lowestAsk={Number(productListingById?.listing?.lowest_offer)}
             price={Number(productListingById?.listing?.user_starting_at)}
             scrollIntoView={scrollIntoView}
+            isListingVisible={productListing?.listings?.length !== 0}
           />
         </Grid.Col>
       </Grid>
-      <Divider className="my-4" />
-      <Grid>
-        <Grid.Col span={12}>
-          <Flex wrap={'nowrap'} gap={20}>
-            {params?.map((item) => (
-              <FilterDisplay key={item.id} setState={setParams} filter={item} />
-            ))}
-          </Flex>
-        </Grid.Col>
-        <Grid.Col span={6}>
-          <SectionTitle title={`Used ${productListingById?.listing?.product?.title}`} />
-        </Grid.Col>
-        <Only when={filters}>
-          <Grid.Col span={6} className="text-right">
-            <Button onClick={filterHandler.open} leftIcon={<Filter />}>
-              Filter
-            </Button>
+      <Only when={productListing?.listings?.length !== 0}>
+        <Divider className="my-4" />
+        <Grid>
+          <Grid.Col span={12}>
+            <Flex wrap={'nowrap'} gap={20}>
+              {params?.map((item) => (
+                <FilterDisplay key={item.id} setState={setParams} filter={item} />
+              ))}
+            </Flex>
           </Grid.Col>
-        </Only>
-
-        <Grid.Col span={6}>
-          <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-          <Only when={!filters}>
-            <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
+          <Grid.Col span={6}>
+            <SectionTitle title={`Used ${productListingById?.listing?.product?.title}`} />
+          </Grid.Col>
+          <Only when={filters}>
+            <Grid.Col span={6} className="text-right">
+              <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+                Filter
+              </Button>
+            </Grid.Col>
           </Only>
-        </Grid.Col>
-      </Grid>
-      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+
+          <Grid.Col span={6}>
+            <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+            <Only when={!filters}>
+              <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
+            </Only>
+          </Grid.Col>
+        </Grid>
+        {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <Only when={!filters}>
         <ProductFilter />
       </Only> */}
-      <Only when={productListing?.listings?.length !== 0}>
         <div
           ref={targetRef}
           className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
@@ -225,9 +226,9 @@ export default function ProductPage({ productListing, productVariants, productLi
                 title={product.product_data.title}
                 condition={product.condition}
                 wishlist={false}
-                lowestPrice={product.lowest_offer || 500}
-                highestPrice={product.highest_offer || 500}
-                price={product.saleprice || 500}
+                lowestPrice={product.lowest_offer}
+                highestPrice={product.highest_offer}
+                price={product.saleprice}
               />
             );
           })}

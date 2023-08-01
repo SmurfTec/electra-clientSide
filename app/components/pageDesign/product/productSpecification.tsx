@@ -16,6 +16,7 @@ export type ProductSpecificationProps = {
   price: number;
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
   technicalSpecification: TechnicalSpecification[];
+  isListingVisible: boolean;
 };
 
 export function ProductSpecification({
@@ -27,6 +28,7 @@ export function ProductSpecification({
   price,
   scrollIntoView,
   technicalSpecification,
+  isListingVisible,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
@@ -39,14 +41,18 @@ export function ProductSpecification({
         <Title className="uppercase mt-6 md:mt-0" color={'#656565'} order={6}>
           About Product
         </Title>
-        <Group position="apart" align="center">
-          <Title className="font-bold uppercase" size={phone ? '20px' : '30px'} color={'black'} order={3}>
-            {title}
-          </Title>
-          <span className="bg-[#D9E2E98F] rounded-2xl w-8 h-8 relative">
-            <Heart className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
-          </span>
-        </Group>
+        <Grid align="top">
+          <Grid.Col span={11}>
+            <Title align="initial" className="font-bold uppercase" size={phone ? '20px' : '30px'} color={'black'} order={3}>
+              {title}
+            </Title>
+          </Grid.Col>
+          <Grid.Col span={1}>
+            <span className="bg-[#D9E2E98F] rounded-2xl w-8 h-8 relative mb-2">
+              <Heart className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+            </span>
+          </Grid.Col>
+        </Grid>
       </div>
       <form>
         <div className="space-y-4">
@@ -180,20 +186,22 @@ export function ProductSpecification({
                 PLACE OFFER
               </Button>
             </Grid.Col>
-            <Grid.Col span={12} className="mt-[-15px]">
-              <Button
-                onClick={() => {
-                  if (scrollIntoView) {
-                    scrollIntoView();
-                  }
-                }}
-                size="16px"
-                className="font-[500] h-10 w-full"
-                bg="#3C82D6"
-              >
-                Shop used starting at {price}
-              </Button>
-            </Grid.Col>
+            <Only when={isListingVisible}>
+              <Grid.Col span={12} className="mt-[-15px]">
+                <Button
+                  onClick={() => {
+                    if (scrollIntoView) {
+                      scrollIntoView();
+                    }
+                  }}
+                  size="16px"
+                  className="font-[500] h-10 w-full"
+                  bg="#3C82D6"
+                >
+                  Shop used starting at {price}
+                </Button>
+              </Grid.Col>
+            </Only>
           </Grid>
         </div>
       </form>

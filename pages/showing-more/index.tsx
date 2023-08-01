@@ -192,16 +192,15 @@ export function ShowingMore({ products }: ShowingMore) {
             {products.map((product, index) => {
               return (
                 <ProductCard
-                  key={product.id + index}
                   id={product.id}
                   image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                   description={'9/10 condition with charger and box'}
                   title={product.title}
                   condition={product.condition}
                   wishlist={false}
-                  lowestPrice={product.lowest_price || 500}
-                  highestPrice={product.highest_offer || 500}
-                  price={product.user_starting_price || 500}
+                  lowestPrice={Number(product.lowest_price)}
+                  highestPrice={Number(product.highest_offer)}
+                  price={Number(product?.user_starting_price)}
                 />
               );
             })}

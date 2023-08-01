@@ -7,10 +7,12 @@ type Stats = {
       min_saleprice: number;
       max_saleprice: number;
     }[];
-    trade_range: [{
-      "min_saleprice": number | null,
-      "max_saleprice": number | null
-    }],
+    trade_range: [
+      {
+        min_saleprice: number | null;
+        max_saleprice: number | null;
+      }
+    ];
     min_max_saleprice_percentage: number;
     price_premium_percentage: number;
     average_saleprice_percentage: number;
@@ -37,7 +39,7 @@ type Category = {
   fees: number;
 };
 
-export type condition = "new" | "used"
+export type condition = 'new' | 'used';
 
 type Brand = {
   id: number;
@@ -77,6 +79,15 @@ type Bid = {
   };
 };
 
+type ProductStats = {
+  likes: number | null;
+  views: number | null;
+  bids: number | null;
+  asks: number | null;
+  sales: number | null;
+  listings: number | null;
+};
+
 type Ask = {
   id: number;
   price: number;
@@ -96,6 +107,7 @@ type Product = {
   user_starting_at: number | null;
   clicks: number;
   condition: 'new' | 'used';
+  product_stats: ProductStats;
   interactions: number;
   highest_offer: number | null;
   lowest_ask: number | null;
@@ -113,8 +125,6 @@ export type ProductData = {
   stats: Stats;
   product: Product;
 };
-
-
 
 interface ListingUser {
   id: number;
