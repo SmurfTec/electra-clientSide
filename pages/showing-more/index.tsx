@@ -192,6 +192,7 @@ export function ShowingMore({ products }: ShowingMore) {
             {products.map((product, index) => {
               return (
                 <ProductCard
+                key={index + product.id}
                   id={product.id}
                   image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                   description={'9/10 condition with charger and box'}

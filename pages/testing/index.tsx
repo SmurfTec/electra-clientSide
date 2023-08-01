@@ -429,30 +429,7 @@ export default function Testing() {
         />
       </div>
       <Container my={100} fluid>
-        <Grid grow gutterXl={20}>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              title={productSpecification[1].title}
-              condition={productSpecification[1].condition as condition}
-              productVariants={[]}
-              technicalSpecification={[]}
-              highestAsk={productSpecification[1].highestAsk}
-              lowestAsk={productSpecification[1].lowestAsk}
-              price={productSpecification[1].price}
-            />
-          </Grid.Col>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              technicalSpecification={[]}
-              title={productSpecification[0].title}
-              condition={productSpecification[0].condition as condition}
-              productVariants={[]}
-              highestAsk={productSpecification[0].highestAsk}
-              lowestAsk={productSpecification[0].lowestAsk}
-              price={productSpecification[0].price}
-            />
-          </Grid.Col>
-        </Grid>
+        
       </Container>
 
       <Container mb={100}>
