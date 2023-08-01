@@ -61,6 +61,7 @@ type Listing = {
   saleprice: number | null;
   is_flagged: boolean;
   category: string;
+  category_id: number;
   brand: string;
   highest_offer: number | null;
   lowest_offer: number | null;

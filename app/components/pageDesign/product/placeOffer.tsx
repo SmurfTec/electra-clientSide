@@ -1,6 +1,6 @@
 import { ListItem, Only } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
-import { Variant } from '@elektra/types';
+import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -224,7 +224,7 @@ export function PlaceOfferComponent({
 type ButtonChipProps = {
   data: string[];
   state: string;
-  setState?: Dispatch<SetStateAction<string>>;
+  setState?: Dispatch<SetStateAction<'new' | 'used'>>;
 };
 
 export function ButtonChip({ data, state, setState }: ButtonChipProps) {
@@ -232,6 +232,7 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
     <Group position="left">
       {data.map((item, key) => (
         <Button
+          uppercase
           key={item + key}
           size="lg"
           styles={{
@@ -250,7 +251,7 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
           }}
           bg={item !== state ? '#f1f1f1' : 'black'}
           onClick={() => {
-            if (setState) setState(item);
+            if (setState) setState(item as condition);
           }}
           className="font-[500] text-[16px]"
         >

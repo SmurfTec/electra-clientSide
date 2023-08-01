@@ -20,8 +20,17 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
       code: (value) => (value.length < 6 ? 'atleast 6 digit' : null),
     },
   });
-  const handleSubmit = (code: string) => {
-    dispatch(loadCoupon(code));
+  const handleSubmit = async (code: string) => {
+    console.log(code);
+    const { data, isError } = await dispatch(loadCoupon(code));
+    if (isError) {
+      setError(true);
+      return;
+    }
+
+    setError(false);
+
+    redeemHandler.open();
     // if (Number(code) === 1234) {
     //   setError(false);
     //   console.log(code);
@@ -58,7 +67,7 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           error={error}
         />
         <div className="text-center mt-4">
-          <Button type="submit" uppercase onClick={redeemHandler.open}>
+          <Button type="submit" uppercase >
             Add
           </Button>
         </div>

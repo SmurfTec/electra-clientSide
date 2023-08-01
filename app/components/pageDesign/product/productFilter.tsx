@@ -1,12 +1,7 @@
-import { FilterDisplay, FilterMenu } from '@elektra/customComponents';
+import { FilterMenu } from '@elektra/customComponents';
 import { FilterVariant } from '@elektra/types';
-import { Flex, Group } from '@mantine/core';
-import { Dispatch, SetStateAction, useState } from 'react';
-
-const colorData = ['Black', 'Red', 'Blue', 'Green', 'Gold'];
-const conditionData = ['Poor', 'Fair', 'Good', 'Great', 'Flawless'];
-const capacityData = ['64GB', '128GB', '256GB', '512GB', '1TB'];
-const carrierData = ['Ufone', 'Jazz', 'Warid', 'Zong', 'Telenor'];
+import { Group } from '@mantine/core';
+import { Dispatch, SetStateAction } from 'react';
 
 type ProductFilterProps = {
   data: FilterVariant[];
@@ -17,20 +12,7 @@ type ProductFilterProps = {
 export const ProductFilter = ({ data, filter, setFilter, fetchListings }: ProductFilterProps) => {
   return (
     <div>
-      <Flex wrap={'nowrap'} gap={20}>
-        {filter?.map((item) => (
-          <FilterDisplay key={item.id} setState={setFilter} filter={item} />
-        ))}
-      </Flex>
-      <div></div>
-      <Group
-        // className={
-        //   condition.length != 0 || color.length != 0 || capacity.length != 0 || carrier.length != 0 || rangePrice.length!=0
-        //     ? 'sm:-mt-40'
-        //     : '-mt-16'
-        // }
-        position="right"
-      >
+      <Group position="right">
         {data.map((item) => (
           <FilterMenu
             key={item.id}
@@ -41,11 +23,6 @@ export const ProductFilter = ({ data, filter, setFilter, fetchListings }: Produc
             fetchListings={fetchListings}
           />
         ))}
-        {/* <FilterMenu data={conditionData} setState={setCondition} state={condition} label="Condition" width={135} />
-        <FilterMenu data={colorData} setState={setColor} state={color} label="Color" width={107} />
-        <FilterMenu data={capacityData} setState={setCapacity} state={capacity} label="Capacity" width={129} />
-        <FilterMenu data={carrierData} setState={setCarrier} state={carrier} label="Carrier" width={117} />
-        <FilterPrice setState={setRangePrice} state={rangePrice} label='Price Range' width={148} /> */}
       </Group>
     </div>
   );

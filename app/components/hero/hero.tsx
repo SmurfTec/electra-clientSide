@@ -19,9 +19,9 @@ export const Herocomponent = ({ backgroundImage, href }: IHerocomponentProps) =>
       <div>
         <Only when={!matches}>
         <div className="absolute top-1/2 -translate-x-1/2 left-[10.5%]">
-          <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">
+          {/* <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">
             Shop Today
-          </Button>
+          </Button> */}
         </div>
         </Only>
       </div>
