@@ -3,9 +3,10 @@ import { AppDispatch } from '@elektra/store/storeContext';
 import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-const trendingURL = '/products/?sort=-clicks,interactions&page=1&limit=5';
+const trendingURL = '/products/trending';
 const latestURL = '/products/?sort=-created_on';
-const mostSoldURL = '/products/?sort=-sold';
+const mostSoldURL = '/products/sold';
+const recommendedURL = '/products/recommended';
 const URL = '/products';
 
 type ProductData = {
@@ -13,15 +14,16 @@ type ProductData = {
   trending: Product[];
   latest: Product[];
   showMore?: Product[];
+  recommended?: Product[];
 };
 
 type specialProduct = {
-  list: { mostSold: Product[]; trending: Product[]; latest: Product[]; showMore: Product[] };
+  list: ProductData;
   loading: boolean;
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: [], trending: [], latest: [], showMore: [] },
+  list: { mostSold: [], trending: [], latest: [], showMore: [], recommended: [] },
   loading: false,
 };
 
@@ -49,6 +51,11 @@ const slice = createSlice({
 
     showMoreReceived: (state, action) => {
       state.list.showMore = action.payload.products;
+      state.loading = false;
+    },
+
+    recommendedReceived: (state, action) => {
+      state.list.recommended = action.payload.products;
       state.loading = false;
     },
 
@@ -89,6 +96,17 @@ export const fetchShowMoreProducts = (param: string) => async (dispatch: AppDisp
       url: URL + `?title=%${param}%`,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.showMoreReceived.type,
+      onError: slice.actions.specialProductFailed.type,
+    })
+  );
+};
+
+export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: recommendedURL,
+      onStart: slice.actions.specialProductRequested.type,
+      onSuccess: slice.actions.recommendedReceived.type,
       onError: slice.actions.specialProductFailed.type,
     })
   );

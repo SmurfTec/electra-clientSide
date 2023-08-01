@@ -15,7 +15,6 @@ import { format } from 'date-fns';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
 
-
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
@@ -85,10 +84,8 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="h-full relative">
             <BiddingSummary
-              reciptFee="0"
               // yourOffer={BiddingSummaryData.yourOffer}
               reciptFee={orderDetail.receipt_fees!}
-              discount={0}
               itemPrice={orderDetail?.saleprice}
               marketPlaceFee={0}
               salesTax={0}

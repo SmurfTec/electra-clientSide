@@ -46,22 +46,24 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
     <div className="px-2">
       <Center>
         <Carousel
-          maw={matches ? 350 : 650}
-          // maw={300}
+          // maw={matches ? 350 : 650}
+          // maw={500}
           loop
-          slideGap={100}
+          // slideGap={100}
           nextControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowRight.png'} className="w-full" />}
           previousControlIcon={<Image fit="contain" alt="" src={'/images/carousel/ArrowLeft.png'} className="w-full" />}
           withIndicators
           classNames={classes}
-          height={450}
+          slideSize={'100%'}
+          slidesToScroll={1}
+          // height={450}
           getEmblaApi={setEmbla}
           initialSlide={2}
         >
           {images?.map((item, index) => (
             <Carousel.Slide key={index}>
               <Center>
-                <Image src={baseURL + '/' + item.filename} alt="product" fit='none'  />
+                <Image src={baseURL + '/' + item.filename} alt="product" />
               </Center>
             </Carousel.Slide>
           ))}
@@ -77,7 +79,7 @@ export const ProductCarousel = ({ className, images }: productCarousel) => {
         getEmblaApi={setEmblaThumb}
       >
         <Group position="center" spacing={10} className={clsx(className, ' md:ml-24')}>
-          {images.map((item, index) => (
+          {images?.map((item, index) => (
             <ActionIcon
               radius={0}
               size={50}
