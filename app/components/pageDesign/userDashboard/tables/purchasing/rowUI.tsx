@@ -9,7 +9,7 @@ import { Pencil } from 'tabler-icons-react';
 export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
   const product = useSelector((state: RootState) => state.entities.purchasingOrders.list.purchasingActiveOrders.bids).find((item)=>item.id===row.original.id);
-  const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
+  // const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
 
   switch (props.cell.column.id) {
     case 'action':

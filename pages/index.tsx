@@ -13,6 +13,7 @@ import { loadWebsiteSection, rehydrateWebsiteSection, store, useAppDispatch } fr
 import {
   loadLatestProducts,
   loadMostSoldProducts,
+  loadRecommendedProducts,
   loadTrendingProducts,
   rehydrateSpecialProducts,
 } from '@elektra/store/entities/slices/specialProducts';
@@ -167,7 +168,9 @@ export async function getServerSideProps(context: NextPageContext) {
 
   const mostSold = store.dispatch(loadMostSoldProducts());
 
-  await Promise.all([websiteSection, trending, latest, mostSold]);
+  const recommended = store.dispatch(loadRecommendedProducts());
+
+  await Promise.all([websiteSection, trending, latest, mostSold, recommended]);
 
   return {
     props: {
@@ -175,6 +178,7 @@ export async function getServerSideProps(context: NextPageContext) {
       trending: store.getState().entities.specialProducts.list.trending,
       mostSold: store.getState().entities.specialProducts.list.mostSold,
       latest: store.getState().entities.specialProducts.list.latest,
+      recommended: store.getState().entities.specialProducts.list.recommended,
     },
   };
 }
@@ -184,11 +188,12 @@ type homePageProps = {
   trending: Product[];
   latest: Product[];
   mostSold: Product[];
+  recommended: Product[];
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection } = rest;
-
+  const { latest, mostSold, trending, websiteSection, recommended } = rest;
+  console.log(recommended);
   console.log(latest);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -217,7 +222,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Recommended For You" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(10, 15).map((product, index) => {
+            {recommended?.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -227,9 +232,9 @@ export function Index({ ...rest }: homePageProps) {
                     title={product.title}
                     condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -247,14 +252,14 @@ export function Index({ ...rest }: homePageProps) {
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
                     id={product.id}
-                    image={baseURL + '/' + product.images?.[0].filename}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -312,15 +317,15 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
+                    id={product.id}
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
-                    id={product.id}
                     title={product.title}
                     condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -337,15 +342,15 @@ export function Index({ ...rest }: homePageProps) {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + product?.images?.[0]?.filename}
-                    description={'9/10 condition with charger and box'}
                     id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );

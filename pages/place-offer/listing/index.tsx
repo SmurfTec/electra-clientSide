@@ -46,7 +46,7 @@ export default function PlaceOffer() {
 
   // const [condition, setCondition] = useState<string>('New');
   const router = useRouter();
-  const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
+  const condition = router.query['condition'] === 'new' ? 'new' : 'used';
   return (
     <Container fluid>
       <div className="my-10">
@@ -54,32 +54,26 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          <Only when={condition !== 'New'}>
+          <Only when={condition !== 'new'}>
             <div className="-ml-11 md:ml-0 md:w-auto w-screen mt-5 ">
               <ProductCarousel images={[]} />
             </div>
           </Only>
-          <Only when={condition === 'New'}>
+          <Only when={condition === 'new'}>
             <Image alt="product image" src="/images/productImage.png" />
           </Only>
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
-            carrier={ListingDescriptionData.carrier}
-            carrierData={ListingDescriptionData.carrierData}
-            color={ListingDescriptionData.color}
+            productVariants={[]}
             condition={condition}
             description={ListingDescriptionData.description}
-            discount={ListingDescriptionData.discount}
             highestAsk={ListingDescriptionData.highestAsk}
             lowestAsk={ListingDescriptionData.lowestAsk}
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}
             saleTax={ListingDescriptionData.saleTax}
             shippingFee={ListingDescriptionData.shippingFee}
-            storage={ListingDescriptionData.storage}
             averageSalePrice={ListingDescriptionData.averageSalePrice}
-            colorData={ListingDescriptionData.colorData}
-            storageData={ListingDescriptionData.storageData}
           />
         </Grid.Col>
       </Grid>

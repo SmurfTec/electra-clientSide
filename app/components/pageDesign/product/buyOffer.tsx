@@ -6,6 +6,8 @@ import { NextLink } from '@mantine/next';
 import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
+import { useSelector } from 'react-redux';
+import { RootState } from '@elektra/store';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -17,7 +19,6 @@ type ListingDescriptionProps = {
   marketPlaceFee: number;
   saleTax: number;
   shippingFee: number;
-  discount: number;
   productVariants: Variant[];
 };
 
@@ -28,13 +29,12 @@ export function BuyOfferComponent({
   productVariants,
   lowestAsk,
   highestAsk,
-  discount,
   marketPlaceFee,
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
   const isNew = condition === 'new';
-
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount)
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
   return (
     <div>
@@ -149,18 +149,7 @@ export function BuyOfferComponent({
       </Group>
 
       <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-32 py-6 border-black border-solid ">
-        {/* <Only when={!isNew}>
-          <ActionIcon
-            component="button"
-            size="lg"
-            color="dark"
-            radius={0}
-            variant="filled"
-            onClick={handlers.decrement}
-          >
-            <Minus size={16} color="white" />
-          </ActionIcon>
-        </Only> */}
+      
         <NumberInput
           disabled={true}
           hideControls
@@ -182,18 +171,7 @@ export function BuyOfferComponent({
             },
           }}
         />
-        {/* <Only when={!isNew}>
-          <ActionIcon
-            component="button"
-            size="lg"
-            radius={0}
-            color="dark"
-            variant="filled"
-            onClick={handlers.increment}
-          >
-            <Plus size={16} color="white" />
-          </ActionIcon>
-        </Only> */}
+   
       </Group>
 
       <div className="my-8">
@@ -203,10 +181,10 @@ export function BuyOfferComponent({
           <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
           <PositionApart text={'Sales Tax'} number={saleTax} />
           <PositionApart text={'Shipping Fee'} number={shippingFee} />
-          <PositionApart text={'Discount'} number={discount} discount />
+          <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={Number(highestAsk)} />
+        <PositionApart text={'Total Price'} number={Number(highestAsk) - Number(discount)} />
       </div>
 
       <Grid>

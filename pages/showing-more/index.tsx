@@ -1,11 +1,18 @@
 import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { RootState, fetchShowMoreProducts, initStore, loadListingProducts, loadMoreProducts, useAppDispatch, useSelector } from '@elektra/store';
+import { baseURL } from '@elektra/customComponents';
+import {
+  RootState,
+  fetchShowMoreProducts,
+  initStore,
+  loadListingProducts,
+  useAppDispatch,
+  useSelector,
+} from '@elektra/store';
+import { Product } from '@elektra/types';
 import { Container, Divider, Text } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Product } from '@elektra/types';
-import { baseURL } from '@elektra/customComponents';
 
 const carouselData = [
   {
@@ -124,7 +131,6 @@ const productData: ProductCardProps[] = [
 ];
 
 export async function getServerSideProps(context: NextPageContext) {
- 
   const store = initStore();
   console.log(context.query['show-more']);
   const products = store.dispatch(fetchShowMoreProducts(String(context.query['show-more'])));
@@ -136,13 +142,13 @@ export async function getServerSideProps(context: NextPageContext) {
   };
 }
 type ShowingMore = {
-  products:Product[]
-}
-export function ShowingMore({products}:ShowingMore) {
+  products: Product[];
+};
+export function ShowingMore({ products }: ShowingMore) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
-   const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
+  const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
   const search = router.query['show-more'];
   const handleFilter = async (label: string, value: string, id: number) => {
     const productId = Number(router.query['id']);
@@ -164,7 +170,6 @@ export function ShowingMore({products}:ShowingMore) {
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, '&' + paramString));
-
   };
   return (
     <div>
@@ -179,7 +184,7 @@ export function ShowingMore({products}:ShowingMore) {
           <Divider mt={15} />
         </section>
         <div className="mt-5">
-          <ItemFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
+          <ItemFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
         </div>
         <section className="mt-5">
           <SectionTitle title={`${products?.length} Results for ${search}`} />
@@ -187,16 +192,15 @@ export function ShowingMore({products}:ShowingMore) {
             {products.map((product, index) => {
               return (
                 <ProductCard
-                  key={index}
-                  image={baseURL + "/" + product?.images?.[0].filename}
-                  description={"NID"}
                   id={product.id}
+                  image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                  description={'9/10 condition with charger and box'}
                   title={product.title}
                   condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
+                  wishlist={false}
+                  lowestPrice={Number(product.lowest_price)}
+                  highestPrice={Number(product.highest_offer)}
+                  price={Number(product?.user_starting_price)}
                 />
               );
             })}
