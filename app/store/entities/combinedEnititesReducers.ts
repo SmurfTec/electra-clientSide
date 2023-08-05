@@ -1,7 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import {
+  brandReducer,
   couponReducer,
   feeReducer,
+  genericCategoryReducer,
   orderDetailReducer,
   productDataReducer,
   productLisingByIdReducer,
@@ -31,4 +33,6 @@ export const entitiesReducers = combineReducers({
   productListingById: productLisingByIdReducer,
   coupon: couponReducer,
   fee: feeReducer,
+  genericCategory: genericCategoryReducer,
+  brand: brandReducer,
 });

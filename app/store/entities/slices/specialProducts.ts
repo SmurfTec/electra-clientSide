@@ -7,6 +7,7 @@ const trendingURL = '/products/trending';
 const latestURL = '/products/?sort=-created_on';
 const mostSoldURL = '/products/sold';
 const recommendedURL = '/products/recommended';
+const shopProducts = '/products/';
 const URL = '/products';
 
 type ProductData = {
@@ -15,6 +16,7 @@ type ProductData = {
   latest: Product[];
   showMore?: Product[];
   recommended?: Product[];
+  shopProducts?: Product[];
 };
 
 type specialProduct = {
@@ -23,7 +25,7 @@ type specialProduct = {
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: [], trending: [], latest: [], showMore: [], recommended: [] },
+  list: { mostSold: [], trending: [], latest: [], showMore: [], recommended: [], shopProducts: [] },
   loading: false,
 };
 
@@ -54,6 +56,11 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    shopProductsReceived: (state, action) => {
+      state.list.shopProducts = action.payload.products;
+      state.loading = false;
+    },
+
     recommendedReceived: (state, action) => {
       state.list.recommended = action.payload.products;
       state.loading = false;
@@ -63,6 +70,8 @@ const slice = createSlice({
       state.loading = true;
       (state.list.latest = action.payload.latest), (state.list.mostSold = action.payload.mostSold);
       state.list.trending = action.payload.trending;
+
+      state.list.shopProducts = action.payload.shopProducts ?? [];
       state.loading = false;
     },
 
@@ -111,6 +120,20 @@ export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
     })
   );
 };
+
+export const fetchShopProducts =
+  (param: string = 'page=1') =>
+  async (dispatch: AppDispatch) => {
+    console.log(param);
+    return await dispatch(
+      apiRequest({
+        url: URL + `?limit=15&${param}`,
+        onStart: slice.actions.specialProductRequested.type,
+        onSuccess: slice.actions.shopProductsReceived.type,
+        onError: slice.actions.specialProductFailed.type,
+      })
+    );
+  };
 
 export const loadLatestProducts = () => async (dispatch: AppDispatch) => {
   return await dispatch(

@@ -18,7 +18,7 @@ export type GenericeCategory =  {
     }[] | null;
   }
   
-  export type CategoryResponse = {
+  export type GenericCategoryResponse = {
     results: number;
     stats: {
       all_categories: string;
