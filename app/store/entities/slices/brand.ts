@@ -5,7 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const URL = '/Brands';
 
-
 type brandSlice = {
   list: BrandsResponse;
   loading: boolean;
@@ -26,6 +25,15 @@ const slice = createSlice({
 
     brandReceived: (state, action) => {
       state.list = action.payload;
+      state.loading = false;
+    },
+    singleBrandReceived: (state, action) => {
+      const index = state.list.brands.findIndex((item) => item.id === action.payload.data.id);
+      if (index !== -1) {
+        state.list.brands.push(action.payload.data);
+      } else {
+        state.list.brands[index] = action.payload.data;
+      }
       state.loading = false;
     },
 
@@ -54,6 +62,17 @@ export const loadBrand = () => async (dispatch: AppDispatch) => {
       url: URL,
       onStart: slice.actions.brandRequested.type,
       onSuccess: slice.actions.brandReceived.type,
+      onError: slice.actions.brandFailed.type,
+    })
+  );
+};
+
+export const fetchSingleBrand = (id: string) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: URL + `/${id}`,
+      onStart: slice.actions.brandRequested.type,
+      onSuccess: slice.actions.singleBrandReceived.type,
       onError: slice.actions.brandFailed.type,
     })
   );

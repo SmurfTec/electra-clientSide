@@ -5,7 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const URL = '/genericcategories';
 
-
 type categorySlice = {
   list: GenericCategoryResponse;
   loading: boolean;
@@ -26,6 +25,16 @@ const slice = createSlice({
 
     categoryReceived: (state, action) => {
       state.list = action.payload;
+      state.loading = false;
+    },
+
+    singleCategoryReceived: (state, action) => {
+      const index = state.list.categories.findIndex((item) => item.id === action.payload.id);
+      if (index !== -1) {
+        state.list.categories.push(action.payload);
+      } else {
+        state.list.categories[index] = action.payload;
+      }
       state.loading = false;
     },
 
@@ -54,6 +63,17 @@ export const loadGenericCategory = () => async (dispatch: AppDispatch) => {
       url: URL,
       onStart: slice.actions.categoryRequested.type,
       onSuccess: slice.actions.categoryReceived.type,
+      onError: slice.actions.categoryFailed.type,
+    })
+  );
+};
+
+export const fetchSingleGenericCategory = (id: string) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: URL + `/${id}`,
+      onStart: slice.actions.categoryRequested.type,
+      onSuccess: slice.actions.singleCategoryReceived.type,
       onError: slice.actions.categoryFailed.type,
     })
   );
