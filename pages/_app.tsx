@@ -6,6 +6,7 @@ import { Notifications } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css';
 
 export const cache = createEmotionCache({ key: 'elektra', prepend: true });
@@ -18,7 +19,8 @@ function ElektraApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to Elektra!</title>
       </Head>
-      <main>
+      <main> 
+      <SessionProvider session={pageProps.session}>
         <StoreProvider LoadingOverlay={<Loader />}>
           <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
             <Global styles={globalStyles} />
@@ -34,6 +36,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
             )}
           </MantineProvider>
         </StoreProvider>
+        </SessionProvider>
       </main>
     </>
   );

@@ -1,245 +1,45 @@
-import { FooterProductCarousel, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { Modal, Only } from '@elektra/customComponents';
-import { useFilterModal } from '@elektra/hooks';
-import { BackgroundImage, Button, Container, Group, Image, Pagination, Text, Title } from '@mantine/core';
-import { useMediaQuery, useToggle } from '@mantine/hooks';
+import { FooterProductCarousel, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { baseURL } from '@elektra/customComponents';
+import { fetchShopProducts, store } from '@elektra/store';
+import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { NextPageContext } from 'next';
 import { useState } from 'react';
-import { Filter } from 'tabler-icons-react';
+import { Product } from '../../types/slices';
 
-const productData: ProductCardProps[] = [
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    rating: 'New',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    
-    image: '/images/product.png',
-    link: '/product-detail',
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-];
 
-export default function ShopPage() {
+
+export async function getServerSideProps(context: NextPageContext) {
+  // id: 1 means homepage data
+  const categoryId = context.query.category;
+  const brandId = context.query.brand;
+  const params = categoryId ? `&page=1&category=${categoryId}` : brandId ? `&page=1&brand=${brandId}` : undefined;
+  const shopProducts = store.dispatch(fetchShopProducts(params));
+
+  await Promise.all([shopProducts]);
+
+  return {
+    props: {
+      shopProducts: store.getState().entities.specialProducts.list.shopProducts,
+    },
+  };
+}
+
+type ShopPageProps = {
+  shopProducts: Product[];
+};
+
+export default function ShopPage({ shopProducts }: ShopPageProps) {
   const [activePage, setPage] = useState(1);
-  const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
 
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
-      <Image className='mt-4' src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
+      <Image className="mt-4" src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
       <div className="my-4">
-        <Group position="apart">
+        {/* <Group position="apart">
           <Only when={matches}>
             <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
@@ -248,25 +48,26 @@ export default function ShopPage() {
         </Group>
         <Only when={!matches}>
           <ItemFilter />
-        </Only>
+        </Only> */}
       </div>
-      <SectionTitle title="All Phones" />
-      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+      <SectionTitle title="All Products" />
+      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} /> */}
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productData.map((product, index) => {
+        {shopProducts?.map((product, index) => {
           return (
-            <ProductCard
-              key={index}
-              image={product.image}
-              description={product.description}
-              link={product.link}
-              title={product.title}
-              rating={product.rating}
-              wishlist={product.wishlist}
-              lowestPrice={product.lowestPrice ?? null}
-              highestPrice={product.highestPrice ?? null}
-              price={product.price}
-            />
+            <div key={index} className="min-w-[15%]">
+              <ProductCard
+                id={product.id}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                description={'9/10 condition with charger and box'}
+                title={product.title}
+                condition={product.condition}
+                wishlist={false}
+                lowestPrice={Number(product.lowest_price)}
+                highestPrice={Number(product.highest_offer)}
+                price={Number(product?.user_starting_price)}
+              />
+            </div>
           );
         })}
       </div>
@@ -284,7 +85,10 @@ export default function ShopPage() {
         />
       </Group>
 
-      <BackgroundImage className="text-center min-h-[350px]  sm:min-h-[550px] relative" src="/images/shop/mobileBanner.png">
+      <BackgroundImage
+        className="text-center min-h-[350px]  sm:min-h-[550px] relative"
+        src="/images/shop/mobileBanner.png"
+      >
         <div className="absolute top-1/2 sm:left-1/2 -translate-y-1/2 sm:-translate-x-1/2 space-y-8">
           <Title color="white" size={!matches ? 96 : 48} className="font-[300]">
             NOKIA 1.3

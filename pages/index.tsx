@@ -8,15 +8,23 @@ import {
   ProductCard,
   SectionTitle,
 } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
-import { loadWebsiteSection, rehydrateWebsiteSection, store, useAppDispatch } from '@elektra/store';
+import { Only, baseURL } from '@elektra/customComponents';
+import {
+  loadBrand,
+  loadGenericCategory,
+  loadWebsiteSection,
+  rehydrateWebsiteSection,
+  store,
+  useAppDispatch,
+} from '@elektra/store';
 import {
   loadLatestProducts,
   loadMostSoldProducts,
+  loadRecommendedProducts,
   loadTrendingProducts,
   rehydrateSpecialProducts,
 } from '@elektra/store/entities/slices/specialProducts';
-import { Product, WebsiteSection } from '@elektra/types';
+import { BrandsResponse, GenericCategoryResponse, Product, WebsiteSection } from '@elektra/types';
 import { Center, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextPageContext } from 'next';
@@ -167,7 +175,13 @@ export async function getServerSideProps(context: NextPageContext) {
 
   const mostSold = store.dispatch(loadMostSoldProducts());
 
-  await Promise.all([websiteSection, trending, latest, mostSold]);
+  const recommended = store.dispatch(loadRecommendedProducts());
+
+  const genericCategories = store.dispatch(loadGenericCategory());
+
+  const brands = store.dispatch(loadBrand());
+
+  await Promise.all([websiteSection, trending, latest, mostSold, recommended, genericCategories, brands]);
 
   return {
     props: {
@@ -175,6 +189,9 @@ export async function getServerSideProps(context: NextPageContext) {
       trending: store.getState().entities.specialProducts.list.trending,
       mostSold: store.getState().entities.specialProducts.list.mostSold,
       latest: store.getState().entities.specialProducts.list.latest,
+      recommended: store.getState().entities.specialProducts.list.recommended,
+      genericCategories: store.getState().entities.genericCategory.list,
+      brand: store.getState().entities.brand.list,
     },
   };
 }
@@ -184,10 +201,15 @@ type homePageProps = {
   trending: Product[];
   latest: Product[];
   mostSold: Product[];
+  recommended: Product[];
+  genericCategories: GenericCategoryResponse;
+  brand: BrandsResponse;
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection } = rest;
+  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand } = rest;
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -199,60 +221,58 @@ export function Index({ ...rest }: homePageProps) {
     };
   }, []);
 
-  // console.log(trendingData);
-
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
-  const dispatch = useAppDispatch();
 
   return (
     <div>
       <section className="mt-4">
         <HeroImage />
       </section>
-
-      <section className="mt-8 md:mt-20">
-        <SectionTitle title="Recommended For You" label="View All" />
-        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
-              return (
-                <div key={index} className="min-w-[15%]">
-                  <ProductCard
-                    image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
-                    description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
-                    title={product.title}
-                    rating={'New'}
-                    wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
-                  />
-                </div>
-              );
-            })}
-          </Center>
-        </ScrollArea>
-      </section>
+      <Only when={recommended.length > 0}>
+        <section className="mt-8 md:mt-20">
+          <SectionTitle title="Recommended For You" label="View All" />
+          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+            <Center className="space-x-8 md:space-x-16">
+              {recommended?.slice(0, 5).map((product, index) => {
+                return (
+                  <div key={index} className="min-w-[15%]">
+                    <ProductCard
+                      id={product.id}
+                      image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                      description={'9/10 condition with charger and box'}
+                      title={product.title}
+                      condition={product.condition}
+                      wishlist={false}
+                      lowestPrice={Number(product.lowest_price)}
+                      highestPrice={Number(product.highest_offer)}
+                      price={Number(product?.user_starting_price)}
+                    />
+                  </div>
+                );
+              })}
+            </Center>
+          </ScrollArea>
+        </section>
+      </Only>
 
       <section className="mt-4 md:mt-16">
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(20, 25).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + product.images[0].filename}
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
                     title={product.title}
-                    rating={'New'}
+                    condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -263,18 +283,18 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Categories" />
-        <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
+        <Grid gutter={30} columns={12}>
           <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
-              {categoryData.map((category, index) => {
+              {genericCategories?.categories?.map((category, index) => {
                 return (
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
-                      key={index}
-                      image={category.image}
+                      key={index + category.id}
+                      image={baseURL + '/' + category.image?.filename}
                       id={category.id}
-                      title={category.title}
-                      link={category.link}
+                      title={category.name}
+                      link={'/shop?category=' + category.id}
                     />
                   </Grid.Col>
                 );
@@ -306,19 +326,19 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
                     title={product.title}
-                    rating={'New'}
+                    condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -331,19 +351,19 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Latest Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.map((product, index) => {
+            {latest.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
-                    image={baseURL + '/' + product?.images[0]?.filename}
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
-                    link={'/product-detail'}
                     title={product.title}
-                    rating={'New'}
+                    condition={product.condition}
                     wishlist={false}
-                    lowestPrice={product.lowest_price || 500}
-                    highestPrice={product.highest_offer || 500}
-                    price={product.user_starting_price || 500}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </div>
               );
@@ -359,18 +379,18 @@ export function Index({ ...rest }: homePageProps) {
       </section>
       <section>
         <SectionTitle title="Brands" />
-        <Grid gutter={30} columns={mediumdScreen ? 14 : 18}>
+        <Grid gutter={30} columns={21}>
           <ScrollArea type="hover" scrollbarSize={5}>
             <Center>
-              {categoryData.map((category, index) => {
+              {brand?.brands?.map((data, index) => {
                 return (
-                  <Grid.Col span={2} key={index}>
+                  <Grid.Col span={7} key={data?.id + index}>
                     <CategoryCard
-                      key={index}
-                      image={category.image}
-                      id={category.id}
-                      title={category.title}
-                      link={category.link}
+                      key={data.id}
+                      image={baseURL + '/' + data?.image?.filename}
+                      id={data?.id}
+                      title={data?.title}
+                      link={`/shop?brand=${data?.id}`}
                     />
                   </Grid.Col>
                 );

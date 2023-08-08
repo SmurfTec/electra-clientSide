@@ -1,5 +1,6 @@
 import { Modal, http, useStylesforGlobal } from '@elektra/customComponents';
 import {
+  useBillingChangeModal,
   useCardModal,
   useEmailVerificationModel,
   usePasswordChangeModal,
@@ -14,6 +15,7 @@ export function Security() {
   const { user, profile } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
+  const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const dispatch = useAppDispatch();
   const [PasswordChangeModal, passwordOpened, passwordHandler] = usePasswordChangeModal();
@@ -113,7 +115,6 @@ export function Security() {
           onClose={shippingHandler.close}
           open={shippingOpened}
         />
-        {/* <Group position="apart" align="top"> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={10}>
             <div>
@@ -132,20 +133,20 @@ export function Security() {
           <Grid.Col className="text-right" span={2}>
             <Button
               leftIcon={<Pencil />}
-              onClick={shippingHandler.open}
+              onClick={billingHandler.open}
               classNames={{ leftIcon: classes.leftIcon, root: 'px-0 py-2' }}
             ></Button>
           </Grid.Col>
         </Grid>
-        {/* <Modal
+        <Modal
           size={800}
           title="Billing Address"
           className="mx-10 mb-7 mt-4"
           titlePosition="left"
-          children={ShippingChangeModal}
-          onClose={shippingHandler.close}
-          open={shippingOpened}
-        /> */}
+          children={BillingChangeModal}
+          onClose={billingHandler.close}
+          open={billingOpened}
+        />
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={10}>
             <div>

@@ -2,42 +2,32 @@ import {
   Footer,
   HeroImage,
   ItemCard,
-  ItemCardProps,
   PageTitle,
   ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
 } from '@elektra/components';
-import { ProductCharts } from '@elektra/components/pageDesign/product/charts/productCharts';
 import { Drawer, Modal, http, useStylesforGlobal } from '@elektra/customComponents';
-import {
-  useOfferModal,
-  useOfferPlaceModal,
-  usePasswordChangeModal,
-  useSellerDetailDrawer,
-  useTechinalSpecificationDrawer,
-} from '@elektra/hooks';
+import { useOfferModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
-import axios from 'axios';
 import Autoplay from 'embla-carousel-autoplay';
-import { NextPageContext } from 'next';
 import { useRef, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 
-type condition = 'New' | 'Used';
+type condition = 'new' | 'used';
 
-const itemCardData: ItemCardProps = {
-  color: 'black',
-  company: 'AT&T',
-  image: '/images/product.png',
-  space: '128GB',
-  title: 'Iphone 14 Pro Max',
-  status: 'Sold',
-  price: 1000,
-  date: '29/10/10',
-  sale: true,
-};
+// const itemCardData: ItemCardProps = {
+//   color: 'black',
+//   company: 'AT&T',
+//   image: '/images/product.png',
+//   space: '128GB',
+//   title: 'Iphone 14 Pro Max',
+//   status: 'Sold',
+//   price: 1000,
+//   date: '29/10/10',
+//   sale: true,
+// };
 
 const productData = [
   {
@@ -198,40 +188,32 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-
-
 export default function Testing() {
   const { classes } = useStylesforGlobal();
   const autoplay = useRef(Autoplay({ delay: 4000 }));
   const [value, setValue] = useState(0);
   const [offerModal, offerOpened, offerHandler] = useOfferModal();
-  const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
+  // const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
-    useTechinalSpecificationDrawer();
+    useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
 
-    const handleTest =async ()=>{
-      const res = await http.request({
-        url: '/asks/me',
-        // method: 'POST',
-      });
-    }
-    
+  const handleTest = async () => {
+    const res = await http.request({
+      url: '/orders/me/selling?status=completed',
+      // method: 'POST',
+    });
+  };
+
   return (
     <div>
-      <div className="my-96 w-full">
-        <ProductCharts />
-      </div>
+      <div className="my-96 w-full">{/* <ProductCharts /> */}</div>
 
-      
-      
       <div>
         <HeroImage />
       </div>
-      <div className='my-96'>
-        <Button onClick={handleTest}>
-          Click
-        </Button>
+      <div className="my-96">
+        <Button onClick={handleTest}>Click</Button>
       </div>
 
       <div className="my-96">
@@ -266,14 +248,12 @@ export default function Testing() {
 
       <div className="my-96">
         <ItemCard
-          color={productDetailData.color}
-          company={productDetailData.company}
           image={productDetailData.image}
-          space={productDetailData.space}
+          productVariants={[]}
           title={productDetailData.title}
           key={productDetailData.title}
         />
-        <Group position="center">
+        {/* <Group position="center">
           <Modal
             title="Offer Placed!"
             children={OfferPlaceModal}
@@ -281,7 +261,7 @@ export default function Testing() {
             open={offerPlaceOpened}
           />
           <Button onClick={offerPlaceHandler.open}>Offer Place Modal</Button>
-        </Group>
+        </Group> */}
       </div>
 
       <div>
@@ -449,50 +429,11 @@ export default function Testing() {
         />
       </div>
       <Container my={100} fluid>
-        <Grid grow gutterXl={20}>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              title={productSpecification[1].title}
-              condition={productSpecification[1].condition as condition}
-              capacity={productSpecification[1].capacity}
-              capacityData={productSpecification[1].capacityData}
-              carrier={productSpecification[1].carrier}
-              carrierData={productSpecification[1].carrierData}
-              color={productSpecification[1].color}
-              colorData={productSpecification[1].colorData}
-              highestAsk={productSpecification[1].highestAsk}
-              lowestAsk={productSpecification[1].lowestAsk}
-              price={productSpecification[1].price}
-              sellerCondition={productSpecification[1].sellerCondition}
-              sellerColor={productSpecification[1].sellerColor}
-              sellerCapacity={productSpecification[1].sellerCapacity}
-              sellerCarrier={productSpecification[1].sellerCarrier}
-            />
-          </Grid.Col>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              title={productSpecification[0].title}
-              condition={productSpecification[0].condition as condition}
-              capacity={productSpecification[0].capacity}
-              capacityData={productSpecification[0].capacityData}
-              carrier={productSpecification[0].carrier}
-              carrierData={productSpecification[0].carrierData}
-              color={productSpecification[0].color}
-              colorData={productSpecification[0].colorData}
-              highestAsk={productSpecification[0].highestAsk}
-              lowestAsk={productSpecification[0].lowestAsk}
-              price={productSpecification[0].price}
-              sellerCapacity={productSpecification[0].sellerCapacity}
-              sellerCarrier={productSpecification[0].sellerCarrier}
-              sellerColor={productSpecification[0].sellerColor}
-              sellerCondition={productSpecification[0].sellerCondition}
-            />
-          </Grid.Col>
-        </Grid>
+        
       </Container>
 
       <Container mb={100}>
-        <ItemCard
+        {/* <ItemCard
           color={itemCardData.color}
           company={itemCardData.company}
           image={itemCardData.image}
@@ -503,7 +444,7 @@ export default function Testing() {
           sale={itemCardData.sale}
           key={1}
           status={itemCardData.status}
-        />
+        /> */}
       </Container>
 
       <Container>

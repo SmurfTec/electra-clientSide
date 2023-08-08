@@ -3,7 +3,7 @@ import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
 
-export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
+export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
 
   switch (props.cell.column.id) {
@@ -22,7 +22,7 @@ export function ActiveSimpleRow<T extends { id: string }>(props: CellContext<T, 
               }}
               radius="xl"
               component={NextLink}
-              href="/product-listing"
+              href={`/product-listing/${row.original.id}`}
             >
               Sell Now
             </Button>
@@ -68,7 +68,7 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
           }}
           radius="xl"
           component={NextLink}
-          href="/order-detail"
+          href={`/order-detail/${row.original.id}`}
         >
           View Details
         </Button>
@@ -100,7 +100,7 @@ export function CompletedSimpleRow<T extends { id: string }>(props: CellContext<
           }}
           radius="xl"
           component={NextLink}
-          href="/order-detail"
+          href={`/order-detail/${row.original.id}`}
         >
           View Details
         </Button>

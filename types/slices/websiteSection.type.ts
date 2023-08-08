@@ -31,6 +31,7 @@ type ProductProperties = {
   id: number;
   listings: number;
   sold: number;
+  model_no:string
 };
 
 type Category = {
@@ -48,6 +49,7 @@ export type Product = {
   title: string;
   is_active: boolean;
   created_on: string;
+  condition: "new" | "used"
   updated_on: string;
   clicks: number;
   interactions: number;

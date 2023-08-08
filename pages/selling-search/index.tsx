@@ -1,8 +1,10 @@
 import { AutoCompleteItem, FooterMenu, NotHeader } from '@elektra/components';
-import { Autocomplete, Container, Text } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { baseURL, http } from '@elektra/customComponents';
+import { Product } from '@elektra/types';
+import { Autocomplete, Container, Loader, Text } from '@mantine/core';
+import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search } from 'tabler-icons-react';
 
 type productDataType = {
@@ -48,7 +50,37 @@ const productData: productDataType[] = [
 export function SellingSearch() {
   const router = useRouter();
   const [value, setValue] = useState('');
-
+  const [loading, setLoading] = useState(false);
+  const [debounced] = useDebouncedValue(value, 500);
+  const [data, setData] = useState<Array<productDataType>>([]);
+  const handleChange = async (val: string) => {
+    setLoading(true);
+    setValue(val)
+    const res = await http.request({
+      url: `products/?title=%${val}%&limit=3&page=1`,
+      method: 'GET',
+    });
+    if (res.isError) {
+      setLoading(false);
+    } else {
+      const productData = res?.data?.['products']?.map((item: Product) => ({
+        image: baseURL + '/' + item.images?.[0].filename,
+        link: `/product-listing/${item.id}`,
+        title: item?.title,
+        modal: item.product_properties.model_no,
+        value: item?.title,
+        label: item?.title,
+        category: item.category.name,
+      }));
+      setData(productData);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (debounced) {
+      handleChange(debounced);
+    }
+  }, [debounced]);
   const phone = useMediaQuery('(max-width: 800px)', false);
   const handleSubmit = (item: productDataType) => {
     setValue(item.title);
@@ -62,18 +94,15 @@ export function SellingSearch() {
           Choose product you want to list.
         </Text>
         <Autocomplete
-          data={[
-            ...productData,
-            { value: '__show-more', label: 'Show more', link: `/showing-more?show-more=${value}` },
-          ]}
+          data={[...data, { value: '__show-more', label: 'Show more', link: `/showing-more?show-more=${value}` }]}
           mt={20}
-          filter={(value, item) =>
-            item['modal']?.toLowerCase().includes(value.toLowerCase().trim()) ||
-            item['title']?.toLowerCase().includes(value.toLowerCase().trim()) ||
-            item.value === '__show-more'
-          }
+          filter={(value, item) =>{
+            if(value==='')
+            return false
+            return item['title']?.toLowerCase()?.includes(String(value)?.toLowerCase()?.trim()) || item.value === '__show-more'
+          }}
           value={value}
-          onChange={setValue}
+          onChange={handleChange}
           onItemSubmit={handleSubmit}
           withinPortal={true}
           nothingFound={<div>No Product Found</div>}
@@ -84,6 +113,7 @@ export function SellingSearch() {
           itemComponent={AutoCompleteItem}
           size="xl"
           maw={1000}
+          rightSection={loading ? <Loader /> : undefined}
           icon={<Search />}
           placeholder="Search product by name and model no"
         />

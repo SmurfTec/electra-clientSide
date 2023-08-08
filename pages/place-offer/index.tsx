@@ -1,7 +1,9 @@
-import { PageTitle, PlaceOfferComponent, ProductCarousel } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
+import { PageTitle, PlaceOfferComponent } from '@elektra/components';
+import { baseURL } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function PlaceOffer() {
   const ListingDescriptionData = {
@@ -45,8 +47,11 @@ export default function PlaceOffer() {
   };
 
   // const [condition, setCondition] = useState<string>('New');
+
+  const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
+
   const router = useRouter();
-  const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
+  // const condition = "new";
   return (
     <Container fluid>
       <div className="my-10">
@@ -54,32 +59,19 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          <Only when={condition !== 'New'}>
-            <div className="-ml-11 md:ml-0 md:w-auto w-screen mt-5 ">
-              <ProductCarousel />
-            </div>
-          </Only>
-          <Only when={condition === 'New'}>
-            <Image alt="product image" src="/images/productImage.png" />
-          </Only>
+          <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''} />
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
-            carrier={ListingDescriptionData.carrier}
-            carrierData={ListingDescriptionData.carrierData}
-            color={ListingDescriptionData.color}
-            condition={condition}
+            productVariants={productDetail?.product?.product_variants}
+            condition={productDetail?.product?.condition}
             description={ListingDescriptionData.description}
-            discount={ListingDescriptionData.discount}
-            highestAsk={ListingDescriptionData.highestAsk}
-            lowestAsk={ListingDescriptionData.lowestAsk}
-            marketPlaceFee={ListingDescriptionData.marketPlaceFee}
-            saleTax={ListingDescriptionData.saleTax}
-            shippingFee={ListingDescriptionData.shippingFee}
-            storage={ListingDescriptionData.storage}
-            averageSalePrice={ListingDescriptionData.averageSalePrice}
-            colorData={ListingDescriptionData.colorData}
-            storageData={ListingDescriptionData.storageData}
+            highestAsk={Number(productDetail?.product?.highest_offer)}
+            lowestAsk={Number(productDetail?.product?.lowest_ask)}
+            marketPlaceFee={0}
+            saleTax={0}
+            shippingFee={0}
+            averageSalePrice={0}
           />
         </Grid.Col>
       </Grid>
