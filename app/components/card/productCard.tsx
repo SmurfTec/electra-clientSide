@@ -39,8 +39,9 @@ export function ProductCard({
     >
       <Anchor className="cursor-pointer" align="unset" underline={false}>
         <Card.Section>
-          <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center">
-            <Image height={phone ? 90 : 120} width={phone ? 80 : 100} alt={image} src={image} className="h-1/4 w-1/2" />
+          {/* <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center"> */}
+          <Paper className="flex justify-center items-center">
+            <Image  alt={image} src={image} className="h-1/4 w-1/2" />
           </Paper>
         </Card.Section>
         <Only when={!!condition}>
@@ -82,13 +83,13 @@ export function ProductCard({
               <Text className="text-[#656565]" size={'xs'}>
                 Lowest Price
               </Text>
-              <Title order={5}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
+              <Title order={6}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
                 Highest Price
               </Text>
-              <Title className="font-bold" order={5}>
+              <Title className="font-bold" order={6}>
                 {highestPrice ? `$${highestPrice}` : '--'}
               </Title>
             </div>

@@ -1,5 +1,14 @@
 import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { RootState, initStore, loadListingProducts, loadMoreProducts, useAppDispatch, useSelector } from '@elektra/store';
+import { baseURL } from '@elektra/customComponents';
+import {
+  RootState,
+  fetchShowMoreProducts,
+  initStore,
+  loadListingProducts,
+  useAppDispatch,
+  useSelector,
+} from '@elektra/store';
+import { Product } from '@elektra/types';
 import { Container, Divider, Text } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
@@ -122,23 +131,24 @@ const productData: ProductCardProps[] = [
 ];
 
 export async function getServerSideProps(context: NextPageContext) {
- 
   const store = initStore();
   console.log(context.query['show-more']);
-  // const products = store.dispatch(loadMoreProducts(String(context.query['show-more'])));
-  // await Promise.all([products]);
+  const products = store.dispatch(fetchShowMoreProducts(String(context.query['show-more'])));
+  await Promise.all([products]);
   return {
     props: {
-      // products: store.getState().entities.productDetail.list.product,
+      products: store.getState().entities.specialProducts.list.showMore,
     },
   };
 }
-
-export function ShowingMore() {
+type ShowingMore = {
+  products: Product[];
+};
+export function ShowingMore({ products }: ShowingMore) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
-   const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
+  const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
   const search = router.query['show-more'];
   const handleFilter = async (label: string, value: string, id: number) => {
     const productId = Number(router.query['id']);
@@ -160,7 +170,6 @@ export function ShowingMore() {
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, '&' + paramString));
-
   };
   return (
     <div>
@@ -175,24 +184,24 @@ export function ShowingMore() {
           <Divider mt={15} />
         </section>
         <div className="mt-5">
-          <ItemFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
+          <ItemFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
         </div>
         <section className="mt-5">
-          <SectionTitle title="1000+ Results for iphone" />
+          <SectionTitle title={`${products?.length} Results for ${search}`} />
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
+            {products.map((product, index) => {
               return (
                 <ProductCard
-                  key={index}
-                  image={product.image}
-                  description={product.description}
+                key={index + product.id}
                   id={product.id}
+                  image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                  description={'9/10 condition with charger and box'}
                   title={product.title}
                   condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
+                  wishlist={false}
+                  lowestPrice={Number(product.lowest_price)}
+                  highestPrice={Number(product.highest_offer)}
+                  price={Number(product?.user_starting_price)}
                 />
               );
             })}

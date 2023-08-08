@@ -7,7 +7,7 @@ import {
   ProductStats,
   SectionTitle,
 } from '@elektra/components';
-import { Modal, Only, baseURL } from '@elektra/customComponents';
+import { FilterDisplay, Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
   RootState,
@@ -29,8 +29,8 @@ import {
   Button,
   Center,
   Divider,
+  Flex,
   Grid,
-  Group,
   Image,
   Pagination,
   Stack,
@@ -70,6 +70,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const productVariants = store.dispatch(loadProductVariants());
 
   await Promise.all([productData, listingData, productVariants]);
+
   return {
     props: {
       productDetail: store.getState().entities.productDetail.list,
@@ -100,9 +101,11 @@ export default function ProductPage({ productDetail, productListing, productVari
     };
   }, []);
 
+  const listingData = useSelector((state: RootState) => state.entities.productListing.list.listings);
+
   // const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
-  const graphData = productDetail.stats.trade_range;
-  const productFilters = productVariants.variants;
+  const graphData = productDetail?.stats?.trade_range;
+  const productFilters = productVariants?.variants;
 
   const router = useRouter();
 
@@ -135,7 +138,6 @@ export default function ProductPage({ productDetail, productListing, productVari
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, '&' + paramString));
-
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
@@ -172,7 +174,7 @@ export default function ProductPage({ productDetail, productListing, productVari
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
-            technicalSpecification={productDetail.product.technical_specifications || []}
+            technicalSpecification={productDetail?.product?.technical_specifications || []}
             title={String(productDetail?.product?.title)}
             productVariants={productDetail?.product.product_variants as Variant[]}
             condition={productDetail?.product.condition as condition}
@@ -180,62 +182,84 @@ export default function ProductPage({ productDetail, productListing, productVari
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
+            isListingVisible={productListing?.listings?.length !== 0}
           />
         </Grid.Col>
       </Grid>
-      <Divider className="my-4" />
-      <Group position="apart" align="top">
-        <SectionTitle title={`Used ${productDetail?.product?.title}`} />
-        <Only when={filters}>
-          <Button onClick={filterHandler.open} leftIcon={<Filter />}>
-            Filter
-          </Button>
-        </Only>
-      </Group>
-      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <Only when={!filters}>
-        <ProductFilter setFilter={setParams} filter={params}  data={productFilters} fetchListings={handleFilter} />
-      </Only>
-      <div ref={targetRef} className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productListing?.listings?.slice(0, limit).map((product, index) => {
-          return (
-            <ProductCard
-              id={product.id}
-              key={index}
-              image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
-              description={product.condition_details}
-              title={product.product_data.title}
-              condition={product.condition}
-              wishlist={false}
-              lowestPrice={product.lowest_offer || 500}
-              highestPrice={product.highest_offer || 500}
-              price={product.saleprice || 500}
+
+      <Only when={productListing?.listings?.length !== 0}>
+        <Divider className="my-4" />
+        <Grid>
+          <Grid.Col span={12}>
+            <Flex wrap={'nowrap'} gap={20}>
+              {params?.map((item) => (
+                <FilterDisplay key={item.id} setState={setParams} filter={item} />
+              ))}
+            </Flex>
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <SectionTitle title={`Used ${productDetail?.product?.title}`} />
+          </Grid.Col>
+          <Only when={filters}>
+            <Grid.Col span={6} className="text-right">
+              <Button onClick={filterHandler.open} leftIcon={<Filter />}>
+                Filter
+              </Button>
+            </Grid.Col>
+          </Only>
+
+          <Grid.Col span={6}>
+            <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
+            <Only when={!filters}>
+              <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
+            </Only>
+          </Grid.Col>
+        </Grid>
+
+        <div
+          ref={targetRef}
+          className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
+        >
+          {listingData?.slice(0, limit).map((product, index) => {
+            return (
+              <ProductCard
+                id={product.id}
+                key={index}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                description={product.condition_details}
+                title={product.product_data.title}
+                condition={product.condition}
+                wishlist={false}
+                lowestPrice={product.lowest_offer}
+                highestPrice={product.highest_offer}
+                price={product.saleprice}
+              />
+            );
+          })}
+        </div>
+
+        <Center className="mt-20 space-x-3">
+          <Only when={limit === 5}>
+            <Text size={16} className="font-[600]" color="black">
+              View More
+            </Text>
+
+            <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+              <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
+            </ActionIcon>
+          </Only>
+          <Only when={limit > 10}>
+            <Pagination
+              className="mb-16"
+              withControls={false}
+              position="center"
+              value={activePage}
+              onChange={(value) => handlePaginatedListing(value)}
+              total={Number((Number(productDetail.product.product_stats.listings) / 10).toFixed())}
             />
-          );
-        })}
-      </div>
-
-      <Center className="mt-20 space-x-3">
-        <Only when={limit === 5}>
-          <Text size={16} className="font-[600]" color="black">
-            View More
-          </Text>
-
-          <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
-            <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
-          </ActionIcon>
-        </Only>
-        <Only when={limit > 10}>
-          <Pagination
-            className="mb-16"
-            withControls={false}
-            position="center"
-            value={activePage}
-            onChange={(value) => handlePaginatedListing(value)}
-            total={10}
-          />
-        </Only>
-      </Center>
+          </Only>
+        </Center>
+      </Only>
       <div className="mt-4">
         <ProductStats condition="new" />
       </div>

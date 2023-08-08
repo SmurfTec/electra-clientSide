@@ -1,55 +1,42 @@
 import { ListItem, Only } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
+import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 
 type ListingDescriptionProps = {
-  condition: string;
+  condition: 'new' | 'used';
   description: string[];
-  storageData?: string[];
-  storage: string;
-  carrierData?: string[];
-  carrier: string;
-  colorData?: string[];
-  color: string;
   averageSalePrice?: number;
   lowestAsk: number;
   highestAsk: number;
   marketPlaceFee: number;
   saleTax: number;
   shippingFee: number;
-  discount: number;
+  productVariants: Variant[];
 };
 
 export function PlaceOfferComponent({
-  carrier,
-  color,
   condition,
   description,
-  storage,
   averageSalePrice,
-  carrierData,
-  colorData,
-  storageData,
-
+  productVariants,
   lowestAsk,
   highestAsk,
-  discount,
   marketPlaceFee,
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
   const [count, handlers] = useCounter(0, { min: 0 });
-  const [storageState, setStorageState] = useState<string>(storage);
-  const [carrierState, setCarrierState] = useState<string>(carrier);
-  const [colorState, setColorState] = useState<string>(color);
-  const router = useRouter();
-  const isNew = router.query['condition'] === 'new';
-  const [state, setState] = useState();
+
+  const isNew = condition === 'new';
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
+  // const [state, setState] = useState();
   return (
     <div>
       <Group>
@@ -75,32 +62,23 @@ export function PlaceOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition ?? 'Used'} />
+        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition === 'new' ? 'New' : 'Used'} />
       </div>
 
       <div className="my-8">
         <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
       </div>
 
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Storage
-        </Text>
-        <ButtonChip data={isNew ? storageData! : [storageState]} setState={setStorageState} state={storageState} />
-      </div>
-
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Carrier
-        </Text>
-        <ButtonChip data={isNew ? carrierData! : [carrierState]} setState={setCarrierState} state={carrierState} />
-      </div>
-      <div className="my-4">
-        <Text className="uppercase font-semibold my-4" size="sm">
-          Color
-        </Text>
-        <ButtonChip data={isNew ? colorData! : [colorState]} setState={setColorState} state={colorState} />
-      </div>
+      {productVariants?.map((item, key) => {
+        return (
+          <div key={key + item.color} className="my-4">
+            <Text className="uppercase font-semibold my-4" size="sm">
+              {item.variant}
+            </Text>
+            <ButtonChip data={isNew ? item.values : [item.value]} state={item.value} />
+          </div>
+        );
+      })}
 
       <Group>
         <Only when={isNew}>
@@ -199,16 +177,16 @@ export function PlaceOfferComponent({
       </Group>
 
       <div className="my-8">
-        <PositionApart text={'Your Offer'} number={160} />
+        <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
           <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
           <PositionApart text={'Sales Tax'} number={saleTax} />
           <PositionApart text={'Shipping Fee'} number={shippingFee} />
-          <PositionApart text={'Discount'} number={discount} discount />
+          <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={183} />
+        <PositionApart text={'Total Price'} number={count - Number(discount)} />
       </div>
 
       <Grid>
@@ -233,7 +211,7 @@ export function PlaceOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={'/buying-summary'}
+            href={'/buying-summary?orderType=placeOffer&bidPrice=' + count}
           >
             Review Offer
           </Button>
@@ -246,7 +224,7 @@ export function PlaceOfferComponent({
 type ButtonChipProps = {
   data: string[];
   state: string;
-  setState?: Dispatch<SetStateAction<string>>;
+  setState?: Dispatch<SetStateAction<'new' | 'used'>>;
 };
 
 export function ButtonChip({ data, state, setState }: ButtonChipProps) {
@@ -254,6 +232,7 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
     <Group position="left">
       {data.map((item, key) => (
         <Button
+          uppercase
           key={item + key}
           size="lg"
           styles={{
@@ -272,7 +251,7 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
           }}
           bg={item !== state ? '#f1f1f1' : 'black'}
           onClick={() => {
-            if (setState) setState(item);
+            if (setState) setState(item as condition);
           }}
           className="font-[500] text-[16px]"
         >

@@ -31,6 +31,7 @@ type ProductProperties = {
   id: number;
   listings: number;
   sold: number;
+  model_no:string
 };
 
 type Category = {

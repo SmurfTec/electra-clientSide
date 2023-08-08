@@ -1,6 +1,9 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
+import { Only, baseURL } from '@elektra/customComponents';
+import { initStore, loadProductData } from '@elektra/store';
+import { ProductData } from '@elektra/types';
 import { Container, Divider, Grid, Image } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useState } from 'react';
 
 const ListingDescriptionData = {
@@ -43,8 +46,24 @@ const usedProductListingData = {
   ],
 };
 
-export default function ProductListingPage() {
-  const [condition, setCondition] = useState<string>('Used');
+export async function getServerSideProps(context: NextPageContext) {
+  // id: 1 means homepage data
+  const store = initStore();
+  const productData = store.dispatch(loadProductData(Number(context.query.id)));
+  await Promise.all([productData]);
+  return {
+    props: {
+      productDetail: store.getState().entities.productDetail.list,
+    },
+  };
+}
+type ProductListingPageProps = {
+  productDetail: ProductData;
+};
+
+export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
+  const [condition, setCondition] = useState<'new' | 'used'>(productDetail.product.condition);
+
   return (
     <Container fluid>
       <div className="my-10">
@@ -52,31 +71,33 @@ export default function ProductListingPage() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          
-            {condition === 'Used' ?<div className="-ml-11 md:w-auto w-screen mt-5"> <ProductCarousel images={[]} /></div> :<div className="-ml-12 md:w-auto w-screen mt-5"> <Image alt="product image" src="/images/productImage.png" />
-          </div>}
+          {condition === 'used' ? (
+            <div className="-ml-11 md:w-auto w-screen mt-5">
+              {' '}
+              <ProductCarousel images={productDetail.product.images} />
+            </div>
+          ) : (
+            <div className="-ml-12 md:w-auto w-screen mt-5">
+              {' '}
+              <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0].filename} />
+            </div>
+          )}
         </Grid.Col>
         <Grid.Col md={6}>
           <ListingDescription
-            carrier={ListingDescriptionData.carrier}
-            carrierData={ListingDescriptionData.carrierData}
-            color={ListingDescriptionData.color}
+            productVariants={productDetail?.product?.product_variants}
             condition={condition}
             setCondition={setCondition}
             description={ListingDescriptionData.description}
-            discount={ListingDescriptionData.discount}
-            highestAsk={ListingDescriptionData.highestAsk}
-            lowestAsk={ListingDescriptionData.lowestAsk}
+            highestAsk={Number(productDetail?.product?.highest_offer || 0)}
+            lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}
             saleTax={ListingDescriptionData.saleTax}
             shippingFee={ListingDescriptionData.shippingFee}
-            storage={ListingDescriptionData.storage}
-            averageSalePrice={ListingDescriptionData.averageSalePrice}
-            colorData={ListingDescriptionData.colorData}
-            storageData={ListingDescriptionData.storageData}
+            averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
           />
         </Grid.Col>
-        <Only when={condition === 'Used'}>
+        <Only when={condition === 'used'}>
           <Grid.Col span={12}>
             <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
             <UsedProductListing

@@ -1,14 +1,15 @@
-import { Button, NumberInput, Stack, Text } from '@mantine/core';
+import { Modal as CModal } from '@elektra/customComponents';
+import { loadCoupon, useAppDispatch } from '@elektra/store';
+import { Button, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { useRedeemSuccesfullModal } from './useRedeemModal';
-import { Modal as CModal } from '@elektra/customComponents';
 
 export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
   const [RedeemSuccessfulModal, openedSuccess, redeemHandler] = useRedeemSuccesfullModal();
 
   const form = useForm({
@@ -19,12 +20,22 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
       code: (value) => (value.length < 6 ? 'atleast 6 digit' : null),
     },
   });
-  const handleSubmit = (code: string) => {
-    if (Number(code) === 1234) {
-      setError(false);
-      console.log(code);
+  const handleSubmit = async (code: string) => {
+    console.log(code);
+    const { data, isError } = await dispatch(loadCoupon(code));
+    if (isError) {
+      setError(true);
+      return;
     }
-    setError(true);
+
+    setError(false);
+
+    redeemHandler.open();
+    // if (Number(code) === 1234) {
+    //   setError(false);
+    //   console.log(code);
+    // }
+    // setError(true);
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
@@ -39,12 +50,10 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
         </Text>
       )}
       <form onSubmit={form.onSubmit(({ code }) => handleSubmit(code))}>
-        <NumberInput
+        <TextInput
           className="w-[100%] mr-20"
           size="lg"
-          type="number"
           min={0}
-          hideControls
           styles={{
             input: {
               borderRadius: 'unset',
@@ -58,13 +67,17 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           error={error}
         />
         <div className="text-center mt-4">
-          <Button type="submit" uppercase onClick={redeemHandler.open}>
+          <Button type="submit" uppercase >
             Add
           </Button>
         </div>
       </form>
-      <CModal title="Redeem Successfully" children={RedeemSuccessfulModal} onClose={redeemHandler.close} open={openedSuccess} />
-         
+      <CModal
+        title="Redeem Successfully"
+        children={RedeemSuccessfulModal}
+        onClose={redeemHandler.close}
+        open={openedSuccess}
+      />
     </Stack>
   );
   return [Modal, opened, { open, close }];

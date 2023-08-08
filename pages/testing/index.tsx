@@ -2,20 +2,13 @@ import {
   Footer,
   HeroImage,
   ItemCard,
-  ItemCardProps,
   PageTitle,
   ProductSpecification,
   SimpleStatCardProps,
   SimpleStateCard,
 } from '@elektra/components';
-import { ProductCharts } from '@elektra/components/pageDesign/product/charts/productCharts';
 import { Drawer, Modal, http, useStylesforGlobal } from '@elektra/customComponents';
-import {
-  useOfferModal,
-  useOfferPlaceModal,
-  useSellerDetailDrawer,
-  useTechinalSpecificationDrawer,
-} from '@elektra/hooks';
+import { useOfferModal, useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
 import { Carousel } from '@mantine/carousel';
 import { Button, Container, Grid, Group, Image, Text } from '@mantine/core';
 import Autoplay from 'embla-carousel-autoplay';
@@ -214,9 +207,7 @@ export default function Testing() {
 
   return (
     <div>
-      <div className="my-96 w-full">
-        {/* <ProductCharts /> */}
-      </div>
+      <div className="my-96 w-full">{/* <ProductCharts /> */}</div>
 
       <div>
         <HeroImage />
@@ -438,44 +429,7 @@ export default function Testing() {
         />
       </div>
       <Container my={100} fluid>
-        <Grid grow gutterXl={20}>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              title={productSpecification[1].title}
-              condition={productSpecification[1].condition as condition}
-              // capacity={productSpecification[1].capacity}
-              // capacityData={productSpecification[1].capacityData}
-              // carrier={productSpecification[1].carrier}
-              // carrierData={productSpecification[1].carrierData}
-              // color={productSpecification[1].color}
-              // colorData={productSpecification[1].colorData}
-              productVariants={[]}
-              technicalSpecification={[]}
-              highestAsk={productSpecification[1].highestAsk}
-              lowestAsk={productSpecification[1].lowestAsk}
-              price={productSpecification[1].price}
-              sellerCondition={productSpecification[1].sellerCondition}
-              sellerColor={productSpecification[1].sellerColor}
-              sellerCapacity={productSpecification[1].sellerCapacity}
-              sellerCarrier={productSpecification[1].sellerCarrier}
-            />
-          </Grid.Col>
-          <Grid.Col p={0} span={6}>
-            <ProductSpecification
-              technicalSpecification={[]}
-              title={productSpecification[0].title}
-              condition={productSpecification[0].condition as condition}
-              productVariants={[]}
-              highestAsk={productSpecification[0].highestAsk}
-              lowestAsk={productSpecification[0].lowestAsk}
-              price={productSpecification[0].price}
-              sellerCapacity={productSpecification[0].sellerCapacity}
-              sellerCarrier={productSpecification[0].sellerCarrier}
-              sellerColor={productSpecification[0].sellerColor}
-              sellerCondition={productSpecification[0].sellerCondition}
-            />
-          </Grid.Col>
-        </Grid>
+        
       </Container>
 
       <Container mb={100}>

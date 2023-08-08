@@ -1,15 +1,21 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import {
-  purchasingOrdersReducer,sellingOrdersReducer, protectionPlanReducer,
+  brandReducer,
+  couponReducer,
+  feeReducer,
+  genericCategoryReducer,
+  orderDetailReducer,
+  productDataReducer,
+  productLisingByIdReducer,
+  productListingReducer,
+  productVariantReducer,
+  protectionPlanReducer,
+  purchasingOrdersReducer,
+  sellingOrdersReducer,
   specialProductReducer,
   userFavouriteReducer,
   userRewardReducer,
   websiteSectionReducer,
-  productDataReducer,
-  orderDetailReducer,
-  productListingReducer,
-  productVariantReducer,
-  productLisingByIdReducer,
 } from './slices';
 
 export const entitiesReducers = combineReducers({
@@ -24,5 +30,9 @@ export const entitiesReducers = combineReducers({
   orderDetail: orderDetailReducer,
   productListing: productListingReducer,
   productVariants: productVariantReducer,
-  productListingById: productLisingByIdReducer
+  productListingById: productLisingByIdReducer,
+  coupon: couponReducer,
+  fee: feeReducer,
+  genericCategory: genericCategoryReducer,
+  brand: brandReducer,
 });
