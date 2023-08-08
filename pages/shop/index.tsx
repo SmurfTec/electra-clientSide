@@ -1,14 +1,12 @@
-import { FooterProductCarousel, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
+import { FooterProductCarousel, ProductCard, SectionTitle } from '@elektra/components';
 import { baseURL } from '@elektra/customComponents';
-import { fetchShopProducts, store } from '@elektra/store';
+import { fetchShopProducts, fetchSingleBrand, fetchSingleGenericCategory, store } from '@elektra/store';
+import { BrandAndCategory, Product } from '@elektra/types';
 import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { NextPageContext } from 'next';
 import { useState } from 'react';
-import { Product } from '../../types/slices';
-
-
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
@@ -16,28 +14,40 @@ export async function getServerSideProps(context: NextPageContext) {
   const brandId = context.query.brand;
   const params = categoryId ? `&page=1&category=${categoryId}` : brandId ? `&page=1&brand=${brandId}` : undefined;
   const shopProducts = store.dispatch(fetchShopProducts(params));
+  const genericData = categoryId
+    ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
+    : brandId
+    ? await store.dispatch(fetchSingleBrand(String(brandId)))
+    : undefined;
 
   await Promise.all([shopProducts]);
 
   return {
     props: {
       shopProducts: store.getState().entities.specialProducts.list.shopProducts,
+      genericData: genericData ? genericData.data : undefined,
     },
   };
 }
 
 type ShopPageProps = {
   shopProducts: Product[];
+  genericData: BrandAndCategory | undefined;
 };
 
-export default function ShopPage({ shopProducts }: ShopPageProps) {
+export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
   const [activePage, setPage] = useState(1);
   // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
-
+  console.log(genericData);
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
-      <Image className="mt-4" src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
+      <Image
+        className="mt-4"
+        src={genericData?.image ? baseURL + '/' + genericData.image.filename : '/images/shop/heroBanner.jpg'}
+        alt="banner"
+        height={400}
+      />
       <div className="my-4">
         {/* <Group position="apart">
           <Only when={matches}>
