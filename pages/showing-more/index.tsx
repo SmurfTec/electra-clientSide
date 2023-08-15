@@ -132,8 +132,11 @@ const productData: ProductCardProps[] = [
 
 export async function getServerSideProps(context: NextPageContext) {
   const store = initStore();
-  console.log(context.query['show-more']);
-  const products = store.dispatch(fetchShowMoreProducts(String(context.query['show-more'])));
+  const showMore = context.query['show-more']
+  if(!showMore) {
+    return { redirect: { permanent: false, destination: '/404' } }
+  }
+  const products = store.dispatch(fetchShowMoreProducts(String(showMore)));
   await Promise.all([products]);
   return {
     props: {
@@ -142,11 +145,15 @@ export async function getServerSideProps(context: NextPageContext) {
   };
 }
 type ShowingMore = {
-  products: Product[];
+  products: Product;
 };
 export function ShowingMore({ products }: ShowingMore) {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const trending = useSelector((state: RootState) => state.entities.specialProducts.list.trending);
+  const mostSold = useSelector((state: RootState) => state.entities.specialProducts.list.mostSold);
+  const recommended = useSelector((state: RootState) => state.entities.specialProducts.list.recommended);
+  const latest = useSelector((state: RootState) => state.entities.specialProducts.list.latest);
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
   const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
   const search = router.query['show-more'];
@@ -187,12 +194,12 @@ export function ShowingMore({ products }: ShowingMore) {
           <ItemFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
         </div>
         <section className="mt-5">
-          <SectionTitle title={`${products?.length} Results for ${search}`} />
+          <SectionTitle title={`${products?.products.length} Results for ${search}`} />
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {products.map((product, index) => {
+            {products.products.slice(0,5).map((product, index) => {
               return (
                 <ProductCard
-                key={index + product.id}
+                  key={index + product.id}
                   id={product.id}
                   image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                   description={'9/10 condition with charger and box'}
@@ -212,20 +219,21 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle key={1} title="Trending Now" label="View All" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
+            {trending.products.slice(0,5).map((product, index) => {
               return (
-                <ProductCard
-                  key={index}
-                  image={product.image}
-                  description={product.description}
-                  id={product.id}
-                  title={product.title}
-                  condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
+                <div key={index} className="min-w-[15%]">
+                  <ProductCard
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={false}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
+                  />
+                </div>
               );
             })}
           </div>
@@ -235,20 +243,21 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle title="Most Sold Items" label="View All" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
+            {mostSold.products.slice(0,5).map((product, index) => {
               return (
-                <ProductCard
-                  key={index}
-                  image={product.image}
-                  description={product.description}
-                  id={product.id}
-                  title={product.title}
-                  condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
+                <div key={index} className="min-w-[15%]">
+                  <ProductCard
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={false}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
+                  />
+                </div>
               );
             })}
           </div>
@@ -258,20 +267,21 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle title="Latest Items" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {productData.map((product, index) => {
+            {latest.products.slice(0,5).map((product, index) => {
               return (
-                <ProductCard
-                  key={index}
-                  image={product.image}
-                  description={product.description}
-                  id={product.id}
-                  title={product.title}
-                  condition={product.condition}
-                  wishlist={product.wishlist}
-                  lowestPrice={product.lowestPrice ?? null}
-                  highestPrice={product.highestPrice ?? null}
-                  price={product.price}
-                />
+                <div key={index} className="min-w-[15%]">
+                  <ProductCard
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={false}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product.highest_offer)}
+                    price={Number(product?.user_starting_price)}
+                  />
+                </div>
               );
             })}
           </div>
