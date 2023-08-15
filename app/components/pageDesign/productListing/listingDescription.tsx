@@ -1,14 +1,14 @@
-import { ListItem, Only } from '@elektra/customComponents';
-import { Variant } from '@elektra/types';
+import { ListItem, ListItemPostContext, Only, http } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
+import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { Dispatch, SetStateAction } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
-import { useSelector } from 'react-redux';
-import { RootState } from '@elektra/store';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -20,17 +20,14 @@ type ListingDescriptionProps = {
   marketPlaceFee: number;
   saleTax: number;
   shippingFee: number;
-  setCondition: Dispatch<SetStateAction<'new' | 'used'>>;
   productVariants: Variant[];
 };
 
 export function ListingDescription({
   condition,
   description,
-
   averageSalePrice,
   productVariants,
-  setCondition,
   lowestAsk,
   highestAsk,
 
@@ -38,15 +35,48 @@ export function ListingDescription({
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const [count, handlers] = useCounter(0, { min: 0 });
   const isNew = condition === 'new';
-  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount)
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
+  useEffect(() => {
+    if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
+  }, [count]);
+  const handleListingVariants = (variant: string, value: string) => {
+    const listingVariants = listItemPost?.listingVariants ?? [];
+    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    if (index === -1) {
+      listingVariants.push({ variant, value });
+      setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+      return;
+    }
+    listingVariants[index] = { variant, value };
+    setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const res = await http.request({
+      url: '/listings',
+      method: 'POST',
+      data:listItemPost,
+    });
+    if (res.isError) {
+      console.log(res)
+      setLoading(false);
+    }
+    {
+      console.log(res)
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
       <Group>
         <Text className="uppercase font-semibold" size="sm">
-          Select Condition{' '}
+          Select Condition
         </Text>
         <Tooltip
           styles={{
@@ -67,24 +97,32 @@ export function ListingDescription({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={['new', 'used']} state={condition} setState={setCondition} />
+        <ButtonChip
+          data={['new', 'used']}
+          initialValue={condition}
+          handleState={(value) => {
+            setListItemPost((prev) => ({ ...prev, condition: value as condition }));
+          }}
+        />
       </div>
-
       <div className="my-8">
         <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
       </div>
-
       {productVariants?.map((item, key) => {
         return (
           <div key={key + item.color} className="my-4">
             <Text className="uppercase font-semibold my-4" size="sm">
               {item.variant}
             </Text>
-            <ButtonChip data={isNew ? item.values : [item.value]} state={item.value} />
+            <ButtonChip
+              data={isNew ? item.values : [item.value]}
+              handleState={(value) => {
+                handleListingVariants(item.variant, value);
+              }}
+            />
           </div>
         );
       })}
-
       <Group>
         <Input.Wrapper label="LOWEST ASK" maw={114}>
           <NumberInput
@@ -178,6 +216,7 @@ export function ListingDescription({
             <Button
               className="font-[400]"
               uppercase
+              disabled={loading}
               fullWidth
               size="xl"
               styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
@@ -191,11 +230,11 @@ export function ListingDescription({
               className="font-[400]"
               uppercase
               fullWidth
+              loading={loading}
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              component={NextLink}
-              href="/confirmation?condition=new"
+              onClick={handleSubmit}
             >
               List Item
             </Button>
@@ -205,9 +244,3 @@ export function ListingDescription({
     </div>
   );
 }
-
-type ButtonChipProps = {
-  data: string[];
-  state: string;
-  setState: Dispatch<SetStateAction<string>>;
-};

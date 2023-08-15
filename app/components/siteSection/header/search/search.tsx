@@ -1,5 +1,5 @@
 import { Only, baseURL, http } from '@elektra/customComponents';
-import { Product } from '@elektra/types';
+import { Product, ProductDisplayData } from '@elektra/types';
 import { Button, Center, Divider, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -103,7 +103,7 @@ export const Search = ({ close }: SearchProps) => {
     if (res.isError || sug.isError) {
       setLoading(false);
     } else {
-      const productData = res?.data?.['products']?.map((item: Product) => ({
+      const productData = res?.data?.['products']?.map((item: ProductDisplayData) => ({
         id: item?.id,
         title: item?.title,
         image: baseURL + '/' + item.images?.[0].filename,
