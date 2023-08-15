@@ -73,8 +73,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
   const isOfferType = router.query.orderType === 'placeOffer';
   const profile = useSelector((state: RootState) => state.auth.profile);
-  const coupon = useSelector((state: RootState) => state.entities.coupon.list);
-  console.log(plan);
+  const coupon = useSelector((state: RootState) => state.entities.coupon.list) ?? 0;
 
   const handleSubmit = async () => {
     console.log(plan);
@@ -113,7 +112,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
   const getTotalPrice = () => {
     let totalPrice = 0;
-    feeData.map((fee) => {
+    feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
     totalPrice += Number(productDetail?.product?.highest_offer);
@@ -151,7 +150,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             <Grid.Col xs={12} sm={6}>
               <div className=" relative h-full">
                 <BiddingSummary
-                  reciptFee={feeData.map((item) => ({
+                  reciptFee={feeData?.map((item) => ({
                     id: item.id,
                     fees: Number(item.fees),
                     title: item.type,

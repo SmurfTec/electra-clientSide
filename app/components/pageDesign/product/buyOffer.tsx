@@ -34,7 +34,7 @@ export function BuyOfferComponent({
   shippingFee,
 }: ListingDescriptionProps) {
   const isNew = condition === 'new';
-  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount)
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
   return (
     <div>
