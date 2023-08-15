@@ -1,9 +1,18 @@
 import { BuyOfferComponent, PageTitle } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
+import { baseURL, isAuthenticated } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import { Container, Grid, Image } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useSelector } from 'react-redux';
+
+export async function getServerSideProps({ req }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  return { props: {} };
+}
 
 export default function PlaceOffer() {
   const ListingDescriptionData = {

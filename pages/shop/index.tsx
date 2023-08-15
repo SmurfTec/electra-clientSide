@@ -1,227 +1,109 @@
-import { FooterProductCarousel, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { Modal, Only } from '@elektra/customComponents';
+import { FooterProductCarousel, ItemFilter, ProductCard, SectionTitle } from '@elektra/components';
+import { Modal, Only, baseURL } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
+import {
+  RootState,
+  fetchShopProducts,
+  fetchSingleBrand,
+  fetchSingleGenericCategory,
+  loadFilterProducts,
+  rehydrateShopProducts,
+  store,
+  useAppDispatch,
+  useSelector,
+} from '@elektra/store';
+import { BrandAndCategory, Product } from '@elektra/types';
 import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { useState } from 'react';
+import { NextPageContext } from 'next';
+import { useEffect, useState } from 'react';
 import { Filter } from 'tabler-icons-react';
 
-const productData: ProductCardProps[] = [
-  {
-    image: '/images/product.png',
-    // link: '/product-detail',
-    id: 0,
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    condition: 'new',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
+export async function getServerSideProps(context: NextPageContext) {
+  // id: 1 means homepage data
+  const categoryId = context.query.category;
+  const brandId = context.query.brand;
+  const params = categoryId ? `&category=${categoryId}` : brandId ? `&brand=${brandId}` : '';
+  const shopProducts = store.dispatch(fetchShopProducts(params));
+  const genericData = categoryId
+    ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
+    : brandId
+    ? await store.dispatch(fetchSingleBrand(String(brandId)))
+    : undefined;
 
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
+  await Promise.all([shopProducts]);
 
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    condition: 'new',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
-    condition: 'new',
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone X',
-    description: '9/10 condition with charger and box',
+  return {
+    props: {
+      products: store.getState().entities.specialProducts.list.shopProducts,
+      genericData: genericData ? genericData.data : null,
+    },
+  };
+}
 
-    wishlist: true,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-  {
-    condition: 'new',
-    image: '/images/product.png',
-    id: 0,
-    title: 'Iphone 14 Pro max',
-    description: '9/10 condition with charger and box',
-    wishlist: false,
-    lowestPrice: null,
-    highestPrice: 500,
-    price: 187,
-  },
-];
+type ShopPageProps = {
+  products: Product[];
+  genericData: BrandAndCategory | undefined;
+};
 
-export default function ShopPage() {
+export default function ShopPage({ products, genericData }: ShopPageProps) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let unsubscribe = false;
+    if (!unsubscribe) {
+      dispatch(rehydrateShopProducts(products));
+    }
+    return () => {
+      unsubscribe = true;
+    };
+  }, []);
+
   const [activePage, setPage] = useState(1);
-  // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
+  const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
+  const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
+  const handleFilter = async (label: string, value: string, id: number) => {
+    let newParams = params;
+    const existParam = newParams.find((item) => item.id === id);
 
+    if (existParam) {
+      newParams = params.filter((item) => item.id !== id);
+      if (existParam.value !== value) newParams = [...newParams, { label, value, id }];
+
+      setParams(newParams);
+    } else {
+      newParams = [...newParams, { label, value, id }];
+      setParams(newParams);
+    }
+    if (newParams.length === 0) {
+      dispatch(loadFilterProducts());
+      return;
+    }
+    const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
+    dispatch(loadFilterProducts(paramString));
+  };
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
+    data: productFilters,
+    filter: params,
+    setFilter: setParams,
+    fetchListings: handleFilter,
+  });
   const matches = useMediaQuery('(max-width: 600px)');
+
+  const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
+
+  console.log(shopProducts);
   return (
     <>
-      <Image className="mt-4" src="/images/shop/heroBanner.jpg" alt="banner" height={400} />
+      <Image
+        className="mt-4"
+        src={genericData?.image ? baseURL + '/' + genericData.image.filename : '/images/shop/heroBanner.jpg'}
+        alt="banner"
+        height={400}
+      />
       <div className="my-4">
-        {/* <Group position="apart">
+        <Group position="apart">
           <Only when={matches}>
             <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
@@ -229,27 +111,27 @@ export default function ShopPage() {
           </Only>
         </Group>
         <Only when={!matches}>
-          <ItemFilter />
-        </Only> */}
+          <ItemFilter data={productFilters} fetchListings={handleFilter} filter={params} setFilter={setParams} />
+        </Only>
       </div>
-      <SectionTitle title="All Phones" />
-      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} /> */}
+      <SectionTitle title="All Products" />
+      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {productData.map((product, index) => {
+        {shopProducts?.map((product, index) => {
           return (
-            <ProductCard
-              key={index}
-              id={product.id}
-              image={product.image}
-              description={product.description}
-              // link={product.link}
-              title={product.title}
-              condition={product.condition}
-              wishlist={product.wishlist}
-              lowestPrice={product.lowestPrice ?? null}
-              highestPrice={product.highestPrice ?? null}
-              price={product.price}
-            />
+            <div key={index} className="min-w-[15%]">
+              <ProductCard
+                id={product.id}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                description={'9/10 condition with charger and box'}
+                title={product.title}
+                condition={product.condition}
+                wishlist={false}
+                lowestPrice={Number(product.lowest_price)}
+                highestPrice={Number(product.highest_offer)}
+                price={Number(product?.user_starting_price)}
+              />
+            </div>
           );
         })}
       </div>

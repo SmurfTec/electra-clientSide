@@ -49,8 +49,13 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           Please enter correct code
         </Text>
       )}
-      <form onSubmit={form.onSubmit(({ code }) => handleSubmit(code))}>
+      <form
+        onSubmit={form.onSubmit(({ code }) => {
+          handleSubmit(code);
+        })}
+      >
         <TextInput
+        placeholder='code'
           className="w-[100%] mr-20"
           size="lg"
           min={0}
@@ -67,7 +72,7 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
           error={error}
         />
         <div className="text-center mt-4">
-          <Button type="submit" uppercase >
+          <Button type="submit" uppercase>
             Add
           </Button>
         </div>

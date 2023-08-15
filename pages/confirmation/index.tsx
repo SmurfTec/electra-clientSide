@@ -1,9 +1,10 @@
 import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
-import { ListItem, Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
+import { ListItem, Modal, Only, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, useProductAddedModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { Check } from 'tabler-icons-react';
 
@@ -14,6 +15,14 @@ const description = [
   'Mauris id lacus gravida erat rutrum facilisis.',
   'Sed et quam pretium, laoreet metus sed,',
 ];
+
+export async function getServerSideProps({ req }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  return undefined;
+}
 
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');

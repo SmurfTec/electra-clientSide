@@ -141,6 +141,8 @@ export default function ProductPage({ productDetail, productListing, productVari
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
+    filter:params,
+    setFilter:setParams,
     fetchListings: handleFilter,
   });
 
@@ -239,7 +241,7 @@ export default function ProductPage({ productDetail, productListing, productVari
         </div>
 
         <Center className="mt-20 space-x-3">
-          <Only when={limit === 5}>
+          <Only when={limit === 5 && listingData?.length > 5}>
             <Text size={16} className="font-[600]" color="black">
               View More
             </Text>
