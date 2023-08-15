@@ -1,4 +1,4 @@
-import { ListItem } from '@elektra/customComponents';
+import { ListItem, ListItemPostContext, http } from '@elektra/customComponents';
 import {
   ActionIcon,
   Badge,
@@ -15,9 +15,10 @@ import {
   createStyles,
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { NextLink } from '@mantine/next';
-import { FC, useState } from 'react';
+
+import { FC, useContext, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
+import { ListItemPost, listingVariants } from '@elektra/types';
 
 type UsedProductListingProps = {
   accessories: string[];
@@ -32,9 +33,41 @@ const useStyles = createStyles({
 
 export function UsedProductListing({ accessories, description, itemConditions }: UsedProductListingProps) {
   const { classes } = useStyles();
+  const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
+  const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const filterFile = (file: FileWithPath) => {
     return files.filter((item) => item !== file);
+  };
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    files.map((file)=>formData.append("images",file))
+    setLoading(true);
+    Object.keys(listItemPost).map((key)=>{
+      console.log(typeof listItemPost[key as keyof ListItemPost],key)
+      if(typeof listItemPost[key as keyof ListItemPost] === 'object'){
+          formData.append(key,JSON.stringify(listItemPost[key as keyof ListItemPost]))
+      }
+      else
+      formData.append(key,listItemPost[key as keyof ListItemPost] as string)
+    })
+    console.log(formData)
+    const res = await http.request({
+      url: '/listings',
+      method: 'POST',
+      data:formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    if (res.isError) {
+      console.log(res)
+      setLoading(false);
+    }
+    {
+      console.log(res)
+      setLoading(false);
+    }
   };
 
   const previews = files.map((file, index) => {
@@ -44,7 +77,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
         <Image
           height="155px"
           m={0}
-          alt=''
+          alt=""
           key={index}
           src={imageUrl}
           imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
@@ -82,7 +115,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
                 return (
                   <Checkbox
                     key={key}
-                    icon={Check as FC<{ indeterminate: boolean; className: string; }>}
+                    icon={Check as FC<{ indeterminate: boolean; className: string }>}
                     styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }}
                     value={item}
                     label={item}
@@ -97,15 +130,24 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               Has Your item ever Been repaired before? (If yes please describe )
             </Text>
 
-            <Radio.Group>
+            <Radio.Group
+              value={listItemPost.is_repaired_before}
+              onChange={(value: 'true' | 'false') =>
+                setListItemPost((prev) => ({ ...prev, is_repaired_before: value }))
+              }
+            >
               <Group>
-                {['Yes', 'No'].map((item,index) => {
-                  return <Radio key={index} icon={Check} classNames={classes} value={item} label={item} />;
+                {[
+                  { label: 'Yes', value: 'true' },
+                  { label: 'No', value: 'false' },
+                ].map((item, index) => {
+                  return <Radio key={index} icon={Check} classNames={classes} value={item.value} label={item.label} />;
                 })}
               </Group>
             </Radio.Group>
-
             <Textarea
+              value={listItemPost.explain_repair}
+              onChange={(event) => setListItemPost((prev) => ({ ...prev, explain_repair: event.currentTarget.value }))}
               styles={{
                 input: { border: '2px solid black', borderRadius: '0' },
                 description: { color: 'black', fontSize: '16px' },
@@ -117,11 +159,14 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           <div className="space-y-4 my-4">
             <Text className="font-[500]" size="md">
               Which Best describes the overall condition of your item?
-            </Text>{' '}
-            <Radio.Group>
+            </Text>
+            <Radio.Group value={listItemPost.condition_details}
+              onChange={(value) =>
+                setListItemPost((prev) => ({ ...prev, condition_details: value }))
+              }>
               <Group>
-                {itemConditions.map((item,index) => {
-                  return <Radio key={index} icon={Check} classNames={classes} value={item} label={item} />;
+                {itemConditions.map((item, index) => {
+                  return <Radio key={index} icon={Check} classNames={classes} value={item.toLowerCase()} label={item} />;
                 })}
               </Group>
             </Radio.Group>
@@ -137,6 +182,8 @@ export function UsedProductListing({ accessories, description, itemConditions }:
 
           <>
             <Textarea
+             value={listItemPost.more_info}
+             onChange={(event) => setListItemPost((prev) => ({ ...prev, more_info: event.currentTarget.value }))}
               description="Tell us more about type"
               className="font-[500]"
               styles={{
@@ -160,13 +207,12 @@ export function UsedProductListing({ accessories, description, itemConditions }:
           }}
           radius="xl"
         >
-          {' '}
           Product Images
         </Badge>
         <Group my={12}>
           <ActionIcon bg={'#E70000'} radius="lg" size="sm" variant="filled">
             <QuestionMark size="1rem" />
-          </ActionIcon>{' '}
+          </ActionIcon>
           <Text size="sm">Atleast 6 unique photos are required , front , back , bottom, sides, and one extra</Text>
         </Group>
       </Grid.Col>
@@ -204,6 +250,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
             <Button
               className="font-[400] text-[16px]"
               uppercase
+              disabled={loading}
               fullWidth
               size="xl"
               styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
@@ -217,12 +264,11 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               className="font-[400] text-[16px]"
               uppercase
               fullWidth
-              
+              loading={loading}
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              component={NextLink}
-              href="/confirmation"
+              onClick={handleSubmit}
             >
               List Item
             </Button>
