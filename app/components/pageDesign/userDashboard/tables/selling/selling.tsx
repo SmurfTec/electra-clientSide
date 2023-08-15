@@ -141,7 +141,7 @@ export function Selling() {
               bg="rgba(60, 130, 214, 1)"
               rightIcon={
                 <span className="rounded-full bg-white text-xs text-blue-500 relative w-5 h-5">
-                  <span className="absolute -translate-y-1/2 top-1/2">
+                  <span className="absolute -translate-y-1/2 top-1/2 -translate-x-1/2 left-1/2">
                     {Number(sellingCompletedOrders?.orderStats[0].completed_sales)}
                   </span>
                 </span>

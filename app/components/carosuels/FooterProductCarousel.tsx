@@ -14,26 +14,30 @@ export const FooterProductCarousel = () => {
   )?.images;
 
   return (
-    <Carousel
-      classNames={classes}
-      breakpoints={[
-        { maxWidth: 769, slideSize: '50%' },
-        { maxWidth: 500, slideSize: '100%' },
-      ]}
-      withIndicators
-      nextControlIcon={<ArrowNarrowRight size={20} color="rgba(17, 17, 17, 1)" />}
-      previousControlIcon={<ArrowNarrowLeft size={20} color="rgba(17, 17, 17, 1)" />}
-      slideSize="33.333333%"
-      slideGap="md"
-      align="start"
-      slidesToScroll={1}
-    >
-      {carouselData?.map((item, index) => (
-        <Carousel.Slide key={index}>
-          <Image src={baseURL + "/" + item.filename} alt="" fit='cover' />
-        </Carousel.Slide>
-      ))}
-    </Carousel>
+    <>
+      {carouselData && carouselData?.length > 0 && (
+        <Carousel
+          classNames={classes}
+          breakpoints={[
+            { maxWidth: 769, slideSize: '50%' },
+            { maxWidth: 500, slideSize: '100%' },
+          ]}
+          withIndicators
+          nextControlIcon={<ArrowNarrowRight size={20} color="rgba(17, 17, 17, 1)" />}
+          previousControlIcon={<ArrowNarrowLeft size={20} color="rgba(17, 17, 17, 1)" />}
+          slideSize="33.333333%"
+          slideGap="md"
+          align="start"
+          slidesToScroll={1}
+        >
+          {carouselData?.map((item, index) => (
+            <Carousel.Slide key={index}>
+              <Image src={baseURL + '/' + item.filename} alt="" fit="cover" />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      )}
+    </>
   );
 };
 const useStyles = createStyles((theme) => ({

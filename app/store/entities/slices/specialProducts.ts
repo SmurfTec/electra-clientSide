@@ -127,7 +127,7 @@ export const fetchShopProducts =
     console.log(param);
     return await dispatch(
       apiRequest({
-        url: URL + `?limit=15&${param}`,
+        url: URL + `${param}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,

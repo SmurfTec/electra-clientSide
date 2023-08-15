@@ -12,7 +12,7 @@ export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const categoryId = context.query.category;
   const brandId = context.query.brand;
-  const params = categoryId ? `&page=1&category=${categoryId}` : brandId ? `&page=1&brand=${brandId}` : undefined;
+  const params = categoryId ? `&category=${categoryId}` : brandId ? `&brand=${brandId}` : "";
   const shopProducts = store.dispatch(fetchShopProducts(params));
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
@@ -25,7 +25,7 @@ export async function getServerSideProps(context: NextPageContext) {
   return {
     props: {
       shopProducts: store.getState().entities.specialProducts.list.shopProducts,
-      genericData: genericData ? genericData.data : undefined,
+      genericData: genericData ? genericData.data : null,
     },
   };
 }
@@ -38,7 +38,7 @@ type ShopPageProps = {
 export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
   const [activePage, setPage] = useState(1);
   // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
-  console.log(genericData);
+  console.log(shopProducts)
   const matches = useMediaQuery('(max-width: 600px)');
   return (
     <>
