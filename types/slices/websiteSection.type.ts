@@ -44,7 +44,7 @@ type Brand = {
   title: string;
 };
 
-type ProductData = {
+export type ProductDisplayData = {
   id: number;
   title: string;
   is_active: boolean;
@@ -62,6 +62,12 @@ type ProductData = {
   user_starting_price: number | null;
 };
 
+export type UserFavourite = {
+  results: number;
+  favourites: ProductDisplayData[];
+};
+
+
 type Stats = {
   total_products: number;
   total_products_sold: number;
@@ -76,5 +82,5 @@ type Stats = {
 export type Product = {
   results?: number;
   stats?: Stats;
-  products: ProductData[];
+  products: ProductDisplayData[];
 };

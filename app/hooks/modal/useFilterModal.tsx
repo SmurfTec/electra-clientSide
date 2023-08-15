@@ -27,7 +27,7 @@ export const useFilterModal = ({data,filter,setFilter,fetchListings}:ProductFilt
     <div className="mt-5">
       <Only
         when={
-          filter.length != 0
+          filter?.length != 0
         }
       >
         <div>
@@ -48,7 +48,7 @@ export const useFilterModal = ({data,filter,setFilter,fetchListings}:ProductFilt
           </Group>
           <div className="space-y-3">
           {filter?.map((item) => (
-                <FilterDisplay key={item.id} fetchListings={fetchListings} setState={setFilter} filter={item} />
+                <FilterDisplay fetchListings={fetchListings} key={item.id} setState={setFilter} filter={item} />
               ))}</div>
         </div>
       </Only>
