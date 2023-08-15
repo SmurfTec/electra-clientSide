@@ -24,7 +24,7 @@ export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const categoryId = context.query.category;
   const brandId = context.query.brand;
-  const params = categoryId ? `&category=${categoryId}` : brandId ? `&brand=${brandId}` : '';
+  const params = categoryId ? `?category=${categoryId}` : brandId ? `?brand=${brandId}` : '';
   const shopProducts = store.dispatch(fetchShopProducts(params));
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
@@ -38,6 +38,7 @@ export async function getServerSideProps(context: NextPageContext) {
     props: {
       products: store.getState().entities.specialProducts.list.shopProducts,
       genericData: genericData ? genericData.data : null,
+      queryParams: params
     },
   };
 }
@@ -45,9 +46,10 @@ export async function getServerSideProps(context: NextPageContext) {
 type ShopPageProps = {
   products: Product;
   genericData: BrandAndCategory | undefined;
+  queryParams?: string
 };
 
-export default function ShopPage({ products, genericData }: ShopPageProps) {
+export default function ShopPage({ products, genericData, queryParams }: ShopPageProps) {
   const dispatch = useAppDispatch();
   
   useEffect(() => {
@@ -65,7 +67,6 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
   const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
   const handleFilter = async (label: string, value: string, id: number) => {
     let newParams = params;
-    console.log(params)
     const existParam = newParams.find((item) => item.id === id);
 
     if (existParam) {
@@ -94,6 +95,12 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
   const matches = useMediaQuery('(max-width: 600px)');
 
   const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
+
+
+  const handlePaginatedProducts = (pageNumber: number) => {
+    setPage(pageNumber);
+    dispatch(fetchShopProducts(queryParams + `&page=${pageNumber}&limit=10`));
+  };
 
   return (
     <>
@@ -145,8 +152,8 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
           withControls={false}
           position="center"
           value={activePage}
-          onChange={setPage}
-          total={Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10)}
+          onChange={(page) => handlePaginatedProducts(page)}
+          total={!queryParams ? Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10) : Math.ceil(Number(shopProducts?.results ?? 0) / 10) }
         />
       </Group>
 

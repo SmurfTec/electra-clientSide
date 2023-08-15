@@ -135,7 +135,7 @@ export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchShopProducts =
-  (param: string = '?page=1') =>
+  (param: string = '') =>
   async (dispatch: AppDispatch) => {
     console.log(URL + `${param}`);
     return await dispatch(
