@@ -1,6 +1,6 @@
 import { AutoCompleteItem, FooterMenu, NotHeader } from '@elektra/components';
 import { baseURL, http } from '@elektra/customComponents';
-import { Product } from '@elektra/types';
+import { Product, ProductDisplayData } from '@elektra/types';
 import { Autocomplete, Container, Loader, Text } from '@mantine/core';
 import { useDebouncedValue, useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
@@ -63,7 +63,7 @@ export function SellingSearch() {
     if (res.isError) {
       setLoading(false);
     } else {
-      const productData = res?.data?.['products']?.map((item: Product) => ({
+      const productData = res?.data?.['products']?.map((item: ProductDisplayData) => ({
         image: baseURL + '/' + item.images?.[0].filename,
         link: `/product-listing/${item.id}`,
         title: item?.title,

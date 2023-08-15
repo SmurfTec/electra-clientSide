@@ -129,6 +129,8 @@ export default function ProductPage({ productListing, productVariants, productLi
   const productFilters = productVariants.variants;
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
+    filter:params,
+    setFilter:setParams,
     fetchListings: handleFilter,
   });
 
@@ -185,7 +187,7 @@ export default function ProductPage({ productListing, productVariants, productLi
           <Grid.Col span={12}>
             <Flex wrap={'nowrap'} gap={20}>
               {params?.map((item) => (
-                <FilterDisplay key={item.id} setState={setParams} filter={item} />
+                <FilterDisplay fetchListings={handleFilter} key={item.id} setState={setParams} filter={item} />
               ))}
             </Flex>
           </Grid.Col>
