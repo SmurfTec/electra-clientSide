@@ -43,13 +43,13 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 type ShopPageProps = {
-  products: Product[];
+  products: Product;
   genericData: BrandAndCategory | undefined;
 };
 
 export default function ShopPage({ products, genericData }: ShopPageProps) {
   const dispatch = useAppDispatch();
-
+  
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -65,6 +65,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
   const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
   const handleFilter = async (label: string, value: string, id: number) => {
     let newParams = params;
+    console.log(params)
     const existParam = newParams.find((item) => item.id === id);
 
     if (existParam) {
@@ -77,6 +78,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
       setParams(newParams);
     }
     if (newParams.length === 0) {
+      console.log(newParams)
       dispatch(loadFilterProducts());
       return;
     }
@@ -93,7 +95,6 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
 
   const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
 
-  console.log(shopProducts);
   return (
     <>
       <Image
@@ -117,7 +118,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
       <SectionTitle title="All Products" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {shopProducts?.map((product, index) => {
+        {shopProducts?.products?.map((product, index) => {
           return (
             <div key={index} className="min-w-[15%]">
               <ProductCard
@@ -145,7 +146,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
           position="center"
           value={activePage}
           onChange={setPage}
-          total={10}
+          total={Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10)}
         />
       </Group>
 

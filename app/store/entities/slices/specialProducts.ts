@@ -11,12 +11,12 @@ const shopProducts = '/products/';
 const URL = '/products';
 
 type ProductData = {
-  mostSold: Product[];
-  trending: Product[];
-  latest: Product[];
-  showMore?: Product[];
-  recommended?: Product[];
-  shopProducts?: Product[];
+  mostSold: Product;
+  trending: Product;
+  latest: Product;
+  showMore?: Product;
+  recommended?: Product;
+  shopProducts?: Product;
 };
 
 type specialProduct = {
@@ -25,7 +25,7 @@ type specialProduct = {
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: [], trending: [], latest: [], showMore: [], recommended: [], shopProducts: [] },
+  list: { mostSold: {products: []}, trending: {products: []}, latest: {products: []}, showMore: {products: []}, recommended: {products: []}, shopProducts: {products: []} },
   loading: false,
 };
 
@@ -38,31 +38,31 @@ const slice = createSlice({
     },
 
     trendingReceived: (state, action) => {
-      state.list.trending = action.payload.products;
+      state.list.trending = action.payload;
       state.loading = false;
     },
 
     mostSoldReceived: (state, action) => {
-      state.list.mostSold = action.payload.products;
+      state.list.mostSold = action.payload;
       state.loading = false;
     },
     latestReceived: (state, action) => {
-      state.list.latest = action.payload.products;
+      state.list.latest = action.payload;
       state.loading = false;
     },
 
     showMoreReceived: (state, action) => {
-      state.list.showMore = action.payload.products;
+      state.list.showMore = action.payload;
       state.loading = false;
     },
 
     shopProductsReceived: (state, action) => {
-      state.list.shopProducts = action.payload.products;
+      state.list.shopProducts = action.payload;
       state.loading = false;
     },
 
     recommendedReceived: (state, action) => {
-      state.list.recommended = action.payload.products;
+      state.list.recommended = action.payload;
       state.loading = false;
     },
 
@@ -77,7 +77,7 @@ const slice = createSlice({
 
     rehydrateShopProduct: (state, action) => {
       state.loading = true;
-      state.list.shopProducts = action.payload ?? []
+      state.list.shopProducts = action.payload
       state.loading = false;
     },
 
@@ -94,7 +94,7 @@ export const rehydrateSpecialProducts = (payload: ProductData) => {
   };
 };
 
-export const rehydrateShopProducts = (payload: Product[]) => {
+export const rehydrateShopProducts = (payload: Product) => {
   return {
     type: slice.actions.rehydrateShopProduct.type,
     payload,

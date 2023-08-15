@@ -195,7 +195,7 @@ export default function ProductPage({ productDetail, productListing, productVari
           <Grid.Col span={12}>
             <Flex wrap={'nowrap'} gap={20}>
               {params?.map((item) => (
-                <FilterDisplay key={item.id} setState={setParams} filter={item} />
+                <FilterDisplay key={item.id} setState={setParams} fetchListings={handleFilter}  filter={item} />
               ))}
             </Flex>
           </Grid.Col>
