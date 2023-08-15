@@ -12,7 +12,6 @@ import { PositionApart } from '../buying-summary';
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
-  setCondition: Dispatch<SetStateAction<'new' | 'used'>>;
   averageSalePrice?: number;
   lowestAsk: number;
   highestAsk: number;
@@ -27,7 +26,6 @@ export function PlaceOfferComponent({
   description,
   averageSalePrice,
   productVariants,
-  setCondition,
   lowestAsk,
   highestAsk,
   marketPlaceFee,
