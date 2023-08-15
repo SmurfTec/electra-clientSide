@@ -1,5 +1,5 @@
-import { ListItem, Only } from '@elektra/customComponents';
-import { Variant } from '@elektra/types';
+import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
+import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -8,6 +8,7 @@ import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
 import { useSelector } from 'react-redux';
 import { RootState } from '@elektra/store';
+import { useContext } from 'react';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -34,8 +35,21 @@ export function BuyOfferComponent({
   shippingFee,
 }: ListingDescriptionProps) {
   const isNew = condition === 'new';
+  const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
+  const handleListingVariants = (variant: string, value: string) => {
+    const listingVariants = listItemPost?.listingVariants ?? [];
+    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    if (index === -1) {
+      listingVariants.push({ variant, value });
+      setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+      return;
+    }
+    listingVariants[index] = { variant, value };
+    setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  };
+
   return (
     <div>
       <Group>
@@ -61,7 +75,10 @@ export function BuyOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={[isNew ? 'New' : 'Used']} state={isNew ? 'New' : 'Used'} />
+        <ButtonChip data={[isNew ? 'New' : 'Used']}  initialValue={condition}
+          handleState={(value) => {
+            setListItemPost((prev) => ({ ...prev, condition: value as condition }));
+          }} />
       </div>
 
       <div className="my-8">
@@ -75,7 +92,9 @@ export function BuyOfferComponent({
               <Text className="uppercase font-semibold my-4" size="sm">
                 {item.variant}
               </Text>
-              <ButtonChip data={isNew ? item.values : [item.value]} state={item.value} />
+              <ButtonChip data={isNew ? item.values : [item.value]} handleState={(value) => {
+                handleListingVariants(item.variant, value);
+              }}/>
             </div>
           </div>
         );
