@@ -44,7 +44,7 @@ type Brand = {
   title: string;
 };
 
-export type Product = {
+export type ProductData = {
   id: number;
   title: string;
   is_active: boolean;
@@ -61,3 +61,22 @@ export type Product = {
   lowest_price: number | null;
   user_starting_price: number | null;
 };
+
+type Stats = {
+  total_products: number;
+  total_products_sold: number;
+  products_percentage: number | null;
+  total_unique_products_sold: number;
+  total_products_sold_last_month: number;
+  total_unique_products_sold_last_month: number;
+  total_products_sold_last_Six_months: number;
+  total_unique_products_sold_last_Six_months: number;
+}
+
+
+export type Product ={
+  results?: number;
+  stats?: Stats;
+  products: ProductData[];
+}
+

@@ -72,98 +72,6 @@ const bannerData: BannerProps[] = [
   },
 ];
 
-const categoryData = [
-  {
-    id: 1,
-    image: '/images/category.png',
-    title: 'Laptops',
-    link: '/shop',
-  },
-  {
-    id: 2,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 3,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 4,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 5,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 6,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 7,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 8,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 9,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 10,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 11,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 12,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 13,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 14,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 15,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-];
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
@@ -198,10 +106,10 @@ export async function getServerSideProps(context: NextPageContext) {
 
 type homePageProps = {
   websiteSection: WebsiteSection;
-  trending: Product[];
-  latest: Product[];
-  mostSold: Product[];
-  recommended: Product[];
+  trending: Product;
+  latest: Product;
+  mostSold: Product;
+  recommended: Product;
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
 };
@@ -230,12 +138,12 @@ export function Index({ ...rest }: homePageProps) {
       <section className="mt-4">
         <HeroImage />
       </section>
-      <Only when={recommended.length > 0}>
+      <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" />
           <ScrollArea h={380} type="scroll" scrollbarSize={5}>
             <Center className="space-x-8 md:space-x-16">
-              {recommended?.slice(0, 5).map((product, index) => {
+              {recommended?.products?.slice(0, 5).map((product, index) => {
                 return (
                   <div key={index} className="min-w-[15%]">
                     <ProductCard
@@ -261,7 +169,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.slice(0, 5).map((product, index) => {
+            {trending.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -327,7 +235,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {mostSold.slice(0, 5).map((product, index) => {
+            {mostSold.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -352,7 +260,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Latest Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0, 5).map((product, index) => {
+            {latest.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
