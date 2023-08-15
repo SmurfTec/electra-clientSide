@@ -31,7 +31,7 @@ type ProductProperties = {
   id: number;
   listings: number;
   sold: number;
-  model_no:string
+  model_no: string;
 };
 
 type Category = {
@@ -44,12 +44,12 @@ type Brand = {
   title: string;
 };
 
-export type ProductData = {
+type ProductData = {
   id: number;
   title: string;
   is_active: boolean;
   created_on: string;
-  condition: "new" | "used"
+  condition: 'new' | 'used';
   updated_on: string;
   clicks: number;
   interactions: number;
@@ -71,12 +71,10 @@ type Stats = {
   total_unique_products_sold_last_month: number;
   total_products_sold_last_Six_months: number;
   total_unique_products_sold_last_Six_months: number;
-}
+};
 
-
-export type Product ={
+export type Product = {
   results?: number;
   stats?: Stats;
   products: ProductData[];
-}
-
+};
