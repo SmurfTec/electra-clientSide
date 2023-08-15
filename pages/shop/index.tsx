@@ -65,6 +65,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
   const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
   const handleFilter = async (label: string, value: string, id: number) => {
     let newParams = params;
+    console.log(params)
     const existParam = newParams.find((item) => item.id === id);
 
     if (existParam) {
@@ -77,6 +78,7 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
       setParams(newParams);
     }
     if (newParams.length === 0) {
+      console.log(newParams)
       dispatch(loadFilterProducts());
       return;
     }
@@ -93,7 +95,6 @@ export default function ShopPage({ products, genericData }: ShopPageProps) {
 
   const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
 
-  console.log(shopProducts);
   return (
     <>
       <Image
