@@ -75,6 +75,12 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    rehydrateShopProduct: (state, action) => {
+      state.loading = true;
+      state.list.shopProducts = action.payload ?? []
+      state.loading = false;
+    },
+
     specialProductFailed: (state) => {
       state.loading = false;
     },
@@ -84,6 +90,13 @@ const slice = createSlice({
 export const rehydrateSpecialProducts = (payload: ProductData) => {
   return {
     type: slice.actions.rehydrateSpecialProduct.type,
+    payload,
+  };
+};
+
+export const rehydrateShopProducts = (payload: Product[]) => {
+  return {
+    type: slice.actions.rehydrateShopProduct.type,
     payload,
   };
 };
@@ -122,12 +135,24 @@ export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchShopProducts =
-  (param: string = 'page=1') =>
+  (param: string = '?page=1') =>
   async (dispatch: AppDispatch) => {
-    console.log(param);
+    console.log(URL + `${param}`);
     return await dispatch(
       apiRequest({
         url: URL + `${param}`,
+        onStart: slice.actions.specialProductRequested.type,
+        onSuccess: slice.actions.shopProductsReceived.type,
+        onError: slice.actions.specialProductFailed.type,
+      })
+    );
+  };
+  export const loadFilterProducts =
+  (params: string = '&limit=15&page=1') =>
+  async (dispatch: AppDispatch) => {
+    return await dispatch(
+      apiRequest({
+        url:URL + `?${params}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,
