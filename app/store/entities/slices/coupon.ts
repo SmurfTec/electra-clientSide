@@ -60,6 +60,7 @@ export const resetCoupon = () => {
 };
 
 export const loadCoupon = (code: string) => async (dispatch: AppDispatch) => {
+  console.log(code);
   return await dispatch(
     apiRequest({
       url: URL + code,
@@ -69,7 +70,6 @@ export const loadCoupon = (code: string) => async (dispatch: AppDispatch) => {
     })
   );
 };
-
 
 //  export reducer function
 export const couponReducer = slice.reducer;

@@ -28,7 +28,7 @@ export function BiddingSummary({
   reciptFee,
 }: BiddingSummaryProps) {
   const router = useRouter();
-  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const isOfferType = router.query.orderType === 'placeOffer';
   const { classes } = useStylesforGlobal();
   const yourOffer = router.query.bidPrice;

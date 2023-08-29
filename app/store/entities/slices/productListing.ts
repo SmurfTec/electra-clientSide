@@ -8,7 +8,7 @@ export type ListingProductSlice = {
   loading: boolean;
 };
 
-const listingUrl = '/listings/';
+const listingUrl = '/listings';
 
 const initialState: ListingProductSlice = {
   list: {} as ListingsResponse,
