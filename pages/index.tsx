@@ -72,7 +72,6 @@ const bannerData: BannerProps[] = [
   },
 ];
 
-
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const websiteSection = store.dispatch(loadWebsiteSection(1));
@@ -131,7 +130,6 @@ export function Index({ ...rest }: homePageProps) {
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
-
 
   return (
     <div>
@@ -192,7 +190,7 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Categories" />
-        <Grid gutter={30} columns={12}>
+        <Grid gutter={30} columns={8}>
           <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
               {genericCategories?.categories?.map((category, index) => {
@@ -200,7 +198,8 @@ export function Index({ ...rest }: homePageProps) {
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
                       key={index + category.id}
-                      image={baseURL + '/' + category.image?.filename}
+                      // image={baseURL + '/' + category.image?.filename}
+                      image="/images/brands/brand.png"
                       id={category.id}
                       title={category.name}
                       link={'/shop?category=' + category.id}
@@ -288,18 +287,19 @@ export function Index({ ...rest }: homePageProps) {
       </section>
       <section>
         <SectionTitle title="Brands" />
-        <Grid gutter={30} columns={21}>
-          <ScrollArea type="hover" scrollbarSize={5}>
+        <Grid gutter={30} columns={8}>
+          <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
-              {brand?.brands?.map((data, index) => {
+              {[...brand?.brands, ...brand?.brands].map((category, index) => {
                 return (
-                  <Grid.Col span={7} key={data?.id + index}>
+                  <Grid.Col span={2} key={index}>
                     <CategoryCard
-                      key={data.id}
-                      image={baseURL + '/' + data?.image?.filename}
-                      id={data?.id}
-                      title={data?.title}
-                      link={`/shop?brand=${data?.id}`}
+                      key={index + category.id}
+                      // image={baseURL + '/' + category.image?.filename}
+                      image="/images/brands/brand.png"
+                      id={category.id}
+                      title={category.title}
+                      link={'/shop?brand=' + category.id}
                     />
                   </Grid.Col>
                 );

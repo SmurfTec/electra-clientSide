@@ -3,10 +3,13 @@ import { AppDispatch } from '@elektra/store/storeContext';
 import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-const trendingURL = '/products/trending';
+// const trendingURL = '/products/trending';
+const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
-const mostSoldURL = '/products/sold';
-const recommendedURL = '/products/recommended';
+// const mostSoldURL = '/products/sold';
+const mostSoldURL = '/products/?sort=-created_on';
+// const recommendedURL = '/products/recommended';
+const recommendedURL = '/products/?sort=-created_on';
 const shopProducts = '/products/';
 const URL = '/products';
 
@@ -25,7 +28,14 @@ type specialProduct = {
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: {products: []}, trending: {products: []}, latest: {products: []}, showMore: {products: []}, recommended: {products: []}, shopProducts: {products: []} },
+  list: {
+    mostSold: { products: [] },
+    trending: { products: [] },
+    latest: { products: [] },
+    showMore: { products: [] },
+    recommended: { products: [] },
+    shopProducts: { products: [] },
+  },
   loading: false,
 };
 
@@ -77,7 +87,7 @@ const slice = createSlice({
 
     rehydrateShopProduct: (state, action) => {
       state.loading = true;
-      state.list.shopProducts = action.payload
+      state.list.shopProducts = action.payload;
       state.loading = false;
     },
 
@@ -147,12 +157,12 @@ export const fetchShopProducts =
       })
     );
   };
-  export const loadFilterProducts =
+export const loadFilterProducts =
   (params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
     return await dispatch(
       apiRequest({
-        url:URL + `?${params}`,
+        url: URL + `?${params}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,
