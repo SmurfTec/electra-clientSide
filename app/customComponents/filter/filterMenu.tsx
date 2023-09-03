@@ -23,12 +23,10 @@ export const FilterMenu = ({ label, data, filterState, fetchListings, filterId, 
     setState(value);
   };
   useEffect(() => {
-    console.log(filterState, state);
     if (filterState?.length !== 0 && state) {
-      if (filterState?.some((item) => item.value !== state)) setState('');
-      console.log(state);
-      console.log(filterState?.some((item) => item.value === state));
-      // setState('');
+      if (!filterState?.some((item) => item.value === state)) setState('');
+    } else {
+      setState('');
     }
   }, [filterState, state]);
   return (

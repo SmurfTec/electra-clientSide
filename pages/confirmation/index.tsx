@@ -1,10 +1,11 @@
 import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
-import { ListItem, Modal, Only, useStylesforGlobal } from '@elektra/customComponents';
+import { ListItem, Modal, Only, http, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, useProductAddedModal, useShippingChangeModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Check } from 'tabler-icons-react';
 
 const description = [
@@ -15,14 +16,51 @@ const description = [
   'Sed et quam pretium, laoreet metus sed,',
 ];
 
+export async function getServerSideProps({ req }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  return { props: {} };
+}
+
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
+  const [loading, setLoading] = useState<boolean>(false);
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const router = useRouter();
   const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const data = {
+      condition: 'string',
+      ask: 0,
+      is_active: true,
+      is_flagged: true,
+      is_repaired_before: true,
+      explain_repair: 'string',
+      condition_details: 'string',
+      more_info: 'string',
+      product: 0,
+    };
+    const res = await http.request({
+      url: '/listings',
+      method: 'POST',
+      data,
+    });
+    if (res.isError) {
+      setLoading(false);
+    }
+    {
+      setLoading(false);
+      productAddedHandler.open();
+    }
+  };
+
   return (
     <div>
       <PageTitle title="Confirmation" className="mt-14" />
@@ -30,7 +68,7 @@ export default function Confirmation() {
         <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">
             <Only when={condition !== 'New'}>
-            <div className="md:w-auto w-screen">
+              <div className="md:w-auto w-screen">
                 <ProductCarousel images={[]} />
               </div>
             </Only>
@@ -174,7 +212,7 @@ export default function Confirmation() {
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              onClick={productAddedHandler.open}
+              onClick={handleSubmit}
             >
               Confirm
             </Button>
@@ -201,12 +239,7 @@ export default function Confirmation() {
         onClose={cardHandler.close}
         open={cardOpened}
       />
-      <Modal
-        
-        children={ProductAddedModal}
-        onClose={productAddedHandler.close}
-        open={productAddedOpened}
-      />
+      <Modal children={ProductAddedModal} onClose={productAddedHandler.close} open={productAddedOpened} />
       <Modal
         title="Shipping Address"
         titlePosition="left"

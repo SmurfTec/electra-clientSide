@@ -62,7 +62,7 @@ export const ItemFilter = ({ data, filter, setFilter, fetchListings }: ItemFilte
       </Group>
       <Flex wrap={'wrap'} gap={20}>
       {filter?.map((item) => (
-          <FilterDisplay key={item.id} setState={setFilter} filter={item} />
+          <FilterDisplay key={item.id} setState={setFilter} fetchListings={fetchListings} filter={item} />
         ))}
         {/* <FilterDisplay setState={setPhone} state={phone} label="Phones" />
         <FilterDisplay setState={setBrand} state={brand} label="Brands" />

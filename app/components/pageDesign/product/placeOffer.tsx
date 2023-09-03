@@ -1,10 +1,10 @@
-import { ListItem, Only } from '@elektra/customComponents';
+import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
@@ -36,7 +36,18 @@ export function PlaceOfferComponent({
 
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
-  // const [state, setState] = useState();
+  const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
+  const handleListingVariants = (variant: string, value: string) => {
+    const listingVariants = listItemPost?.listingVariants ?? [];
+    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    if (index === -1) {
+      listingVariants.push({ variant, value });
+      setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+      return;
+    }
+    listingVariants[index] = { variant, value };
+    setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  };
   return (
     <div>
       <Group>
@@ -62,7 +73,13 @@ export function PlaceOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={[isNew ? 'New' : 'Used']} state={condition === 'new' ? 'New' : 'Used'} />
+        <ButtonChip
+          data={[isNew ? 'New' : 'Used']}
+          initialValue={condition === 'new' ? 'New' : 'Used'}
+          handleState={(value) => {
+            setListItemPost((prev) => ({ ...prev, condition: value as condition }));
+          }}
+        />
       </div>
 
       <div className="my-8">
@@ -75,7 +92,12 @@ export function PlaceOfferComponent({
             <Text className="uppercase font-semibold my-4" size="sm">
               {item.variant}
             </Text>
-            <ButtonChip data={isNew ? item.values : [item.value]} state={item.value} />
+            <ButtonChip
+              data={isNew ? item.values : [item.value]}
+              handleState={(value) => {
+                handleListingVariants(item.variant, value);
+              }}
+            />
           </div>
         );
       })}
@@ -223,11 +245,14 @@ export function PlaceOfferComponent({
 
 type ButtonChipProps = {
   data: string[];
-  state: string;
-  setState?: Dispatch<SetStateAction<'new' | 'used'>>;
+  initialValue?: string;
+  handleState: (value: string) => void;
+  // state: any;
+  // setState: Dispatch<SetStateAction<any>>;
 };
 
-export function ButtonChip({ data, state, setState }: ButtonChipProps) {
+export function ButtonChip({ data, handleState, initialValue = '' }: ButtonChipProps) {
+  const [state, setState] = useState(initialValue);
   return (
     <Group position="left">
       {data.map((item, key) => (
@@ -251,7 +276,8 @@ export function ButtonChip({ data, state, setState }: ButtonChipProps) {
           }}
           bg={item !== state ? '#f1f1f1' : 'black'}
           onClick={() => {
-            if (setState) setState(item as condition);
+            handleState(item);
+            setState(item as condition);
           }}
           className="font-[500] text-[16px]"
         >

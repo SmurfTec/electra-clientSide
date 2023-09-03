@@ -1,10 +1,11 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
-import { Only, baseURL } from '@elektra/customComponents';
+import { ListItemPostContext, Only, baseURL } from '@elektra/customComponents';
 import { initStore, loadProductData } from '@elektra/store';
-import { ProductData } from '@elektra/types';
+import { ListItemPost, ProductData } from '@elektra/types';
 import { Container, Divider, Grid, Image } from '@mantine/core';
+import { FileWithPath } from '@mantine/dropzone';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 
 const ListingDescriptionData = {
   carrier: 'AT&T',
@@ -61,24 +62,24 @@ type ProductListingPageProps = {
   productDetail: ProductData;
 };
 
-export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
-  const [condition, setCondition] = useState<'new' | 'used'>(productDetail.product.condition);
 
+export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
+  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:'',more_info:''} as ListItemPost);
+  console.log(listItemPost)
   return (
+    <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
       <div className="my-10">
         <PageTitle title="Listing Item" />
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          {condition === 'used' ? (
+          {listItemPost.condition === 'used' ? (
             <div className="-ml-11 md:w-auto w-screen mt-5">
-              {' '}
               <ProductCarousel images={productDetail.product.images} />
             </div>
           ) : (
             <div className="-ml-12 md:w-auto w-screen mt-5">
-              {' '}
               <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0].filename} />
             </div>
           )}
@@ -86,8 +87,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
         <Grid.Col md={6}>
           <ListingDescription
             productVariants={productDetail?.product?.product_variants}
-            condition={condition}
-            setCondition={setCondition}
+            condition={listItemPost.condition}
             description={ListingDescriptionData.description}
             highestAsk={Number(productDetail?.product?.highest_offer || 0)}
             lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
@@ -97,7 +97,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
             averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
           />
         </Grid.Col>
-        <Only when={condition === 'used'}>
+        <Only when={listItemPost.condition === 'used'}>
           <Grid.Col span={12}>
             <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
             <UsedProductListing
@@ -109,5 +109,6 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
         </Only>
       </Grid>
     </Container>
+    </ListItemPostContext.Provider>
   );
 }

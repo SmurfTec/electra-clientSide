@@ -3,20 +3,23 @@ import { AppDispatch } from '@elektra/store/storeContext';
 import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-const trendingURL = '/products/trending';
+// const trendingURL = '/products/trending';
+const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
-const mostSoldURL = '/products/sold';
-const recommendedURL = '/products/recommended';
+// const mostSoldURL = '/products/sold';
+const mostSoldURL = '/products/?sort=-created_on';
+// const recommendedURL = '/products/recommended';
+const recommendedURL = '/products/?sort=-created_on';
 const shopProducts = '/products/';
 const URL = '/products';
 
 type ProductData = {
-  mostSold: Product[];
-  trending: Product[];
-  latest: Product[];
-  showMore?: Product[];
-  recommended?: Product[];
-  shopProducts?: Product[];
+  mostSold: Product;
+  trending: Product;
+  latest: Product;
+  showMore?: Product;
+  recommended?: Product;
+  shopProducts?: Product;
 };
 
 type specialProduct = {
@@ -25,7 +28,14 @@ type specialProduct = {
 };
 
 const initialState: specialProduct = {
-  list: { mostSold: [], trending: [], latest: [], showMore: [], recommended: [], shopProducts: [] },
+  list: {
+    mostSold: { products: [] },
+    trending: { products: [] },
+    latest: { products: [] },
+    showMore: { products: [] },
+    recommended: { products: [] },
+    shopProducts: { products: [] },
+  },
   loading: false,
 };
 
@@ -38,31 +48,31 @@ const slice = createSlice({
     },
 
     trendingReceived: (state, action) => {
-      state.list.trending = action.payload.products;
+      state.list.trending = action.payload;
       state.loading = false;
     },
 
     mostSoldReceived: (state, action) => {
-      state.list.mostSold = action.payload.products;
+      state.list.mostSold = action.payload;
       state.loading = false;
     },
     latestReceived: (state, action) => {
-      state.list.latest = action.payload.products;
+      state.list.latest = action.payload;
       state.loading = false;
     },
 
     showMoreReceived: (state, action) => {
-      state.list.showMore = action.payload.products;
+      state.list.showMore = action.payload;
       state.loading = false;
     },
 
     shopProductsReceived: (state, action) => {
-      state.list.shopProducts = action.payload.products;
+      state.list.shopProducts = action.payload;
       state.loading = false;
     },
 
     recommendedReceived: (state, action) => {
-      state.list.recommended = action.payload.products;
+      state.list.recommended = action.payload;
       state.loading = false;
     },
 
@@ -75,6 +85,12 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    rehydrateShopProduct: (state, action) => {
+      state.loading = true;
+      state.list.shopProducts = action.payload;
+      state.loading = false;
+    },
+
     specialProductFailed: (state) => {
       state.loading = false;
     },
@@ -84,6 +100,13 @@ const slice = createSlice({
 export const rehydrateSpecialProducts = (payload: ProductData) => {
   return {
     type: slice.actions.rehydrateSpecialProduct.type,
+    payload,
+  };
+};
+
+export const rehydrateShopProducts = (payload: Product) => {
+  return {
+    type: slice.actions.rehydrateShopProduct.type,
     payload,
   };
 };
@@ -122,12 +145,24 @@ export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
 };
 
 export const fetchShopProducts =
-  (param: string = 'page=1') =>
+  (param: string = '') =>
   async (dispatch: AppDispatch) => {
-    console.log(param);
+    console.log(URL + `${param}`);
     return await dispatch(
       apiRequest({
-        url: URL + `?limit=15&${param}`,
+        url: URL + `${param}`,
+        onStart: slice.actions.specialProductRequested.type,
+        onSuccess: slice.actions.shopProductsReceived.type,
+        onError: slice.actions.specialProductFailed.type,
+      })
+    );
+  };
+export const loadFilterProducts =
+  (params: string = '&limit=15&page=1') =>
+  async (dispatch: AppDispatch) => {
+    return await dispatch(
+      apiRequest({
+        url: URL + `?${params}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,

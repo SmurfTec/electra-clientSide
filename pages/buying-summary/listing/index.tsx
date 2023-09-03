@@ -50,6 +50,7 @@ type BuyingSummaryPageProps = {
   protectionPlanData: protectionPlanProps;
 };
 
+
 export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageProps) {
   useEffect(() => {
     let unsubscribe = false;

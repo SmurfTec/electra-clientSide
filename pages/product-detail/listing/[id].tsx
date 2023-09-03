@@ -63,7 +63,6 @@ const items = [
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
 
-  console.log(context.query.id);
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
   const productVariants = store.dispatch(loadProductVariants());
   const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
@@ -130,6 +129,8 @@ export default function ProductPage({ productListing, productVariants, productLi
   const productFilters = productVariants.variants;
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
+    filter:params,
+    setFilter:setParams,
     fetchListings: handleFilter,
   });
 
@@ -186,7 +187,7 @@ export default function ProductPage({ productListing, productVariants, productLi
           <Grid.Col span={12}>
             <Flex wrap={'nowrap'} gap={20}>
               {params?.map((item) => (
-                <FilterDisplay key={item.id} setState={setParams} filter={item} />
+                <FilterDisplay fetchListings={handleFilter} key={item.id} setState={setParams} filter={item} />
               ))}
             </Flex>
           </Grid.Col>
@@ -235,7 +236,7 @@ export default function ProductPage({ productListing, productVariants, productLi
         </div>
 
         <Center className="mt-20 space-x-3">
-          <Only when={limit === 5}>
+          <Only when={limit === 5 && productListing?.listings?.length > 5}>
             <Text size={16} className="font-[600]" color="black">
               View More
             </Text>

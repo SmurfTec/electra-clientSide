@@ -1,4 +1,5 @@
-import { Variant } from './productDetail.type';
+import { FileWithPath } from '@mantine/dropzone';
+import { Variant, condition } from './productDetail.type';
 
 type Image = {
   id: number;
@@ -18,6 +19,21 @@ type User = {
   email: string;
   firstname: string;
   lastname: string;
+};
+export type ListItemPost = {
+  condition: condition;
+  ask: string;
+  is_repaired_before: 'false' | 'true';
+  explain_repair: string;
+  condition_details: string;
+  more_info: string;
+  product: string;
+  listingVariants: listingVariants[]
+};
+
+export type listingVariants = {
+  variant: string;
+  value: string;
 };
 
 export type SalesHistory = {

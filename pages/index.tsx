@@ -72,99 +72,6 @@ const bannerData: BannerProps[] = [
   },
 ];
 
-const categoryData = [
-  {
-    id: 1,
-    image: '/images/category.png',
-    title: 'Laptops',
-    link: '/shop',
-  },
-  {
-    id: 2,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 3,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 4,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 5,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 6,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 7,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 8,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 9,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 10,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 11,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 12,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 13,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 14,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-  {
-    id: 15,
-    image: '/images/category.png',
-    title: 'Phones',
-    link: '/shop',
-  },
-];
-
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const websiteSection = store.dispatch(loadWebsiteSection(1));
@@ -198,10 +105,10 @@ export async function getServerSideProps(context: NextPageContext) {
 
 type homePageProps = {
   websiteSection: WebsiteSection;
-  trending: Product[];
-  latest: Product[];
-  mostSold: Product[];
-  recommended: Product[];
+  trending: Product;
+  latest: Product;
+  mostSold: Product;
+  recommended: Product;
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
 };
@@ -229,12 +136,12 @@ export function Index({ ...rest }: homePageProps) {
       <section className="mt-4">
         <HeroImage />
       </section>
-      <Only when={recommended.length > 0}>
+      <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" />
           <ScrollArea h={380} type="scroll" scrollbarSize={5}>
             <Center className="space-x-8 md:space-x-16">
-              {recommended?.slice(0, 5).map((product, index) => {
+              {recommended?.products?.slice(0, 5).map((product, index) => {
                 return (
                   <div key={index} className="min-w-[15%]">
                     <ProductCard
@@ -260,7 +167,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Trending Now" label="View All" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(20, 25).map((product, index) => {
+            {trending.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -283,7 +190,7 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Categories" />
-        <Grid gutter={30} columns={12}>
+        <Grid gutter={30} columns={8}>
           <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
               {genericCategories?.categories?.map((category, index) => {
@@ -291,7 +198,8 @@ export function Index({ ...rest }: homePageProps) {
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
                       key={index + category.id}
-                      image={baseURL + '/' + category.image?.filename}
+                      // image={baseURL + '/' + category.image?.filename}
+                      image="/images/brands/brand.png"
                       id={category.id}
                       title={category.name}
                       link={'/shop?category=' + category.id}
@@ -326,7 +234,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Most Sold Items" label="View All" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0, 5).map((product, index) => {
+            {mostSold.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -351,7 +259,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Latest Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {latest.slice(0, 5).map((product, index) => {
+            {latest.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -379,18 +287,19 @@ export function Index({ ...rest }: homePageProps) {
       </section>
       <section>
         <SectionTitle title="Brands" />
-        <Grid gutter={30} columns={21}>
-          <ScrollArea type="hover" scrollbarSize={5}>
+        <Grid gutter={30} columns={8}>
+          <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
-              {brand?.brands?.map((data, index) => {
+              {[...brand?.brands, ...brand?.brands].map((category, index) => {
                 return (
-                  <Grid.Col span={7} key={data?.id + index}>
+                  <Grid.Col span={2} key={index}>
                     <CategoryCard
-                      key={data.id}
-                      image={baseURL + '/' + data?.image?.filename}
-                      id={data?.id}
-                      title={data?.title}
-                      link={`/shop?brand=${data?.id}`}
+                      key={index + category.id}
+                      // image={baseURL + '/' + category.image?.filename}
+                      image="/images/brands/brand.png"
+                      id={category.id}
+                      title={category.title}
+                      link={'/shop?brand=' + category.id}
                     />
                   </Grid.Col>
                 );

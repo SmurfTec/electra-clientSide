@@ -31,7 +31,7 @@ type ProductProperties = {
   id: number;
   listings: number;
   sold: number;
-  model_no:string
+  model_no: string;
 };
 
 type Category = {
@@ -44,12 +44,12 @@ type Brand = {
   title: string;
 };
 
-export type Product = {
+export type ProductDisplayData = {
   id: number;
   title: string;
   is_active: boolean;
   created_on: string;
-  condition: "new" | "used"
+  condition: 'new' | 'used';
   updated_on: string;
   clicks: number;
   interactions: number;
@@ -60,4 +60,27 @@ export type Product = {
   highest_offer: number | null;
   lowest_price: number | null;
   user_starting_price: number | null;
+};
+
+export type UserFavourite = {
+  results: number;
+  favourites: ProductDisplayData[];
+};
+
+
+type Stats = {
+  total_products: number;
+  total_products_sold: number;
+  products_percentage: number | null;
+  total_unique_products_sold: number;
+  total_products_sold_last_month: number;
+  total_unique_products_sold_last_month: number;
+  total_products_sold_last_Six_months: number;
+  total_unique_products_sold_last_Six_months: number;
+};
+
+export type Product = {
+  results?: number;
+  stats?: Stats;
+  products: ProductDisplayData[];
 };

@@ -1,18 +1,30 @@
-import { FooterProductCarousel, ProductCard, SectionTitle } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
-import { fetchShopProducts, fetchSingleBrand, fetchSingleGenericCategory, store } from '@elektra/store';
+import { FooterProductCarousel, ItemFilter, ProductCard, SectionTitle } from '@elektra/components';
+import { Modal, Only, baseURL } from '@elektra/customComponents';
+import { useFilterModal } from '@elektra/hooks';
+import {
+  RootState,
+  fetchShopProducts,
+  fetchSingleBrand,
+  fetchSingleGenericCategory,
+  loadFilterProducts,
+  rehydrateShopProducts,
+  store,
+  useAppDispatch,
+  useSelector,
+} from '@elektra/store';
 import { BrandAndCategory, Product } from '@elektra/types';
 import { BackgroundImage, Button, Group, Image, Pagination, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Filter } from 'tabler-icons-react';
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const categoryId = context.query.category;
   const brandId = context.query.brand;
-  const params = categoryId ? `&page=1&category=${categoryId}` : brandId ? `&page=1&brand=${brandId}` : undefined;
+  const params = categoryId ? `?category=${categoryId}` : brandId ? `?brand=${brandId}` : '';
   const shopProducts = store.dispatch(fetchShopProducts(params));
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
@@ -24,22 +36,72 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      shopProducts: store.getState().entities.specialProducts.list.shopProducts,
-      genericData: genericData ? genericData.data : undefined,
+      products: store.getState().entities.specialProducts.list.shopProducts,
+      genericData: genericData ? genericData.data : null,
+      queryParams: params
     },
   };
 }
 
 type ShopPageProps = {
-  shopProducts: Product[];
+  products: Product;
   genericData: BrandAndCategory | undefined;
+  queryParams?: string
 };
 
-export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
+export default function ShopPage({ products, genericData, queryParams }: ShopPageProps) {
+  const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    let unsubscribe = false;
+    if (!unsubscribe) {
+      dispatch(rehydrateShopProducts(products));
+    }
+    return () => {
+      unsubscribe = true;
+    };
+  }, []);
+
   const [activePage, setPage] = useState(1);
-  // const [FilterModal, filterOpened, filterHandler] = useFilterModal();
-  console.log(genericData);
+  const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
+  const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
+  const handleFilter = async (label: string, value: string, id: number) => {
+    let newParams = params;
+    const existParam = newParams.find((item) => item.id === id);
+
+    if (existParam) {
+      newParams = params.filter((item) => item.id !== id);
+      if (existParam.value !== value) newParams = [...newParams, { label, value, id }];
+
+      setParams(newParams);
+    } else {
+      newParams = [...newParams, { label, value, id }];
+      setParams(newParams);
+    }
+    if (newParams.length === 0) {
+      console.log(newParams)
+      dispatch(loadFilterProducts());
+      return;
+    }
+    const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
+    dispatch(loadFilterProducts(paramString));
+  };
+  const [FilterModal, filterOpened, filterHandler] = useFilterModal({
+    data: productFilters,
+    filter: params,
+    setFilter: setParams,
+    fetchListings: handleFilter,
+  });
   const matches = useMediaQuery('(max-width: 600px)');
+
+  const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
+
+
+  const handlePaginatedProducts = (pageNumber: number) => {
+    setPage(pageNumber);
+    dispatch(fetchShopProducts(queryParams + `&page=${pageNumber}&limit=10`));
+  };
+
   return (
     <>
       <Image
@@ -49,7 +111,7 @@ export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
         height={400}
       />
       <div className="my-4">
-        {/* <Group position="apart">
+        <Group position="apart">
           <Only when={matches}>
             <Button onClick={filterHandler.open} leftIcon={<Filter />}>
               Filter
@@ -57,13 +119,13 @@ export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
           </Only>
         </Group>
         <Only when={!matches}>
-          <ItemFilter />
-        </Only> */}
+          <ItemFilter data={productFilters} fetchListings={handleFilter} filter={params} setFilter={setParams} />
+        </Only>
       </div>
       <SectionTitle title="All Products" />
-      {/* <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} /> */}
+      <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
       <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-        {shopProducts?.map((product, index) => {
+        {shopProducts?.products?.map((product, index) => {
           return (
             <div key={index} className="min-w-[15%]">
               <ProductCard
@@ -90,8 +152,8 @@ export default function ShopPage({ shopProducts, genericData }: ShopPageProps) {
           withControls={false}
           position="center"
           value={activePage}
-          onChange={setPage}
-          total={10}
+          onChange={(page) => handlePaginatedProducts(page)}
+          total={!queryParams ? Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10) : Math.ceil(Number(shopProducts?.results ?? 0) / 10) }
         />
       </Group>
 
