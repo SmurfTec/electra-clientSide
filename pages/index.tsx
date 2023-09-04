@@ -290,7 +290,7 @@ export function Index({ ...rest }: homePageProps) {
         <Grid gutter={30} columns={8}>
           <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
-              {[...brand?.brands, ...brand?.brands].map((category, index) => {
+              {brand?.brands?.map((category, index) => {
                 return (
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
