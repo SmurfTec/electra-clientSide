@@ -3,13 +3,13 @@ import { AppDispatch } from '@elektra/store/storeContext';
 import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
-// const trendingURL = '/products/trending';
-const trendingURL = '/products/?sort=-created_on';
+const trendingURL = '/products/trending';
+// const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
 // const mostSoldURL = '/products/sold';
 const mostSoldURL = '/products/?sort=-created_on';
-// const recommendedURL = '/products/recommended';
-const recommendedURL = '/products/?sort=-created_on';
+const recommendedURL = '/products/recommended';
+// const recommendedURL = '/products/?sort=-created_on';
 const shopProducts = '/products/';
 const URL = '/products';
 

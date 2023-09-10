@@ -117,6 +117,8 @@ export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand } = rest;
   const dispatch = useAppDispatch();
 
+  console.log(genericCategories.categories[1]);
+
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -138,7 +140,7 @@ export function Index({ ...rest }: homePageProps) {
       </section>
       <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
-          <SectionTitle title="Recommended For You" label="View All" />
+          <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
           <ScrollArea h={380} type="scroll" scrollbarSize={5}>
             <Center className="space-x-8 md:space-x-16">
               {recommended?.products?.slice(0, 5).map((product, index) => {
@@ -164,7 +166,7 @@ export function Index({ ...rest }: homePageProps) {
       </Only>
 
       <section className="mt-4 md:mt-16">
-        <SectionTitle title="Trending Now" label="View All" />
+        <SectionTitle title="Trending Now" label="View All" link="?data=trending" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
             {trending.products.slice(0, 5).map((product, index) => {
@@ -198,8 +200,8 @@ export function Index({ ...rest }: homePageProps) {
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
                       key={index + category.id}
-                      // image={baseURL + '/' + category.image?.filename}
-                      image="/images/brands/brand.png"
+                      image={baseURL + '/' + category.image?.filename}
+                      // image="/images/brands/brand.png"
                       id={category.id}
                       title={category.name}
                       link={'/shop?category=' + category.id}
@@ -231,7 +233,7 @@ export function Index({ ...rest }: homePageProps) {
       </section>
 
       <section className="mt-8 md:mt-12">
-        <SectionTitle title="Most Sold Items" label="View All" />
+        <SectionTitle title="Most Sold Items" label="View All" link="?sort=-created_on" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
             {mostSold.products.slice(0, 5).map((product, index) => {
@@ -285,9 +287,9 @@ export function Index({ ...rest }: homePageProps) {
           <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
-      <section>
+      <section className="mt-4 md:mt-12">
         <SectionTitle title="Brands" />
-        <Grid gutter={30} columns={8}>
+        <Grid gutter={30} columns={6}>
           <ScrollArea type="scroll" scrollbarSize={5}>
             <Center>
               {brand?.brands?.map((category, index) => {
@@ -295,8 +297,8 @@ export function Index({ ...rest }: homePageProps) {
                   <Grid.Col span={2} key={index}>
                     <CategoryCard
                       key={index + category.id}
-                      // image={baseURL + '/' + category.image?.filename}
-                      image="/images/brands/brand.png"
+                      image={baseURL + '/' + category.image?.filename}
+                      // image="/images/brands/brand.png"
                       id={category.id}
                       title={category.title}
                       link={'/shop?brand=' + category.id}
@@ -308,6 +310,7 @@ export function Index({ ...rest }: homePageProps) {
           </ScrollArea>
         </Grid>
       </section>
+
       <div className="my-10 pb-20">
         <FooterProductCarousel />
       </div>

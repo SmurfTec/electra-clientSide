@@ -15,7 +15,7 @@ export function CategoryCard({ id, image, title, link, ...rest }: CategoryCardPr
   const { classes } = useStylesforGlobal();
   return (
     <Paper {...rest} className="bg-transparent">
-      <Image alt="" src={image} height={200} />
+      <Image alt={title} src={image} height={200}  />
       <Grid align="center" className="bg-transparent mt-4">
         <Grid.Col span={8}>
           <Text className="text-[10px] md:text-base font-semibold text-black">{title}</Text>
