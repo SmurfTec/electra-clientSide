@@ -7,9 +7,10 @@ import { ArrowNarrowRight } from 'tabler-icons-react';
 type SectionTitleProps = {
   title: string;
   label?: string;
+  link?:string;
 };
 
-export function SectionTitle({ title, label }: SectionTitleProps) {
+export function SectionTitle({ title, label, link }: SectionTitleProps) {
   const phone = useMediaQuery('(max-width: 600px)');
   return (
     <Group position="apart" mb={20}>
@@ -35,7 +36,7 @@ export function SectionTitle({ title, label }: SectionTitleProps) {
               rightIcon={<ArrowNarrowRight size={30} strokeWidth={1} />}
               variant="outline"
               component={NextLink}
-              href="/shop"
+              href={`/shop${link}`}
             />
           </Group>
         </div>
