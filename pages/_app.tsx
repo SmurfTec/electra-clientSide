@@ -10,6 +10,7 @@ import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css';
 
 export const cache = createEmotionCache({ key: 'elektra', prepend: true });
+
 function ElektraApp({ Component, pageProps }: AppProps) {
   const themeOverride = createThemeoverride();
   const router = useRouter();

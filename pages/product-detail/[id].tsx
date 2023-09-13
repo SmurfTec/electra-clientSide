@@ -7,12 +7,13 @@ import {
   ProductStats,
   SectionTitle,
 } from '@elektra/components';
-import { FilterDisplay, Modal, Only, baseURL } from '@elektra/customComponents';
+import { FilterDisplay, Modal, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
   RootState,
   loadProductData,
   loadProductVariants,
+  loadRecommendedProducts,
   rehydrateProductData,
   rehydrateProductVariants,
   store,
@@ -21,7 +22,7 @@ import {
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
-import { ListingsResponse, ProductData, ProductVariant, Variant } from '@elektra/types';
+import { ListingsResponse, Product, ProductData, ProductVariant, Variant } from '@elektra/types';
 import {
   ActionIcon,
   Anchor,
@@ -33,6 +34,7 @@ import {
   Grid,
   Image,
   Pagination,
+  ScrollArea,
   Stack,
   Text,
 } from '@mantine/core';
@@ -64,17 +66,20 @@ const items = [
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
-  const productData = store.dispatch(loadProductData(Number(context.query.id)));
 
+  const isAuth = await isAuthenticated(context.req);
+  const productData = store.dispatch(loadProductData(Number(context.query.id)));
+  const recommended = store.dispatch(loadRecommendedProducts());
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
   const productVariants = store.dispatch(loadProductVariants());
 
-  await Promise.all([productData, listingData, productVariants]);
+  await Promise.all([productData, listingData, productVariants, recommended]);
 
   return {
     props: {
       productDetail: store.getState().entities.productDetail.list,
       productListing: store.getState().entities.productListing.list,
+      recommended: store.getState().entities.specialProducts.list.recommended,
       productVariants: store.getState().entities.productVariants.list,
     },
   };
@@ -84,9 +89,10 @@ type ProductPageProps = {
   productDetail: ProductData;
   productListing: ListingsResponse;
   productVariants: ProductVariant;
+  recommended: Product;
 };
 
-export default function ProductPage({ productDetail, productListing, productVariants }: ProductPageProps) {
+export default function ProductPage({ productDetail, productListing, productVariants, recommended }: ProductPageProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -141,8 +147,8 @@ export default function ProductPage({ productDetail, productListing, productVari
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
-    filter:params,
-    setFilter:setParams,
+    filter: params,
+    setFilter: setParams,
     fetchListings: handleFilter,
   });
 
@@ -169,7 +175,7 @@ export default function ProductPage({ productDetail, productListing, productVari
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
+            <Button component={NextLink} href={"/product-listing/"+ productDetail.product.id} leftIcon={<ShoppingCart />}>
               Sell Now
             </Button>
           </Stack>
@@ -195,7 +201,7 @@ export default function ProductPage({ productDetail, productListing, productVari
           <Grid.Col span={12}>
             <Flex wrap={'nowrap'} gap={20}>
               {params?.map((item) => (
-                <FilterDisplay key={item.id} setState={setParams} fetchListings={handleFilter}  filter={item} />
+                <FilterDisplay key={item.id} setState={setParams} fetchListings={handleFilter} filter={item} />
               ))}
             </Flex>
           </Grid.Col>
@@ -269,6 +275,33 @@ export default function ProductPage({ productDetail, productListing, productVari
       <div className="my-10">
         <ProductCharts data={graphData} />
       </div>
+
+      <Only when={recommended?.products?.length > 0}>
+        <section className="mt-8 md:mt-20">
+          <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
+          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+            <Center className="space-x-8 md:space-x-16">
+              {recommended?.products?.slice(0, 5).map((product, index) => {
+                return (
+                  <div key={index} className="min-w-[15%]">
+                    <ProductCard
+                      id={product.id}
+                      image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                      description={'9/10 condition with charger and box'}
+                      title={product.title}
+                      condition={product.condition}
+                      wishlist={false}
+                      lowestPrice={Number(product.lowest_price)}
+                      highestPrice={Number(product.highest_offer)}
+                      price={Number(product?.user_starting_price)}
+                    />
+                  </div>
+                );
+              })}
+            </Center>
+          </ScrollArea>
+        </section>
+      </Only>
       {/* <div className="">
         <SectionTitle title="Recommended New Items" />
         <ScrollArea h={380} type="scroll" scrollbarSize={5}>

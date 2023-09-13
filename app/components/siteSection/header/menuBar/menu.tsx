@@ -1,9 +1,10 @@
 import { HoverCard, Only } from '@elektra/customComponents';
+import { RootState, loadGenericCategory, useAppDispatch, useSelector } from '@elektra/store';
 import { ActionIcon, Avatar, Burger, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { ReactNode, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
-import { LaptopMenu, PhoneMenu } from './menuContent';
+import { LaptopMenu } from './menuContent';
 
 const useStyles = createStyles((theme) => ({
   burger: {
@@ -59,63 +60,74 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const menuData = [
-  {
-    title: 'Laptops',
-    content: <LaptopMenu />,
-  },
-  {
-    title: 'Phones',
-    content: <PhoneMenu />,
-  },
-  {
-    title: 'Accessories',
-    content: <LaptopMenu />,
-  },
-  {
-    title: 'GPUs',
-    content: <PhoneMenu />,
-  },
-  {
-    title: 'Motherboards',
-    content: <LaptopMenu />,
-  },
-  {
-    title: 'CPUs',
-    content: <PhoneMenu />,
-  },
-  {
-    title: 'Cameras',
-    content: <LaptopMenu />,
-  },
-  {
-    title: 'Consoles',
-    content: <PhoneMenu />,
-  },
-  {
-    title: 'Brands',
-    content: <LaptopMenu />,
-  },
-];
+// const menuData = [
+//   {
+//     title: 'Laptops',
+//     content: <LaptopMenu />,
+//   },
+//   {
+//     title: 'Phones',
+//     content: <PhoneMenu />,
+//   },
+//   {
+//     title: 'Accessories',
+//     content: <LaptopMenu />,
+//   },
+//   {
+//     title: 'GPUs',
+//     content: <PhoneMenu />,
+//   },
+//   {
+//     title: 'Motherboards',
+//     content: <LaptopMenu />,
+//   },
+//   {
+//     title: 'CPUs',
+//     content: <PhoneMenu />,
+//   },
+//   {
+//     title: 'Cameras',
+//     content: <LaptopMenu />,
+//   },
+//   {
+//     title: 'Consoles',
+//     content: <PhoneMenu />,
+//   },
+//   {
+//     title: 'Brands',
+//     content: <LaptopMenu />,
+//   },
+// ];
 
 export const HeaderMenu = () => {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-  const [menuState, setMenuState] = useState<{ title: string; content: ReactNode }>();
-  const handleItem = (item: { title: string; content: ReactNode }) => {
-    setMenuState(item);
+  const [menuState, setMenuState] = useState<{ category: string; brands: { title: string; image: string }[] }>();
+  const handleItem = (category: string, brands: { title: string; image: string }[]) => {
+    setMenuState({ category: category, brands: brands });
     toggle();
   };
+
+  const categories = useSelector((state: RootState) => state.entities.genericCategory.list.categories);
+
+  const dispatch = useAppDispatch();
+
+  const fetchCategories = async () => await dispatch(loadGenericCategory());
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={classes.group}>
-        <Flex  className="pt-3 justify-center space-x-5 lg:space-x-12">
-          {menuData.map((item, index) => (
+        <Flex className="pt-3 justify-center space-x-5 lg:space-x-12">
+          {categories.map((item, index) => (
             <HoverCard
               key={index}
-              target={<Text className="uppercase inline-block text-base cursor-pointer">{item.title}</Text>}
+              target={<Text className="uppercase inline-block text-base cursor-pointer">{item.name}</Text>}
             >
-              {item.content}
+              <LaptopMenu brands={item.brands} />
             </HoverCard>
           ))}
         </Flex>
@@ -139,11 +151,11 @@ export const HeaderMenu = () => {
             </Text>
           </Flex>
           <Menu.Dropdown>
-            {menuData.map((item, index) => (
+            {categories.map((item, index) => (
               <div key={index}>
-                <Menu.Item onClick={() => handleItem(item)}>
+                <Menu.Item onClick={() => handleItem(item.name, item.brands)}>
                   <Group position="apart">
-                    <Text className="text-white">{item.title}</Text>
+                    <Text className="text-white">{item.name}</Text>
                     <Avatar
                       variant="outline"
                       size={'sm'}
@@ -158,7 +170,7 @@ export const HeaderMenu = () => {
                     </Avatar>
                   </Group>
                 </Menu.Item>
-                {menuData.length !== index + 1 && <Menu.Divider key={index} />}
+                {categories.length !== index + 1 && <Menu.Divider key={index} />}
               </div>
             ))}
           </Menu.Dropdown>
@@ -170,10 +182,10 @@ export const HeaderMenu = () => {
             <ArrowLeft fill="white" color="white" className="ml-1" />
           </ActionIcon>
           <Text size={18} className="font-medium text-white">
-            {menuState?.title}
+            {menuState?.category}
           </Text>
         </Flex>
-        <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>{menuState?.content}</div>
+        <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}><LaptopMenu brands={menuState?.brands} /></div>
       </Only>
     </>
   );

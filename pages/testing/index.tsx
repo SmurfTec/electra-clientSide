@@ -200,7 +200,7 @@ export default function Testing() {
 
   const handleTest = async () => {
     const res = await http.request({
-      url: '/orders/me/selling?status=completed',
+      url: '/genericcategories',
       // method: 'POST',
     });
   };

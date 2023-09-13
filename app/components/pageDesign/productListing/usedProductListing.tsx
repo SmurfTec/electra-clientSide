@@ -16,9 +16,9 @@ import {
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
+import { ListItemPost } from '@elektra/types';
 import { FC, useContext, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
-import { ListItemPost, listingVariants } from '@elektra/types';
 
 type UsedProductListingProps = {
   accessories: string[];
@@ -41,31 +41,47 @@ export function UsedProductListing({ accessories, description, itemConditions }:
   };
   const handleSubmit = async () => {
     const formData = new FormData();
-    files.map((file)=>formData.append("images",file))
+    files.map((file) => formData.append('images', file));
     setLoading(true);
-    Object.keys(listItemPost).map((key)=>{
-      console.log(typeof listItemPost[key as keyof ListItemPost],key)
-      if(typeof listItemPost[key as keyof ListItemPost] === 'object'){
-          formData.append(key,JSON.stringify(listItemPost[key as keyof ListItemPost]))
+    const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
+
+    const numberKeys = ['product', 'ask'];
+
+    Object.keys(listItemPost).map((key) => {
+      if (exclusiveKeys.includes(key)) {
+        return;
       }
-      else
-      formData.append(key,listItemPost[key as keyof ListItemPost] as string)
-    })
-    console.log(formData)
+      if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
+        listItemPost[key as 'listingVariants'].forEach((item, index) => {
+          //@ts-ignore
+          formData.append(`listingVariants[${index}][variant]`, item.id);
+          formData.append(`listingVariants[${index}][value]`, item.value);
+        });
+        return;
+      }
+
+      if (numberKeys.includes(key)) {
+        //@ts-ignore
+        formData.append(key, listItemPost[key]);
+        return;
+      }
+
+      formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
+    });
     const res = await http.request({
       url: '/listings',
       method: 'POST',
-      data:formData,
+      data: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
     if (res.isError) {
-      console.log(res)
+      console.log(res);
       setLoading(false);
     }
     {
-      console.log(res)
+      console.log(res);
       setLoading(false);
     }
   };
@@ -160,13 +176,15 @@ export function UsedProductListing({ accessories, description, itemConditions }:
             <Text className="font-[500]" size="md">
               Which Best describes the overall condition of your item?
             </Text>
-            <Radio.Group value={listItemPost.condition_details}
-              onChange={(value) =>
-                setListItemPost((prev) => ({ ...prev, condition_details: value }))
-              }>
+            <Radio.Group
+              value={listItemPost.condition_details || ''}
+              onChange={(value) => setListItemPost((prev) => ({ ...prev, condition_details: value }))}
+            >
               <Group>
                 {itemConditions.map((item, index) => {
-                  return <Radio key={index} icon={Check} classNames={classes} value={item.toLowerCase()} label={item} />;
+                  return (
+                    <Radio key={index} icon={Check} classNames={classes} value={item.toLowerCase()} label={item} />
+                  );
                 })}
               </Group>
             </Radio.Group>
@@ -182,8 +200,8 @@ export function UsedProductListing({ accessories, description, itemConditions }:
 
           <>
             <Textarea
-             value={listItemPost.more_info}
-             onChange={(event) => setListItemPost((prev) => ({ ...prev, more_info: event.currentTarget.value }))}
+              value={listItemPost.more_info}
+              onChange={(event) => setListItemPost((prev) => ({ ...prev, more_info: event.currentTarget.value }))}
               description="Tell us more about type"
               className="font-[500]"
               styles={{

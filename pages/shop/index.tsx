@@ -24,7 +24,17 @@ export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const categoryId = context.query.category;
   const brandId = context.query.brand;
-  const params = categoryId ? `?category=${categoryId}` : brandId ? `?brand=${brandId}` : '';
+  const data = context.query.data;
+  const sort = context.query.data;
+  const params = categoryId
+    ? `?category=${categoryId}`
+    : brandId
+    ? `?brand=${brandId}`
+    : data
+    ? `/${data}`
+    : sort
+    ? `/${sort}`
+    : '';
   const shopProducts = store.dispatch(fetchShopProducts(params));
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
@@ -38,7 +48,7 @@ export async function getServerSideProps(context: NextPageContext) {
     props: {
       products: store.getState().entities.specialProducts.list.shopProducts,
       genericData: genericData ? genericData.data : null,
-      queryParams: params
+      queryParams: params,
     },
   };
 }
@@ -46,12 +56,12 @@ export async function getServerSideProps(context: NextPageContext) {
 type ShopPageProps = {
   products: Product;
   genericData: BrandAndCategory | undefined;
-  queryParams?: string
+  queryParams?: string;
 };
 
 export default function ShopPage({ products, genericData, queryParams }: ShopPageProps) {
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -79,7 +89,7 @@ export default function ShopPage({ products, genericData, queryParams }: ShopPag
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      console.log(newParams)
+      console.log(newParams);
       dispatch(loadFilterProducts());
       return;
     }
@@ -95,7 +105,6 @@ export default function ShopPage({ products, genericData, queryParams }: ShopPag
   const matches = useMediaQuery('(max-width: 600px)');
 
   const shopProducts = useSelector((state: RootState) => state.entities.specialProducts.list.shopProducts);
-
 
   const handlePaginatedProducts = (pageNumber: number) => {
     setPage(pageNumber);
@@ -153,7 +162,11 @@ export default function ShopPage({ products, genericData, queryParams }: ShopPag
           position="center"
           value={activePage}
           onChange={(page) => handlePaginatedProducts(page)}
-          total={!queryParams ? Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10) : Math.ceil(Number(shopProducts?.results ?? 0) / 10) }
+          total={
+            !queryParams
+              ? Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10)
+              : Math.ceil(Number(shopProducts?.results ?? 0) / 10)
+          }
         />
       </Group>
 

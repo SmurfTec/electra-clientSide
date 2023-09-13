@@ -5,6 +5,9 @@ export const baseURL = 'http://ec2-18-118-28-197.us-east-2.compute.amazonaws.com
 const httpRequest = axios.create({
   withCredentials: true,
   baseURL,
+  headers:{
+    "ngrok-skip-browser-warning": true,
+  }
 });
 interface AxiosResponseWithError extends AxiosResponse {
   isError?: boolean;
