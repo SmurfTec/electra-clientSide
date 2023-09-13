@@ -35,7 +35,7 @@ export function HeroImage() {
   const tablet = useMediaQuery('(max-width: 900px)');
 
   const carouselData = useSelector((state: RootState) =>
-    state.entities.websiteSection.list.sections?.find((item) => item.section === 'Carousel')
+    state.entities.websiteSection.list.sections?.find((item) => item.section === 'carousel')
   );
 
   return (

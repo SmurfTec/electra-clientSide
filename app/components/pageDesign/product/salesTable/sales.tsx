@@ -534,5 +534,5 @@ export const SalesTable = ({data}:SalesTableProps) => {
     }));
   }, [data]);
 
-  return <>{salesTableData.length > 0 && <DataTable data={salesTableData} />}</>;
+  return <>{salesTableData?.length > 0 && <DataTable data={salesTableData} />}</>;
 };

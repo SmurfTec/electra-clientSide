@@ -4,6 +4,7 @@ import {
   couponReducer,
   feeReducer,
   genericCategoryReducer,
+  notificationReducer,
   orderDetailReducer,
   productDataReducer,
   productLisingByIdReducer,
@@ -35,4 +36,5 @@ export const entitiesReducers = combineReducers({
   fee: feeReducer,
   genericCategory: genericCategoryReducer,
   brand: brandReducer,
+  notification: notificationReducer
 });
