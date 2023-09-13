@@ -25,10 +25,13 @@ export type ListItemPost = {
   ask: string;
   is_repaired_before: 'false' | 'true';
   explain_repair: string;
-  condition_details: string;
+  condition_details: string | null;
   more_info: string;
   product: string;
-  listingVariants: listingVariants[]
+  listingVariants: {
+    id: number
+    value: string
+  }[]
 };
 
 export type listingVariants = {

@@ -64,8 +64,8 @@ type ProductListingPageProps = {
 
 
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
-  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:'',more_info:''} as ListItemPost);
-  console.log(listItemPost)
+  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
+  console.log(productDetail.product.images)
   return (
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
@@ -80,7 +80,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
             </div>
           ) : (
             <div className="-ml-12 md:w-auto w-screen mt-5">
-              <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0].filename} />
+              <Image alt="product image" src={baseURL + '/' + (productDetail?.product?.images?.[0]?.filename || "")} />
             </div>
           )}
         </Grid.Col>

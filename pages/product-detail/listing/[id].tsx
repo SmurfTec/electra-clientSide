@@ -8,11 +8,12 @@ import {
   SalesTable,
   SectionTitle,
 } from '@elektra/components';
-import { FilterDisplay, Modal, Only, baseURL } from '@elektra/customComponents';
+import { FilterDisplay, Modal, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
   loadProductListingById,
   loadProductVariants,
+  loadRecommendedProducts,
   rehydrateProductListingById,
   rehydrateProductVariants,
   store,
@@ -20,7 +21,7 @@ import {
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
-import { ListingsResponse, ProductVariant, SingleProductListing } from '@elektra/types';
+import { ListingsResponse, Product, ProductVariant, SingleProductListing } from '@elektra/types';
 import {
   ActionIcon,
   Anchor,
@@ -31,6 +32,7 @@ import {
   Flex,
   Grid,
   Pagination,
+  ScrollArea,
   Stack,
   Text,
 } from '@mantine/core';
@@ -62,16 +64,18 @@ const items = [
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
-
+  const isAuth = await isAuthenticated(context.req);
   const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
   const productVariants = store.dispatch(loadProductVariants());
   const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
-  await Promise.all([listingData, productVariants, productListingById]);
+  const recommended = store.dispatch(loadRecommendedProducts());
+  await Promise.all([listingData, productVariants, productListingById, recommended]);
   return {
     props: {
       productListing: store.getState().entities.productListing.list,
       productVariants: store.getState().entities.productVariants.list,
       productListingById: store.getState().entities.productListingById.list,
+      recommended: store.getState().entities.specialProducts.list.recommended,
     },
   };
 }
@@ -79,10 +83,16 @@ export async function getServerSideProps(context: NextPageContext) {
 type ProductPageProps = {
   productListing: ListingsResponse;
   productVariants: ProductVariant;
+  recommended: Product;
   productListingById: SingleProductListing;
 };
 
-export default function ProductPage({ productListing, productVariants, productListingById }: ProductPageProps) {
+export default function ProductPage({
+  productListing,
+  productVariants,
+  productListingById,
+  recommended,
+}: ProductPageProps) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -129,8 +139,8 @@ export default function ProductPage({ productListing, productVariants, productLi
   const productFilters = productVariants.variants;
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
-    filter:params,
-    setFilter:setParams,
+    filter: params,
+    setFilter: setParams,
     fetchListings: handleFilter,
   });
 
@@ -263,6 +273,33 @@ export default function ProductPage({ productListing, productVariants, productLi
       <div className="my-10">
         <SalesTable data={productListingById.sales_history} />
       </div>
+
+      <Only when={recommended?.products?.length > 0}>
+        <section className="mt-8 md:mt-20">
+          <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
+          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+            <Center className="space-x-8 md:space-x-16">
+              {recommended?.products?.slice(0, 5).map((product, index) => {
+                return (
+                  <div key={index} className="min-w-[15%]">
+                    <ProductCard
+                      id={product.id}
+                      image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                      description={'9/10 condition with charger and box'}
+                      title={product.title}
+                      condition={product.condition}
+                      wishlist={false}
+                      lowestPrice={Number(product.lowest_price)}
+                      highestPrice={Number(product.highest_offer)}
+                      price={Number(product?.user_starting_price)}
+                    />
+                  </div>
+                );
+              })}
+            </Center>
+          </ScrollArea>
+        </section>
+      </Only>
       {/* <div className="">
           <SectionTitle title="Recommended New Items" />
           <ScrollArea h={380} type="scroll" scrollbarSize={5}>
