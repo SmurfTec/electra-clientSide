@@ -37,17 +37,29 @@ export function PlaceOfferComponent({
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  const handleListingVariants = (variant: string, value: string) => {
+  // const handleListingVariants = (variant: string, value: string) => {
+  //   const listingVariants = listItemPost?.listingVariants ?? [];
+  //   const index = listingVariants?.findIndex((item) => item.variant === variant);
+  //   if (index === -1) {
+  //     listingVariants.push({ variant, value });
+  //     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  //     return;
+  //   }
+  //   listingVariants[index] = { variant, value };
+  //   setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  // };
+  const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
-    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    const index = listingVariants?.findIndex((item) => item.id === id);
     if (index === -1) {
-      listingVariants.push({ variant, value });
+      listingVariants.push({ id, value });
       setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
       return;
     }
-    listingVariants[index] = { variant, value };
+    listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
+
   return (
     <div>
       <Group>
@@ -88,14 +100,14 @@ export function PlaceOfferComponent({
 
       {productVariants?.map((item, key) => {
         return (
-          <div key={key + item.color} className="my-4">
+          <div key={key + item.id} className="my-4">
             <Text className="uppercase font-semibold my-4" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
               data={isNew ? item.values : [item.value]}
               handleState={(value) => {
-                handleListingVariants(item.variant, value);
+                handleListingVariants(item.id, value);
               }}
             />
           </div>
