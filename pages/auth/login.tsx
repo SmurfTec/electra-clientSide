@@ -105,7 +105,7 @@ export default function Login() {
               <Logo />
             </Group>
             <TitleHead title="Log in" description="Login to buy & sell on our platform." />
-            <SocialButton title="Login" />
+            <SocialButton title="Login" setLoading={setLoading} />
             <div className="mt-10">
               <form onSubmit={form.onSubmit(handleLoginSubmit)}>
                 <div className="space-y-5">

@@ -78,7 +78,7 @@ export default function Signup() {
             <Logo />
           </Group>
           <TitleHead title="Signup" description="Signup and explore the best products." />
-          <SocialButton title="Signup" />
+          <SocialButton title="Signup" setLoading={setLoading}  />
           <div className="mt-10">
             <form onSubmit={form.onSubmit(handleSignupSubmit)}>
               <div className="space-y-5">

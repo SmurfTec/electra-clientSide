@@ -10,6 +10,7 @@ import { HeaderMenu } from './menuBar';
 import { Notification } from './notification';
 import { Search } from './search';
 import { HeaderTopBar } from './topBar';
+import { signOut } from 'next-auth/react';
 
 export const Header = () => {
   const [isMenuOpen, { toggle }] = useDisclosure(false);
@@ -114,12 +115,16 @@ export const Header = () => {
                       <Menu.Divider />
                       <Menu.Item
                         onClick={() => {
-                          router.push('/auth/login',undefined,{shallow:true});
+                          signOut({redirect: false})
                           deleteCookie('authentication');
                           deleteCookie('refresh');
                           setTimeout(() => {
-                            dispatch(logout());
+                            router.push('/auth/login',undefined,{shallow:true});
                           }, 2000);
+                          setTimeout(() => {
+                            router.push('/auth/login',undefined,{shallow:true});
+                            dispatch(logout());
+                          }, 3000);
                         }}
                         className="uppercase"
                       >
