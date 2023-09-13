@@ -30,15 +30,15 @@ export const ProductStats = ({ condition }: ProductStatsProps) => {
     {
       label: 'Average Sale Price',
       difference: (
-        Number(listingStats?.total_amount_sold_percentage) / Number(listingStats?.total_sold_percentage)
+        Number(listingStats?.total_amount_sold_percentage) / Number(listingStats?.total_sold_percentage) || 0
       ).toFixed(),
-      price: (Number(listingStats?.total_amount_sold) / listingStats?.total_sold).toFixed(),
+      price: (Number(listingStats?.total_amount_sold) / listingStats?.total_sold || 0).toFixed(),
       type: 'price',
     },
     {
       label: 'Total Amount From Sales',
-      difference: Number(listingStats?.total_amount_sold_percentage).toFixed(),
-      price: listingStats?.total_amount_sold,
+      difference: Number(listingStats?.total_amount_sold_percentage || 0).toFixed() || 0,
+      price: listingStats?.total_amount_sold || 0,
       type: 'price',
     },
   ];
@@ -47,25 +47,25 @@ export const ProductStats = ({ condition }: ProductStatsProps) => {
     {
       label: '12 month trade range',
       difference: 0,
-      price: `${productStats?.trade_range?.[0]?.max_saleprice} - $${productStats.trade_range?.[0].max_saleprice}`,
+      price: `${productStats?.trade_range?.[0]?.max_saleprice || 0} - $${productStats.trade_range?.[0].max_saleprice || 0}`,
       type: 'price',
     },
     {
       label: 'Price Premium',
-      difference: productStats?.price_premium_percentage?.toFixed(),
-      price: String(productStats?.price_premium),
+      difference: productStats?.price_premium_percentage?.toFixed() || 0,
+      price: String(productStats?.price_premium || 0),
       type: 'price',
     },
     {
       label: 'Average Sale Price',
-      difference: productStats?.average_saleprice_percentage?.toFixed(),
-      price: String(productStats?.avg_sale_price?.toFixed() || 404),
+      difference: productStats?.average_saleprice_percentage?.toFixed() || 0,
+      price: String(productStats?.avg_sale_price?.toFixed() || 0),
       type: 'price',
     },
     {
       label: 'No of Sales',
-      difference: productStats.no_of_sales_percentage?.toFixed(),
-      price: productStats?.no_of_sales,
+      difference: productStats.no_of_sales_percentage?.toFixed() || 0,
+      price: productStats?.no_of_sales || 0,
       type: 'value',
     },
   ];

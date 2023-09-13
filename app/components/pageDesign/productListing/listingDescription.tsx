@@ -1,9 +1,8 @@
 import { ListItem, ListItemPostContext, Only, http } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
-import { Variant, condition } from '@elektra/types';
+import { ListItemPost, Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
-import { NextLink } from '@mantine/next';
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
@@ -43,34 +42,65 @@ export function ListingDescription({
   useEffect(() => {
     if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
   }, [count]);
-  const handleListingVariants = (variant: string, value: string) => {
+  const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
-    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    const index = listingVariants?.findIndex((item) => item.id === id);
     if (index === -1) {
-      listingVariants.push({ variant, value });
+      listingVariants.push({ id, value });
       setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
       return;
     }
-    listingVariants[index] = { variant, value };
+    listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
+    const formData = new FormData();
+
+    const exclusiveKeys = ["condition_details", "explain_repair", "more_info", "is_repaired_before"]
+
+    const numberKeys = ["product", "ask"]
+
+    Object.keys(listItemPost).map((key) => {
+      if(exclusiveKeys.includes(key)){
+        return
+      }
+      if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
+        listItemPost[key as "listingVariants"].forEach((item, index) => {
+          //@ts-ignore
+          formData.append(`listingVariants[${index}][variant]`, item.id);
+          formData.append(`listingVariants[${index}][value]`, item.value);
+        });
+        return
+      }
+
+      if(numberKeys.includes(key)){
+        //@ts-ignore
+        formData.append(key, listItemPost[key]);
+        return
+      }
+
+      formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
+      
+       
+    });
+
     const res = await http.request({
       url: '/listings',
       method: 'POST',
-      data:listItemPost,
+      data: formData,
     });
     if (res.isError) {
-      console.log(res)
+      console.log(res);
       setLoading(false);
     }
     {
-      console.log(res)
+      console.log(res);
       setLoading(false);
     }
   };
+
 
   return (
     <div>
@@ -110,14 +140,14 @@ export function ListingDescription({
       </div>
       {productVariants?.map((item, key) => {
         return (
-          <div key={key + item.color} className="my-4">
+          <div key={key + item.id} className="my-4">
             <Text className="uppercase font-semibold my-4" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
               data={isNew ? item.values : [item.value]}
               handleState={(value) => {
-                handleListingVariants(item.variant, value);
+                handleListingVariants(item.id, value);
               }}
             />
           </div>
@@ -198,16 +228,16 @@ export function ListingDescription({
       </Group>
 
       <div className="my-8">
-        <PositionApart text={'Your Offer'} number={highestAsk} />
+        <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
           <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
           <PositionApart text={'Sales Tax'} number={saleTax} />
           <PositionApart text={'Shipping Fee'} number={shippingFee} />
-          <PositionApart text={'Discount'} number={Number(discount)} discount />
+          {/* <PositionApart text={'Discount'} number={Number(discount)} discount /> */}
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={highestAsk - Number(discount)} />
+        <PositionApart text={'Total Price'} number={Number(count + marketPlaceFee + saleTax + shippingFee)} />
       </div>
 
       <Only when={isNew}>

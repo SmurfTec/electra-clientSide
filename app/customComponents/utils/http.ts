@@ -2,8 +2,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode, M
 import { getCookie } from 'cookies-next';
 
 export const baseURL = 'http://ec2-18-118-28-197.us-east-2.compute.amazonaws.com:3010';
-// export const baseURL = 'https://38c3-39-58-108-166.ngrok-free.app';
-// export const baseURL = 'https://14e9-103-169-64-13.ngrok-free.app';
 const httpRequest = axios.create({
   withCredentials: true,
   baseURL,
@@ -47,7 +45,7 @@ function getHeaders() {
   return { authentication, refresh };
 }
 
-export const setAxiosHeader = async (headers: { authorization: string; refresh: string }) => {
+export const setAxiosHeader = async (headers: { authentication: string; refresh: string }) => {
   http.defaults.headers.common = { ...http.defaults.headers.common, ...headers };
 };
 

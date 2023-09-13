@@ -8,7 +8,7 @@ import {
   ProductCard,
   SectionTitle,
 } from '@elektra/components';
-import { Only, baseURL } from '@elektra/customComponents';
+import { Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import {
   loadBrand,
   loadGenericCategory,
@@ -74,6 +74,7 @@ const bannerData: BannerProps[] = [
 
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
+  const isAuth = await isAuthenticated(context.req);
   const websiteSection = store.dispatch(loadWebsiteSection(1));
 
   const trending = store.dispatch(loadTrendingProducts());
@@ -116,8 +117,6 @@ type homePageProps = {
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand } = rest;
   const dispatch = useAppDispatch();
-
-  console.log(genericCategories.categories[1]);
 
   useEffect(() => {
     let unsubscribe = false;

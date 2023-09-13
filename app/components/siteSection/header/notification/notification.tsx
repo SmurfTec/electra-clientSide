@@ -1,5 +1,9 @@
+import { baseURL } from '@elektra/customComponents';
+import { RootState, store } from '@elektra/store';
+import { loadNotifications } from '@elektra/store/entities/slices/notification';
 import { ActionIcon, Avatar, Center, Menu, Text } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { ArrowNarrowRight, Bell } from 'tabler-icons-react';
 import { useStylesMenu } from '../header';
 import { NotificationResult } from './notificationResult';
@@ -8,8 +12,15 @@ const notify = [1, 2, 3, 4, 5, 6, 7];
 
 export const Notification = () => {
   const { classes } = useStylesMenu();
-  const [data, setData] = useState(3);
+  const notification = useSelector((state: RootState) => state?.entities?.notification?.list);
+
+  useEffect(() => {
+    const fetchNotification = async () => await store.dispatch(loadNotifications());
+    fetchNotification();
+  }, []);
+  console.log(notification);
   return (
+    // <Only when={notification.length > 0}>
     <Menu
       classNames={classes}
       width={450}
@@ -32,16 +43,19 @@ export const Notification = () => {
       <Menu.Dropdown>
         <Menu.Label className="uppercase font-medium text-base text-white mt-2 ml-2">Notifications</Menu.Label>
         <Menu.Divider />
-        {notify.slice(0, data).map((not, index) => (
-          <div key={index}>
+        {notification?.map((not, index) => (
+          <div key={index + not.resourceid}>
             <Menu.Item>
-              <NotificationResult />
+              <NotificationResult
+                date={not?.updated_on}
+                title={not?.message}
+                image={baseURL + '/' + not.image}
+              />
             </Menu.Item>
-            {notify.slice(0, data).length !== index + 1 && <Menu.Divider mx={20} opacity={0.5} key={index + 1} />}
           </div>
         ))}
 
-        <Menu.Item onClick={() => setData((prev) => prev + 1)}>
+        <Menu.Item>
           <Center inline>
             <Text color="white" mr={8}>
               View All
@@ -64,5 +78,6 @@ export const Notification = () => {
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
+    // </Only>
   );
 };

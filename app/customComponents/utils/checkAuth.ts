@@ -5,11 +5,11 @@ import { http, setAxiosHeader } from './http';
 export const isAuthenticated = async (request: IncomingMessage | undefined) => {
   const req = request as {
     cookies: {
-      authorization: string;
+      authentication: string;
       refresh: string;
     };
   } & IncomingMessage;
-  const headers = req.cookies;
+  const headers = {authentication:req.cookies.authentication,refresh:req.cookies.refresh};
   if (!has(headers, 'authentication')) return false;
   const res = await http.request({
     url: 'auth/is_authenticated',
