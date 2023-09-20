@@ -175,7 +175,7 @@ export default function ProductPage({ productDetail, productListing, productVari
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button component={NextLink} href={"/product-listing/"+ productDetail.product.id} leftIcon={<ShoppingCart />}>
+            <Button component={NextLink} href={"/product-listing/"+ productDetail?.product?.id} leftIcon={<ShoppingCart />}>
               Sell Now
             </Button>
           </Stack>
@@ -184,8 +184,8 @@ export default function ProductPage({ productDetail, productListing, productVari
           <ProductSpecification
             technicalSpecification={productDetail?.product?.technical_specifications || []}
             title={String(productDetail?.product?.title)}
-            productVariants={productDetail?.product.product_variants as Variant[]}
-            condition={productDetail?.product.condition as condition}
+            productVariants={productDetail?.product?.product_variants as Variant[]}
+            condition={productDetail?.product?.condition as condition}
             highestAsk={Number(productDetail?.product?.highest_offer)}
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
             price={Number(productDetail?.product?.user_starting_at)}
@@ -263,7 +263,7 @@ export default function ProductPage({ productDetail, productListing, productVari
               position="center"
               value={activePage}
               onChange={(value) => handlePaginatedListing(value)}
-              total={Number((Number(productDetail.product.product_stats.listings) / 10).toFixed())}
+              total={Number((Number(productDetail?.product?.product_stats?.listings) / 10).toFixed())}
             />
           </Only>
         </Center>

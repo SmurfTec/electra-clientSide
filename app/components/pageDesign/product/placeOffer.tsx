@@ -4,7 +4,7 @@ import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
@@ -19,12 +19,14 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
+  isListing?: boolean;
 };
 
 export function PlaceOfferComponent({
   condition,
   description,
   averageSalePrice,
+  isListing,
   productVariants,
   lowestAsk,
   highestAsk,
@@ -35,19 +37,9 @@ export function PlaceOfferComponent({
   const [count, handlers] = useCounter(0, { min: 0 });
 
   const isNew = condition === 'new';
-  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount);
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) || 0;
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  // const handleListingVariants = (variant: string, value: string) => {
-  //   const listingVariants = listItemPost?.listingVariants ?? [];
-  //   const index = listingVariants?.findIndex((item) => item.variant === variant);
-  //   if (index === -1) {
-  //     listingVariants.push({ variant, value });
-  //     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
-  //     return;
-  //   }
-  //   listingVariants[index] = { variant, value };
-  //   setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
-  // };
+
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -245,7 +237,11 @@ export function PlaceOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={'/buying-summary?orderType=placeOffer&bidPrice=' + count}
+            href={
+              isListing
+                ? `/buying-summary/listing?orderType=placeOffer&bidPrice=` + count
+                : `/buying-summary?orderType=placeOffer&bidPrice=` + count
+            }
           >
             Review Offer
           </Button>

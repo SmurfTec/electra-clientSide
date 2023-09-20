@@ -16,11 +16,12 @@ export type BiddingSummaryProps = {
   protectionPlan?: string;
   onClick?: () => void;
   reciptFee: Array<{ id: number; fees: number; title: string }>;
+  expiration: Date;
 };
 
 export function BiddingSummary({
   itemPrice,
-
+  expiration,
   totalPrice,
   disabled,
   protectionPlan,
@@ -32,10 +33,9 @@ export function BiddingSummary({
   const isOfferType = router.query.orderType === 'placeOffer';
   const { classes } = useStylesforGlobal();
   const yourOffer = router.query.bidPrice;
-  // const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal();
   return (
     <div
-      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: "scroll" }}
+      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'scroll' }}
       className="p-8 rounded-xl space-y-3 h-full md:absolute md:h-full md:w-full"
     >
       <Group className="space-x-4" position="apart">

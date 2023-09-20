@@ -1,8 +1,9 @@
 import { HoverCard, Only } from '@elektra/customComponents';
-import { RootState, loadGenericCategory, useAppDispatch, useSelector } from '@elektra/store';
+import { RootState, useSelector } from '@elektra/store';
 import { ActionIcon, Avatar, Burger, Flex, Group, Menu, Text, clsx, createStyles } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { NextLink } from '@mantine/next';
+import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'tabler-icons-react';
 import { LaptopMenu } from './menuContent';
 
@@ -102,30 +103,33 @@ const useStyles = createStyles((theme) => ({
 export const HeaderMenu = () => {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false);
-  const [menuState, setMenuState] = useState<{ category: string; brands: { title: string; image: string }[] }>();
-  const handleItem = (category: string, brands: { title: string; image: string }[]) => {
+  const [menuState, setMenuState] = useState<{
+    category: string;
+    brands: { title: string; image: string; id: number }[];
+  }>();
+  const handleItem = (category: string, brands: { title: string; image: string; id: number }[]) => {
     setMenuState({ category: category, brands: brands });
     toggle();
   };
 
   const categories = useSelector((state: RootState) => state.entities.genericCategory.list.categories);
 
-  const dispatch = useAppDispatch();
-
-  const fetchCategories = async () => await dispatch(loadGenericCategory());
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   return (
     <>
       <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={classes.group}>
         <Flex className="pt-3 justify-center space-x-5 lg:space-x-12">
-          {categories.map((item, index) => (
+          {categories?.map((item, index) => (
             <HoverCard
               key={index}
-              target={<Text className="uppercase inline-block text-base cursor-pointer">{item.name}</Text>}
+              target={
+                <Text
+                  component={NextLink}
+                  href={`/shop?category=${item.id}`}
+                  className="uppercase inline-block text-base cursor-pointer"
+                >
+                  {item.name}
+                </Text>
+              }
             >
               <LaptopMenu brands={item.brands} />
             </HoverCard>
@@ -151,7 +155,7 @@ export const HeaderMenu = () => {
             </Text>
           </Flex>
           <Menu.Dropdown>
-            {categories.map((item, index) => (
+            {categories?.map((item, index) => (
               <div key={index}>
                 <Menu.Item onClick={() => handleItem(item.name, item.brands)}>
                   <Group position="apart">
@@ -185,7 +189,9 @@ export const HeaderMenu = () => {
             {menuState?.category}
           </Text>
         </Flex>
-        <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}><LaptopMenu brands={menuState?.brands} /></div>
+        <div style={{ backgroundColor: 'rgba(217, 217, 217, 0.35)' }}>
+          <LaptopMenu brands={menuState?.brands} />
+        </div>
       </Only>
     </>
   );

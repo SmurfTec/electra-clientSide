@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 type LaptopMenuProps = {
   brands: {
     title: string;
+    id: number;
     image: string;
   }[] | undefined;
 };
@@ -22,7 +23,7 @@ export const LaptopMenu = ({ brands }: LaptopMenuProps) => {
               Laptops
             </Text> */}
             {brands?.map((item) => (
-              <List.Item onClick={() => router.push('/shop')} className="cursor-pointer">
+              <List.Item onClick={() => router.push(`/shop?brand=${item.id}`)} className="cursor-pointer">
                 {item.title}
               </List.Item>
             ))}

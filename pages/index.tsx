@@ -12,6 +12,7 @@ import { Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import {
   loadBrand,
   loadGenericCategory,
+  loadNotifications,
   loadWebsiteSection,
   rehydrateWebsiteSection,
   store,
@@ -86,10 +87,11 @@ export async function getServerSideProps(context: NextPageContext) {
   const recommended = store.dispatch(loadRecommendedProducts());
 
   const genericCategories = store.dispatch(loadGenericCategory());
+  const notification = store.dispatch(loadNotifications())
 
   const brands = store.dispatch(loadBrand());
 
-  await Promise.all([websiteSection, trending, latest, mostSold, recommended, genericCategories, brands]);
+  await Promise.all([websiteSection, trending, latest, mostSold,notification, recommended, genericCategories, brands]);
 
   return {
     props: {

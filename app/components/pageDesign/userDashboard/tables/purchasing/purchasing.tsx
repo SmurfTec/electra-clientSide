@@ -32,7 +32,7 @@ export function Purchasing() {
   const pendingTileData: SimpleStatCardProps[] = [
     {
       title: 'Total Value',
-      value: Number(purchasingPendingOrders?.orderStats[0].total_value),
+      value: Number(Number(purchasingPendingOrders?.orderStats[0].total_value).toFixed(0)),
       type: '$',
     },
     {

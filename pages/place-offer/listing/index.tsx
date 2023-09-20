@@ -1,7 +1,9 @@
-import { PageTitle, PlaceOfferComponent, ProductCarousel } from '@elektra/components';
-import { Only } from '@elektra/customComponents';
+import { PageTitle, PlaceOfferComponent } from '@elektra/components';
+import { baseURL } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function PlaceOffer() {
   const ListingDescriptionData = {
@@ -30,23 +32,12 @@ export default function PlaceOffer() {
     averageSalePrice: 200,
   };
 
-  const usedProductListingData = {
-    accessories: ['Charger Cable', 'Original Box', 'Charging Cube'],
-    itemConditions: ['Poor', 'Good', 'Fair', 'Great', 'Flawless', 'New'],
-    description: [
-      'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
-      'Fully functional with no operational problems',
-      'No chips or cracks in front or back glass',
-      'Above 80 percent battery health with no Service alert in Settings',
-      'All devices must be free of any lock, carrier blacklist, or financial obligations',
-      'Absolutely no Ghost Image',
-      'No LCD or display defects (aftermarket, burns, damage or no display)',
-    ],
-  };
-
   // const [condition, setCondition] = useState<string>('New');
+
+  const productListingById = useSelector((state: RootState) => state.entities.productListingById.list.listing);
+
   const router = useRouter();
-  const condition = router.query['condition'] === 'new' ? 'new' : 'used';
+  // const condition = "new";
   return (
     <Container fluid>
       <div className="my-10">
@@ -54,26 +45,20 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          <Only when={condition !== 'new'}>
-            <div className="-ml-11 md:ml-0 md:w-auto w-screen mt-5 ">
-              <ProductCarousel images={[]} />
-            </div>
-          </Only>
-          <Only when={condition === 'new'}>
-            <Image alt="product image" src="/images/productImage.png" />
-          </Only>
+          <Image alt="product image" src={baseURL + '/' + productListingById?.images[0]?.filename || ''} />
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
-            productVariants={[]}
-            condition={condition}
+          isListing={true}
+            productVariants={productListingById.listing_variants}
+            condition={productListingById.condition}
             description={ListingDescriptionData.description}
-            highestAsk={ListingDescriptionData.highestAsk}
-            lowestAsk={ListingDescriptionData.lowestAsk}
-            marketPlaceFee={ListingDescriptionData.marketPlaceFee}
-            saleTax={ListingDescriptionData.saleTax}
-            shippingFee={ListingDescriptionData.shippingFee}
-            averageSalePrice={ListingDescriptionData.averageSalePrice}
+            highestAsk={Number(productListingById.highest_offer)}
+            lowestAsk={Number(productListingById.lowest_offer)}
+            marketPlaceFee={0}
+            saleTax={0}
+            shippingFee={0}
+            averageSalePrice={0}
           />
         </Grid.Col>
       </Grid>
