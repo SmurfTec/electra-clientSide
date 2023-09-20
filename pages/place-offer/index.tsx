@@ -51,6 +51,7 @@ export default function PlaceOffer() {
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
 
   const router = useRouter();
+  const isListing = router.query.isListing as boolean | undefined;
   // const condition = "new";
   return (
     <Container fluid>
@@ -63,6 +64,7 @@ export default function PlaceOffer() {
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
+            isListing={isListing}
             productVariants={productDetail?.product?.product_variants}
             condition={productDetail?.product?.condition}
             description={ListingDescriptionData.description}

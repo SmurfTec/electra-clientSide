@@ -178,7 +178,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'used' ? '/place-offer?condition=new' : '/place-offer'}
+                href={condition === 'new' ? '/place-offer' : '/place-offer/listing'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"

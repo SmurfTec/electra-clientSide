@@ -11,4 +11,4 @@ export * from './hoverCard'
 export * from './filter'
 export * from './utils'
 export * from './contexts'
-
+export * from "./provider"

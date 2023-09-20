@@ -13,7 +13,7 @@ import type { Order } from '@elektra/types';
 import { Container, Grid, Text } from '@mantine/core';
 import { format } from 'date-fns';
 import { NextPageContext } from 'next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
@@ -42,6 +42,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: [] });
   const dispatch = useAppDispatch();
+  const [expiration, setExpiration] = useState(new Date());
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -58,7 +59,8 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="overflow-y-auto h-full">
             <ProductDetail
-              image={baseURL + '/' + orderDetail?.product?.attachments[0]?.filename}
+              setExpiration={setExpiration}
+              image={baseURL + '/' + orderDetail?.product?.attachments?.[0]?.filename}
               title={String(orderDetail?.product?.title)}
               productVariants={orderDetail.product_variants || []}
               condition={'Not in Data'}
@@ -84,6 +86,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
         <Grid.Col xs={12} sm={6}>
           <div className="h-full relative">
             <BiddingSummary
+              expiration={expiration}
               // yourOffer={BiddingSummaryData.yourOffer}
               reciptFee={orderDetail.receipt_fees!}
               itemPrice={orderDetail?.saleprice}
