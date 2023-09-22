@@ -200,7 +200,7 @@ export default function Testing() {
 
   const handleTest = async () => {
     const res = await http.request({
-      url: '/genericcategories',
+      url: '/profiles/4',
       // method: 'POST',
     });
   };

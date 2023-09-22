@@ -1,7 +1,9 @@
 import { Only } from '@elektra/customComponents';
+import { likeProduct, store } from '@elektra/store';
 import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
@@ -10,7 +12,7 @@ export type ProductCardProps = {
   title: string;
   description: string;
   condition: 'used' | 'new';
-  wishlist: boolean;
+  wishlist: boolean | undefined;
   lowestPrice: number | null;
   highestPrice: number | null;
   price: number | undefined;
@@ -30,18 +32,24 @@ export function ProductCard({
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
-
-  console.log(condition);
+  const [isLike, setIsLike] = useState(wishlist);
   return (
-    <Card
-      onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
-      className="relative rounded-none"
-    >
+    <Card className="relative rounded-none">
       <Anchor className="cursor-pointer" align="unset" underline={false}>
         <Card.Section>
           {/* <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center"> */}
           <Paper className="flex justify-center items-center">
-            <Image  alt={image} src={image} className="h-1/4 w-1/2" />
+            <Image
+              onClick={() =>
+                router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)
+              }
+              alt={image}
+              src={image}
+              fit='cover'
+              height={"200px"}
+            
+              // className="h-1/4 w-1/2"
+            />
           </Paper>
         </Card.Section>
         <Only when={!!condition}>
@@ -59,22 +67,38 @@ export function ProductCard({
       <Card.Section className="no-underline">
         <Grid align="center">
           <Grid.Col span={9} px={0}>
-            <Text className="block text-[13px] md:text-base font-bold text-black " weight={500}>
+            <Text
+              onClick={() =>
+                router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)
+              }
+              className="block text-[13px] md:text-base font-bold text-black "
+              weight={500}
+            >
               {title}
             </Text>
           </Grid.Col>
-          <Grid.Col className="text-right" px={0} span={3}>
-            <Heart
-              className="cursor-pointer"
-              size={23}
-              strokeWidth={1.5}
-              fill={wishlist ? 'red' : 'white'}
-              color={wishlist ? 'red' : undefined}
-            />
-          </Grid.Col>
+          <Only when={wishlist !== undefined}>
+            <Grid.Col className="text-right" px={0} span={3}>
+              <Heart
+                className="cursor-pointer"
+                size={23}
+                onClick={() => {
+                  store.dispatch(likeProduct(condition === "new" ? {product: id} : {listing: id}));
+                  setIsLike(!isLike);
+                }}
+                strokeWidth={1.5}
+                fill={isLike ? 'red' : 'white'}
+                color={isLike ? 'red' : undefined}
+              />
+            </Grid.Col>
+          </Only>
           {/* </ActionIcon> */}
         </Grid>
-        <Anchor className="cursor-pointer" underline={false}>
+        <Anchor
+          onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
+          className="cursor-pointer"
+          underline={false}
+        >
           <Text color={'#B4B4B4'} size="sm" lineClamp={4}>
             Condition : {condition ?? 'Used'}
           </Text>

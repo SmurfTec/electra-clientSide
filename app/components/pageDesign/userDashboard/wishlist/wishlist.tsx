@@ -16,13 +16,13 @@ export function WishList() {
             return (
               <div key={index} className="min-w-[15%]">
                 <ProductCard
-                  image={baseURL + '/' + (product?.images[0]?.filename ?? '')}
+                  image={baseURL + '/' + (product?.images?.[0]?.filename ?? '')}
                   description={'9/10 condition with charger and box'}
                   // link={'/product-detail'}
                   id={product.id}
                   title={product.title}
                   condition={product.condition}
-                  wishlist={false}
+                  wishlist={true}
                   lowestPrice={product.lowest_price}
                   highestPrice={product.highest_offer}
                   price={Number(product.user_starting_price)}

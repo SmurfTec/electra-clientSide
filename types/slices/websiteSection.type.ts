@@ -47,6 +47,7 @@ type Brand = {
 export type ProductDisplayData = {
   id: number;
   title: string;
+  is_liked: boolean | undefined;
   is_active: boolean;
   created_on: string;
   condition: 'new' | 'used';
