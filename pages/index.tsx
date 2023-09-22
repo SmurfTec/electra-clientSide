@@ -103,7 +103,7 @@ export async function getServerSideProps(context: NextPageContext) {
       recommended: store.getState().entities.specialProducts.list.recommended,
       genericCategories: store.getState().entities.genericCategory.list,
       brand: store.getState().entities.brand.list,
-      isAuth
+      isAuth,
     },
   };
 }
@@ -116,18 +116,18 @@ type homePageProps = {
   recommended: Product;
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
-  isAuth:boolean
+  isAuth: boolean;
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand,isAuth } = rest;
+  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand, isAuth } = rest;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
-      if(!isAuth){
-        dispatch(login({ isAuthenticated: false, user:null, profile:null }));
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
       }
       dispatch(rehydrateWebsiteSection(websiteSection));
       dispatch(rehydrateSpecialProducts({ mostSold, trending, latest }));
@@ -136,8 +136,6 @@ export function Index({ ...rest }: homePageProps) {
       unsubscribe = true;
     };
   }, []);
-
-
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
@@ -201,26 +199,25 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Categories" />
-        <Grid gutter={30} columns={8}>
-          <ScrollArea type="scroll" scrollbarSize={5}>
-            <Center>
-              {genericCategories?.categories?.map((category, index) => {
-                return (
-                  <Grid.Col span={2} key={index}>
-                    <CategoryCard
-                      key={index + category.id}
-                      image={baseURL + '/' + category.image?.filename}
-                      // image="/images/brands/brand.png"
-                      id={category.id}
-                      title={category.name}
-                      link={'/shop?category=' + category.id}
-                    />
-                  </Grid.Col>
-                );
-              })}
-            </Center>
-          </ScrollArea>
-        </Grid>
+
+        <ScrollArea type="scroll" scrollbarSize={5}>
+          <Flex className="space-x-8">
+            {genericCategories?.categories?.map((category, index) => {
+              return (
+                <Box key={index} w={250}>
+                  <CategoryCard
+                    key={index + category.id}
+                    image={baseURL + '/' + category.image?.filename}
+                    // image="/images/brands/brand.png"
+                    id={category.id}
+                    title={category.name}
+                    link={'/shop?brand=' + category.id}
+                  />
+                </Box>
+              );
+            })}
+          </Flex>
+        </ScrollArea>
       </section>
 
       <section className="mt-14">
@@ -244,7 +241,7 @@ export function Index({ ...rest }: homePageProps) {
       <section className="mt-8 md:mt-12">
         <SectionTitle title="Most Sold Items" label="View All" link="?sort=-created_on" />
         <ScrollArea type="scroll" scrollbarSize={5}>
-          <Flex className='space-x-8'>
+          <Flex className="space-x-8">
             {mostSold.products?.map((product, index) => {
               return (
                 <Box key={index} w={250}>
@@ -269,7 +266,7 @@ export function Index({ ...rest }: homePageProps) {
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Latest Items" />
         <ScrollArea type="scroll" scrollbarSize={5}>
-          <Flex className='space-x-8'>
+          <Flex className="space-x-8">
             {latest?.products?.map((product, index) => {
               return (
                 <Box key={index} w={250}>
@@ -300,10 +297,12 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Brands" />
         <Grid gutter={30} columns={6}>
           <ScrollArea type="scroll" scrollbarSize={5}>
-            <Center>
+            {/* <Center> */}
+            <Flex className="space-x-8">
               {brand?.brands?.map((category, index) => {
                 return (
-                  <Grid.Col span={2} key={index}>
+                  // <Grid.Col span={2} key={index}>
+                  <Box key={index} w={250}>
                     <CategoryCard
                       key={index + category.id}
                       image={baseURL + '/' + category.image?.filename}
@@ -312,10 +311,12 @@ export function Index({ ...rest }: homePageProps) {
                       title={category.title}
                       link={'/shop?brand=' + category.id}
                     />
-                  </Grid.Col>
+                  </Box>
+                  // </Grid.Col>
                 );
               })}
-            </Center>
+            </Flex>
+            {/* </Center> */}
           </ScrollArea>
         </Grid>
       </section>
