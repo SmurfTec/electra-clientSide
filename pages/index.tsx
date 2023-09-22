@@ -14,6 +14,7 @@ import {
   loadGenericCategory,
   loadNotifications,
   loadWebsiteSection,
+  login,
   rehydrateWebsiteSection,
   store,
   useAppDispatch,
@@ -102,6 +103,7 @@ export async function getServerSideProps(context: NextPageContext) {
       recommended: store.getState().entities.specialProducts.list.recommended,
       genericCategories: store.getState().entities.genericCategory.list,
       brand: store.getState().entities.brand.list,
+      isAuth
     },
   };
 }
@@ -114,15 +116,19 @@ type homePageProps = {
   recommended: Product;
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
+  isAuth:boolean
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand } = rest;
+  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand,isAuth } = rest;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if(!isAuth){
+        dispatch(login({ isAuthenticated: false, user:null, profile:null }));
+      }
       dispatch(rehydrateWebsiteSection(websiteSection));
       dispatch(rehydrateSpecialProducts({ mostSold, trending, latest }));
     }
@@ -130,6 +136,8 @@ export function Index({ ...rest }: homePageProps) {
       unsubscribe = true;
     };
   }, []);
+
+
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
