@@ -146,7 +146,7 @@ export function Index({ ...rest }: homePageProps) {
             <Center className="space-x-8 md:space-x-16">
               {recommended?.products?.map((product, index) => {
                 return (
-                  <div key={index} className="min-w-[15%]">
+                  <div key={product.id + index} className="min-w-[15%]">
                     <ProductCard
                       id={product.id}
                       image={baseURL + '/' + (product?.images?.[0]?.filename || '')}

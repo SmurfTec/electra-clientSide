@@ -52,6 +52,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
       unsubscribe = true;
     };
   }, []);
+
   return (
     <Container mt={50} fluid>
       <PageTitle title="Viewing Details" />

@@ -242,6 +242,7 @@ export default function ProductPage({
           className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
         >
           {listingData?.slice(0, limit).map((product, index) => {
+            console.log(product.condition);
             return (
               <ProductCard
                 id={product.id}
