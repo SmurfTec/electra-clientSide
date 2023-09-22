@@ -7,6 +7,7 @@ export type GenericeCategory = {
   products: number;
   brands: {
     title: string;
+    id: number;
     image: string;
   }[];
   image: {

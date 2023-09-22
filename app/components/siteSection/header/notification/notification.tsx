@@ -7,18 +7,13 @@ import { useSelector } from 'react-redux';
 import { ArrowNarrowRight, Bell } from 'tabler-icons-react';
 import { useStylesMenu } from '../header';
 import { NotificationResult } from './notificationResult';
+import _ from 'lodash';
 
-const notify = [1, 2, 3, 4, 5, 6, 7];
 
 export const Notification = () => {
   const { classes } = useStylesMenu();
   const notification = useSelector((state: RootState) => state?.entities?.notification?.list);
 
-  useEffect(() => {
-    const fetchNotification = async () => await store.dispatch(loadNotifications());
-    fetchNotification();
-  }, []);
-  console.log(notification);
   return (
     // <Only when={notification.length > 0}>
     <Menu
@@ -43,7 +38,7 @@ export const Notification = () => {
       <Menu.Dropdown>
         <Menu.Label className="uppercase font-medium text-base text-white mt-2 ml-2">Notifications</Menu.Label>
         <Menu.Divider />
-        {notification?.map((not, index) => (
+        {!_.isEmpty(notification)&&notification?.map((not, index) => (
           <div key={index + not.resourceid}>
             <Menu.Item>
               <NotificationResult

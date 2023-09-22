@@ -12,7 +12,9 @@ import { Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import {
   loadBrand,
   loadGenericCategory,
+  loadNotifications,
   loadWebsiteSection,
+  login,
   rehydrateWebsiteSection,
   store,
   useAppDispatch,
@@ -25,7 +27,7 @@ import {
   rehydrateSpecialProducts,
 } from '@elektra/store/entities/slices/specialProducts';
 import { BrandsResponse, GenericCategoryResponse, Product, WebsiteSection } from '@elektra/types';
-import { Center, Grid, Image, ScrollArea } from '@mantine/core';
+import { Box, Center, Flex, Grid, Image, ScrollArea } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
@@ -77,19 +79,20 @@ export async function getServerSideProps(context: NextPageContext) {
   const isAuth = await isAuthenticated(context.req);
   const websiteSection = store.dispatch(loadWebsiteSection(1));
 
-  const trending = store.dispatch(loadTrendingProducts());
+  const trending = store.dispatch(loadTrendingProducts(isAuth));
 
-  const latest = store.dispatch(loadLatestProducts());
+  const latest = store.dispatch(loadLatestProducts(isAuth));
 
-  const mostSold = store.dispatch(loadMostSoldProducts());
+  const mostSold = store.dispatch(loadMostSoldProducts(isAuth));
 
-  const recommended = store.dispatch(loadRecommendedProducts());
+  const recommended = store.dispatch(loadRecommendedProducts(isAuth));
 
   const genericCategories = store.dispatch(loadGenericCategory());
+  const notification = store.dispatch(loadNotifications());
 
   const brands = store.dispatch(loadBrand());
 
-  await Promise.all([websiteSection, trending, latest, mostSold, recommended, genericCategories, brands]);
+  await Promise.all([websiteSection, trending, latest, mostSold, notification, recommended, genericCategories, brands]);
 
   return {
     props: {
@@ -100,6 +103,7 @@ export async function getServerSideProps(context: NextPageContext) {
       recommended: store.getState().entities.specialProducts.list.recommended,
       genericCategories: store.getState().entities.genericCategory.list,
       brand: store.getState().entities.brand.list,
+      isAuth
     },
   };
 }
@@ -112,15 +116,19 @@ type homePageProps = {
   recommended: Product;
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
+  isAuth:boolean
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand } = rest;
+  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand,isAuth } = rest;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if(!isAuth){
+        dispatch(login({ isAuthenticated: false, user:null, profile:null }));
+      }
       dispatch(rehydrateWebsiteSection(websiteSection));
       dispatch(rehydrateSpecialProducts({ mostSold, trending, latest }));
     }
@@ -128,6 +136,8 @@ export function Index({ ...rest }: homePageProps) {
       unsubscribe = true;
     };
   }, []);
+
+
 
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
   const phone = useMediaQuery('(max-width: 600px)', false);
@@ -140,9 +150,9 @@ export function Index({ ...rest }: homePageProps) {
       <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
-          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          <ScrollArea h={280} type="scroll" scrollbarSize={5}>
             <Center className="space-x-8 md:space-x-16">
-              {recommended?.products?.slice(0, 5).map((product, index) => {
+              {recommended?.products?.map((product, index) => {
                 return (
                   <div key={index} className="min-w-[15%]">
                     <ProductCard
@@ -151,7 +161,7 @@ export function Index({ ...rest }: homePageProps) {
                       description={'9/10 condition with charger and box'}
                       title={product.title}
                       condition={product.condition}
-                      wishlist={false}
+                      wishlist={product.is_liked}
                       lowestPrice={Number(product.lowest_price)}
                       highestPrice={Number(product.highest_offer)}
                       price={Number(product?.user_starting_price)}
@@ -168,7 +178,7 @@ export function Index({ ...rest }: homePageProps) {
         <SectionTitle title="Trending Now" label="View All" link="?data=trending" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Center className="space-x-8 md:space-x-16">
-            {trending.products.slice(0, 5).map((product, index) => {
+            {trending.products?.map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -177,7 +187,7 @@ export function Index({ ...rest }: homePageProps) {
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    wishlist={product?.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
@@ -233,51 +243,51 @@ export function Index({ ...rest }: homePageProps) {
 
       <section className="mt-8 md:mt-12">
         <SectionTitle title="Most Sold Items" label="View All" link="?sort=-created_on" />
-        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16">
-            {mostSold.products.slice(0, 5).map((product, index) => {
+        <ScrollArea type="scroll" scrollbarSize={5}>
+          <Flex className='space-x-8'>
+            {mostSold.products?.map((product, index) => {
               return (
-                <div key={index} className="min-w-[15%]">
+                <Box key={index} w={250}>
                   <ProductCard
                     id={product.id}
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
-                </div>
+                </Box>
               );
             })}
-          </Center>
+          </Flex>
         </ScrollArea>
       </section>
 
       <section className="mt-4 md:mt-12">
         <SectionTitle title="Latest Items" />
-        <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16">
-            {latest.products.slice(0, 5).map((product, index) => {
+        <ScrollArea type="scroll" scrollbarSize={5}>
+          <Flex className='space-x-8'>
+            {latest?.products?.map((product, index) => {
               return (
-                <div key={index} className="min-w-[15%]">
+                <Box key={index} w={250}>
                   <ProductCard
                     id={product.id}
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
-                </div>
+                </Box>
               );
             })}
-          </Center>
+          </Flex>
         </ScrollArea>
       </section>
       <section className="mt-20">

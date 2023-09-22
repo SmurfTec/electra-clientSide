@@ -1,16 +1,15 @@
 import { BiddingSummary, PageTitle, ProductDetail, ProtectPlan, SummaryFooter } from '@elektra/components';
 import { Modal, Only, baseURL, http, isAuthenticated } from '@elektra/customComponents';
-import { useOfferPlaceModal } from '@elektra/hooks';
-import { RootState, initStore, loadFee, resetCoupon, useAppDispatch, useSelector } from '@elektra/store';
+import { useOfferPlaceModal, useStripeModal } from '@elektra/hooks';
+import { RootState, initStore, loadFee, useAppDispatch, useSelector } from '@elektra/store';
 import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
 import { ProductBuyOrderData, protectionPlanProps } from '@elektra/types';
 
 import { Grid, Loader, Radio } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
+import { PaymentMethodResult } from '@stripe/stripe-js';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AlertTriangle } from 'tabler-icons-react';
 
 const productDetailData = {
   image: '/images/product.png',
@@ -60,6 +59,79 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const [orderData, setOrderData] = useState<ProductBuyOrderData>();
   const loading = useSelector((state: RootState) => state.entities.fee.loading);
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
+
+  const [expiration, setExpiration] = useState(new Date());
+
+  const [successPayment, setSuccessPayment] = useState(false);
+
+  const placeOfferSubmit = async (result: PaymentMethodResult) => {
+    if (result.error) {
+      // Show error in payment form
+      setSuccessPayment(false);
+      return;
+    }
+    const res = await http.request({
+      url: `/bids`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      data: {
+        payment_method_id: result.paymentMethod.id,
+        //* random between 800 and 1600
+        price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
+
+        // * random future date
+        expiration_date: expiration,
+        coupon: coupon || "",
+        shipping_address: '{{$randomStreetAddress}}',
+        product: productDetail.product.id,
+      },
+    });
+    const paymentResponse = await res.data;
+    if (paymentResponse) {
+      setSuccessPayment(true);
+      return;
+    }
+  };
+
+  const stripePaymentMethodHandler = async (result: PaymentMethodResult) => {
+    if (result.error) {
+      // Show error in payment form
+      setSuccessPayment(false);
+      return;
+    }
+    const res = await http.request({
+      url: `/products/${productDetail.product.id}/buy`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      data: {
+        payment_method_id: result.paymentMethod.id,
+        //* random between 800 and 1600
+        price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
+
+        expiration_date: expiration,
+
+        shipping_address: '{{$randomStreetAddress}}',
+        product: productDetail.product.id,
+      },
+    });
+    const paymentResponse = await res.data;
+    if (paymentResponse) {
+      setSuccessPayment(true);
+      return;
+    }
+  };
+
+  const isOfferType = router.query.orderType === 'placeOffer';
+
+  const [StripeModal, stripeOpened, stripeHandler] = useStripeModal({
+    stripePaymentMethodHandler: isOfferType ? placeOfferSubmit : stripePaymentMethodHandler,
+  });
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal({
     address: '',
     cardDetails: '',
@@ -70,41 +142,20 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     productVariant: productDetail?.product?.product_variants,
     expiration: '',
   });
-
-  const isOfferType = router.query.orderType === 'placeOffer';
   const profile = useSelector((state: RootState) => state.auth.profile);
-  const coupon = useSelector((state: RootState) => state.entities.coupon.list) ?? 0;
+  const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
+  const yourOffer = router.query.bidPrice;
 
   const handleSubmit = async () => {
-    console.log(plan);
-    if (plan) {
-      const { data, isError } = await http.request({
-        url: `/products/${productDetail.product.id}/buy`,
-        method: 'POST',
-        data: {
-          protection_plan: plan === 0 ? null : plan,
-          coupon: coupon?.coupon ?? null,
-        },
-      });
-
-      if (!isError) {
-        setOrderData(data);
-        offerPlaceHandler.open();
-      }
-      dispatch(resetCoupon());
-    } else {
-      notifications.show({
-        withCloseButton: false,
-        styles: {
-          icon: {
-            backgroundColor: 'unset',
-          },
-        },
-        message: 'Select atleast one option for proceeding',
-        icon: <AlertTriangle color="red" />,
-      });
-    }
+    stripeHandler.open();
   };
+
+  useEffect(() => {
+    if (successPayment) {
+      stripeHandler.close();
+      offerPlaceHandler.open();
+    }
+  }, [successPayment]);
 
   useEffect(() => {
     if (orderData) offerPlaceHandler.open();
@@ -115,7 +166,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
-    totalPrice += Number(productDetail?.product?.highest_offer);
+    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer);
     return totalPrice;
   };
 
@@ -139,9 +190,10 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   expiration={productDetailData.expiration}
                   cardDetails={productDetailData.cardDetails}
                   address={productDetailData.address}
+                  setExpiration={setExpiration}
                   // status={''}
                   // saleDate={''}
-                  // orderNo={''}
+                  // orderNo={''}f
                   disabled={false}
                   // protectionPlan={''}
                 />
@@ -150,6 +202,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             <Grid.Col xs={12} sm={6}>
               <div className=" relative h-full">
                 <BiddingSummary
+                  expiration={expiration}
                   reciptFee={feeData?.map((item) => ({
                     id: item.id,
                     fees: Number(item.fees),
@@ -162,7 +215,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   totalPrice={getTotalPrice()}
                   protectionPlan={String(plan)}
                   onClick={handleSubmit}
-                  
                 />
               </div>
             </Grid.Col>
@@ -192,6 +244,8 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             open={offerPlaceOpened}
           />
         </Radio.Group>
+
+        <Modal title="Payment Authorization" children={StripeModal} onClose={stripeHandler.close} open={stripeOpened} />
       </Only>
     </>
   );

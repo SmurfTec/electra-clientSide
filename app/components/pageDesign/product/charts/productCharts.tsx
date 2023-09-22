@@ -33,15 +33,15 @@ export const ProductCharts = ({ data }: ProductChartsProps) => {
   const { classes } = useStyles();
   const [value, setValue] = useState<string>('Sales');
   const phone = useMediaQuery('(max-width: 700px)', false);
-  const chartLables1Y = data.map((item) => format(new Date(item.month), 'MMMM'));
-  const chartLables6M = data.slice(0,6).map((item) => format(new Date(item.month), 'MMMM'));
-  const chartLables3M = data.slice(0,3).map((item) => format(new Date(item.month), 'MMMM'));
-  const chartDataSet1YPrice =  { label: 'Price', data: data.map((item) => item.price) };
-  const chartDataSet1YSales =  { label: 'Sales', data: data.map((item) => item.sales) };
-  const chartDataSet6MPrice =  { label: 'Price', data: data.slice(0,6).map((item) => item.price) };
-  const chartDataSet6MSales =  { label: 'Sales', data: data.slice(0,6).map((item) => item.sales) };
-  const chartDataSet3MPrice =  { label: 'Price', data: data.slice(0,3).map((item) => item.price) };
-  const chartDataSet3MSales =  { label: 'Sales', data: data.slice(0,3).map((item) => item.sales) };
+  const chartLables1Y = data?.map((item) => format(new Date(item.month), 'MMMM'));
+  const chartLables6M = data?.slice(0,6).map((item) => format(new Date(item.month), 'MMMM'));
+  const chartLables3M = data?.slice(0,3).map((item) => format(new Date(item.month), 'MMMM'));
+  const chartDataSet1YPrice =  { label: 'Price', data: data?.map((item) => item.price) };
+  const chartDataSet1YSales =  { label: 'Sales', data: data?.map((item) => item.sales) };
+  const chartDataSet6MPrice =  { label: 'Price', data: data?.slice(0,6).map((item) => item.price) };
+  const chartDataSet6MSales =  { label: 'Sales', data: data?.slice(0,6).map((item) => item.sales) };
+  const chartDataSet3MPrice =  { label: 'Price', data: data?.slice(0,3).map((item) => item.price) };
+  const chartDataSet3MSales =  { label: 'Sales', data: data?.slice(0,3).map((item) => item.sales) };
   
   return (
     <Paper withBorder radius={0}>

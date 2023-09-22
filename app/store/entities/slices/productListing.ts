@@ -9,6 +9,7 @@ export type ListingProductSlice = {
 };
 
 const listingUrl = '/listings';
+const listingProtectedUrl = '/listings/protected';
 
 const initialState: ListingProductSlice = {
   list: {} as ListingsResponse,
@@ -48,7 +49,7 @@ export const rehydrateListingProductData = (payload: ListingsResponse) => {
 };
 
 export const loadListingProducts =
-  (id: number, params: string = '&limit=15&page=1') =>
+  (id: number, isAuth: boolean, params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
     return await dispatch(
       apiRequest({

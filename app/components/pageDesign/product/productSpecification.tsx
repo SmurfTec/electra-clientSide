@@ -1,14 +1,17 @@
 import { Drawer, Only } from '@elektra/customComponents';
 import { useSellerDetailDrawer, useTechinalSpecificationDrawer } from '@elektra/hooks';
+import { likeProduct, store } from '@elektra/store';
 import { TechnicalSpecification, Variant } from '@elektra/types';
 import { Button, Chip, Grid, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { useState } from 'react';
 import { ChevronRight, Heart } from 'tabler-icons-react';
 import { BiddingInput } from '../../inputs';
 
 export type ProductSpecificationProps = {
   title: string;
+  id: number;
   condition: 'new' | 'used';
   productVariants: Variant[];
   lowestAsk: number;
@@ -22,6 +25,7 @@ export type ProductSpecificationProps = {
 export function ProductSpecification({
   condition,
   title,
+  id,
   productVariants,
   highestAsk,
   lowestAsk,
@@ -33,7 +37,7 @@ export function ProductSpecification({
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
-
+  const [isLike, setIsLike] = useState(false);
   const phone = useMediaQuery('(max-width: 600px)');
   return (
     <div>
@@ -43,13 +47,27 @@ export function ProductSpecification({
         </Title>
         <Grid align="top">
           <Grid.Col span={11}>
-            <Title align="initial" className="font-bold uppercase" size={phone ? '20px' : '30px'} color={'black'} order={3}>
+            <Title
+              align="initial"
+              className="font-bold uppercase"
+              size={phone ? '20px' : '30px'}
+              color={'black'}
+              order={3}
+            >
               {title}
             </Title>
           </Grid.Col>
           <Grid.Col span={1}>
             <span className="bg-[#D9E2E98F] rounded-2xl w-8 h-8 relative mb-2">
-              <Heart className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+              <Heart
+                onClick={() => {
+                  store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
+                  setIsLike(!isLike);
+                }}
+                fill={isLike ? 'red' : 'white'}
+                color={isLike ? 'red' : undefined}
+                className="cursor-pointer absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
             </span>
           </Grid.Col>
         </Grid>
@@ -178,7 +196,7 @@ export function ProductSpecification({
             <Grid.Col span={6}>
               <Button
                 component={NextLink}
-                href={condition === 'used' ? '/place-offer?condition=new' : '/place-offer'}
+                href={condition === 'new' ? '/place-offer' : '/place-offer/listing'}
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"

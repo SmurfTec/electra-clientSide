@@ -43,7 +43,7 @@ export type OfferModalProductProps = {
   saleDate: string;
 };
 
-export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }, string] => {
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
@@ -64,11 +64,12 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
           size="lg"
           rightSection={<CaretDown fill="black" size="1rem" />}
           rightSectionWidth={30}
+          withinPortal
           searchable
           nothingFound="No options"
           maxDropdownHeight={130}
-          zIndex={10}
-          data={['7 Days', '14 Days', '21 Days']}
+          zIndex={10000}
+          data={[{label:'7 Days', value: "7"}, {label:'14 Days', value: "14"}, {label:'21 Days', value: "21"}]}
           styles={{
             input: {
               borderRadius: 'unset',
@@ -85,7 +86,7 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
       </form>
     </Stack>
   );
-  return [Modal, opened, { open, close }];
+  return [Modal, opened, { open, close }, form.values.days];
 };
 
 export const useOfferPlaceModal = (

@@ -2,6 +2,7 @@ import { Modal, Only, PencilButton } from '@elektra/customComponents';
 import { useCardModal, useOfferModal, useShippingChangeModal } from '@elektra/hooks';
 import { Variant } from '@elektra/types';
 import { Grid, Text, Title } from '@mantine/core';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { ItemCard } from '../../card';
 
 type ProductDetailProps = {
@@ -17,12 +18,13 @@ type ProductDetailProps = {
   disabled: boolean;
   protectionPlan?: string;
   productVariants: Variant[];
+  setExpiration: Dispatch<SetStateAction<Date>>;
 };
 
 export function ProductDetail({
   image,
   title,
-
+  setExpiration,
   condition,
   expiration,
   cardDetails,
@@ -35,8 +37,14 @@ export function ProductDetail({
   productVariants,
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
-  const [OfferModal, offerOpened, offerHandler] = useOfferModal();
+  const [OfferModal, offerOpened, offerHandler, expirationDate] = useOfferModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+
+  useEffect(() => {
+    const newDate = new Date().setDate(new Date().getDate() + Number(expirationDate));
+    console.log(newDate);
+    setExpiration(new Date(newDate));
+  }, [expirationDate]);
 
   return (
     <div

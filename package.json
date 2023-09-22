@@ -21,6 +21,8 @@
     "@mantine/notifications": "^6.0.2",
     "@mantine/nprogress": "^6.0.2",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/react-stripe-js": "^2.3.0",
+    "@stripe/stripe-js": "^2.1.5",
     "@tanstack/react-table": "^8.8.2",
     "axios": "^1.4.0",
     "cookies-next": "^2.1.2",

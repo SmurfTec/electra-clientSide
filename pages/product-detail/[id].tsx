@@ -69,8 +69,8 @@ export async function getServerSideProps(context: NextPageContext) {
 
   const isAuth = await isAuthenticated(context.req);
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
-  const recommended = store.dispatch(loadRecommendedProducts());
-  const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
+  const recommended = store.dispatch(loadRecommendedProducts(isAuth));
+  const listingData = store.dispatch(loadListingProducts(Number(context.query.id), isAuth));
   const productVariants = store.dispatch(loadProductVariants());
 
   await Promise.all([productData, listingData, productVariants, recommended]);
@@ -81,6 +81,7 @@ export async function getServerSideProps(context: NextPageContext) {
       productListing: store.getState().entities.productListing.list,
       recommended: store.getState().entities.specialProducts.list.recommended,
       productVariants: store.getState().entities.productVariants.list,
+      isAuth,
     },
   };
 }
@@ -90,9 +91,16 @@ type ProductPageProps = {
   productListing: ListingsResponse;
   productVariants: ProductVariant;
   recommended: Product;
+  isAuth: boolean;
 };
 
-export default function ProductPage({ productDetail, productListing, productVariants, recommended }: ProductPageProps) {
+export default function ProductPage({
+  productDetail,
+  productListing,
+  productVariants,
+  recommended,
+  isAuth,
+}: ProductPageProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -139,11 +147,11 @@ export default function ProductPage({ productDetail, productListing, productVari
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      dispatch(loadListingProducts(productId));
+      dispatch(loadListingProducts(productId, isAuth));
       return;
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
-    dispatch(loadListingProducts(productId, '&' + paramString));
+    dispatch(loadListingProducts(productId, isAuth, '&' + paramString));
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
@@ -155,7 +163,7 @@ export default function ProductPage({ productDetail, productListing, productVari
   const handlePaginatedListing = (pageNumber: number) => {
     setPage(pageNumber);
     const productId = Number(router.query['id']);
-    dispatch(loadListingProducts(productId, `&limit=15&page=${pageNumber}`));
+    dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
   return (
@@ -175,17 +183,22 @@ export default function ProductPage({ productDetail, productListing, productVari
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button component={NextLink} href={"/product-listing/"+ productDetail.product.id} leftIcon={<ShoppingCart />}>
+            <Button
+              component={NextLink}
+              href={'/product-listing/' + productDetail?.product?.id}
+              leftIcon={<ShoppingCart />}
+            >
               Sell Now
             </Button>
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
+            id={productDetail?.product?.id}
             technicalSpecification={productDetail?.product?.technical_specifications || []}
             title={String(productDetail?.product?.title)}
-            productVariants={productDetail?.product.product_variants as Variant[]}
-            condition={productDetail?.product.condition as condition}
+            productVariants={productDetail?.product?.product_variants as Variant[]}
+            condition={productDetail?.product?.condition as condition}
             highestAsk={Number(productDetail?.product?.highest_offer)}
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
             price={Number(productDetail?.product?.user_starting_at)}
@@ -263,7 +276,7 @@ export default function ProductPage({ productDetail, productListing, productVari
               position="center"
               value={activePage}
               onChange={(value) => handlePaginatedListing(value)}
-              total={Number((Number(productDetail.product.product_stats.listings) / 10).toFixed())}
+              total={Number((Number(productDetail?.product?.product_stats?.listings) / 10).toFixed())}
             />
           </Only>
         </Center>

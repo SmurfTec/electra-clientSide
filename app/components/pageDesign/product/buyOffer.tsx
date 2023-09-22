@@ -1,14 +1,14 @@
 import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
 import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
-import { useSelector } from 'react-redux';
-import { RootState } from '@elektra/store';
-import { useContext } from 'react';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -36,17 +36,29 @@ export function BuyOfferComponent({
 }: ListingDescriptionProps) {
   const isNew = condition === 'new';
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0
+  const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
-  const handleListingVariants = (variant: string, value: string) => {
+  // const handleListingVariants = (variant: string, value: string) => {
+  //   const listingVariants = listItemPost?.listingVariants ?? [];
+  //   const index = listingVariants?.findIndex((item) => item.variant === variant);
+  //   if (index === -1) {
+  //     listingVariants.push({ variant, value });
+  //     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  //     return;
+  //   }
+  //   listingVariants[index] = { variant, value };
+  //   setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  // };
+
+  const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
-    const index = listingVariants?.findIndex((item) => item.variant === variant);
+    const index = listingVariants?.findIndex((item) => item.id === id);
     if (index === -1) {
-      listingVariants.push({ variant, value });
+      listingVariants.push({ id, value });
       setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
       return;
     }
-    listingVariants[index] = { variant, value };
+    listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
 
@@ -75,10 +87,13 @@ export function BuyOfferComponent({
       </Group>
 
       <div className="my-4">
-        <ButtonChip data={[isNew ? 'New' : 'Used']}  initialValue={condition}
+        <ButtonChip
+          data={[isNew ? 'New' : 'Used']}
+          initialValue={condition}
           handleState={(value) => {
             setListItemPost((prev) => ({ ...prev, condition: value as condition }));
-          }} />
+          }}
+        />
       </div>
 
       <div className="my-8">
@@ -87,15 +102,16 @@ export function BuyOfferComponent({
 
       {productVariants?.map((item, key) => {
         return (
-          <div key={key + item.color}>
-            <div className="my-4">
-              <Text className="uppercase font-semibold my-4" size="sm">
-                {item.variant}
-              </Text>
-              <ButtonChip data={isNew ? item.values : [item.value]} handleState={(value) => {
-                handleListingVariants(item.variant, value);
-              }}/>
-            </div>
+          <div key={key + item.id} className="my-4">
+            <Text className="uppercase font-semibold my-4" size="sm">
+              {item.variant}
+            </Text>
+            <ButtonChip
+              data={isNew ? item.values : [item.value]}
+              handleState={(value) => {
+                handleListingVariants(item.id, value);
+              }}
+            />
           </div>
         );
       })}
@@ -168,7 +184,6 @@ export function BuyOfferComponent({
       </Group>
 
       <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-32 py-6 border-black border-solid ">
-      
         <NumberInput
           disabled={true}
           hideControls
@@ -190,7 +205,6 @@ export function BuyOfferComponent({
             },
           }}
         />
-   
       </Group>
 
       <div className="my-8">
@@ -228,7 +242,7 @@ export function BuyOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            href={condition === "new" ? "/buying-summary" :'/buying-summary/listing'}
+            href={condition === 'new' ? '/buying-summary' : '/buying-summary/listing'}
           >
             Review Purchase
           </Button>

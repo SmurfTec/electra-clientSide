@@ -101,7 +101,6 @@ export function ListingDescription({
     }
   };
 
-  console.log(productVariants)
 
   return (
     <div>
