@@ -33,7 +33,7 @@ httpRequest.interceptors.response.use(
     return errorMessage;
   }
 );
-function request<D = unknown,R = AxiosResponseWithError<D>>(config: AxiosRequestConfig<D>): Promise<R> {
+function request<T=never,R = AxiosResponseWithError<T>,D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
   const headertoken = getHeaders();
   config.headers = typeof window !== 'undefined' ? { ...config.headers, ...headertoken } : config.headers;
   return httpRequest.request(config);
