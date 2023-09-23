@@ -14,6 +14,7 @@ import {
   loadProductData,
   loadProductVariants,
   loadRecommendedProducts,
+  login,
   rehydrateProductData,
   rehydrateProductVariants,
   store,
@@ -106,6 +107,9 @@ export default function ProductPage({
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+      }
       dispatch(rehydrateProductData(productDetail));
       dispatch(rehydrateListingProductData(productListing));
       dispatch(rehydrateProductVariants(productVariants));

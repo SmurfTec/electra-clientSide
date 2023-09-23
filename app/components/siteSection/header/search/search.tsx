@@ -92,18 +92,18 @@ export const Search = ({ close }: SearchProps) => {
   const [debounced] = useDebouncedValue(search, 500);
   const handleChange = async (val: string) => {
     setLoading(true);
-    const res = await http.request({
+    const res = await http.request<Product>({
       url: `products/?title=%${val}%&limit=7&page=1`,
       method: 'GET',
     });
-    const sug = await http.request({
+    const sug = await http.request<Product>({
       url: `products/suggestions/${val}`,
       method: 'GET',
     });
     if (res.isError || sug.isError) {
       setLoading(false);
     } else {
-      const productData = res?.data?.['products']?.map((item: ProductDisplayData) => ({
+      const productData = res?.data?.products?.map((item: ProductDisplayData) => ({
         id: item?.id,
         title: item?.title,
         image: baseURL + '/' + item.images?.[0].filename,

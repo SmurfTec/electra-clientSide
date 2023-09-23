@@ -7,6 +7,7 @@ import {
   fetchSingleBrand,
   fetchSingleGenericCategory,
   loadFilterProducts,
+  login,
   rehydrateShopProducts,
   store,
   useAppDispatch,
@@ -68,6 +69,9 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+      }
       dispatch(rehydrateShopProducts(products));
     }
     return () => {
