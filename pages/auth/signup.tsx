@@ -62,6 +62,8 @@ export default function Signup() {
          children={emailModal}
          onClose={emailHandler.close}
          open={emailOpened}
+         closeOnClickOutside={false}
+         closeOnEscape={false}
        />
       <Grid.Col order={2} orderSm={1} xs={12} sm={5} md={4}>
       <ScrollArea
