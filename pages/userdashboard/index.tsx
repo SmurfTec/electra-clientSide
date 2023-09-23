@@ -26,7 +26,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
   }
   const store = initStore();
   const userFavourite = store.dispatch(loadUserFavourite());
-  const userReward = store.dispatch(loadUserReward());
+  const userReward = await store.dispatch(loadUserReward());
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
 
