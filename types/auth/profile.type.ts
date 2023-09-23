@@ -21,6 +21,14 @@ export type Profile = {
   billing_lastname?: string | null;
   billing_address_line_1?: string | null;
   card_details_number: string | null;
+  bank: string | null;
+  account_holder_name: string | null;
+  iban: string | null;
+  account_type: string | null;
+  account_no: string | null;
+  routing_digits: string | null;
+  platform_profit: number | null;
+  swift_code: any
   card_details_expiration_date: string | null;
   card_details_cvv: string | null;
   billing_adress_line_2?: string | null;
@@ -32,5 +40,6 @@ export type Profile = {
   billing_postalcode?: null | number;
   is_two_step_verification_enabled?: null | boolean;
   receive_notifications?: null | boolean;
+  maintenance_mode: string | null;
   image_url: string;
 };

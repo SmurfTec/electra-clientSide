@@ -49,13 +49,13 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
           </Group>
           <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">Platform Profit</Text>
-            <Text className="text-sm md:text-xl text-black font-semibold">$0</Text>
+            <Text className="text-sm md:text-xl text-black font-semibold">${profile?.platform_profit}</Text>
           </Group>
           <Divider className="w-full" variant="dashed" />
           <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">TOTAL CASHOUT</Text>
             <Text color="rgba(60, 130, 214, 1)" className=" text-sm md:text-xl font-extrabold">
-              ${profile?.available_funds}
+              ${Number(profile?.available_funds) - Number(profile?.platform_profit)}
             </Text>
           </Group>
           <Center inline className="space-x-5">

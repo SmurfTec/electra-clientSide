@@ -156,7 +156,7 @@ export const HeaderMenu = () => {
           </Flex>
           <Menu.Dropdown>
             {categories?.map((item, index) => (
-              <div key={index}>
+              <div key={item.id + index}>
                 <Menu.Item onClick={() => handleItem(item.name, item.brands)}>
                   <Group position="apart">
                     <Text className="text-white">{item.name}</Text>
