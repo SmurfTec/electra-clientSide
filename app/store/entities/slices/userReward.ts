@@ -49,7 +49,7 @@ export const rehydrateUserReward = (payload:UserReward[]) => {
 
 export const loadUserReward = () => async (dispatch: AppDispatch) => {
   return await dispatch(
-    apiRequest({
+    apiRequest<{rewards:UserReward[]}>({
       url: URL,
       onStart: slice.actions.userRewardRequested.type,
       onSuccess: slice.actions.userRewardReceived.type,

@@ -2,20 +2,20 @@ import { http, HttpStatusCode, Method } from '@elektra/customComponents';
 import { logout } from '../entities';
 import { AppDispatch } from '../storeContext';
 
-type ApiRequestParams = {
+type ApiRequestParams<T> = {
   url: string;
   method?: Method;
   params?: object;
   onStart?: string;
   onSuccess?: string;
   onError?: string;
-  data?: Record<string, unknown>;
+  data?: T;
   ttl?: number;
 };
 
-export const apiRequest = ({ url, method, data, params, onSuccess, onError, onStart }: ApiRequestParams) => {
+export const apiRequest = <T>({ url, method, data, params, onSuccess, onError, onStart }: ApiRequestParams<T>) => {
   return async (dispatch: AppDispatch) => {
-    const response = await http.request({
+    const response = await http.request<T>({
       url,
       method: method || 'GET',
       data,
