@@ -14,6 +14,7 @@ import {
   loadProductListingById,
   loadProductVariants,
   loadRecommendedProducts,
+  login,
   rehydrateProductListingById,
   rehydrateProductVariants,
   store,
@@ -65,10 +66,10 @@ const items = [
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const isAuth = await isAuthenticated(context.req);
-  const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
+  const listingData = store.dispatch(loadListingProducts(Number(context.query.id), isAuth));
   const productVariants = store.dispatch(loadProductVariants());
   const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
-  const recommended = store.dispatch(loadRecommendedProducts());
+  const recommended = store.dispatch(loadRecommendedProducts(isAuth));
   await Promise.all([listingData, productVariants, productListingById, recommended]);
   return {
     props: {
@@ -76,6 +77,7 @@ export async function getServerSideProps(context: NextPageContext) {
       productVariants: store.getState().entities.productVariants.list,
       productListingById: store.getState().entities.productListingById.list,
       recommended: store.getState().entities.specialProducts.list.recommended,
+      isAuth,
     },
   };
 }
@@ -85,6 +87,7 @@ type ProductPageProps = {
   productVariants: ProductVariant;
   recommended: Product;
   productListingById: SingleProductListing;
+  isAuth: boolean;
 };
 
 export default function ProductPage({
@@ -92,11 +95,15 @@ export default function ProductPage({
   productVariants,
   productListingById,
   recommended,
+  isAuth,
 }: ProductPageProps) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+      }
       dispatch(rehydrateListingProductData(productListing));
       dispatch(rehydrateProductVariants(productVariants));
       dispatch(rehydrateProductListingById(productListingById));
@@ -129,11 +136,11 @@ export default function ProductPage({
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      dispatch(loadListingProducts(productId));
+      dispatch(loadListingProducts(productId, isAuth));
       return;
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
-    dispatch(loadListingProducts(productId, '&' + paramString));
+    dispatch(loadListingProducts(productId, isAuth, '&' + paramString));
   };
 
   const productFilters = productVariants.variants;
@@ -154,7 +161,7 @@ export default function ProductPage({
   const handlePaginatedListing = (pageNumber: number) => {
     setPage(pageNumber);
     const productId = Number(router.query['id']);
-    dispatch(loadListingProducts(productId, `&limit=15&page=${pageNumber}`));
+    dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
   return (
@@ -179,6 +186,7 @@ export default function ProductPage({
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
+            id={productListingById.listing.id}
             technicalSpecification={productListingById.listing?.technical_specifications || []}
             title={productListingById?.listing?.product?.title || ''}
             productVariants={productListingById.listing?.listing_variants || []}

@@ -9,7 +9,7 @@ const httpRequest = axios.create({
     "ngrok-skip-browser-warning": true,
   }
 });
-interface AxiosResponseWithError extends AxiosResponse {
+interface AxiosResponseWithError<T> extends AxiosResponse<T> {
   isError?: boolean;
   errorPayload?: Record<string, any> | null;
 }
@@ -19,7 +19,7 @@ interface AxiosErrorWithError extends AxiosError {
 }
 
 httpRequest.interceptors.response.use(
-  (response: AxiosResponseWithError) => {
+  <T>(response: AxiosResponseWithError<T>) => {
     return { ...response, isError: false, errorPayload: null };
   },
   (error: AxiosErrorWithError) => {
@@ -33,7 +33,7 @@ httpRequest.interceptors.response.use(
     return errorMessage;
   }
 );
-function request<R = AxiosResponseWithError, D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
+function request<T=any,R = AxiosResponseWithError<T>,D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
   const headertoken = getHeaders();
   config.headers = typeof window !== 'undefined' ? { ...config.headers, ...headertoken } : config.headers;
   return httpRequest.request(config);

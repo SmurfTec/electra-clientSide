@@ -1,5 +1,5 @@
 import { FooterProductCarousel, ItemFilter, ProductCard, SectionTitle } from '@elektra/components';
-import { Modal, Only, baseURL } from '@elektra/customComponents';
+import { Modal, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
   RootState,
@@ -7,6 +7,7 @@ import {
   fetchSingleBrand,
   fetchSingleGenericCategory,
   loadFilterProducts,
+  login,
   rehydrateShopProducts,
   store,
   useAppDispatch,
@@ -23,6 +24,7 @@ import { Filter } from 'tabler-icons-react';
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
   const categoryId = context.query.category;
+  const isAuth = await isAuthenticated(context.req);
   const brandId = context.query.brand;
   const data = context.query.data;
   const sort = context.query.data;
@@ -49,6 +51,7 @@ export async function getServerSideProps(context: NextPageContext) {
       products: store.getState().entities.specialProducts.list.shopProducts,
       genericData: genericData ? genericData.data : null,
       queryParams: params,
+      isAuth,
     },
   };
 }
@@ -57,14 +60,18 @@ type ShopPageProps = {
   products: Product;
   genericData: BrandAndCategory | undefined;
   queryParams?: string;
+  isAuth: boolean;
 };
 
-export default function ShopPage({ products, genericData, queryParams }: ShopPageProps) {
+export default function ShopPage({ products, genericData, queryParams, isAuth }: ShopPageProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+      }
       dispatch(rehydrateShopProducts(products));
     }
     return () => {
@@ -90,11 +97,11 @@ export default function ShopPage({ products, genericData, queryParams }: ShopPag
     }
     if (newParams.length === 0) {
       console.log(newParams);
-      dispatch(loadFilterProducts());
+      dispatch(loadFilterProducts(isAuth));
       return;
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
-    dispatch(loadFilterProducts(paramString));
+    dispatch(loadFilterProducts(isAuth, paramString));
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,

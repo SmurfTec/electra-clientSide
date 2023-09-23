@@ -1,5 +1,5 @@
-import { Modal as Mdal } from '@elektra/customComponents';
-import { RootState, useSelector } from '@elektra/store';
+import { Modal as Mdal, http } from '@elektra/customComponents';
+import { RootState, store, updateUserProfile, useAppDispatch, useSelector } from '@elektra/store';
 import { ActionIcon, Button, Group, NumberInput, Stack, Text, Title } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -10,11 +10,34 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
   const [opened, { open, close }] = useDisclosure(false);
   const profile = useSelector((state: RootState) => state.auth.profile);
   const [offerModal, offerOpened, offerHandler] = useRedeemSuccesfullModal();
+  const [failModal, failOpened, failHandler] = useRedeemUnSuccesfullModal();
   const [count, handlers] = useCounter(profile?.coins, { min: 0 });
+  const dispatch = useAppDispatch()
+
+  const handleSubmit = async (coins: number) => {
+    const res = await http.request({
+      url: '/auth/redeem-coins',
+      method: 'PATCH',
+      data: {
+        coins,
+      },
+    });
+
+    if (res.isError) {
+      failHandler.open();
+      return;
+    }
+    
+    offerHandler.open();
+    dispatch(updateUserProfile(Number(profile?.id)))
+    return;
+  };
+
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">
       <Mdal children={offerModal} onClose={offerHandler.close} open={offerOpened} />
-      
+      <Mdal children={failModal} onClose={failHandler.close} open={failOpened} />
+
       <Group position="center" spacing={0} className="mt-6">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
@@ -41,10 +64,10 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
         {count} = ${count / 100}
       </Text>
       <Group position="center">
-        <Button size={'lg'} uppercase onClick={offerHandler.open}>
+        <Button size={'lg'} uppercase onClick={() => handleSubmit(count)}>
           Redeem
         </Button>
-        <Button size={'lg'} color="blue" onClick={offerHandler.open} uppercase>
+        <Button size={'lg'} color="blue" onClick={() => handleSubmit(Number(profile?.coins) || 0)} uppercase>
           Redeem All
         </Button>
       </Group>

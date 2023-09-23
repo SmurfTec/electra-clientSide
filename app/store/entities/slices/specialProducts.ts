@@ -4,14 +4,19 @@ import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 const trendingURL = '/products/trending';
+const trendingProtectedURL = '/products/protected/trending';
+
 // const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
+const latestProtectedURL = '/products/protected?sort=-created_on';
 // const mostSoldURL = '/products/sold';
 const mostSoldURL = '/products/?sort=-created_on';
+const mostSoldProtectedURL = '/products/protected?sort=-created_on';
 const recommendedURL = '/products/recommended';
+const recommendedProtectedURL = '/products/protected/recommended';
 // const recommendedURL = '/products/?sort=-created_on';
 const shopProducts = '/products/';
-const URL = '/products';
+const shopProtectedProducts = '/products/protected';
 
 type ProductData = {
   mostSold: Product;
@@ -71,6 +76,16 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    likeProductStart: (state, action) => {
+      console.log(action.payload);
+    },
+    likeProductFailure: (state, action) => {
+      console.log(action.payload);
+    },
+    likeProductSuccess: (state, action) => {
+      console.log(action.payload);
+    },
+
     recommendedReceived: (state, action) => {
       state.list.recommended = action.payload;
       state.loading = false;
@@ -111,10 +126,10 @@ export const rehydrateShopProducts = (payload: Product) => {
   };
 };
 
-export const loadTrendingProducts = () => async (dispatch: AppDispatch) => {
+export const loadTrendingProducts = (isAuth: boolean) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: trendingURL,
+      url: isAuth ? trendingProtectedURL : trendingURL,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.trendingReceived.type,
       onError: slice.actions.specialProductFailed.type,
@@ -122,10 +137,10 @@ export const loadTrendingProducts = () => async (dispatch: AppDispatch) => {
   );
 };
 
-export const fetchShowMoreProducts = (param: string) => async (dispatch: AppDispatch) => {
+export const fetchShowMoreProducts = (param: string, isAuth: boolean) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: URL + `?title=%${param}%`,
+      url: isAuth ? shopProtectedProducts : shopProducts + `?title=%${param}%`,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.showMoreReceived.type,
       onError: slice.actions.specialProductFailed.type,
@@ -133,16 +148,30 @@ export const fetchShowMoreProducts = (param: string) => async (dispatch: AppDisp
   );
 };
 
-export const loadRecommendedProducts = () => async (dispatch: AppDispatch) => {
+export const loadRecommendedProducts = (isAuth: boolean) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: recommendedURL,
+      url: isAuth ? recommendedProtectedURL : recommendedURL,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.recommendedReceived.type,
       onError: slice.actions.specialProductFailed.type,
     })
   );
 };
+
+export const likeProduct =
+  (data: { product?: number; listing?: number }) => async (dispatch: AppDispatch) => {
+    return await dispatch(
+      apiRequest({
+        url: '/favourites',
+        method: 'POST',
+        data,
+        onStart: slice.actions.likeProductStart.type,
+        onSuccess: slice.actions.likeProductSuccess.type,
+        onError: slice.actions.likeProductFailure.type,
+      })
+    );
+  };
 
 export const fetchShopProducts =
   (param: string = '') =>
@@ -158,11 +187,11 @@ export const fetchShopProducts =
     );
   };
 export const loadFilterProducts =
-  (params: string = '&limit=15&page=1') =>
+  (isAuth: boolean, params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
     return await dispatch(
       apiRequest({
-        url: URL + `?${params}`,
+        url: isAuth ? shopProtectedProducts : shopProducts + `?${params}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,
@@ -170,10 +199,10 @@ export const loadFilterProducts =
     );
   };
 
-export const loadLatestProducts = () => async (dispatch: AppDispatch) => {
+export const loadLatestProducts = (isAuth: boolean) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: latestURL,
+      url: isAuth ? latestProtectedURL : latestURL,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.latestReceived.type,
       onError: slice.actions.specialProductFailed.type,
@@ -181,10 +210,10 @@ export const loadLatestProducts = () => async (dispatch: AppDispatch) => {
   );
 };
 
-export const loadMostSoldProducts = () => async (dispatch: AppDispatch) => {
+export const loadMostSoldProducts = (isAuth: boolean) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
-      url: mostSoldURL,
+      url: isAuth ? mostSoldProtectedURL : mostSoldURL,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.mostSoldReceived.type,
       onError: slice.actions.specialProductFailed.type,

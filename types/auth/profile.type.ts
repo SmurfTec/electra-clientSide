@@ -2,32 +2,44 @@ export type Profile = {
   id: number;
   firstname: string;
   lastname: string;
-  mobile_no?: string | null
+  mobile_no?: string | null;
   username?: string | null;
   totalsales: number;
   coins: number;
   proceeds: number;
   marketplace_fees: number;
   available_funds: number;
-  shipping_address_line_1?: string | null
-  shipping_adress_line_2?: string | null
-  shipping_country?: string | null
-  shipping_country_code?:string | null
-  shipping_stateorprovince?: string | null
-  shipping_stateorprovince_code?: string | null
-  shipping_city?:string | null
+  shipping_address_line_1?: string | null;
+  shipping_adress_line_2?: string | null;
+  shipping_country?: string | null;
+  shipping_country_code?: string | null;
+  shipping_stateorprovince?: string | null;
+  shipping_stateorprovince_code?: string | null;
+  shipping_city?: string | null;
   shipping_postalcode?: null | number;
-  billing_firstname?: string | null
-  billing_lastname?: string | null
-  billing_address_line_1?: string | null
-  billing_adress_line_2?: string | null
-  billing_country?: string | null
-  billing_country_code?:string | null
-  billing_state_or_province?: string | null
-  billing_state_or_province_code?: string | null
-  billing_city?: string | null
-  billing_postalcode?: null|number;
-  is_two_step_verification_enabled?: null|boolean;
-  receive_notifications?: null|boolean;
+  billing_firstname?: string | null;
+  billing_lastname?: string | null;
+  billing_address_line_1?: string | null;
+  card_details_number: string | null;
+  bank: string | null;
+  account_holder_name: string | null;
+  iban: string | null;
+  account_type: string | null;
+  account_no: string | null;
+  routing_digits: string | null;
+  platform_profit: number | null;
+  swift_code: any
+  card_details_expiration_date: string | null;
+  card_details_cvv: string | null;
+  billing_adress_line_2?: string | null;
+  billing_country?: string | null;
+  billing_country_code?: string | null;
+  billing_state_or_province?: string | null;
+  billing_state_or_province_code?: string | null;
+  billing_city?: string | null;
+  billing_postalcode?: null | number;
+  is_two_step_verification_enabled?: null | boolean;
+  receive_notifications?: null | boolean;
+  maintenance_mode: string | null;
   image_url: string;
 };

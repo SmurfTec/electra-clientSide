@@ -1,10 +1,11 @@
 import { BannerProps, ItemFilter, ProductCard, ProductCardProps, SectionTitle } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
+import { baseURL, isAuthenticated } from '@elektra/customComponents';
 import {
   RootState,
   fetchShowMoreProducts,
   initStore,
   loadListingProducts,
+  login,
   useAppDispatch,
   useSelector,
 } from '@elektra/store';
@@ -12,7 +13,7 @@ import { Product } from '@elektra/types';
 import { Container, Divider, Text } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const carouselData = [
   {
@@ -132,22 +133,31 @@ const productData: ProductCardProps[] = [
 
 export async function getServerSideProps(context: NextPageContext) {
   const store = initStore();
-  const showMore = context.query['show-more']
-  if(!showMore) {
-    return { redirect: { permanent: false, destination: '/404' } }
+  const isAuth = await isAuthenticated(context.req);
+  const showMore = context.query['show-more'];
+  if (!showMore) {
+    return { redirect: { permanent: false, destination: '/404' } };
   }
-  const products = store.dispatch(fetchShowMoreProducts(String(showMore)));
+  const products = store.dispatch(fetchShowMoreProducts(String(showMore), isAuth));
   await Promise.all([products]);
   return {
     props: {
       products: store.getState().entities.specialProducts.list.showMore,
+      isAuth,
     },
   };
 }
 type ShowingMore = {
   products: Product;
+  isAuth: boolean;
 };
-export function ShowingMore({ products }: ShowingMore) {
+export function ShowingMore({ products, isAuth }: ShowingMore) {
+  useEffect(() => {
+    if (!isAuth) {
+      dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+    }
+  }, []);
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const trending = useSelector((state: RootState) => state.entities.specialProducts.list.trending);
@@ -172,11 +182,11 @@ export function ShowingMore({ products }: ShowingMore) {
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      dispatch(loadListingProducts(productId));
+      dispatch(loadListingProducts(productId, isAuth));
       return;
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
-    dispatch(loadListingProducts(productId, '&' + paramString));
+    dispatch(loadListingProducts(productId, isAuth, '&' + paramString));
   };
   return (
     <div>
@@ -196,7 +206,7 @@ export function ShowingMore({ products }: ShowingMore) {
         <section className="mt-5">
           <SectionTitle title={`${products?.products.length} Results for ${search}`} />
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {products.products.slice(0,5).map((product, index) => {
+            {products.products.slice(0, 5).map((product, index) => {
               return (
                 <ProductCard
                   key={index + product.id}
@@ -219,7 +229,7 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle key={1} title="Trending Now" label="View All" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {trending.products.slice(0,5).map((product, index) => {
+            {trending.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -243,7 +253,7 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle title="Most Sold Items" label="View All" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {mostSold.products.slice(0,5).map((product, index) => {
+            {mostSold.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
@@ -267,7 +277,7 @@ export function ShowingMore({ products }: ShowingMore) {
           <SectionTitle title="Latest Items" />
 
           <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
-            {latest.products.slice(0,5).map((product, index) => {
+            {latest.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard

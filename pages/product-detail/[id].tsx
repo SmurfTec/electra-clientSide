@@ -14,6 +14,7 @@ import {
   loadProductData,
   loadProductVariants,
   loadRecommendedProducts,
+  login,
   rehydrateProductData,
   rehydrateProductVariants,
   store,
@@ -69,8 +70,8 @@ export async function getServerSideProps(context: NextPageContext) {
 
   const isAuth = await isAuthenticated(context.req);
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
-  const recommended = store.dispatch(loadRecommendedProducts());
-  const listingData = store.dispatch(loadListingProducts(Number(context.query.id)));
+  const recommended = store.dispatch(loadRecommendedProducts(isAuth));
+  const listingData = store.dispatch(loadListingProducts(Number(context.query.id), isAuth));
   const productVariants = store.dispatch(loadProductVariants());
 
   await Promise.all([productData, listingData, productVariants, recommended]);
@@ -81,6 +82,7 @@ export async function getServerSideProps(context: NextPageContext) {
       productListing: store.getState().entities.productListing.list,
       recommended: store.getState().entities.specialProducts.list.recommended,
       productVariants: store.getState().entities.productVariants.list,
+      isAuth,
     },
   };
 }
@@ -90,14 +92,24 @@ type ProductPageProps = {
   productListing: ListingsResponse;
   productVariants: ProductVariant;
   recommended: Product;
+  isAuth: boolean;
 };
 
-export default function ProductPage({ productDetail, productListing, productVariants, recommended }: ProductPageProps) {
+export default function ProductPage({
+  productDetail,
+  productListing,
+  productVariants,
+  recommended,
+  isAuth,
+}: ProductPageProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      if (!isAuth) {
+        dispatch(login({ isAuthenticated: false, user: null, profile: null }));
+      }
       dispatch(rehydrateProductData(productDetail));
       dispatch(rehydrateListingProductData(productListing));
       dispatch(rehydrateProductVariants(productVariants));
@@ -139,11 +151,11 @@ export default function ProductPage({ productDetail, productListing, productVari
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      dispatch(loadListingProducts(productId));
+      dispatch(loadListingProducts(productId, isAuth));
       return;
     }
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
-    dispatch(loadListingProducts(productId, '&' + paramString));
+    dispatch(loadListingProducts(productId, isAuth, '&' + paramString));
   };
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
@@ -155,7 +167,7 @@ export default function ProductPage({ productDetail, productListing, productVari
   const handlePaginatedListing = (pageNumber: number) => {
     setPage(pageNumber);
     const productId = Number(router.query['id']);
-    dispatch(loadListingProducts(productId, `&limit=15&page=${pageNumber}`));
+    dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
   return (
@@ -175,13 +187,18 @@ export default function ProductPage({ productDetail, productListing, productVari
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button component={NextLink} href={"/product-listing/"+ productDetail?.product?.id} leftIcon={<ShoppingCart />}>
+            <Button
+              component={NextLink}
+              href={'/product-listing/' + productDetail?.product?.id}
+              leftIcon={<ShoppingCart />}
+            >
               Sell Now
             </Button>
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
+            id={productDetail?.product?.id}
             technicalSpecification={productDetail?.product?.technical_specifications || []}
             title={String(productDetail?.product?.title)}
             productVariants={productDetail?.product?.product_variants as Variant[]}
@@ -229,6 +246,7 @@ export default function ProductPage({ productDetail, productListing, productVari
           className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
         >
           {listingData?.slice(0, limit).map((product, index) => {
+            console.log(product.condition);
             return (
               <ProductCard
                 id={product.id}

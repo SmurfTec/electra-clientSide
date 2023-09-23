@@ -9,13 +9,13 @@ type ApiRequestParams = {
   onStart?: string;
   onSuccess?: string;
   onError?: string;
-  data?: Record<string, unknown>;
+  data?: Record<string,unknown>;
   ttl?: number;
 };
 
-export const apiRequest = ({ url, method, data, params, onSuccess, onError, onStart }: ApiRequestParams) => {
+export const apiRequest = <T>({ url, method, data, params, onSuccess, onError, onStart }: ApiRequestParams) => {
   return async (dispatch: AppDispatch) => {
-    const response = await http.request({
+    const response = await http.request<T>({
       url,
       method: method || 'GET',
       data,
