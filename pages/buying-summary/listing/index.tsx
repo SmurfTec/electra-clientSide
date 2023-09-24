@@ -6,6 +6,7 @@ import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/enti
 import { ProductBuyOrderData, protectionPlanProps } from '@elektra/types';
 
 import { Grid, Loader, Radio } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { PaymentMethodResult } from '@stripe/stripe-js';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
@@ -84,11 +85,17 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
         // * random future date
         expiration_date: expiration,
-        coupon: coupon || "",
+        coupon: coupon || '',
         shipping_address: '{{$randomStreetAddress}}',
         listing: productListingById.id,
       },
     });
+    if (res.isError) {
+      notifications.show({
+        message: res?.errorPayload?.message || 'Failed to process your request',
+        autoClose: false,
+      });
+    }
     const paymentResponse = await res.data;
     if (paymentResponse) {
       setSuccessPayment(true);
@@ -120,6 +127,12 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         listing: productListingById.id,
       },
     });
+    if (res.isError) {
+      notifications.show({
+        message: res?.errorPayload?.message || 'Failed to process your request',
+        autoClose: false,
+      });
+    }
     const paymentResponse = await res.data;
     if (paymentResponse) {
       setSuccessPayment(true);
