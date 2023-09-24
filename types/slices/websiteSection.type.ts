@@ -65,9 +65,20 @@ export type ProductDisplayData = {
 
 export type UserFavourite = {
   results: number;
-  favourites: ProductDisplayData[];
+  favourites: ProductUserFavourite[];
 };
 
+type ProductUserFavourite = {
+  id: number;
+  created_on: string;
+  updated_on: string;
+  product: { id: number; title: string; condition: 'new' | 'used' };
+  user: 4;
+  images: Image[];
+  highest_offer: number | null;
+  lowest_price: number | null;
+  user_starting_price: string | null;
+};
 
 type Stats = {
   total_products: number;

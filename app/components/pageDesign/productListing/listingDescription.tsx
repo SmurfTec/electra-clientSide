@@ -3,6 +3,8 @@ import { RootState } from '@elektra/store';
 import { ListItemPost, Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
@@ -34,6 +36,7 @@ export function ListingDescription({
   saleTax,
   shippingFee,
 }: ListingDescriptionProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const [count, handlers] = useCounter(0, { min: 0 });
@@ -58,32 +61,30 @@ export function ListingDescription({
     setLoading(true);
     const formData = new FormData();
 
-    const exclusiveKeys = ["condition_details", "explain_repair", "more_info", "is_repaired_before"]
+    const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
 
-    const numberKeys = ["product", "ask"]
+    const numberKeys = ['product', 'ask'];
 
     Object.keys(listItemPost).map((key) => {
-      if(exclusiveKeys.includes(key)){
-        return
+      if (exclusiveKeys.includes(key)) {
+        return;
       }
       if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
-        listItemPost[key as "listingVariants"].forEach((item, index) => {
+        listItemPost[key as 'listingVariants'].forEach((item, index) => {
           //@ts-ignore
           formData.append(`listingVariants[${index}][variant]`, item.id);
           formData.append(`listingVariants[${index}][value]`, item.value);
         });
-        return
+        return;
       }
 
-      if(numberKeys.includes(key)){
+      if (numberKeys.includes(key)) {
         //@ts-ignore
         formData.append(key, listItemPost[key]);
-        return
+        return;
       }
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
-      
-       
     });
 
     const res = await http.request({
@@ -94,13 +95,19 @@ export function ListingDescription({
     if (res.isError) {
       console.log(res);
       setLoading(false);
+      return;
     }
-    {
-      console.log(res);
-      setLoading(false);
-    }
-  };
+    console.log(res);
+    setLoading(false);
+    notifications.show({
+      message: 'Listing placed successfully',
+      autoClose: 3000,
+    });
 
+    setTimeout(() => {
+      router.push('/userdashboard?tab=selling');
+    }, 4000);
+  };
 
   return (
     <div>
