@@ -77,11 +77,9 @@ export function UsedProductListing({ accessories, description, itemConditions }:
       },
     });
     if (res.isError) {
-      console.log(res);
       setLoading(false);
     }
     {
-      console.log(res);
       setLoading(false);
     }
   };
@@ -237,7 +235,6 @@ export function UsedProductListing({ accessories, description, itemConditions }:
       <Grid.Col xs={3}>
         <Dropzone
           onDrop={(value) => setFiles([...files, ...value])}
-          onReject={(files) => console.log('rejected files', files)}
           maxSize={3 * 1024 ** 2}
           accept={IMAGE_MIME_TYPE}
           styles={{ root: { border: '2px solid black' } }}

@@ -12,7 +12,12 @@ const description = [
   'Absolutely no Ghost Image',
   'No LCD or display defects (aftermarket, burns, damage or no display)',
 ];
-export const useSellerDetailDrawer = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+
+type SellerDetailDrawerProps = {
+  more_info: string
+}
+
+export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const Modal = (

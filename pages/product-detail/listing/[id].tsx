@@ -186,6 +186,7 @@ export default function ProductPage({
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
+            more_info={productListingById.listing.more_info || ''}
             id={productListingById.listing.id}
             technicalSpecification={productListingById.listing?.technical_specifications || []}
             title={productListingById?.listing?.product?.title || ''}

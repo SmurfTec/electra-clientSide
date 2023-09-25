@@ -27,8 +27,7 @@ import {
   rehydrateSpecialProducts,
 } from '@elektra/store/entities/slices/specialProducts';
 import { BrandsResponse, GenericCategoryResponse, Product, WebsiteSection } from '@elektra/types';
-import { Box, Center, Flex, Grid, Image, ScrollArea } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Box, Flex, Grid, Image, ScrollArea } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
 
@@ -137,9 +136,6 @@ export function Index({ ...rest }: homePageProps) {
     };
   }, []);
 
-  const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
-  const phone = useMediaQuery('(max-width: 600px)', false);
-
   return (
     <div>
       <section className="mt-4">
@@ -148,11 +144,11 @@ export function Index({ ...rest }: homePageProps) {
       <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
-          <ScrollArea h={280} type="scroll" scrollbarSize={5}>
-            <Center className="space-x-8 md:space-x-16">
+          <ScrollArea type="scroll" scrollbarSize={5}>
+            <Flex className="space-x-8">
               {recommended?.products?.map((product, index) => {
                 return (
-                  <div key={product.id + index} className="min-w-[15%]">
+                  <Box key={index} w={250}>
                     <ProductCard
                       id={product.id}
                       image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
@@ -164,10 +160,10 @@ export function Index({ ...rest }: homePageProps) {
                       highestPrice={Number(product.highest_offer)}
                       price={Number(product?.user_starting_price)}
                     />
-                  </div>
+                  </Box>
                 );
               })}
-            </Center>
+            </Flex>
           </ScrollArea>
         </section>
       </Only>
@@ -175,25 +171,25 @@ export function Index({ ...rest }: homePageProps) {
       <section className="mt-4 md:mt-16">
         <SectionTitle title="Trending Now" label="View All" link="?data=trending" />
         <ScrollArea type="scroll" scrollbarSize={5}>
-          <Center className="space-x-8 md:space-x-16">
-            {trending.products?.map((product, index) => {
+          <Flex className="space-x-8">
+            {trending?.products?.map((product, index) => {
               return (
-                <div key={index} className="min-w-[15%]">
+                <Box key={index} w={250}>
                   <ProductCard
                     id={product.id}
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={product?.is_liked}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
-                </div>
+                </Box>
               );
             })}
-          </Center>
+          </Flex>
         </ScrollArea>
       </section>
 
@@ -211,7 +207,7 @@ export function Index({ ...rest }: homePageProps) {
                     // image="/images/brands/brand.png"
                     id={category.id}
                     title={category.name}
-                    link={'/shop?brand=' + category.id}
+                    link={'/shop?category=' + category.id}
                   />
                 </Box>
               );
@@ -239,7 +235,7 @@ export function Index({ ...rest }: homePageProps) {
       </section>
 
       <section className="mt-8 md:mt-12">
-        <SectionTitle title="Most Sold Items" label="View All" link="?sort=-created_on" />
+        <SectionTitle title="Most Sold Items" label="View All" link="?data=sold" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Flex className="space-x-8">
             {mostSold.products?.map((product, index) => {
@@ -264,7 +260,7 @@ export function Index({ ...rest }: homePageProps) {
       </section>
 
       <section className="mt-4 md:mt-12">
-        <SectionTitle title="Latest Items" />
+        <SectionTitle title="Latest Items" label="View All" link="?sort=-created_on" />
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Flex className="space-x-8">
             {latest?.products?.map((product, index) => {

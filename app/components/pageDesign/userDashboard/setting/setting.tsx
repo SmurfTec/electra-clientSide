@@ -19,7 +19,6 @@ export function Settings() {
       },
     });
     if(res.isError){
-      console.log(res.errorPayload)
       setLoading(false)
     }
     else{

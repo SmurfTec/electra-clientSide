@@ -11,10 +11,14 @@ export async function getServerSideProps({ req }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: {} };
+  return { props: isAuth };
 }
 
-export default function PlaceOffer() {
+type BuyOfferProps = {
+  isAuth: boolean;
+};
+
+export default function PlaceOffer({ isAuth }: BuyOfferProps) {
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',

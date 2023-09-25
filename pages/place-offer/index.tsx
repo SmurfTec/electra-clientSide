@@ -1,11 +1,24 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
+import { baseURL, isAuthenticated } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
-export default function PlaceOffer() {
+export async function getServerSideProps({ req, query }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  return { props: isAuth };
+}
+
+type PlaceOfferProps = {
+  isAuth: boolean;
+};
+
+export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -60,7 +73,7 @@ export default function PlaceOffer() {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6}>
-          <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''} />
+          <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''} />
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent

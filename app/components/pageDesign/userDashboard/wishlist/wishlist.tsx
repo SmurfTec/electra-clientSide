@@ -13,7 +13,6 @@ export function WishList() {
       <Only when={results !== 0}>
         <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
           {favourites.map((product, index) => {
-            console.log(product);
             return (
               <div key={index} className="min-w-[15%]">
                 <ProductCard
