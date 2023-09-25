@@ -13,7 +13,6 @@ type LaptopMenuProps = {
 export const LaptopMenu = ({ brands }: LaptopMenuProps) => {
   const router = useRouter();
 
-  console.log(brands);
   return (
     <Container size={1200} py={50}>
       <Group spacing={100} position="center">

@@ -93,11 +93,9 @@ export function ListingDescription({
       data: formData,
     });
     if (res.isError) {
-      console.log(res);
       setLoading(false);
       return;
     }
-    console.log(res);
     setLoading(false);
     notifications.show({
       message: 'Listing placed successfully',

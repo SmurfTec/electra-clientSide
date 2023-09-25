@@ -31,10 +31,8 @@ export const ContactUsForm = () => {
       data,
     });
     if (res.isError) {
-      console.log(res.errorPayload);
       setLoading(false);
     } else {
-      console.log(res.data);
       setStatus(true);
       setLoading(false);
     }

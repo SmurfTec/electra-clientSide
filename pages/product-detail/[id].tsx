@@ -48,23 +48,6 @@ import { ArrowDown, Filter, ShoppingCart } from 'tabler-icons-react';
 
 export type condition = 'new' | 'used';
 
-const items = [
-  { title: 'Elektra', href: '/' },
-  { title: 'Accessories', href: '/shop' },
-  { title: 'Phones', href: '/shop' },
-  { title: 'Apple', href: '/shop' },
-  { title: 'Iphone 14 Pro Max', href: '/product-detail' },
-].map((item, index) => (
-  <Anchor
-    className={`text-xs font-medium underline ${item.title === 'Iphone 14 Pro Max' ? 'font-[900]' : ''}`}
-    component={NextLink}
-    href={item.href}
-    key={index}
-  >
-    {item.title}
-  </Anchor>
-));
-
 export async function getServerSideProps(context: NextPageContext) {
   // id: 1 means homepage data
 
@@ -120,7 +103,6 @@ export default function ProductPage({
   }, []);
 
   const listingData = useSelector((state: RootState) => state.entities.productListing.list.listings);
-
   // const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
   const graphData = productDetail?.stats?.trade_range;
   const productFilters = productVariants?.variants;
@@ -169,6 +151,22 @@ export default function ProductPage({
     const productId = Number(router.query['id']);
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
+
+  const items = [
+    { title: 'Elektra', href: '/' },
+    { title: productDetail.product.category.name, href: `/shop?category=${productDetail.product.category.id}` },
+    { title: productDetail.product.brand.title, href: `/shop?brand=${productDetail.product.brand.id}` },
+    { title: productDetail.product.title, href: `/product-detail/${productDetail.product.id}` },
+  ].map((item, index) => (
+    <Anchor
+      className={`text-xs font-medium underline ${item.title === 'Iphone 14 Pro Max' ? 'font-[900]' : ''}`}
+      component={NextLink}
+      href={item.href}
+      key={index}
+    >
+      {item.title}
+    </Anchor>
+  ));
 
   return (
     <>

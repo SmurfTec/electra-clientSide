@@ -3,7 +3,10 @@ import { isAuthenticated } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import { Container, Grid } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { NextPageContext } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req }: NextPageContext) {
@@ -11,10 +14,15 @@ export async function getServerSideProps({ req }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: {} };
+  return { props: isAuth };
 }
 
-export default function PlaceOffer() {
+type BuyOfferProps = {
+  isAuth: boolean;
+};
+
+export default function PlaceOffer({ isAuth }: BuyOfferProps) {
+ 
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',

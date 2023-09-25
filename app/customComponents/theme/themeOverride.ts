@@ -1,7 +1,5 @@
 import { MantineThemeOverride } from '@mantine/core';
 
-
-
 export const createThemeoverride = (): MantineThemeOverride => {
   return {
     colorScheme: 'light',
@@ -35,15 +33,15 @@ export const createThemeoverride = (): MantineThemeOverride => {
           },
         },
       },
-      Text:{
-        defaultProps:{
-          color:"#656565"
-        }
+      Text: {
+        defaultProps: {
+          color: '#656565',
+        },
       },
-      Title:{
-        defaultProps:{
-          color:"black"
-        }
+      Title: {
+        defaultProps: {
+          color: 'black',
+        },
       },
       Container: {
         defaultProps: {
@@ -58,9 +56,14 @@ export const createThemeoverride = (): MantineThemeOverride => {
       },
       Grid: {
         defaultProps: {
-          m: 0
-        }
-      }
+          m: 0,
+        },
+      },
+      Image: {
+        defaultProps: {
+          withPlaceholder: true,
+        },
+      },
     },
   };
 };

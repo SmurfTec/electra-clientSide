@@ -51,7 +51,7 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
     },
   });
   const handleSubmit = (code: string) => {
-    console.log(code);
+   
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">

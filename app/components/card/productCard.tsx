@@ -35,21 +35,16 @@ export function ProductCard({
   const [isLike, setIsLike] = useState(wishlist);
   return (
     <Card className="relative rounded-none">
-      <Anchor className="cursor-pointer" align="unset" underline={false}>
+      <Anchor
+        onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
+        className="cursor-pointer"
+        align="unset"
+        underline={false}
+      >
         <Card.Section>
           {/* <Paper bg={'#F5F5F5'} className="p-6 flex justify-center items-center"> */}
           <Paper className="flex justify-center items-center">
-            <Image
-              onClick={() =>
-                router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)
-              }
-              alt={image}
-              src={image}
-              fit='cover'
-              height={"200px"}
-            
-              // className="h-1/4 w-1/2"
-            />
+            <Image alt={image} src={image} fit="cover" height={'200px'} />
           </Paper>
         </Card.Section>
         <Only when={!!condition}>
@@ -66,14 +61,12 @@ export function ProductCard({
       </Anchor>
       <Card.Section className="no-underline">
         <Grid align="center">
-          <Grid.Col span={9} px={0}>
-            <Text
-              onClick={() =>
-                router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)
-              }
-              className="block text-[13px] md:text-base font-bold text-black "
-              weight={500}
-            >
+          <Grid.Col
+            onClick={() => router.push(condition === 'new' ? `/product-detail/${id}` : `/product-detail/listing/${id}`)}
+            span={9}
+            px={0}
+          >
+            <Text className="block text-[13px] md:text-base font-bold text-black " weight={500}>
               {title}
             </Text>
           </Grid.Col>
@@ -83,7 +76,7 @@ export function ProductCard({
                 className="cursor-pointer"
                 size={23}
                 onClick={() => {
-                  store.dispatch(likeProduct(condition === "new" ? {product: id} : {listing: id}));
+                  store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
                   setIsLike(!isLike);
                 }}
                 strokeWidth={1.5}

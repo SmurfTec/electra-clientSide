@@ -67,7 +67,6 @@ export const WalletRightSide = () => {
       setValue('Sort By');
       return;
     }
-    console.log();
     setValue(name);
   };
   return (

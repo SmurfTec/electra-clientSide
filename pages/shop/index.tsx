@@ -27,7 +27,7 @@ export async function getServerSideProps(context: NextPageContext) {
   const isAuth = await isAuthenticated(context.req);
   const brandId = context.query.brand;
   const data = context.query.data;
-  const sort = context.query.data;
+  const sort = context.query.sort;
   const params = categoryId
     ? `?category=${categoryId}`
     : brandId
@@ -35,9 +35,10 @@ export async function getServerSideProps(context: NextPageContext) {
     : data
     ? `/${data}`
     : sort
-    ? `/${sort}`
+    ? `/?sort=${sort}`
     : '';
-  const shopProducts = store.dispatch(fetchShopProducts(params));
+
+  const shopProducts = store.dispatch(fetchShopProducts(isAuth, params));
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
     : brandId
@@ -69,10 +70,10 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
+      dispatch(rehydrateShopProducts(products));
       if (!isAuth) {
         dispatch(login({ isAuthenticated: false, user: null, profile: null }));
       }
-      dispatch(rehydrateShopProducts(products));
     }
     return () => {
       unsubscribe = true;
@@ -96,7 +97,6 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
       setParams(newParams);
     }
     if (newParams.length === 0) {
-      console.log(newParams);
       dispatch(loadFilterProducts(isAuth));
       return;
     }
@@ -115,7 +115,8 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
 
   const handlePaginatedProducts = (pageNumber: number) => {
     setPage(pageNumber);
-    dispatch(fetchShopProducts(queryParams + `&page=${pageNumber}&limit=10`));
+
+    dispatch(fetchShopProducts(isAuth, queryParams + `${queryParams ? '&' : '?'}page=${pageNumber}&limit=10`));
   };
 
   return (

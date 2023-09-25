@@ -9,13 +9,12 @@ const trendingProtectedURL = '/products/protected/trending';
 // const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
 const latestProtectedURL = '/products/protected?sort=-created_on';
-// const mostSoldURL = '/products/sold';
-const mostSoldURL = '/products/?sort=-created_on';
-const mostSoldProtectedURL = '/products/protected?sort=-created_on';
+const mostSoldURL = '/products/sold';
+const mostSoldProtectedURL = '/products/protected/sold';
 const recommendedURL = '/products/recommended';
 const recommendedProtectedURL = '/products/protected/recommended';
-// const recommendedURL = '/products/?sort=-created_on';
-const shopProducts = '/products/';
+
+const shopProducts = '/products';
 const shopProtectedProducts = '/products/protected';
 
 type ProductData = {
@@ -72,6 +71,7 @@ const slice = createSlice({
     },
 
     shopProductsReceived: (state, action) => {
+      console.log(action.payload);
       state.list.shopProducts = action.payload;
       state.loading = false;
     },
@@ -159,27 +159,27 @@ export const loadRecommendedProducts = (isAuth: boolean) => async (dispatch: App
   );
 };
 
-export const likeProduct =
-  (data: { product?: number; listing?: number }) => async (dispatch: AppDispatch) => {
-    return await dispatch(
-      apiRequest({
-        url: '/favourites',
-        method: 'POST',
-        data,
-        onStart: slice.actions.likeProductStart.type,
-        onSuccess: slice.actions.likeProductSuccess.type,
-        onError: slice.actions.likeProductFailure.type,
-      })
-    );
-  };
+export const likeProduct = (data: { product?: number; listing?: number }) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: '/favourites',
+      method: 'POST',
+      data,
+      onStart: slice.actions.likeProductStart.type,
+      onSuccess: slice.actions.likeProductSuccess.type,
+      onError: slice.actions.likeProductFailure.type,
+    })
+  );
+};
 
 export const fetchShopProducts =
-  (param: string = '') =>
+  (isAuth: boolean, param: string = '') =>
   async (dispatch: AppDispatch) => {
-    console.log(URL + `${param}`);
+    const finalUrl = isAuth ? shopProtectedProducts : shopProducts;
+    console.log(finalUrl + `${param}`);
     return await dispatch(
       apiRequest({
-        url: URL + `${param}`,
+        url: finalUrl + `${param}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,

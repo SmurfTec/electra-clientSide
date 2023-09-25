@@ -42,7 +42,6 @@ export function ProductDetail({
 
   useEffect(() => {
     const newDate = new Date().setDate(new Date().getDate() + Number(expirationDate));
-    console.log(newDate);
     setExpiration(new Date(newDate));
   }, [expirationDate]);
 

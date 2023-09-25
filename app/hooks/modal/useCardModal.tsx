@@ -48,10 +48,7 @@ export const useCardModal = (): [React.ReactNode, boolean, { open: () => void; c
   });
 
   const getCardNumber = (value: string): string => {
-    //  const regexp = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
-    // if(regexp.test(value)){
-    //   console.log(true)
-    // }
+  
     let data = value.toString();
     while (data.length < 16) {
       data += '0';

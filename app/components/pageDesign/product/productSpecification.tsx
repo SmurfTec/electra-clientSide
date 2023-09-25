@@ -20,6 +20,7 @@ export type ProductSpecificationProps = {
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
   technicalSpecification: TechnicalSpecification[];
   isListingVisible: boolean;
+  more_info?: string
 };
 
 export function ProductSpecification({
@@ -33,8 +34,9 @@ export function ProductSpecification({
   scrollIntoView,
   technicalSpecification,
   isListingVisible,
+  more_info
 }: ProductSpecificationProps) {
-  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer();
+  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({more_info: more_info || ""});
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
   const [isLike, setIsLike] = useState(false);
@@ -189,6 +191,7 @@ export function ProductSpecification({
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
+                disabled={lowestAsk === 0 && highestAsk === 0}
               >
                 BUY NOW
               </Button>
@@ -200,6 +203,7 @@ export function ProductSpecification({
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
+                disabled={lowestAsk === 0 && highestAsk === 0}
               >
                 PLACE OFFER
               </Button>

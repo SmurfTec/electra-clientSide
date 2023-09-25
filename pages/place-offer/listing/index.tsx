@@ -1,11 +1,37 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
+import { baseURL, isAuthenticated } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function PlaceOffer() {
+export async function getServerSideProps({ req, query }: NextPageContext) {
+  const isAuth = await isAuthenticated(req);
+  if (!isAuth) {
+    return { redirect: { permanent: false, destination: '/auth/login' } };
+  }
+  return { props: isAuth };
+}
+
+type PlaceOfferProps = {
+  isAuth: boolean;
+};
+
+export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
+  useEffect(() => {
+    if (!isAuth) {
+      notifications.show({
+        message: 'Please Login first in order to place offer',
+      });
+
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 2000);
+    }
+  }, []);
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -49,7 +75,7 @@ export default function PlaceOffer() {
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
-          isListing={true}
+            isListing={true}
             productVariants={productListingById.listing_variants}
             condition={productListingById.condition}
             description={ListingDescriptionData.description}

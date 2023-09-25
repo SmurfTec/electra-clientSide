@@ -21,7 +21,6 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
     },
   });
   const handleSubmit = async (code: string) => {
-    console.log(code);
     const { data, isError } = await dispatch(loadCoupon(code));
     if (isError) {
       setError(true);
@@ -31,11 +30,6 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
     setError(false);
 
     redeemHandler.open();
-    // if (Number(code) === 1234) {
-    //   setError(false);
-    //   console.log(code);
-    // }
-    // setError(true);
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
@@ -55,7 +49,7 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
         })}
       >
         <TextInput
-        placeholder='code'
+          placeholder="code"
           className="w-[100%] mr-20"
           size="lg"
           min={0}
