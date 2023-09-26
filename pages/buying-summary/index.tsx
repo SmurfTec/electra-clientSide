@@ -149,7 +149,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     address: '',
     cardDetails: '',
     condition: productDetail?.product.condition,
-    image: baseURL + '/' + productDetail?.product?.images[0].filename,
+    image: baseURL + '/' + productDetail?.product?.images?.[0].filename,
     saleDate: String(orderData?.order.created_on),
     title: productDetail?.product.title,
     productVariant: productDetail?.product?.product_variants,
@@ -197,7 +197,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               <div className="overflow-y-auto h-full">
                 <ProductDetail
                   productVariants={productDetail.product.product_variants}
-                  image={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''}
+                  image={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''}
                   title={productDetail.product.title}
                   condition={productDetail.product.condition.toUpperCase()}
                   expiration={productDetailData.expiration}
@@ -251,7 +251,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
           </div>
 
           <Modal
-            title={'Product Purchased'}
+            title={isOfferType ? 'Offer Placed' : 'Product Purchased'}
             children={OfferPlaceModal}
             onClose={offerPlaceHandler.close}
             open={offerPlaceOpened}

@@ -16,6 +16,7 @@ export type ProductCardProps = {
   lowestPrice: number | null;
   highestPrice: number | null;
   price: number | undefined;
+  usedPrice?: number | null;
 };
 
 export function ProductCard({
@@ -24,6 +25,7 @@ export function ProductCard({
   title,
   description,
   wishlist,
+  usedPrice,
   condition = 'new',
   lowestPrice,
   highestPrice,
@@ -104,17 +106,17 @@ export function ProductCard({
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
-                Highest Price
+                Highest Offer
               </Text>
               <Title className="font-bold" order={6}>
                 {highestPrice ? `$${highestPrice}` : '--'}
               </Title>
             </div>
           </Group>
-          <Only when={!!price}>
+          <Only when={!!usedPrice}>
             <div className="mt-6">
               <Text className="no-underline text-[11px] font-medium">
-                Used Starting at <span className="font-bold text-black">${price}</span>
+                Used Starting at <span className="font-bold text-black">${usedPrice}</span>
               </Text>
             </div>
           </Only>

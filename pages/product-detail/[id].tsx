@@ -154,9 +154,9 @@ export default function ProductPage({
 
   const items = [
     { title: 'Elektra', href: '/' },
-    { title: productDetail.product.category.name, href: `/shop?category=${productDetail.product.category.id}` },
-    { title: productDetail.product.brand.title, href: `/shop?brand=${productDetail.product.brand.id}` },
-    { title: productDetail.product.title, href: `/product-detail/${productDetail.product.id}` },
+    { title: productDetail?.product?.category?.name, href: `/shop?category=${productDetail?.product?.category?.id}` },
+    { title: productDetail?.product?.brand?.title, href: `/shop?brand=${productDetail?.product?.brand?.id}` },
+    { title: productDetail.product?.title, href: `/product-detail/${productDetail?.product?.id}` },
   ].map((item, index) => (
     <Anchor
       className={`text-xs font-medium underline ${item.title === 'Iphone 14 Pro Max' ? 'font-[900]' : ''}`}
@@ -202,7 +202,7 @@ export default function ProductPage({
             productVariants={productDetail?.product?.product_variants as Variant[]}
             condition={productDetail?.product?.condition as condition}
             highestAsk={Number(productDetail?.product?.highest_offer)}
-            lowestAsk={Number(productDetail?.product?.lowest_ask)}
+            lowestAsk={Number(productDetail?.product?.asks) || 0}
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
@@ -254,7 +254,7 @@ export default function ProductPage({
                 title={product.product_data.title}
                 condition={product.condition}
                 wishlist={false}
-                lowestPrice={product.lowest_offer}
+                lowestPrice={product.ask}
                 highestPrice={product.highest_offer}
                 price={product.saleprice}
               />

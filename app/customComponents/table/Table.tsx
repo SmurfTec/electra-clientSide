@@ -1,4 +1,4 @@
-import { clsx, createStyles, Table } from '@mantine/core';
+import { clsx, createStyles, Table, Text } from '@mantine/core';
 import {
   CellContext,
   ColumnDef,
@@ -42,7 +42,7 @@ function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
   );
 }
 
-export function DataTable<T extends { id: string |number}>({
+export function DataTable<T extends { id: string | number }>({
   data,
   columns,
   RowUI,
@@ -64,13 +64,14 @@ export function DataTable<T extends { id: string |number}>({
     },
     onRowSelectionChange: setSelectedRows,
     defaultColumn: defaultRowUI,
-    manualPagination:true,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
 
   const { classes } = useStyles();
+  console.log(table.getHeaderGroups());
   return (
     <div className="overflow-x-auto w-full">
       <Table className={clsx(classes.table, className)} striped>
@@ -85,16 +86,25 @@ export function DataTable<T extends { id: string |number}>({
             </tr>
           ))}
         </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row,index) => {
-             return (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-              ))}
-            </tr>
-          )})}
-        </tbody>
+        {table.getRowModel().rows.length > 0 ? (
+          <tbody>
+            {table.getRowModel().rows.map((row, index) => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        ) : (
+          <tbody className="text-center">
+            <td colSpan={table.getHeaderGroups()[0].headers.length}>
+              <Text size="md" py={20}>No Result Found</Text>
+            </td>
+          </tbody>
+        )}
       </Table>
     </div>
   );

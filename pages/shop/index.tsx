@@ -151,7 +151,8 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
                 description={'9/10 condition with charger and box'}
                 title={product.title}
                 condition={product.condition}
-                wishlist={false}
+                usedPrice={Number(product?.user_starting_price)}
+                wishlist={product.is_liked}
                 lowestPrice={Number(product.lowest_price)}
                 highestPrice={Number(product.highest_offer)}
                 price={Number(product?.user_starting_price)}
@@ -171,9 +172,10 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
           value={activePage}
           onChange={(page) => handlePaginatedProducts(page)}
           total={
-            !queryParams
-              ? Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10)
-              : Math.ceil(Number(shopProducts?.results ?? 0) / 10)
+            // !queryParams
+            // ?
+            Math.ceil(Number(shopProducts?.stats?.total_products ?? 0) / 10)
+            // : Math.ceil(Number(shopProducts?.results ?? 0) / 10)
           }
         />
       </Group>

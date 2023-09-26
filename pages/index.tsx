@@ -158,6 +158,7 @@ export function Index({ ...rest }: homePageProps) {
                       wishlist={product.is_liked}
                       lowestPrice={Number(product.lowest_price)}
                       highestPrice={Number(product.highest_offer)}
+                      usedPrice={Number(product?.user_starting_price)}
                       price={Number(product?.user_starting_price)}
                     />
                   </Box>
@@ -185,6 +186,7 @@ export function Index({ ...rest }: homePageProps) {
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
+                    usedPrice={Number(product?.user_starting_price)}
                   />
                 </Box>
               );
@@ -246,6 +248,7 @@ export function Index({ ...rest }: homePageProps) {
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
                     title={product.title}
+                    usedPrice={Number(product?.user_starting_price)}
                     condition={product.condition}
                     wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
@@ -272,6 +275,7 @@ export function Index({ ...rest }: homePageProps) {
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
+                    usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}

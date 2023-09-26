@@ -1,11 +1,9 @@
 import { BuyOfferComponent, PageTitle, ProductCarousel } from '@elektra/components';
 import { isAuthenticated } from '@elektra/customComponents';
-import { RootState } from '@elektra/store';
+import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import { Container, Grid } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { NextPageContext } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -14,15 +12,14 @@ export async function getServerSideProps({ req }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: isAuth };
+  return { props: {} };
 }
 
-type BuyOfferProps = {
-  isAuth: boolean;
-};
-
-export default function PlaceOffer({ isAuth }: BuyOfferProps) {
- 
+export default function PlaceOffer() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadFee(String(productListingById?.listing.category_id)));
+  }, []);
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -49,6 +46,8 @@ export default function PlaceOffer({ isAuth }: BuyOfferProps) {
     averageSalePrice: 200,
   };
 
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
+
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
   return (
     <Container fluid>
@@ -63,6 +62,11 @@ export default function PlaceOffer({ isAuth }: BuyOfferProps) {
         </Grid.Col>
         <Grid.Col md={6}>
           <BuyOfferComponent
+            receiptFee={feeData?.map((item) => ({
+              id: item.id,
+              fees: Number(item.fees),
+              title: item.type,
+            }))}
             productVariants={productListingById?.listing.listing_variants as Variant[]}
             condition={'used'}
             description={ListingDescriptionData.description}

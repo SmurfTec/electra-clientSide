@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
+import { useRouter } from 'next/router';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -21,6 +22,7 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
+  receiptFee: Array<{ id: number; fees: number; title: string }>;
 };
 
 export function BuyOfferComponent({
@@ -33,23 +35,14 @@ export function BuyOfferComponent({
   marketPlaceFee,
   saleTax,
   shippingFee,
+  receiptFee,
 }: ListingDescriptionProps) {
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const isNew = condition === 'new';
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
-  // const handleListingVariants = (variant: string, value: string) => {
-  //   const listingVariants = listItemPost?.listingVariants ?? [];
-  //   const index = listingVariants?.findIndex((item) => item.variant === variant);
-  //   if (index === -1) {
-  //     listingVariants.push({ variant, value });
-  //     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
-  //     return;
-  //   }
-  //   listingVariants[index] = { variant, value };
-  //   setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
-  // };
-
+const router = useRouter()
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -60,6 +53,15 @@ export function BuyOfferComponent({
     }
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
+  };
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+    feeData?.map((fee) => {
+      totalPrice += Number(fee.fees);
+    });
+    totalPrice += Number(highestAsk);
+    return totalPrice;
   };
 
   return (
@@ -211,13 +213,13 @@ export function BuyOfferComponent({
         <PositionApart text={'Your Offer'} number={Number(highestAsk)} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
-          <PositionApart text={'Sales Tax'} number={saleTax} />
-          <PositionApart text={'Shipping Fee'} number={shippingFee} />
+          {receiptFee?.map((item, index) => (
+            <PositionApart key={index + item.id} text={item.title} number={item.fees} />
+          ))}
           <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={Number(highestAsk) - Number(discount)} />
+        <PositionApart text={'Total Price'} number={getTotalPrice() - Number(discount)} />
       </div>
 
       <Grid>
@@ -225,6 +227,7 @@ export function BuyOfferComponent({
           <Button
             className="font-[400] text-[16px]"
             uppercase
+            onClick={() => router.back()}
             fullWidth
             size="xl"
             styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}

@@ -209,13 +209,13 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
             {products.products.slice(0, 5).map((product, index) => {
               return (
                 <ProductCard
-                  key={index + product.id}
                   id={product.id}
                   image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                   description={'9/10 condition with charger and box'}
                   title={product.title}
                   condition={product.condition}
-                  wishlist={false}
+                  usedPrice={Number(product?.user_starting_price)}
+                  wishlist={product.is_liked}
                   lowestPrice={Number(product.lowest_price)}
                   highestPrice={Number(product.highest_offer)}
                   price={Number(product?.user_starting_price)}
@@ -238,7 +238,8 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    usedPrice={Number(product?.user_starting_price)}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
@@ -262,7 +263,8 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    usedPrice={Number(product?.user_starting_price)}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
@@ -286,7 +288,8 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     description={'9/10 condition with charger and box'}
                     title={product.title}
                     condition={product.condition}
-                    wishlist={false}
+                    usedPrice={Number(product?.user_starting_price)}
+                    wishlist={product.is_liked}
                     lowestPrice={Number(product.lowest_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
