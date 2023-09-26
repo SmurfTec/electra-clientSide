@@ -21,6 +21,7 @@ export function WishList() {
                   // link={'/product-detail'}
                   id={product?.product.id}
                   title={product?.product.title}
+                  usedPrice={Number(product.user_starting_price)}
                   condition={product?.product?.condition}
                   wishlist={true}
                   lowestPrice={product?.lowest_price}

@@ -3,11 +3,11 @@ import { Product, ProductDisplayData } from '@elektra/types';
 import { Button, Center, Divider, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { HeaderSearch } from './headerSearch';
 import { SearchResult } from './searchResult';
-import { useRouter } from 'next/router';
 
 const categoryData = [
   {
@@ -77,7 +77,7 @@ type SearchProps = {
 };
 
 export const Search = ({ close }: SearchProps) => {
-  const router = useRouter()
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [data, setdata] = useState<
     Array<{
@@ -87,7 +87,7 @@ export const Search = ({ close }: SearchProps) => {
       modal: string;
     }>
   >([]);
-  const [suggestions, setSuggestions] = useState<Array<{title:string}>>([]);
+  const [suggestions, setSuggestions] = useState<Array<{ title: string }>>([]);
   const [loading, setLoading] = useState(false);
   const [debounced] = useDebouncedValue(search, 500);
   const handleChange = async (val: string) => {
@@ -135,20 +135,18 @@ export const Search = ({ close }: SearchProps) => {
               { maxWidth: '36rem', cols: 2, spacing: 10 },
             ]}
           >
-            {data?.length !== 0 ? (
-              data?.map((item, index) => (
-                <SearchResult
-                  id={item.id}
-                  key={index}
-                  image={item.image}
-                  modal={item.modal}
-                  title={item.title}
-                  close={close}
-                />
-              ))
-            ) : (
-              <Center>No Item</Center>
-            )}
+            {data?.length !== 0
+              ? data?.map((item, index) => (
+                  <SearchResult
+                    id={item.id}
+                    key={index}
+                    image={item.image}
+                    modal={item.modal}
+                    title={item.title}
+                    close={close}
+                  />
+                ))
+              : !loading && <Center>No Item</Center>}
           </SimpleGrid>
           {suggestions?.length !== 0 && (
             <div className="mt-16">
@@ -159,9 +157,9 @@ export const Search = ({ close }: SearchProps) => {
                     <Text
                       key={item.title + index}
                       className="text-base font-medium cursor-pointer"
-                      onClick={()=>{
-                        router.push(`/showing-more?show-more=${item.title}`)
-                        close()
+                      onClick={() => {
+                        router.push(`/showing-more?show-more=${item.title}`);
+                        close();
                       }}
                     >
                       {item.title}

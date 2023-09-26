@@ -1,8 +1,7 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
 import { baseURL, isAuthenticated } from '@elektra/customComponents';
-import { RootState } from '@elektra/store';
+import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -13,25 +12,20 @@ export async function getServerSideProps({ req, query }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: isAuth };
+  return { props: {} };
 }
 
 type PlaceOfferProps = {
   isAuth: boolean;
 };
 
-export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
+export default function PlaceOffer() {
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    if (!isAuth) {
-      notifications.show({
-        message: 'Please Login first in order to place offer',
-      });
-
-      setTimeout(() => {
-        router.push('/auth/login');
-      }, 2000);
-    }
+    dispatch(loadFee(String(productListingById.category_id)));
   }, []);
+
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -75,6 +69,11 @@ export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
         </Grid.Col>
         <Grid.Col md={6}>
           <PlaceOfferComponent
+            receiptFee={feeData?.map((item) => ({
+              id: item.id,
+              fees: Number(item.fees),
+              title: item.type,
+            }))}
             isListing={true}
             productVariants={productListingById.listing_variants}
             condition={productListingById.condition}

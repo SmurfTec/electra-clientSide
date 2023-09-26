@@ -2,7 +2,6 @@ import { Modal, Only, PencilButton, TransparentButton, useStylesforGlobal } from
 import { useDiscountModal } from '@elektra/hooks';
 import { RootState } from '@elektra/store';
 import { Avatar, Button, Divider, Grid, Group, Text } from '@mantine/core';
-import { NextLink } from '@mantine/next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
@@ -79,12 +78,7 @@ export function BiddingSummary({
             </Button>
           </Grid.Col>
           <Grid.Col span={6}>
-            <Button
-              component={NextLink}
-              href="/product-listing"
-              className="w-full h-14"
-              classNames={{ root: classes.grayButtonRoot }}
-            >
+            <Button onClick={() => router.back()} className="w-full h-14" classNames={{ root: classes.grayButtonRoot }}>
               CANCEL
             </Button>
           </Grid.Col>

@@ -192,8 +192,8 @@ export default function ProductPage({
             title={productListingById?.listing?.product?.title || ''}
             productVariants={productListingById.listing?.listing_variants || []}
             condition={productListingById.listing?.condition}
-            highestAsk={Number(productListingById?.listing?.highest_offer)}
-            lowestAsk={Number(productListingById?.listing?.lowest_offer)}
+            highestAsk={Number(productListingById?.listing?.highest_offer) || 0}
+            lowestAsk={Number(productListingById?.listing?.ask) || 0}
             price={Number(productListingById?.listing?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
@@ -246,7 +246,7 @@ export default function ProductPage({
                 title={product.product_data.title}
                 condition={product.condition}
                 wishlist={false}
-                lowestPrice={product.lowest_offer}
+                lowestPrice={product.ask}
                 highestPrice={product.highest_offer}
                 price={product.saleprice}
               />

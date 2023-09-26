@@ -1,9 +1,10 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
 import { baseURL, isAuthenticated } from '@elektra/customComponents';
-import { RootState } from '@elektra/store';
+import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
@@ -11,14 +12,16 @@ export async function getServerSideProps({ req, query }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: isAuth };
+  return { props: {} };
 }
 
-type PlaceOfferProps = {
-  isAuth: boolean;
-};
+export default function PlaceOffer() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadFee(String(productDetail?.product?.category?.id)));
+  }, []);
 
-export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -84,6 +87,11 @@ export default function PlaceOffer({ isAuth }: PlaceOfferProps) {
             highestAsk={Number(productDetail?.product?.highest_offer)}
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
             marketPlaceFee={0}
+            receiptFee={feeData?.map((item) => ({
+              id: item.id,
+              fees: Number(item.fees),
+              title: item.type,
+            }))}
             saleTax={0}
             shippingFee={0}
             averageSalePrice={0}

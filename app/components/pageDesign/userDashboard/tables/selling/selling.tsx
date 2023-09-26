@@ -38,6 +38,7 @@ export function Selling() {
       type: '$',
     },
   ];
+
   const pendingTileData: SimpleStatCardProps[] = [
     {
       title: 'Pending Sales',
@@ -164,7 +165,7 @@ export function Selling() {
               rightIcon={
                 <span className="rounded-full bg-black text-xs text-white w-5 h-5 relative">
                   <span className="absolute -translate-y-1/2 left-1/2 -translate-x-1/2 top-1/2">
-                  {Number(sellingCompletedOrders?.orderStats[0].rejectd_sales)}
+                    {Number(sellingCompletedOrders?.orderStats[0].rejectd_sales)}
                   </span>
                 </span>
               }

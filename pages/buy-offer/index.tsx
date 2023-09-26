@@ -1,9 +1,10 @@
 import { BuyOfferComponent, PageTitle } from '@elektra/components';
 import { baseURL, isAuthenticated } from '@elektra/customComponents';
-import { RootState } from '@elektra/store';
+import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import { Container, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req }: NextPageContext) {
@@ -11,14 +12,16 @@ export async function getServerSideProps({ req }: NextPageContext) {
   if (!isAuth) {
     return { redirect: { permanent: false, destination: '/auth/login' } };
   }
-  return { props: isAuth };
+  return { props: {} };
 }
 
-type BuyOfferProps = {
-  isAuth: boolean;
-};
+export default function BuyOffer() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadFee(String(productDetail?.product?.category?.id)));
+  }, []);
 
-export default function PlaceOffer({ isAuth }: BuyOfferProps) {
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -54,10 +57,15 @@ export default function PlaceOffer({ isAuth }: BuyOfferProps) {
       </div>
       <Grid className="my-10">
         <Grid.Col md={6} className="text-left">
-          <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images[0]?.filename || ''} />
+          <Image alt="product image" src={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''} />
         </Grid.Col>
         <Grid.Col md={6}>
           <BuyOfferComponent
+            receiptFee={feeData?.map((item) => ({
+              id: item.id,
+              fees: Number(item.fees),
+              title: item.type,
+            }))}
             productVariants={productDetail?.product.product_variants as Variant[]}
             condition={'new'}
             description={ListingDescriptionData.description}

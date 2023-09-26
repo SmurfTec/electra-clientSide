@@ -83,8 +83,8 @@ export function ListingDescription({
         formData.append(key, listItemPost[key]);
         return;
       }
-
-      formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
+      //@ts-ignore
+      formData.append(key, listItemPost[key as keyof ListItemPost]);
     });
 
     const res = await http.request({
@@ -256,6 +256,7 @@ export function ListingDescription({
               size="xl"
               styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
               bg={'#D9D9D9'}
+              onClick={() => router.back()}
             >
               Cancel
             </Button>

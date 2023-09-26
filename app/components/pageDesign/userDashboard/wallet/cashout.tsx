@@ -86,6 +86,7 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
               bg="rgba(217, 217, 217, 1)"
               className="text-base font-medium text-black"
               onClick={toogle}
+              
             >
               CANCEL
             </Button>

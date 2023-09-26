@@ -17,6 +17,7 @@ import {
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
 import { ListItemPost } from '@elektra/types';
+import { useRouter } from 'next/router';
 import { FC, useContext, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
 
@@ -33,6 +34,7 @@ const useStyles = createStyles({
 
 export function UsedProductListing({ accessories, description, itemConditions }: UsedProductListingProps) {
   const { classes } = useStyles();
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
@@ -270,6 +272,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               size="xl"
               styles={{ root: { color: 'black', '&:hover': { color: 'white' } } }}
               bg={'#D9D9D9'}
+              onClick={() => router.back()}
             >
               Cancel
             </Button>

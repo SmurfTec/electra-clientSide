@@ -1,13 +1,15 @@
 import { CategoryCard } from '@elektra/components/card';
-import { Center, Container, Flex, Group, List } from '@mantine/core';
+import { Center, Container, Group, List } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 type LaptopMenuProps = {
-  brands: {
-    title: string;
-    id: number;
-    image: string;
-  }[] | undefined;
+  brands:
+    | {
+        title: string;
+        id: number;
+        image: string;
+      }[]
+    | undefined;
 };
 
 export const LaptopMenu = ({ brands }: LaptopMenuProps) => {
@@ -15,19 +17,17 @@ export const LaptopMenu = ({ brands }: LaptopMenuProps) => {
 
   return (
     <Container size={1200} py={50}>
-      <Group spacing={100} position="center">
-        <Flex gap="xs" justify="center" align="center" direction="column" wrap="wrap">
-          <List type="unordered" icon={<></>}>
-            {/* <Text onClick={()=> router.push("/shop")} color="black" className="text-sm font-medium ml-3">
+      <Group spacing={100} position="center" align="flex-start">
+        <List type="unordered" icon={<></>}>
+          {/* <Text onClick={()=> router.push("/shop")} color="black" className="text-sm font-medium ml-3">
               Laptops
             </Text> */}
-            {brands?.map((item) => (
-              <List.Item onClick={() => router.push(`/shop?brand=${item.id}`)} className="cursor-pointer">
-                {item.title}
-              </List.Item>
-            ))}
-          </List>
-        </Flex>
+          {brands?.map((item) => (
+            <List.Item onClick={() => router.push(`/shop?brand=${item.id}`)} className="mt-[-19px] cursor-pointer align-top">
+              {item.title}
+            </List.Item>
+          ))}
+        </List>
         {/* <Flex gap="xs" justify="center" align="center" direction="column" wrap="wrap">
           <List type="unordered" icon={<></>}>
             <Text color="black" className="text-sm font-medium ml-3">
