@@ -1,17 +1,20 @@
 import { Modal, Only, http } from '@elektra/customComponents';
 import { useCashoutSuccessfullModal, useCashoutUnSuccessfullModal } from '@elektra/hooks';
-import { RootState, useSelector } from '@elektra/store';
-import { Button, Center, Divider, Group, Image, Paper, Stack, Text } from '@mantine/core';
+import { RootState, updateUserProfile, useAppDispatch, useSelector } from '@elektra/store';
+import { Button, Center, Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { useState } from 'react';
 type CashOutProps = {
   state: boolean;
   toogle: () => void;
 };
 export const Cashout = ({ state, toogle }: CashOutProps) => {
+  const dispatch = useAppDispatch();
   const profile = useSelector((state: RootState) => state.auth.profile);
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [CashoutSuccessModal, cashoutSuccessOpened, cashoutSuccessHandler] = useCashoutSuccessfullModal();
-  const [CashoutUnsuccessModal, cashoutUnsuccessOpened, cashoutUnsuccessHandler] = useCashoutUnSuccessfullModal();
+  const [CashoutUnsuccessModal, cashoutUnsuccessOpened, cashoutUnsuccessHandler] =
+    useCashoutUnSuccessfullModal(errorMessage);
   const handleSubmit = async () => {
     setLoading(true);
     const res = await http.request({
@@ -22,10 +25,12 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
       },
     });
     if (res.isError) {
-      cashoutUnsuccessHandler.open()
+      setErrorMessage(res?.errorPayload?.message || 'Transaction Failed');
+      cashoutUnsuccessHandler.open();
       setLoading(false);
     } else {
-      cashoutSuccessHandler.open()
+      dispatch(updateUserProfile(Number(profile?.id)));
+      cashoutSuccessHandler.open();
       setLoading(false);
     }
   };
@@ -44,7 +49,9 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">CARD DETAILS</Text>
             <Center inline>
               {/* <Image alt="coins" src={'/images/master.png'} height={25} width={25} fit="contain" /> */}
-              <Text className="ml-2 text-sm md:text-xl text-black font-semibold inline-block">{profile?.card_details_number?.slice(0,4)} **** **** ****</Text>
+              <Text className="ml-2 text-sm md:text-xl text-black font-semibold inline-block">
+                {profile?.card_details_number?.slice(0, 4)} **** **** ****
+              </Text>
             </Center>
           </Group>
           <Group position="apart" className="w-full">
@@ -86,7 +93,6 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
               bg="rgba(217, 217, 217, 1)"
               className="text-base font-medium text-black"
               onClick={toogle}
-              
             >
               CANCEL
             </Button>
