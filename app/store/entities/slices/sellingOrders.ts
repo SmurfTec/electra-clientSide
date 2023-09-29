@@ -93,6 +93,17 @@ export const rehydrateOrderSelling = (payload: SellingOrders) => {
   };
 };
 
+export const loadOrderSellingSearch = (search: string) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: OrderSellingCompletedURL + `?title=%${search}%&limit=10&page=1`,
+      onStart: slice.actions.orderSellingCompletedRequested.type,
+      onSuccess: slice.actions.orderSellingCompletedReceived.type,
+      onError: slice.actions.orderSellingCompletedFailed.type,
+    })
+  );
+};
+
 export const loadOrderSelling = () => async (dispatch: AppDispatch) => {
   const active = dispatch(
     apiRequest({

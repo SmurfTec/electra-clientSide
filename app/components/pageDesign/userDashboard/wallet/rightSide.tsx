@@ -1,65 +1,13 @@
 import { ItemCard } from '@elektra/components/card';
+import { RootState, loadOrderSellingSearch, useAppDispatch } from '@elektra/store';
 import { Avatar, Button, Center, Divider, Group, Menu, Paper, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
-import { useState } from 'react';
+import moment from 'moment';
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { CaretDown, CaretUp, Number2, Search } from 'tabler-icons-react';
 
-const itemCardData = [
-  {
-    color: 'black',
-    company: 'AT&T',
-    image: '/images/product.png',
-    space: '128GB',
-    title: 'Iphone 14 Pro Max',
-    status: 'Sold',
-    price: 1000,
-    date: '29/10/10',
-    sale: true,
-  },
-  {
-    color: 'black',
-    company: 'AT&T',
-    image: '/images/product.png',
-    space: '128GB',
-    title: 'Iphone 14 Pro Max',
-    status: 'Sold',
-    price: 1000,
-    date: '29/10/10',
-    sale: true,
-  },
-  {
-    color: 'black',
-    company: 'AT&T',
-    image: '/images/product.png',
-    space: '128GB',
-    title: 'Iphone 14 Pro Max',
-    status: 'Sold',
-    price: 1000,
-    date: '29/10/10',
-    sale: true,
-  },
-  {
-    color: 'black',
-    company: 'AT&T',
-    image: '/images/product.png',
-    space: '128GB',
-    title: 'Iphone 14 Pro Max',
-    status: 'Sold',
-    price: 1000,
-    date: '29/10/10',
-    sale: true,
-  },
-  {
-    image: '/images/product.png',
-
-    title: 'Iphone 14 Pro Max',
-    status: 'Sold',
-    price: 1000,
-    date: '29/10/10',
-    sale: true,
-  },
-];
-
 export const WalletRightSide = () => {
+  const dispatch = useAppDispatch();
   const [opened, setOpened] = useState(false);
   const [value, setValue] = useState<string>('Sort By');
   const handleChange = (name: string) => {
@@ -69,6 +17,27 @@ export const WalletRightSide = () => {
     }
     setValue(name);
   };
+
+  const [toggle, setToogle] = useState<'Sales' | 'Payouts'>('Sales');
+
+  const { sellingCompletedOrders } = useSelector((state: RootState) => state.entities.sellingOrders.list);
+
+  const data = useMemo(
+    () =>
+      toggle === 'Sales'
+        ? sellingCompletedOrders.orders.map((item) => ({
+            image: '/images/product.png',
+            title: item?.product?.title || '',
+            status: 'Sold',
+            price: item.highest_offer,
+            date: moment(item.created_on).format('DD/MM/YYYY'),
+            variants: item.product_variants,
+            sale: true,
+          }))
+        : [],
+    [toggle]
+  );
+
   return (
     <>
       <Paper withBorder radius={20} p={20}>
@@ -80,9 +49,10 @@ export const WalletRightSide = () => {
               size="xl"
               icon={<Search />}
               placeholder="Search by Id, name"
+              onChange={(e) => dispatch(loadOrderSellingSearch(e.target.value))}
             />
             <Center className="space-x-4">
-              <Button
+              {/* <Button
                 styles={(theme) => ({
                   root: {
                     borderRadius: 20,
@@ -92,16 +62,18 @@ export const WalletRightSide = () => {
                 className="text-[13px] md:text-base font-medium"
               >
                 All
-              </Button>
+              </Button> */}
               <Button
+                onClick={() => setToogle('Sales')}
                 className="text-[13px] px-0 md:text-base font-medium text-black"
-                bg={'rgba(241, 241, 241, 1)'}
+                bg={toggle !== 'Sales' ? 'rgba(241, 241, 241, 1)' : undefined}
                 styles={(theme) => ({
                   root: {
                     borderRadius: 20,
+                    color: toggle === 'Sales' ? 'white !important' : undefined,
                     width: 120,
                     '&:not([data-disabled]):hover': {
-                      backgroundColor: 'rgba(241, 241, 241, 5)',
+                      backgroundColor: toggle === 'Sales' ? 'black' : 'rgba(241, 241, 241, 5)',
                     },
                   },
                 })}
@@ -114,14 +86,16 @@ export const WalletRightSide = () => {
                 Sales
               </Button>
               <Button
+                onClick={() => setToogle('Payouts')}
                 className="text-[13px]  px-0 md:text-base font-medium text-black"
-                bg={'rgba(241, 241, 241, 1)'}
+                bg={toggle !== 'Payouts' ? 'rgba(241, 241, 241, 1)' : undefined}
                 styles={(theme) => ({
                   root: {
                     borderRadius: 20,
                     width: 115,
+                    color: toggle === 'Payouts' ? 'white !important' : undefined,
                     '&:not([data-disabled]):hover': {
-                      backgroundColor: 'rgba(241, 241, 241, 5)',
+                      backgroundColor: toggle === 'Payouts' ? 'black' : 'rgba(241, 241, 241, 5)',
                     },
                   },
                 })}
@@ -178,11 +152,11 @@ export const WalletRightSide = () => {
         </Group>
         <Divider my={20} />
         <ScrollArea h={290}>
-          {itemCardData.map((item, index) => (
+          {data.map((item, index) => (
             <div key={index}>
               <ItemCard
                 image={item.image}
-                productVariants={[]}
+                productVariants={item.variants || []}
                 title={item.title}
                 date={item.date}
                 price={item.price}
@@ -190,7 +164,7 @@ export const WalletRightSide = () => {
                 key={index}
                 status={item.status}
               />
-              {itemCardData.length !== index + 1 && <Divider key={index + 1} />}
+              {data.length !== index + 1 && <Divider key={index + 1} />}
             </div>
           ))}
         </ScrollArea>

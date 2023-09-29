@@ -33,15 +33,17 @@ export const useCashoutSuccessfullModal = (): [React.ReactNode, boolean, { open:
   return [Modal, opened, { open, close }];
 };
 
-export const useCashoutUnSuccessfullModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useCashoutUnSuccessfullModal = (
+  errorMessage: string
+): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
-    <Stack align="center" spacing="sm" className="mb-6">
+    <Stack align="center" spacing="sm" className="mb-6 text-center">
       <CircleX size={60} strokeWidth={1} color={'red'} />
       <Title order={4} className=" font-bold">
-      Cashout Failed
+        Cashout Failed
       </Title>
-      <Text size="sm">Your funds are not in process.</Text>
+      <Text size="sm">{errorMessage}</Text>
       <Button
         component={NextLink}
         href="/shop"

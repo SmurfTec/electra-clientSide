@@ -32,11 +32,11 @@ export function Selling() {
       value: Number(sellingActiveOrders?.askStats?.gross_value),
       type: '$',
     },
-    {
-      title: 'Net Value',
-      value: Number(sellingActiveOrders?.askStats?.net_value),
-      type: '$',
-    },
+    // {
+    //   title: 'Net Value',
+    //   value: Number(sellingActiveOrders?.askStats?.net_value),
+    //   type: '$',
+    // },
   ];
 
   const pendingTileData: SimpleStatCardProps[] = [
