@@ -6,6 +6,7 @@ import {
   genericCategoryReducer,
   notificationReducer,
   orderDetailReducer,
+  payoutsReducer,
   productDataReducer,
   productLisingByIdReducer,
   productListingReducer,
@@ -36,5 +37,6 @@ export const entitiesReducers = combineReducers({
   fee: feeReducer,
   genericCategory: genericCategoryReducer,
   brand: brandReducer,
-  notification: notificationReducer
+  notification: notificationReducer,
+  payouts: payoutsReducer,
 });

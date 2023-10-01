@@ -1,22 +1,24 @@
 import { SimpleStatCardProps } from '@elektra/components';
 import { DataTable, Only, tableDataType } from '@elektra/customComponents';
-import { ActionIcon, Avatar, Center, Text } from '@mantine/core';
+import { RootState, useSelector } from '@elektra/store';
+import { ActionIcon, Center, Text } from '@mantine/core';
+import { format } from 'date-fns';
 import { useState } from 'react';
-import { ArrowDown, ArrowNarrowDown } from 'tabler-icons-react';
+import { ArrowDown } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
-import { RootState, useSelector } from '@elektra/store';
-import { format } from 'date-fns';
 
 export function Purchasing() {
-  const intialLimit = 4
+  const intialLimit = 4;
   const [value, setValue] = useState('active');
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
-  const {purchasingActiveOrders,purchasingCompletedOrders,purchasingPendingOrders} = useSelector((state: RootState) => state.entities.purchasingOrders.list);
+  const { purchasingActiveOrders, purchasingCompletedOrders, purchasingPendingOrders } = useSelector(
+    (state: RootState) => state.entities.purchasingOrders.list
+  );
   const activeTileData: SimpleStatCardProps[] = [
     {
       title: 'Active Offers',
@@ -58,29 +60,29 @@ export function Purchasing() {
       type: 'N/A',
     },
   ];
-  const PurchasingActiveOrdersData = purchasingActiveOrders.bids.map((order)=>({
+  const PurchasingActiveOrdersData = purchasingActiveOrders.bids.map((order) => ({
     id: order?.id,
-    itemName: order?.product?.title??"-",
-    highestOffer: `$${order?.highest_offer??0}`,
-    lowestOffer: `$${order?.lowest_ask??0}`,
-    myOffer: `$${order?.my_offer??0}`,
+    itemName: order?.product?.title ?? '-',
+    highestOffer: `$${order?.highest_offer ?? 0}`,
+    lowestOffer: `$${order?.lowest_ask ?? 0}`,
+    myOffer: `$${order?.my_offer ?? 0}`,
     offerDate: format(new Date(order?.offer_date), 'dd MMM, yyyy'),
-  }))
-  const PurchasingPendingOrdersData = purchasingPendingOrders.orders.map((order)=>({
+  }));
+  const PurchasingPendingOrdersData = purchasingPendingOrders.orders.map((order) => ({
     id: order?.id,
-    itemName: order?.product?.title??'-',
+    itemName: order?.product?.title ?? '-',
     purchasePrice: order?.saleprice,
     trackingNo: order?.trackingid,
     orderStatus: order?.status,
     offerDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
-  }))
-  const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order)=>({
+  }));
+  const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order) => ({
     id: order?.id,
-    itemName: order?.product?.title??'-',
+    itemName: order?.product?.title ?? '-',
     purchaseDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
-    coveragePlan: order?.protection_plan?.name??'-',
+    coveragePlan: order?.protection_plan?.name ?? '-',
     orderNo: order?.trackingid,
-  }))
+  }));
   const tableData: tableDataType = {
     active: {
       columns: getHeaderColumn('active'),
@@ -122,15 +124,19 @@ export function Purchasing() {
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
       />
-      <Only when={value === 'active' && limit!==selected.data.length && intialLimit <selected.data.length}>
-      <Center className="mt-5 space-x-3">
-        <Text size={16} className="font-[600]" color="black" >
-          View More
-        </Text>
-        <ActionIcon variant="outline" className="rounded-xl w-9 border-black" onClick={() => setLimit((prev) => prev + 2)}>
-          <ArrowDown size={20} color="black" />
-        </ActionIcon>
-      </Center>
+      <Only when={value === 'active' && limit !== selected.data.length && intialLimit < selected.data.length}>
+        <Center className="mt-5 space-x-3">
+          <Text size={16} className="font-[600]" color="black">
+            View More
+          </Text>
+          <ActionIcon
+            variant="outline"
+            className="rounded-xl w-9 border-black"
+            onClick={() => setLimit((prev) => prev + 2)}
+          >
+            <ArrowDown size={20} color="black" />
+          </ActionIcon>
+        </Center>
       </Only>
     </div>
   );

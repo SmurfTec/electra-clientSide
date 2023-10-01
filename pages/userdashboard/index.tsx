@@ -5,16 +5,18 @@ import {
   initStore,
   loadOrderPurchasing,
   loadOrderSelling,
+  loadPayouts,
   loadUserFavourite,
   loadUserReward,
   rehydrateOrderPurchasing,
   rehydrateOrderSelling,
+  rehydratePayouts,
   rehydrateUserFavourite,
   rehydrateUserReward,
   useAppDispatch,
   useSelector,
 } from '@elektra/store';
-import type { PurchasingOrders, SellingOrders, UserFavourite, UserReward } from '@elektra/types';
+import type { Payouts, PurchasingOrders, SellingOrders, UserFavourite, UserReward } from '@elektra/types';
 import { Title } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
@@ -29,6 +31,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
   const userReward = await store.dispatch(loadUserReward());
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
+  const payouts = store.dispatch(loadPayouts())
 
   await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling]);
   return {
@@ -37,6 +40,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
       userFavouriteData: store.getState().entities.userFavourite.list,
       orderPurchasingData: store.getState().entities.purchasingOrders.list,
       orderSellingData: store.getState().entities.sellingOrders.list,
+      payouts: store.getState().entities.payouts.list
     },
   };
 }
@@ -46,13 +50,15 @@ type UserDashBoardPageProps = {
   userFavouriteData: UserFavourite;
   orderPurchasingData: PurchasingOrders;
   orderSellingData: SellingOrders;
+  payouts: Payouts[]
 };
 
 export default function UserDashboard({
   userRewardData,
   userFavouriteData,
   orderPurchasingData,
-  orderSellingData
+  orderSellingData,
+  payouts
 }: UserDashBoardPageProps) {
   const tabViewData: tabViewData[] = [
     {
@@ -93,6 +99,7 @@ export default function UserDashboard({
       dispatch(rehydrateUserFavourite(userFavouriteData));
       dispatch(rehydrateOrderPurchasing(orderPurchasingData));
       dispatch(rehydrateOrderSelling(orderSellingData));
+      dispatch(rehydratePayouts(payouts))
       }
     return () => {
       unsubscribe = true;
