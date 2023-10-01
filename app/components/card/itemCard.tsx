@@ -11,7 +11,7 @@ export type ItemCardProps = {
   price?: number;
   date?: string;
   title: string;
-  image: string;
+  image: string | null;
   productVariants: Variant[];
 };
 
@@ -20,60 +20,62 @@ export function ItemCard({ title, image, productVariants, date, price, sale, sta
   const phone = useMediaQuery('(max-width: 600px)', false);
   return (
     <Grid m={0} {...rest} gutter={phone ? 10 : 20}>
-      <Grid.Col span={2}>
-        <Paper bg={'#F5F5F5'} className="flex justify-center relative">
-          <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
-          <Modal
-            scrollAreaComponent={ScrollArea}
-            fullScreen
-            overlayProps={{
-              color: 'black',
-              opacity: 0.6,
-              blur: 2,
-            }}
-            styles={{
-              content: {
-                background: 'transparent',
-                zIndex: 10,
-              },
-              header: {
-                background: 'transparent',
-                position: 'relative',
-                // height: "12vh"
-              },
-              body: {
-                marginTop: '85px',
-                scrollbarColor: 'transparent !important',
-                overflow: 'invisible !important',
-              },
-              close: {
-                position: 'absolute',
-                top: 30,
-                right: 40,
-                zIndex: 1000,
-                color: 'white',
-                borderRadius: 'unset',
-                '&:hover': {
-                  backgroundColor: 'unset',
-                  color: 'white',
+      <Only when={!!image}>
+        <Grid.Col span={2}>
+          <Paper bg={'#F5F5F5'} className="flex justify-center relative">
+            <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
+            <Modal
+              scrollAreaComponent={ScrollArea}
+              fullScreen
+              overlayProps={{
+                color: 'black',
+                opacity: 0.6,
+                blur: 2,
+              }}
+              styles={{
+                content: {
+                  background: 'transparent',
+                  zIndex: 10,
                 },
-              },
-            }}
-            className="bg-transparent"
-            keepMounted={false}
-            closeButtonProps={{ size: 'lg' }}
-            children={carouselModal}
-            onClose={carouselHandler.close}
-            opened={carouselOpened}
-          />
-          <Only when={!!status}>
-            <Text align="center" className="absolute bottom-0 w-full" bg={'black'} color={'white'} size="sm">
-              {status}
-            </Text>
-          </Only>
-        </Paper>
-      </Grid.Col>
-      <Grid.Col span={10} className={'space-y-2'}>
+                header: {
+                  background: 'transparent',
+                  position: 'relative',
+                  // height: "12vh"
+                },
+                body: {
+                  marginTop: '85px',
+                  scrollbarColor: 'transparent !important',
+                  overflow: 'invisible !important',
+                },
+                close: {
+                  position: 'absolute',
+                  top: 30,
+                  right: 40,
+                  zIndex: 1000,
+                  color: 'white',
+                  borderRadius: 'unset',
+                  '&:hover': {
+                    backgroundColor: 'unset',
+                    color: 'white',
+                  },
+                },
+              }}
+              className="bg-transparent"
+              keepMounted={false}
+              closeButtonProps={{ size: 'lg' }}
+              children={carouselModal}
+              onClose={carouselHandler.close}
+              opened={carouselOpened}
+            />
+            <Only when={!!status}>
+              <Text align="center" className="absolute bottom-0 w-full" bg={'black'} color={'white'} size="sm">
+                {status}
+              </Text>
+            </Only>
+          </Paper>
+        </Grid.Col>
+      </Only>
+      <Grid.Col span={!image ? 12 :10} className={'space-y-2'}>
         <Group position="apart">
           <Group>
             <Text color="black" className="font-bold" size={!sale ? 20 : phone ? 14 : 'xl'}>

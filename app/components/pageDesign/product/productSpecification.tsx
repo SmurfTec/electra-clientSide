@@ -20,7 +20,7 @@ export type ProductSpecificationProps = {
   scrollIntoView?: ({ alignment }?: any | undefined) => void;
   technicalSpecification: TechnicalSpecification[];
   isListingVisible: boolean;
-  more_info?: string
+  more_info?: string;
 };
 
 export function ProductSpecification({
@@ -34,9 +34,11 @@ export function ProductSpecification({
   scrollIntoView,
   technicalSpecification,
   isListingVisible,
-  more_info
+  more_info,
 }: ProductSpecificationProps) {
-  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({more_info: more_info || ""});
+  const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({
+    more_info: more_info || '',
+  });
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
   const [isLike, setIsLike] = useState(false);
@@ -162,7 +164,7 @@ export function ProductSpecification({
                     <Title className="uppercase font-[600]" order={6}>
                       {item.variant}
                     </Title>
-                    <ChipDisplay data={item.values} item={item.value} />
+                    <ChipDisplay data={[item.value]} item={item.value} />
                   </div>
                 </div>
               );

@@ -4,7 +4,7 @@ import { Button } from '@mantine/core';
 export default function Testing() {
   const handleTest = async () => {
     const res = await http.request({
-      url: '/wallets/payouts',
+      url: '/transactions/me',
     });
   };
 

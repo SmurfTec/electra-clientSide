@@ -1,6 +1,7 @@
 import { http } from '@elektra/customComponents';
 import { Button, createStyles, Grid, NumberInput, Textarea, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
 import { ArrowUpRight } from 'tabler-icons-react';
 
@@ -32,7 +33,10 @@ export const ContactUsForm = () => {
     });
     if (res.isError) {
       setLoading(false);
+      notifications.show({ message: res?.errorPayload?.message || '' });
     } else {
+      notifications.show({ message: 'Message sent successfully.' });
+      form.reset()
       setStatus(true);
       setLoading(false);
     }

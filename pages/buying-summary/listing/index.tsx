@@ -122,7 +122,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         price: isOfferType ? Number(yourOffer) : Number(productListingById.highest_offer),
 
         expiration_date: expiration,
-
+        coupon: coupon || '',
         shipping_address: '{{$randomStreetAddress}}',
         listing: productListingById.id,
       },
