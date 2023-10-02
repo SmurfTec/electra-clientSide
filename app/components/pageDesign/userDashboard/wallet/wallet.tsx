@@ -5,9 +5,11 @@ import { useState } from 'react';
 import { Cashout } from './cashout';
 import { WalletLeftSide } from './leftSide';
 import { WalletRightSide } from './rightSide';
+import { useRouter } from 'next/router';
 
 export const Wallet = () => {
   const [value, toggle] = useToggle<boolean>([false, true]);
+  const router=useRouter()
   const [loading, setLoading] = useState<boolean>(false);
   const [{error,message}, setError] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
   const handleSubmit = async () => {
@@ -17,10 +19,15 @@ export const Wallet = () => {
       url: 'wallets/create-account',
       method: 'POST',
     });
+    console.log(router?.query?.targetUrl,"router?.query?.targetUrl")
     if (res.isError) {
       setError({error:true,message:String(res?.errorPayload?.['message'])})
       setLoading(false);
     } else {
+      let targetUrl:any=router?.query?.targetUrl
+      if(targetUrl){
+        router.push(targetUrl)
+      }
       window.open(res.data.url, "_blank");
       setLoading(false);
     }
@@ -39,7 +46,7 @@ export const Wallet = () => {
           <WalletRightSide />
         </Only>
         <Only when={value}>
-          <Text className="text-black text-2xl">Connect to Stripe</Text>
+          <Text className="text-2xl text-black">Connect to Stripe</Text>
           <Divider my="sm" />
           <Button onClick={handleSubmit} loading={loading}>
             Connect
