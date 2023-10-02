@@ -5,7 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const URL = '/favourites?sort=-created_on';
 
-
 type userFavouriteSlice = {
   list: UserFavourite;
   loading: boolean;
@@ -36,6 +35,13 @@ const slice = createSlice({
       state.loading = false;
     },
 
+    removeFavaourite: (state, action) => {
+      const index = state.list.favourites.findIndex((fvt) => fvt.product.id === action.payload.id);
+      if (index > -1) {
+        // only splice array when item is found
+        state.list.favourites.splice(index, 1);
+      }
+    },
     rehydrated: (state, action) => {
       state.loading = true;
       state.list = action.payload;
@@ -47,6 +53,13 @@ const slice = createSlice({
 export const rehydrateUserFavourite = (payload: UserFavourite) => {
   return {
     type: slice.actions.rehydrated.type,
+    payload,
+  };
+};
+
+export const removeFavourite = (payload: { id: number }) => {
+  return {
+    type: slice.actions.removeFavaourite.type,
     payload,
   };
 };

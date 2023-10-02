@@ -1,9 +1,9 @@
 import { Only } from '@elektra/customComponents';
-import { likeProduct, store,UnlikeProduct } from '@elektra/store';
-import { Anchor, Badge, Card, Grid, Group, Image, Paper, Text, Title, clsx, useMantineTheme } from '@mantine/core';
+import { likeProduct, removeFavourite, store, UnlikeProduct } from '@elektra/store';
+import { Anchor, Badge, Card, clsx, Grid, Group, Image, Paper, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
@@ -17,7 +17,8 @@ export type ProductCardProps = {
   highestPrice: number | null;
   price: number | undefined;
   usedPrice?: number | null;
-  onClick?:any
+  onClick?: () => void;
+  isWishlist?: boolean | undefined;
 };
 
 export function ProductCard({
@@ -31,13 +32,14 @@ export function ProductCard({
   lowestPrice,
   highestPrice,
   price,
-  onClick
+  onClick,
+  isWishlist
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
-  const [isLike, setIsLike] = useState(wishlist)
-  
+  const [isLike, setIsLike] = useState(wishlist);
+
   return (
     <Card className="relative rounded-none">
       <Anchor
@@ -81,10 +83,12 @@ export function ProductCard({
                 className="cursor-pointer"
                 size={23}
                 onClick={() => {
-                  isLike ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id })):store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }))
-                  setIsLike(!isLike);
-                  console.log()
-                  onClick && onClick()
+                  isLike
+                  ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id }))
+                  : store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
+                  
+                  onClick && onClick();
+                  !isWishlist && setIsLike(!isLike);
                 }}
                 strokeWidth={1.5}
                 fill={isLike ? 'red' : 'white'}

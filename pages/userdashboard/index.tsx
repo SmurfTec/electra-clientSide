@@ -28,13 +28,13 @@ export async function getServerSideProps({ req }: NextPageContext) {
   }
   const store = initStore();
   const userFavourite = store.dispatch(loadUserFavourite());
-  const userReward = await store.dispatch(loadUserReward());
+  const userReward = store.dispatch(loadUserReward());
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
 
   const payouts = store.dispatch(loadPayouts())
 
-  await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling]);
+  await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling, payouts]);
   return {
     props: {
       userRewardData: store.getState().entities.userReward.list,
