@@ -31,6 +31,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
   const userReward = await store.dispatch(loadUserReward());
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
+
   const payouts = store.dispatch(loadPayouts())
 
   await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling]);
@@ -98,6 +99,7 @@ export default function UserDashboard({
       dispatch(rehydrateUserReward(userRewardData));
       dispatch(rehydrateUserFavourite(userFavouriteData));
       dispatch(rehydrateOrderPurchasing(orderPurchasingData));
+      console.log(orderSellingData,"orderSellingData")
       dispatch(rehydrateOrderSelling(orderSellingData));
       dispatch(rehydratePayouts(payouts))
       }
@@ -107,7 +109,7 @@ export default function UserDashboard({
   }, []);
   return (
     <div className="my-12">
-      <div className="ml-2 md:ml-8 mb-4">
+      <div className="mb-4 ml-2 md:ml-8">
         <Title className="font-bold" color="black" order={4}>
           {`${profile?.firstname} ${profile?.lastname}`}
         </Title>

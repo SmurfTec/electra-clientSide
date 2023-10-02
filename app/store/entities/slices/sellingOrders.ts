@@ -42,6 +42,7 @@ const slice = createSlice({
     },
 
     orderSellingActiveReceived: (state, action) => {
+      console.log(action.payload,"action.payload")
       state.list.sellingActiveOrders = action.payload;
       state.loading = false;
     },

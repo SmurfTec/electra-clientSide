@@ -2,10 +2,18 @@ import { ActionIcon, Badge, Button, Grid, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
-
+import { http } from '@elektra/customComponents';
 export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
-
+const handleSell=async(id:any)=>{
+  
+  const res = await http.request({
+    url: `/products/${id}/sell`,
+    method: 'POST',
+   
+  });
+  console.log(res,"res")
+}
   switch (props.cell.column.id) {
     case 'action':
       return (
@@ -22,7 +30,8 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
               }}
               radius="xl"
               component={NextLink}
-              href={`/product-listing/${row.original.id}`}
+              onClick={()=>handleSell(row.original.id)}
+              href={`/userdashboard?tab=purchasing`}
             >
               Sell Now
             </Button>
