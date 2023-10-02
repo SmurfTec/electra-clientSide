@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
-
+import { Select } from '@mantine/core';
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
@@ -37,6 +37,7 @@ export function ListingDescription({
   shippingFee,
 }: ListingDescriptionProps) {
   const router = useRouter();
+  const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const [count, handlers] = useCounter(0, { min: 0 });
@@ -57,9 +58,9 @@ export function ListingDescription({
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
-
+  
   const handleSubmit = async () => {
-    console.log("iam clicked")
+    
     setLoading(true);
     const formData = new FormData();
 
@@ -90,10 +91,22 @@ export function ListingDescription({
     });
 
 if(authData.isAuthenticated){
+  const { id } = router.query;
+  
+  const currentDate = new Date();
+  const calculatedDate = new Date(currentDate);
+  calculatedDate.setDate(currentDate.getDate() + Number(days));
+  const data={
+    price:count, 
+    expiration_date: calculatedDate,
+    shipping_address: authData?.profile?.shipping_address_line_1,
+    product: Number(id)
+  }
+
  const res = await http.request({
-      url: '/listings',
+      url: '/asks',
       method: 'POST',
-      data: formData,
+      data: data,
     });
     if (res.isError) {
       setLoading(false);
@@ -211,7 +224,17 @@ if(authData.isAuthenticated){
           </Input.Wrapper>
         </Only>
       </Group>
-
+      <Group>
+       <div className='flex flex-col gap-[0px]'>
+       <p className='text-[15px]'>Ask Expiration</p>
+      <Select data={[
+        {value:'7',label:'7 Days'},  //'7','14','21','30'
+        {value:'14',label:'14 Days'},
+        {value:'21',label:'21 Days'},
+        {value:'30',label:'30 Days'}
+      ]} value={days} onChange={(value:any)=>setdays(value)} />
+       </div>
+      </Group>
       <Group position="apart" spacing={0} className="px-2 py-1 mt-6 border-black border-solid lg:px-24 md:py-6 ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
