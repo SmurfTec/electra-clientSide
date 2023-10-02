@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import { FC, useContext, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
 import { useSelector } from 'react-redux';
+
 type UsedProductListingProps = {
   accessories: string[];
   itemConditions: string[];
@@ -34,7 +35,7 @@ const useStyles = createStyles({
 
 export function UsedProductListing({ accessories, description, itemConditions }: UsedProductListingProps) {
   const { classes } = useStyles();
-  const userData=useSelector((state:any)=>state.auth)
+  const authData=useSelector((state:any)=>state.auth)
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
@@ -71,20 +72,27 @@ export function UsedProductListing({ accessories, description, itemConditions }:
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
     });
-    const res = await http.request({
-      url: '/listings',
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    if (res.isError) {
-      setLoading(false);
+    if(authData.isAuthenticated){
+      const res = await http.request({
+        url: '/listings',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (res.isError) {
+        setLoading(false);
+      }
+      {
+        setLoading(false);
+      }
+    }else{
+      const { id } = router.query;
+      const targetUrl = `/product-listing/${id}`
+      router.push(`/auth/login?targetUrl=${targetUrl}`)
     }
-    {
-      setLoading(false);
-    }
+   
     
   };
 
