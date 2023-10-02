@@ -171,6 +171,18 @@ export const likeProduct = (data: { product?: number; listing?: number }) => asy
     })
   );
 };
+export const UnlikeProduct = (data: { product?: number; listing?: number }) => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: '/favourites',
+      method: 'DELETE',
+      data,
+      onStart: slice.actions.likeProductStart.type,
+      onSuccess: slice.actions.likeProductSuccess.type,
+      onError: slice.actions.likeProductFailure.type,
+    })
+  );
+};
 
 export const fetchShopProducts =
   (isAuth: boolean, param: string = '') =>

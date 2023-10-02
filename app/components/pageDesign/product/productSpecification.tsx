@@ -21,6 +21,7 @@ export type ProductSpecificationProps = {
   technicalSpecification: TechnicalSpecification[];
   isListingVisible: boolean;
   more_info?: string;
+  lowest_ask?:any;
 };
 
 export function ProductSpecification({
@@ -35,6 +36,7 @@ export function ProductSpecification({
   technicalSpecification,
   isListingVisible,
   more_info,
+  lowest_ask
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({
     more_info: more_info || '',
@@ -46,7 +48,7 @@ export function ProductSpecification({
   return (
     <div>
       <div className="space-y-2 ">
-        <Title className="uppercase mt-6 md:mt-0" color={'#656565'} order={6}>
+        <Title className="mt-6 uppercase md:mt-0" color={'#656565'} order={6}>
           About Product
         </Title>
         <Grid align="top">
@@ -70,7 +72,7 @@ export function ProductSpecification({
                 }}
                 fill={isLike ? 'red' : 'white'}
                 color={isLike ? 'red' : undefined}
-                className="cursor-pointer absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer left-1/2 top-1/2"
               />
             </span>
           </Grid.Col>
@@ -176,7 +178,7 @@ export function ProductSpecification({
         {/* <div> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={6}>
-            <BiddingInput title="Lowest Ask" value={lowestAsk} />
+            <BiddingInput title="Lowest Ask" value={lowest_ask || 0} />
           </Grid.Col>
           <Grid.Col span={6}>
             <BiddingInput title="Highest Offer" value={highestAsk} />
@@ -193,7 +195,8 @@ export function ProductSpecification({
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
-                disabled={lowestAsk === 0 && highestAsk === 0}
+                // disabled={lowestAsk === 0 && highestAsk === 0}
+                disabled={lowestAsk==null?true:false}
               >
                 BUY NOW
               </Button>
@@ -205,7 +208,7 @@ export function ProductSpecification({
                 size={phone ? '16px' : '20px'}
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
-                disabled={lowestAsk === 0 && highestAsk === 0}
+                disabled={false}
               >
                 PLACE OFFER
               </Button>

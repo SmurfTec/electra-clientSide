@@ -86,7 +86,7 @@ export default function ProductPage({
   isAuth,
 }: ProductPageProps) {
   const dispatch = useAppDispatch();
-
+console.log(productDetail,"productDetail")
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -185,13 +185,22 @@ export default function ProductPage({
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button
+           <div className='flex items-center gap-5'>
+           <Button
               component={NextLink}
               href={'/product-listing/' + productDetail?.product?.id}
               leftIcon={<ShoppingCart />}
             >
+              Ask For More
+            </Button>
+            <Button
+              component={NextLink}
+              href={`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`}
+              leftIcon={<ShoppingCart />}
+            >
               Sell Now
             </Button>
+           </div>
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
@@ -206,6 +215,7 @@ export default function ProductPage({
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
+            lowest_ask={productDetail?.product?.lowest_ask}
           />
         </Grid.Col>
       </Grid>
@@ -241,7 +251,7 @@ export default function ProductPage({
 
         <div
           ref={targetRef}
-          className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5"
+          className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center"
         >
           {listingData?.slice(0, limit).map((product, index) => {
             console.log(product.condition);
@@ -268,7 +278,7 @@ export default function ProductPage({
               View More
             </Text>
 
-            <ActionIcon variant="outline" className="rounded-xl w-9 border-black">
+            <ActionIcon variant="outline" className="border-black rounded-xl w-9">
               <ArrowDown size={20} onClick={() => setLimit((prev) => prev + 10)} color="black" />
             </ActionIcon>
           </Only>

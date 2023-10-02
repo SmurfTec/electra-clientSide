@@ -1,7 +1,7 @@
 import { BiddingSummary, PageTitle, ProductDetail, ProtectPlan, SummaryFooter } from '@elektra/components';
 import { Modal, Only, baseURL, http, isAuthenticated } from '@elektra/customComponents';
 import { useOfferPlaceModal, useStripeModal } from '@elektra/hooks';
-import { RootState, initStore, loadFee, useAppDispatch, useSelector } from '@elektra/store';
+import { RootState, initStore, loadFee, resetCoupon, useAppDispatch, useSelector } from '@elektra/store';
 import { loadProtectionPlan, rehydrateProtectionPlan } from '@elektra/store/entities/slices/protectionPlan';
 import { ProductBuyOrderData, protectionPlanProps } from '@elektra/types';
 
@@ -55,7 +55,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const router = useRouter();
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-  
+
   const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const protectionPlan = protectionPlanData.protectionplans;
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
@@ -84,7 +84,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         payment_method_id: result.paymentMethod.id,
         //* random between 800 and 1600
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
-        
+
         // * random future date
         expiration_date: expiration,
         coupon: coupon || '',
@@ -97,6 +97,10 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         message: res?.errorPayload?.message || 'Failed to process your request',
         autoClose: false,
       });
+
+      if (res?.errorPayload?.message === 'Coupon Already Used') {
+        dispatch(resetCoupon());
+      }
     }
     const paymentResponse = await res.data;
     if (paymentResponse) {

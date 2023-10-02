@@ -39,29 +39,29 @@ export const Cashout = ({ state, toogle }: CashOutProps) => {
       <Modal children={CashoutSuccessModal} onClose={cashoutSuccessHandler.close} open={cashoutSuccessOpened} />
       <Modal children={CashoutUnsuccessModal} onClose={cashoutUnsuccessHandler.close} open={cashoutUnsuccessOpened} />
       <Paper withBorder px={30} py={20} radius={20}>
-        <Text className="text-base  font-bold md:text-2xl text-black">Cashout Details</Text>
+        <Text className="text-base font-bold text-black md:text-2xl">Cashout Details</Text>
         <Stack align="start" spacing={20} mt={40}>
           <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">Available funds</Text>
-            <Text className=" text-sm md:text-xl text-black font-semibold">${profile?.available_funds}</Text>
+            <Text className="text-sm font-semibold text-black  md:text-xl">${profile?.available_funds}</Text>
           </Group>
-          <Group position="apart" className="w-full">
+          {/* <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">CARD DETAILS</Text>
             <Center inline>
-              {/* <Image alt="coins" src={'/images/master.png'} height={25} width={25} fit="contain" /> */}
-              <Text className="ml-2 text-sm md:text-xl text-black font-semibold inline-block">
+              <Image alt="coins" src={'/images/master.png'} height={25} width={25} fit="contain" />
+              <Text className="inline-block ml-2 text-sm font-semibold text-black md:text-xl">
                 {profile?.card_details_number?.slice(0, 4)} **** **** ****
               </Text>
             </Center>
-          </Group>
+          </Group> */}
           <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">Platform Profit</Text>
-            <Text className="text-sm md:text-xl text-black font-semibold">${profile?.platform_profit}</Text>
+            <Text className="text-sm font-semibold text-black md:text-xl">${profile?.platform_profit}</Text>
           </Group>
           <Divider className="w-full" variant="dashed" />
           <Group position="apart" className="w-full">
             <Text className="text-[11px] md:text-xs font-semibold text-black uppercase">TOTAL CASHOUT</Text>
-            <Text color="rgba(60, 130, 214, 1)" className=" text-sm md:text-xl font-extrabold">
+            <Text color="rgba(60, 130, 214, 1)" className="text-sm font-extrabold  md:text-xl">
               ${Number(profile?.available_funds) - Number(profile?.platform_profit)}
             </Text>
           </Group>

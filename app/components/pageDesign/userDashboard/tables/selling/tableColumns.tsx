@@ -27,6 +27,12 @@ export function getHeaderColumn<T extends { id: string | number }>(tile: 'active
       header: 'Highest Offer',
     },
     {
+      id: 'lowestOffer',
+      accessorKey: 'lowestOffer',
+      footer: () => null,
+      header: 'Lowest Ask',
+    },
+    {
       id: 'action',
       footer: () => null,
     },

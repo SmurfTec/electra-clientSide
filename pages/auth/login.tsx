@@ -38,6 +38,7 @@ export default function Login() {
   }, [router]);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  
   const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: form.values.email,purpose:'passwordChange' });
   const phone = useMediaQuery('(max-width: 600px)');
   const handleLoginSubmit = async (values: typeof initialValues) => {
@@ -62,7 +63,8 @@ export default function Login() {
       setCookie('authentication', authToken);
       setCookie('refresh', refreshToken);
       dispatch(login({ isAuthenticated: true, user, profile }));
-      router.push('/userdashboard');
+      const targetUrl:any=router.query.targetUrl || '/userdashboard'
+      router.push(targetUrl);
       setLoading(false);
     }
   };
@@ -122,7 +124,7 @@ export default function Login() {
                     {...form.getInputProps('password')}
                   />
                 </div>
-                <div className="text-right -mt-2">
+                <div className="-mt-2 text-right">
                   <Button
                     styles={{
                       root: {
@@ -140,8 +142,8 @@ export default function Login() {
                     Forgot Password ?
                   </Button>
                 </div>
-                <div className="space-y-4 mt-10">
-                  <Button type="submit" className="w-full h-16 font-medium text-base" uppercase>
+                <div className="mt-10 space-y-4">
+                  <Button type="submit" className="w-full h-16 text-base font-medium" uppercase>
                     Login
                   </Button>
                   <Button
@@ -149,7 +151,7 @@ export default function Login() {
                     uppercase
                     component={NextLink}
                     href={'/auth/signup'}
-                    className="w-full h-16  text-base font-medium"
+                    className="w-full h-16 text-base font-medium"
                   >
                     Signup
                   </Button>

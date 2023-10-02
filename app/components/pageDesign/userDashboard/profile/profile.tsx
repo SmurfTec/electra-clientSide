@@ -4,8 +4,9 @@ import { RootState, updateUser, useAppDispatch, useSelector } from '@elektra/sto
 import { Button, Grid, Group, Stack, Text, TextInput, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { omit } from 'lodash';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Pencil } from 'tabler-icons-react';
+
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -95,6 +96,24 @@ export function Profile() {
       form.resetDirty();
     } else setIsEditing(false);
   };
+  const getuser=async()=>{
+    const res = await http.request({
+      url: '/users/me',
+      method: 'GET',
+      
+    });
+    if(!res.isError){
+      const{profile,...restdata}=res.data
+    
+      const user = restdata
+      
+  dispatch(updateUser({ isAuthenticated: true, user, profile }));
+    }
+    
+  }
+  useEffect(()=>{
+    getuser();
+  },[])
   return (
     <div className="m-0">
       <Stack align="flex-start" justify="space-around" spacing="lg">
@@ -106,7 +125,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="First Name"
                 placeholder="Enter First Name"
-                className="text-black text-sm font-semibold uppercase"
+                className="text-sm font-semibold text-black uppercase"
                 {...form.getInputProps('firstname')}
               />
             </Grid.Col>
@@ -116,7 +135,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Last Name"
                 placeholder="Enter Last Name"
-                className="text-black text-sm font-semibolduppercase"
+                className="text-sm text-black font-semibolduppercase"
                 {...form.getInputProps('lastname')}
               />
             </Grid.Col>
@@ -126,7 +145,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Email Address"
                 placeholder="Enter Email Address"
-                className="text-black text-sm font-semibold uppercase"
+                className="text-sm font-semibold text-black uppercase"
                 {...form.getInputProps('email')}
               />
             </Grid.Col>
@@ -136,7 +155,7 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="Phone No"
                 placeholder="Enter Phone no"
-                className="text-black text-sm font-semibold uppercase"
+                className="text-sm font-semibold text-black uppercase"
                 {...form.getInputProps('mobile_no')}
               />
             </Grid.Col>
@@ -146,13 +165,13 @@ export function Profile() {
                 classNames={{ input: isEditing ? classes.inputEnabled : classes.inputDisabled }}
                 label="User Name"
                 placeholder="Enter Username"
-                className="text-black text-sm font-semibold uppercase"
+                className="text-sm font-semibold text-black uppercase"
                 {...form.getInputProps('username')}
               />
             </Grid.Col>
             <Modal title="Email Verfication" children={emailModal} onClose={emailHandler.close} open={emailOpened} />
             {error.error && (
-              <Text color="red" className="text-sm ml-4">
+              <Text color="red" className="ml-4 text-sm">
                 {error.message}
               </Text>
             )}
