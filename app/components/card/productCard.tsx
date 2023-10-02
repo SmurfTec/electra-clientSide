@@ -3,7 +3,7 @@ import { likeProduct, removeFavourite, store, UnlikeProduct } from '@elektra/sto
 import { Anchor, Badge, Card, clsx, Grid, Group, Image, Paper, Text, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Heart } from 'tabler-icons-react';
 
 export type ProductCardProps = {
@@ -17,7 +17,8 @@ export type ProductCardProps = {
   highestPrice: number | null;
   price: number | undefined;
   usedPrice?: number | null;
-  onClick?: any;
+  onClick?: () => void;
+  isWishlist?: boolean | undefined;
 };
 
 export function ProductCard({
@@ -32,6 +33,7 @@ export function ProductCard({
   highestPrice,
   price,
   onClick,
+  isWishlist
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
@@ -82,12 +84,11 @@ export function ProductCard({
                 size={23}
                 onClick={() => {
                   isLike
-                    ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id }))
-                    : store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
-                  !isLike && store.dispatch(removeFavourite({ id: id }));
-                  setIsLike(!isLike);
-
+                  ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id }))
+                  : store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
+                  
                   onClick && onClick();
+                  !isWishlist && setIsLike(!isLike);
                 }}
                 strokeWidth={1.5}
                 fill={isLike ? 'red' : 'white'}

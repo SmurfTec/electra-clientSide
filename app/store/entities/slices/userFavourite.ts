@@ -36,7 +36,6 @@ const slice = createSlice({
     },
 
     removeFavaourite: (state, action) => {
-      console.log(action.payload);
       const index = state.list.favourites.findIndex((fvt) => fvt.product.id === action.payload.id);
       if (index > -1) {
         // only splice array when item is found
