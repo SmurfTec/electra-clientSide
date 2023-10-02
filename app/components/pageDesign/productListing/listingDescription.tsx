@@ -42,6 +42,7 @@ export function ListingDescription({
   const [count, handlers] = useCounter(0, { min: 0 });
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
+  const authData=useSelector((state:any)=>state.auth)
   useEffect(() => {
     if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
   }, [count]);
@@ -58,6 +59,7 @@ export function ListingDescription({
   };
 
   const handleSubmit = async () => {
+    console.log("iam clicked")
     setLoading(true);
     const formData = new FormData();
 
@@ -87,7 +89,8 @@ export function ListingDescription({
       formData.append(key, listItemPost[key as keyof ListItemPost]);
     });
 
-    const res = await http.request({
+if(authData.isAuthenticated){
+ const res = await http.request({
       url: '/listings',
       method: 'POST',
       data: formData,
@@ -105,12 +108,18 @@ export function ListingDescription({
     setTimeout(() => {
       router.push('/userdashboard?tab=selling');
     }, 4000);
+}else{
+  const { id } = router.query;
+  const targetUrl = `/product-listing/${id}`
+  router.push(`/auth/login?targetUrl=${targetUrl}`)
+}
+   
   };
 
   return (
     <div>
       <Group>
-        <Text className="uppercase font-semibold" size="sm">
+        <Text className="font-semibold uppercase" size="sm">
           Select Condition
         </Text>
         <Tooltip
@@ -146,7 +155,7 @@ export function ListingDescription({
       {productVariants?.map((item, key) => {
         return (
           <div key={key + item.id} className="my-4">
-            <Text className="uppercase font-semibold my-4" size="sm">
+            <Text className="my-4 font-semibold uppercase" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
@@ -203,7 +212,7 @@ export function ListingDescription({
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-24 py-1 md:py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="px-2 py-1 mt-6 border-black border-solid lg:px-24 md:py-6 ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>
