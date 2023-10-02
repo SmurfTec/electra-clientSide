@@ -26,7 +26,7 @@ type ListingDescriptionProps = {
 
 export function ListingDescription({
   condition,
-  description,
+  description, 
   averageSalePrice,
   productVariants,
   lowestAsk,
@@ -37,6 +37,7 @@ export function ListingDescription({
   shippingFee,
 }: ListingDescriptionProps) {
   const router = useRouter();
+ console.log(productVariants,"productVariants")
   const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
@@ -172,7 +173,7 @@ if(authData.isAuthenticated){
               {item.variant}
             </Text>
             <ButtonChip
-              data={isNew ? item.values : [item.value]}
+              data={isNew ? [item.value] : [item.value]} //item.values
               handleState={(value) => {
                 handleListingVariants(item.id, value);
               }}
