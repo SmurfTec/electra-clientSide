@@ -24,7 +24,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
               component={NextLink}
               href={`/product-listing/${row.original.id}`}
             >
-              Sell Now
+              Sell Now1
             </Button>
           </Grid.Col>
           <Grid.Col span={2}>
