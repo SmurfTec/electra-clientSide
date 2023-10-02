@@ -83,7 +83,7 @@ export function Selling() {
     id: order?.product?.id,
     itemName: order?.product?.title ?? '-',
     askPrice: `$${order?.my_offer}`,
-    highestOffer: `$${order?.highest_bid}`,
+    highestOffer: `$${order?.highest_offer||0}`,
     lowestOffer:`$${order?.lowest_ask}`
   }));
   const SellingPendingOrdersData = sellingPendingOrders.orders.map((order) => ({
