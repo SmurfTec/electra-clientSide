@@ -9,7 +9,7 @@ import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
-
+ 
 export function Selling() {
   const intialLimit = 4;
   const [value, setValue] = useState('active');
@@ -20,7 +20,7 @@ export function Selling() {
   const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders } = useSelector(
     (state: RootState) => state.entities.sellingOrders.list
   );
-
+ 
   const activeTileData: SimpleStatCardProps[] = [
     {
       title: 'No of Listings',
@@ -80,10 +80,11 @@ export function Selling() {
   ];
 
   const SellingActiveOrdersData = sellingActiveOrders.asks.map((order) => ({
-    id: order?.bid_id,
+    id: order?.product?.id,
     itemName: order?.product?.title ?? '-',
     askPrice: `$${order?.my_offer}`,
-    highestOffer: `$${order?.highest_ask}`,
+    highestOffer: `$${order?.highest_offer||0}`,
+    lowestOffer:`$${order?.lowest_ask}`
   }));
   const SellingPendingOrdersData = sellingPendingOrders.orders.map((order) => ({
     id: order?.id,
@@ -140,8 +141,8 @@ export function Selling() {
             <Button
               bg="rgba(60, 130, 214, 1)"
               rightIcon={
-                <span className="rounded-full bg-white text-xs text-blue-500 relative w-5 h-5">
-                  <span className="absolute -translate-y-1/2 top-1/2 -translate-x-1/2 left-1/2">
+                <span className="relative w-5 h-5 text-xs text-blue-500 bg-white rounded-full">
+                  <span className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                     {Number(sellingCompletedOrders?.orderStats[0].completed_sales)}
                   </span>
                 </span>
@@ -163,8 +164,8 @@ export function Selling() {
             <Button
               bg="rgba(241, 241, 241, 1)"
               rightIcon={
-                <span className="rounded-full bg-black text-xs text-white w-5 h-5 relative">
-                  <span className="absolute -translate-y-1/2 left-1/2 -translate-x-1/2 top-1/2">
+                <span className="relative w-5 h-5 text-xs text-white bg-black rounded-full">
+                  <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
                     {Number(sellingCompletedOrders?.orderStats[0].rejectd_sales)}
                   </span>
                 </span>
@@ -222,7 +223,7 @@ export function Selling() {
           </Text>
           <ActionIcon
             variant="outline"
-            className="rounded-xl w-9 border-black"
+            className="border-black rounded-xl w-9"
             onClick={() => setLimit((prev) => prev + 2)}
           >
             <ArrowDown size={20} color="black" />

@@ -20,6 +20,7 @@ import { ListItemPost } from '@elektra/types';
 import { useRouter } from 'next/router';
 import { FC, useContext, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
+import { useSelector } from 'react-redux';
 
 type UsedProductListingProps = {
   accessories: string[];
@@ -34,6 +35,7 @@ const useStyles = createStyles({
 
 export function UsedProductListing({ accessories, description, itemConditions }: UsedProductListingProps) {
   const { classes } = useStyles();
+  const authData=useSelector((state:any)=>state.auth)
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
@@ -70,20 +72,28 @@ export function UsedProductListing({ accessories, description, itemConditions }:
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
     });
-    const res = await http.request({
-      url: '/listings',
-      method: 'POST',
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    if (res.isError) {
-      setLoading(false);
+    if(authData.isAuthenticated){
+      const res = await http.request({
+        url: '/listings',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (res.isError) {
+        setLoading(false);
+      }
+      {
+        setLoading(false);
+      }
+    }else{
+      const { id } = router.query;
+      const targetUrl = `/product-listing/${id}`
+      router.push(`/auth/login?targetUrl=${targetUrl}`)
     }
-    {
-      setLoading(false);
-    }
+   
+    
   };
 
   const previews = files.map((file, index) => {
@@ -101,7 +111,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
         <div>
           <X
             onClick={() => setFiles(filterFile(file))}
-            className="absolute top-2 right-2 cursor-pointer bg-white rounded-xl"
+            className="absolute bg-white cursor-pointer top-2 right-2 rounded-xl"
           />
         </div>
       </div>
@@ -122,7 +132,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
         </Badge>
 
         <div className="space-y-8">
-          <div className="space-y-4 my-4">
+          <div className="my-4 space-y-4">
             <Text className="font-[500]" size="md">
               What accessories are included?
             </Text>
@@ -141,7 +151,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
             </Group>
           </div>
 
-          <div className="space-y-4 my-4">
+          <div className="my-4 space-y-4">
             <Text className="font-[500]" size="md">
               Has Your item ever Been repaired before? (If yes please describe )
             </Text>
@@ -172,7 +182,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
             />
           </div>
 
-          <div className="space-y-4 my-4">
+          <div className="my-4 space-y-4">
             <Text className="font-[500]" size="md">
               Which Best describes the overall condition of your item?
             </Text>
