@@ -22,7 +22,8 @@ export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [Re
 
   const Modal = (
     <Stack align="stretch" spacing="md" className="mt-6">
-      <TextInput
+      <Text size="md" color='black'>{more_info}</Text>
+      {/* <TextInput
         styles={{ input: { backgroundColor: '#F1F1F1' } }}
         radius={'md'}
         size="xl"
@@ -76,7 +77,7 @@ export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [Re
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tincidunt elit. Nunc euismod odio sit amet
           lorem lobortis, vel lacinia libero tristique. Nunc porttitor arcu accumsan,
         </Text>
-      </div>
+      </div> */}
     </Stack>
   );
   return [Modal, opened, { open, close }];

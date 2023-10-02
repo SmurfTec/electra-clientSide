@@ -55,6 +55,8 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const router = useRouter();
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
+  
+  const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const protectionPlan = protectionPlanData.protectionplans;
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const [orderData, setOrderData] = useState<ProductBuyOrderData>();
@@ -82,7 +84,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         payment_method_id: result.paymentMethod.id,
         //* random between 800 and 1600
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
-
+        
         // * random future date
         expiration_date: expiration,
         coupon: coupon || '',
@@ -122,7 +124,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
 
         expiration_date: expiration,
-
+        coupon: coupon || '',
         shipping_address: '{{$randomStreetAddress}}',
         product: productDetail.product.id,
       },
@@ -156,7 +158,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     expiration: '',
   });
   const profile = useSelector((state: RootState) => state.auth.profile);
-  const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const yourOffer = router.query.bidPrice;
 
   const handleSubmit = async () => {

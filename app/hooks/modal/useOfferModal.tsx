@@ -1,5 +1,6 @@
 import { ItemCard } from '@elektra/components';
 import { Modal as ProductModal } from '@elektra/customComponents';
+import { resetCoupon, useAppDispatch } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import {
   ActionIcon,
@@ -17,6 +18,7 @@ import {
 import { useForm } from '@mantine/form';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
+import { useEffect } from 'react';
 import { CaretDown, Minus, Plus } from 'tabler-icons-react';
 
 const productDetailData = {
@@ -50,9 +52,7 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
       days: '',
     },
   });
-  const handleSubmit = (code: string) => {
-   
-  };
+  const handleSubmit = (code: string) => {};
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
       <Text size="sm" className="font-semibold">
@@ -69,7 +69,11 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
           nothingFound="No options"
           maxDropdownHeight={130}
           zIndex={10000}
-          data={[{label:'7 Days', value: "7"}, {label:'14 Days', value: "14"}, {label:'21 Days', value: "21"}]}
+          data={[
+            { label: '7 Days', value: '7' },
+            { label: '14 Days', value: '14' },
+            { label: '21 Days', value: '21' },
+          ]}
           styles={{
             input: {
               borderRadius: 'unset',
@@ -92,7 +96,16 @@ export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; 
 export const useOfferPlaceModal = (
   productDetailData: OfferModalProductProps
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+  const dispatch = useAppDispatch();
+  
+
   const [opened, { open, close }] = useDisclosure(false);
+
+  useEffect(() => {
+    console.log(opened);
+    if (opened) dispatch(resetCoupon());
+  }, [opened]);
+
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">

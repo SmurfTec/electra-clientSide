@@ -1,10 +1,19 @@
 import { ItemCard } from '@elektra/components/card';
-import { RootState, loadOrderSellingSearch, useAppDispatch } from '@elektra/store';
-import { Avatar, Button, Center, Divider, Group, Menu, Paper, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
+import {
+  RootState,
+  loadOrderSelling,
+  loadOrderSellingSearch,
+  loadPayoutSearch,
+  loadPayouts,
+  store,
+  useAppDispatch,
+} from '@elektra/store';
+import { Button, Center, Divider, Group, Menu, Paper, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
+import _ from 'lodash';
 import moment from 'moment';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CaretDown, CaretUp, Number2, Search } from 'tabler-icons-react';
+import { CaretDown, CaretUp, Search } from 'tabler-icons-react';
 
 export const WalletRightSide = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +30,7 @@ export const WalletRightSide = () => {
   const [toggle, setToogle] = useState<'Sales' | 'Payouts'>('Sales');
 
   const { sellingCompletedOrders } = useSelector((state: RootState) => state.entities.sellingOrders.list);
-
+  const payouts = useSelector((state: RootState) => state.entities.payouts.list);
   const data = useMemo(
     () =>
       toggle === 'Sales'
@@ -34,9 +43,25 @@ export const WalletRightSide = () => {
             variants: item.product_variants,
             sale: true,
           }))
-        : [],
+        : payouts.map((item) => ({
+            image: null,
+            title: `${item.user.firstname} ${item?.user?.lastname}`,
+            status: '',
+            price: item.amount,
+            date: moment(item.created_on).format('DD/MM/YYYY'),
+            variants: [],
+            sale: false,
+          })),
     [toggle]
   );
+
+  const handleSearch = _.debounce((search: string) => {
+    if (search == '') {
+      store.dispatch(loadOrderSelling());
+      store.dispatch(loadPayouts());
+    }
+    toggle === 'Sales' ? dispatch(loadOrderSellingSearch(search)) : dispatch(loadPayoutSearch(value));
+  }, 500);
 
   return (
     <>
@@ -49,7 +74,7 @@ export const WalletRightSide = () => {
               size="xl"
               icon={<Search />}
               placeholder="Search by Id, name"
-              onChange={(e) => dispatch(loadOrderSellingSearch(e.target.value))}
+              onChange={(e) => handleSearch(e.target.value)}
             />
             <Center className="space-x-4">
               {/* <Button
@@ -78,9 +103,14 @@ export const WalletRightSide = () => {
                   },
                 })}
                 rightIcon={
-                  <Avatar size={16} radius={16} variant="filled" color="blue">
-                    <Number2 size={12} />
-                  </Avatar>
+                  // <Avatar size={16} radius={16} variant="filled" color="blue">
+                  //   <Number2 size={12} />
+                  // </Avatar>
+                  <span className="rounded-full bg-[#0091ff] text-xs text-white relative w-5 h-5">
+                    <span className="absolute -translate-y-1/2 top-1/2 -translate-x-1/2 left-1/2">
+                      {Number(sellingCompletedOrders?.orderStats[0].completed_sales)}
+                    </span>
+                  </span>
                 }
               >
                 Sales

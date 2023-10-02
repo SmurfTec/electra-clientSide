@@ -26,7 +26,7 @@ export const TableHeaderBar = ({
   segmentedstate,
 }: TableHeaderBarProps) => {
   const mediumdScreen = useMediaQuery('(min-width: 1150px)', true);
-  return (
+  return (  
     <Grid align='center'>
       <Grid.Col span={12} md={6} py={0}>
         <div className="w-full">
@@ -57,10 +57,9 @@ export const TableHeaderBar = ({
               radius={'md'}
               size={mediumdScreen ? 'lg' : 'sm'}
               value={searchValuestate}
-              onChange={(event) => searchValueSetState(event.currentTarget.value)}
+              onInputCapture={(event) => searchValueSetState(event.currentTarget.value)}
               icon={<Search />}
               placeholder="Search by Id, name"
-              // maw={'65%'}
             />
           </Grid.Col>
           <Grid.Col span={5}>
