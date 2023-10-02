@@ -86,7 +86,7 @@ export default function ProductPage({
   isAuth,
 }: ProductPageProps) {
   const dispatch = useAppDispatch();
-
+console.log(productDetail,"productDetail")
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -215,6 +215,7 @@ export default function ProductPage({
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
+            lowest_ask={productDetail?.product?.lowest_ask}
           />
         </Grid.Col>
       </Grid>
