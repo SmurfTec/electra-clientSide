@@ -87,11 +87,12 @@ export async function getServerSideProps(context: NextPageContext) {
   const recommended = store.dispatch(loadRecommendedProducts(isAuth));
 
   const genericCategories = store.dispatch(loadGenericCategory());
-  const notification = store.dispatch(loadNotifications());
-
+  
+  const notification = store.dispatch(loadNotifications(isAuth))
+ 
   const brands = store.dispatch(loadBrand());
 
-  await Promise.all([websiteSection, trending, latest, mostSold, notification, recommended, genericCategories, brands]);
+  await Promise.all([websiteSection, trending, latest, mostSold,notification  ,recommended, genericCategories, brands]);
 
   return {
     props: {
@@ -139,6 +140,7 @@ export function Index({ ...rest }: homePageProps) {
   return (
     <div>
       <section className="mt-4">
+       
         <HeroImage />
       </section>
       <Only when={recommended?.products?.length > 0}>
@@ -289,7 +291,7 @@ export function Index({ ...rest }: homePageProps) {
       </section>
       <section className="mt-20">
         <Image src="/images/banner/razorBanner.jpg" alt="razor banner" className="-z-20" />
-        <div className="-mt-20 md:-mt-36 ml-5 md:ml-0">
+        <div className="ml-5 -mt-20 md:-mt-36 md:ml-0">
           <BannerCarousel carouselData={carouselData} />
         </div>
       </section>
@@ -321,7 +323,7 @@ export function Index({ ...rest }: homePageProps) {
         </Grid>
       </section>
 
-      <div className="my-10 pb-20">
+      <div className="pb-20 my-10">
         <FooterProductCarousel />
       </div>
     </div>

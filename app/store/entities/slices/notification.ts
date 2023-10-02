@@ -47,15 +47,20 @@ export const rehydratenotification = (payload: NotificationResponse) => {
   };
 };
 
-export const loadNotifications = () => async (dispatch: AppDispatch) => {
-  return await dispatch(
-    apiRequest({
-      url: URL,
-      onStart: slice.actions.notificationRequested.type,
-      onSuccess: slice.actions.notificationReceived.type,
-      onError: slice.actions.notificationFailed.type,
-    })
-  );
+export const loadNotifications = (isAuth:boolean=false) => async (dispatch: AppDispatch) => {
+  if(isAuth){
+    return await dispatch(
+      apiRequest({
+        url:URL,
+        onStart: slice.actions.notificationRequested.type,
+        onSuccess: slice.actions.notificationReceived.type,
+        onError: slice.actions.notificationFailed.type,
+      })
+    );
+  }{
+    return null;
+  }
+ 
 };
 
 //  export reducer function
