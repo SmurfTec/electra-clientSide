@@ -227,8 +227,8 @@ if(authData.isAuthenticated){
       </Group>
       <Group>
        <div className='flex flex-col gap-[0px]'>
-       <p className='text-[15px]'>Ask Expiration</p>
-      <Select data={[
+       <p className='text-[18px] font-bold'>Ask Expiration</p>
+      <Select className='Expiration-dropdown !h-[3.25rem]' data={[
         {value:'7',label:'7 Days'},  //'7','14','21','30'
         {value:'14',label:'14 Days'},
         {value:'21',label:'21 Days'},

@@ -5,3 +5,7 @@
 @import url("./carousalModal.css");
 @import url("./bannerCarousel.css");
 @import url('react-responsive-carousel/lib/styles/carousel.min.css');
+
+.Expiration-dropdown input{
+    height: 3rem !important;
+}
