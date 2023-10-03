@@ -66,6 +66,8 @@ type ProductListingPageProps = {
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
   const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
   const [count, handlers] = useCounter(0, { min: 0 });
+  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
+ 
   return (
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
@@ -90,7 +92,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
             handlers={handlers}
             productVariants={productDetail?.product?.product_variants}
             condition={listItemPost.condition}
-            description={ListingDescriptionData.description}
+            description={productDescription}
             highestAsk={Number(productDetail?.product?.highest_offer || 0)}
             lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}

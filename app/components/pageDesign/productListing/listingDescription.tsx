@@ -46,6 +46,7 @@ export function ListingDescription({
   count,
   handlers
 }: ListingDescriptionProps) {
+  
   const router = useRouter();
 
   const [days, setdays] = useState<any>('30');
