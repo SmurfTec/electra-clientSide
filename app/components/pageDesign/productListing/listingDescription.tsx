@@ -11,6 +11,12 @@ import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
 import { Select } from '@mantine/core';
+type handlerprops={
+   increment: () => void;
+   decrement: () => void;
+   set: (value: number) => void;
+   reset: () => void;
+}
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
@@ -22,6 +28,8 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
+  count:number;
+  handlers:handlerprops;
 };
 
 export function ListingDescription({
@@ -32,16 +40,18 @@ export function ListingDescription({
   lowestAsk,
   highestAsk,
 
-  marketPlaceFee,
+  marketPlaceFee, 
   saleTax,
   shippingFee,
+  count,
+  handlers
 }: ListingDescriptionProps) {
   const router = useRouter();
- console.log(productVariants,"productVariants")
+
   const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  const [count, handlers] = useCounter(0, { min: 0 });
+  // const [ handlers] = useCounter(0, { min: 0 });
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const authData=useSelector((state:any)=>state.auth)
@@ -202,7 +212,27 @@ if(authData.isAuthenticated){
             disabled
           />
         </Input.Wrapper>
-        <Only when={!!highestAsk}>
+        <Input.Wrapper label="HIGHEST OFFER" maw={114}>
+            <NumberInput
+              radius={0}
+              styles={{
+                input: {
+                  background: '#F1F1F1',
+                  fontWeight: 'bold',
+                  fontSize: '24px',
+                  color: '#3C82D6',
+                },
+              }}
+              hideControls
+              value={highestAsk}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
+              disabled
+            />
+          </Input.Wrapper>
+        {/* <Only when={!!highestAsk}>
           <Input.Wrapper label="HIGHEST ASK" maw={114}>
             <NumberInput
               radius={0}
@@ -223,7 +253,7 @@ if(authData.isAuthenticated){
               disabled
             />
           </Input.Wrapper>
-        </Only>
+        </Only> */}
       </Group>
       <Group>
        <div className='flex flex-col gap-[0px]'>

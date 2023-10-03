@@ -6,7 +6,7 @@ import { Container, Divider, Grid, Image } from '@mantine/core';
 import { FileWithPath } from '@mantine/dropzone';
 import { NextPageContext } from 'next';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
-
+import { useCounter } from '@mantine/hooks';
 const ListingDescriptionData = {
   carrier: 'AT&T',
   color: 'Blue',
@@ -65,6 +65,7 @@ type ProductListingPageProps = {
 
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
   const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
+  const [count, handlers] = useCounter(0, { min: 0 });
   return (
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
@@ -85,6 +86,8 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
         </Grid.Col>
         <Grid.Col md={6}>
           <ListingDescription
+            count={count}
+            handlers={handlers}
             productVariants={productDetail?.product?.product_variants}
             condition={listItemPost.condition}
             description={ListingDescriptionData.description}
@@ -103,6 +106,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
               accessories={usedProductListingData.accessories}
               description={usedProductListingData.description}
               itemConditions={usedProductListingData.itemConditions}
+              count={count}
             />
           </Grid.Col>
         </Only>
