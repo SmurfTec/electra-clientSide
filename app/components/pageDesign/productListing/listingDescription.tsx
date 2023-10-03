@@ -303,6 +303,7 @@ if(authData.isAuthenticated){
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
+              disabled={count==0}
               onClick={handleSubmit}
             >
               List Item
