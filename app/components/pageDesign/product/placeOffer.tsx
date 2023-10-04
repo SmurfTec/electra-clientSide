@@ -38,7 +38,7 @@ export function PlaceOfferComponent({
   shippingFee,
   receiptFee,
 }: ListingDescriptionProps) {
-  const [count, handlers] = useCounter(0, { min: 0 });
+  const [count, handlers] = useCounter(0, { min: 0 }); 
   const[showNotification,setshowNotification]=useState(false)
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) || 0;

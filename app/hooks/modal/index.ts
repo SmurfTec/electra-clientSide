@@ -13,3 +13,4 @@ export * from './useProductModal'
 export * from './useSignupModal'
 export * from './useBillingModal'
 export * from "./useStripeModal"
+export * from "./useErrorModal"

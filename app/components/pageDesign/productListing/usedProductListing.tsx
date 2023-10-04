@@ -73,6 +73,7 @@ export function UsedProductListing({ accessories, description, itemConditions,co
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
     });
+    console.log(formData,"formData")
     if(authData.isAuthenticated){
       const res = await http.request({
         url: '/listings',

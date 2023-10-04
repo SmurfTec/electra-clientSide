@@ -114,25 +114,26 @@ if(authData.isAuthenticated){
     shipping_address: authData?.profile?.shipping_address_line_1,
     product: Number(id)
   }
+localStorage.setItem('ListingData',JSON.stringify(data))
+router.push(`/confirmation/${id}`)
+//  const res = await http.request({
+//       url: '/asks',
+//       method: 'POST',
+//       data: data,
+//     });
+//     if (res.isError) {
+//       setLoading(false);
+//       return;
+//     }
+//     setLoading(false);
+//     notifications.show({
+//       message: 'Listing placed successfully',
+//       autoClose: 3000,
+//     });
 
- const res = await http.request({
-      url: '/asks',
-      method: 'POST',
-      data: data,
-    });
-    if (res.isError) {
-      setLoading(false);
-      return;
-    }
-    setLoading(false);
-    notifications.show({
-      message: 'Listing placed successfully',
-      autoClose: 3000,
-    });
-
-    setTimeout(() => {
-      router.push('/userdashboard?tab=selling');
-    }, 4000);
+//     setTimeout(() => {
+//       router.push('/userdashboard?tab=selling');
+//     }, 4000);
 }else{
   const { id } = router.query;
   const targetUrl = `/product-listing/${id}`
