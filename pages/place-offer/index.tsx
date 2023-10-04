@@ -4,7 +4,7 @@ import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
@@ -65,9 +65,10 @@ export default function PlaceOffer() {
   // const [condition, setCondition] = useState<string>('New');
 
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
-
+  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
   const router = useRouter();
   const isListing = router.query.isListing as boolean | undefined;
+  console.log(productDetail,"productDetail")
   // const condition = "new";
   return (
     <Container fluid>
@@ -83,7 +84,7 @@ export default function PlaceOffer() {
             isListing={isListing}
             productVariants={productDetail?.product?.product_variants}
             condition={productDetail?.product?.condition}
-            description={ListingDescriptionData.description}
+            description={productDescription}
             highestAsk={Number(productDetail?.product?.highest_offer)}
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
             marketPlaceFee={0}

@@ -26,6 +26,7 @@ type UsedProductListingProps = {
   accessories: string[];
   itemConditions: string[];
   description: string[];
+  count:number
 };
 
 const useStyles = createStyles({
@@ -33,7 +34,7 @@ const useStyles = createStyles({
   icon: { transform: 'scale(1.6) !important' },
 });
 
-export function UsedProductListing({ accessories, description, itemConditions }: UsedProductListingProps) {
+export function UsedProductListing({ accessories, description, itemConditions,count }: UsedProductListingProps) {
   const { classes } = useStyles();
   const authData=useSelector((state:any)=>state.auth)
   const router = useRouter();
@@ -297,6 +298,7 @@ export function UsedProductListing({ accessories, description, itemConditions }:
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
               onClick={handleSubmit}
+              disabled={count==0}
             >
               List Item
             </Button>
