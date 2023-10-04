@@ -20,6 +20,7 @@ export type OrdersSellingActive = {
 }
 
  type Ask  = {
+  highest_offer: any;
   lowest_ask: any;
   highest_bid:any;
   bid_id: number
