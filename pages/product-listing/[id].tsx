@@ -6,7 +6,7 @@ import { Container, Divider, Grid, Image } from '@mantine/core';
 import { FileWithPath } from '@mantine/dropzone';
 import { NextPageContext } from 'next';
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
-
+import { useCounter } from '@mantine/hooks';
 const ListingDescriptionData = {
   carrier: 'AT&T',
   color: 'Blue',
@@ -65,7 +65,10 @@ type ProductListingPageProps = {
 
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
   const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
-  return (
+  const [count, handlers] = useCounter(0, { min: 0 });
+  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
+ 
+  return ( 
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
       <div className="my-10">
@@ -85,9 +88,11 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
         </Grid.Col>
         <Grid.Col md={6}>
           <ListingDescription
+            count={count}
+            handlers={handlers}
             productVariants={productDetail?.product?.product_variants}
             condition={listItemPost.condition}
-            description={ListingDescriptionData.description}
+            description={productDescription}
             highestAsk={Number(productDetail?.product?.highest_offer || 0)}
             lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
             marketPlaceFee={ListingDescriptionData.marketPlaceFee}
@@ -103,6 +108,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
               accessories={usedProductListingData.accessories}
               description={usedProductListingData.description}
               itemConditions={usedProductListingData.itemConditions}
+              count={count}
             />
           </Grid.Col>
         </Only>
