@@ -230,18 +230,18 @@ console.log(productDetail,"productDetail")
               ))}
             </Flex>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={12}>
             <SectionTitle title={`Used ${productDetail?.product?.title}`} />
           </Grid.Col>
           <Only when={filters}>
-            <Grid.Col span={6} className="text-right">
+            <Grid.Col span={12} className="text-right">
               <Button onClick={filterHandler.open} leftIcon={<Filter />}>
                 Filter
               </Button>
             </Grid.Col>
           </Only>
 
-          <Grid.Col span={6}>
+          <Grid.Col span={12}>
             <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
             <Only when={!filters}>
               <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />
