@@ -193,11 +193,13 @@ console.log(productDetail,"productDetail")
             >
               Ask For More
             </Button>
+            {/* /userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id} */}
             <Button
-              component={NextLink}
-              href={`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`}
+              component={NextLink} 
+              href={`/sell-now/${productDetail?.product?.id}`}
               leftIcon={<ShoppingCart />}
             >
+              
               Sell Now
             </Button>
            </div>
