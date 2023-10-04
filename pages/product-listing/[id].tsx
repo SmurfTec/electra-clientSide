@@ -68,7 +68,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
   const [count, handlers] = useCounter(0, { min: 0 });
   const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
  
-  return (
+  return ( 
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
     <Container fluid>
       <div className="my-10">

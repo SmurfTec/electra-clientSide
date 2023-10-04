@@ -67,7 +67,7 @@ export function PlaceOfferComponent({
   return (
     <div>
       <Group>
-        <Text className="uppercase font-semibold py-4 sm:py-0" size="sm">
+        <Text className="py-4 font-semibold uppercase sm:py-0" size="sm">
           Select Condition{' '}
         </Text>
         <Tooltip
@@ -105,11 +105,11 @@ export function PlaceOfferComponent({
       {productVariants?.map((item, key) => {
         return (
           <div key={key + item.id} className="my-4">
-            <Text className="uppercase font-semibold my-4" size="sm">
+            <Text className="my-4 font-semibold uppercase" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
-              data={isNew ? item.values : [item.value]}
+              data={isNew ? [item.value] : [item.value]}
               handleState={(value) => {
                 handleListingVariants(item.id, value);
               }}
@@ -139,8 +139,7 @@ export function PlaceOfferComponent({
               }
             />
           </Input.Wrapper>
-          <Only when={!!highestAsk}>
-            <Input.Wrapper label="HIGHEST ASK" maw={114}>
+          <Input.Wrapper label="HIGHEST OFFER" maw={114}>
               <NumberInput
                 radius={0}
                 styles={{
@@ -159,7 +158,6 @@ export function PlaceOfferComponent({
                 }
               />
             </Input.Wrapper>
-          </Only>
         </Only>
         <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
@@ -185,7 +183,7 @@ export function PlaceOfferComponent({
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-2  lg:px-24 py-1 md:py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="px-2 py-1 mt-6 border-black border-solid lg:px-24 md:py-6 ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>
@@ -250,6 +248,7 @@ export function PlaceOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
+            disabled={count==0}
             href={
               isListing
                 ? `/buying-summary/listing?orderType=placeOffer&bidPrice=` + count
