@@ -4,11 +4,12 @@ import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { useContext, useState } from 'react';
+import { useContext, useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { useRouter } from 'next/router';
+import { Dialog } from '@mantine/core';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -38,7 +39,7 @@ export function PlaceOfferComponent({
   receiptFee,
 }: ListingDescriptionProps) {
   const [count, handlers] = useCounter(0, { min: 0 });
-
+  const[showNotification,setshowNotification]=useState(false)
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) || 0;
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
@@ -63,9 +64,24 @@ export function PlaceOfferComponent({
     totalPrice += count;
     return totalPrice;
   };
-
+useEffect(()=>{
+  console.log(count,lowestAsk,"checikg")
+if(count>lowestAsk ){
+  setshowNotification(true)
+}
+},[count])
   return (
     <div>
+      {showNotification && 
+       <Dialog position={{ top: 20, left: 20 }} opened={showNotification} withCloseButton onClose={()=>setshowNotification(false)} size="lg" radius="md">
+       <Text size="sm" mb="xs" fw={500}>
+         You can buy the item at lowest ask
+       </Text>
+
+     
+     </Dialog>
+      }
+     
       <Group>
         <Text className="py-4 font-semibold uppercase sm:py-0" size="sm">
           Select Condition{' '}
@@ -189,6 +205,7 @@ export function PlaceOfferComponent({
         </ActionIcon>
         <NumberInput
           hideControls
+          
           value={count}
           maw={200}
           p={0}
