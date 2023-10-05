@@ -48,6 +48,11 @@ export function ListingDescription({
 }: ListingDescriptionProps) {
   
   const router = useRouter();
+  localStorage.setItem("fee",JSON.stringify({
+    marketPlaceFee, 
+  saleTax,
+  shippingFee,
+  }))
 
   const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
@@ -115,7 +120,7 @@ if(authData.isAuthenticated){
     product: Number(id)
   }
 localStorage.setItem('ListingData',JSON.stringify(data))
-router.push(`/confirmation/${id}`)
+router.push(`/confirmation/${id}?condition=new`)
 //  const res = await http.request({
 //       url: '/asks',
 //       method: 'POST',

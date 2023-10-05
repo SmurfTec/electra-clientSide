@@ -1,4 +1,4 @@
-import { PageTitle, ProductCarousel, ProductDetails } from '@elektra/components';
+import { PageTitle, ProductCarousel, ProductDetails, UsedProductListing } from '@elektra/components';
 import { ListItem, Modal, Only, http, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, useProductAddedModal, useShippingChangeModal,useErrorModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
@@ -6,17 +6,20 @@ import { RootState } from '@elektra/store';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Check } from 'tabler-icons-react';
 import { useSelector } from 'react-redux';
 import { ProductData } from '../../types/slices';
+import { ListItemPost } from "@elektra/types";
+import { FileWithPath } from '@mantine/dropzone';
 
 const description = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Lorem ipsum dolor sit amet,',
+  'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
+  'Fully functional with no operational problems',
   'No chips or cracks in front or back glass',
-  'Mauris id lacus gravida erat rutrum facilisis.',
-  'Sed et quam pretium, laoreet metus sed,',
+  'All devices must be free of any lock, carrier blacklist, or financial obligations',
+  'Absolutely no Ghost Image',
+  'No LCD or display defects (aftermarket, burns, damage or no display)'
 ];
 
 type ApiData={
@@ -24,6 +27,16 @@ type ApiData={
     price:number,
     product:number,
     shipping_address:string
+}
+type Details={
+  accessories: string[];
+  itemConditions: string[];
+  moredetails: string[];
+}
+type UsedData={
+  files:FileWithPath[],
+  listItemPost:ListItemPost,
+  details:Details
 }
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
@@ -42,30 +55,53 @@ export default function Confirmation() {
     product:0,
     shipping_address:""
   }
+  let usedListingData:UsedData={
+    files:[],
+    listItemPost:{
+      ask: "",
+      condition: "used",
+      condition_details: "",
+      explain_repair: "",
+      is_repaired_before: "false",
+      more_info: "",
+      product: "",
+      listingVariants:[]
+    },
+    details:{
+      accessories:[],
+      itemConditions:[],
+      moredetails:[]
+    }
+  }
   const storedData = localStorage.getItem('ListingData');
+  const usedProductData=localStorage.getItem('UsedListingData')
   if(storedData!==null){
     apiData=JSON.parse(storedData)
   }
-  console.log(product,apiData,"checking")
+  if(usedProductData!==null){
+    usedListingData=JSON.parse(usedProductData)
+  }
+  
   const [loading, setLoading] = useState<boolean>(false);
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const[ErrorChangeModal, ErrorOpened, ErrorHandler]=useErrorModal();
   const router = useRouter();
-  const condition:string =  product?.condition //router.query['condition'] === 'new' ? 'New' : 'Used';
+  const condition:string =  router.query['condition'] === 'new' ? 'New' : 'Used'; //router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
 
 
   const handleSubmit = async () => {
     setLoading(true);
-    const data={
-        price:apiData.price, 
-        expiration_date: apiData.expiration_date,
-        shipping_address: apiData.shipping_address,
-        product: apiData.product
-      }
+    let data={}
       if(condition.toLowerCase() === 'new'){
+        data={
+          price:apiData.price, 
+          expiration_date: apiData.expiration_date,
+          shipping_address: apiData.shipping_address,
+          product: apiData.product
+        }
         const res = await http.request({
             url: '/asks',
             method: 'POST',
@@ -87,9 +123,57 @@ export default function Confirmation() {
         }
           
       }else{
+        const formData = new FormData();
+       const {files,listItemPost}=usedListingData
+        files.map((file) => formData.append('images', file));
+        const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
 
+        const numberKeys = ['product', 'ask'];
+    
+        Object.keys(listItemPost).map((key) => {
+          if (exclusiveKeys.includes(key)) {
+            return;
+          }
+          if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
+            listItemPost[key as 'listingVariants'].forEach((item, index) => {
+              //@ts-ignore
+              formData.append(`listingVariants[${index}][variant]`, item.id);
+              formData.append(`listingVariants[${index}][value]`, item.value);
+            });
+            return;
+          }
+    
+          if (numberKeys.includes(key)) {
+            //@ts-ignore
+            formData.append(key, listItemPost[key]);
+            return;
+          }
+    
+          formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
+        });
+           const res = await http.request({
+        url: '/listings',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (res.isError) {
+        setLoading(false);
+      }else{
+        setLoading(false);
+           productAddedHandler.open();
+        setTimeout(() => {
+            router.push('/userdashboard?tab=selling');
+          }, 4000);
+    }
+      {
+        setLoading(false);
       }
-   
+       
+      }
+    
   };
 
   return (
@@ -98,7 +182,7 @@ export default function Confirmation() {
       <Grid>
         <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">
-            <Only when={condition.toLowerCase() !== 'new'}>
+            <Only when={condition.toLowerCase() == 'used'}>
               <div className="w-screen md:w-auto">
                 <ProductCarousel images={product.images} />
               </div>
@@ -151,34 +235,40 @@ export default function Confirmation() {
               iconDisplay={true}
               onClick={shippingHandler.open}
             />
-            <Only when={condition === 'Used'}>
+            <ProductDetails
+              text={'Description'}
+              details={product?.product_properties?.description}
+              iconDisplay={true}
+              onClick={shippingHandler.open}
+            />
+            <Only when={condition.toLocaleLowerCase() == 'used'}>
               <section className="space-y-8">
                 <div>
                   <Title className="font-[600]" order={6}>
                     What accessories are included
                   </Title>
                   <Group ml={-5} mt={10}>
-                    <Group>
-                      <Button
-                        leftIcon={<Check size={12} />}
-                        classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
-                      />
-                      <Text color={'black'} size="sm">
-                        Charger Cable
-                      </Text>
-                    </Group>
-                    <Group>
-                      <Button
-                        leftIcon={<Check size={12} />}
-                        classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
-                      />
-                      <Text color={'black'} size="sm">
-                        Original Box
-                      </Text>
-                    </Group>
+                  <Group>
+              {usedListingData?.details.accessories.map((item, key) => {
+                return (
+                  <Group>
+                  <Button
+                    leftIcon={<Check size={12} />}
+                    classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
+                  />
+                  <Text color={'black'} size="sm">
+                    {item}
+                  </Text>
+                </Group>
+                );
+              })}
+            </Group>
                   </Group>
                 </div>
-                <div>
+                
+              {condition.toLocaleLowerCase()=="used" && 
+              <>
+              <div>
                   <Title className="font-[600]" order={6}>
                     Has your item ever been repaired?
                   </Title>
@@ -193,29 +283,41 @@ export default function Confirmation() {
                       </Text>
                     </Group>
                   </Group>
-                  <Text className="mt-6" color={'black'} size="md">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tincidunt elit. Nunc euismod odio
-                    sit amet lorem lobortis, vel lacinia libero tristique
-                  </Text>
+                  {/* <Text className="mt-6" color={'black'} size="md">
+                   {productD}
+                  </Text> */}
                 </div>
                 <div>
-                  <Title className="font-[600]" order={6}>
-                    What best describes overall condition of your item?
+              <Title className="font-[600]" order={6}>
+                What best describes overall condition of your item?
+              </Title>
+              <Text color={'black'} size="md">
+                Great
+              </Text>
+            </div>
+            <div>
+                  <Title className="font-[600] mb-[20px]" order={6}>
+                   More About This Item
                   </Title>
-                  <Text color={'black'} size="md">
-                    Great
-                  </Text>
+                  <ListItem className="space-y-4" data={usedListingData?.details?.moredetails} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
+               
+                 
                 </div>
+              </>
+             
+              }  
               </section>
               <Group></Group>
             </Only>
             <ProductDetails text={'Condition'} details={condition} />
-
-            <ListItem
+{condition=="used" && 
+<ListItem
               className="space-y-4"
               data={description}
               icon={<Check size={20} strokeWidth={2} color={'black'} />}
             />
+}
+            
             {
                 product?.product_variants?.map((item)=>{
                     return(
