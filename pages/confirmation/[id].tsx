@@ -48,6 +48,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
 
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
+  const user=useSelector((state:RootState)=>state.auth.profile)
   const{stats,product}=useSelector((state:RootState)=>state.entities.productDetail.list)
   let apiData:ApiData={
     expiration_date:new Date(),
@@ -216,7 +217,7 @@ export default function Confirmation() {
                 After Fee
               </Text>
               <Text className="text-[48px] font-[600]" color="black">
-                $190
+                ${(apiData?.price-(23)>0 ?apiData?.price-(23):0)}
               </Text>
             </div>
           </Group>
@@ -224,7 +225,7 @@ export default function Confirmation() {
           <div className="mt-4 space-y-4">
             <ProductDetails
               text={'CARD DETAILS'}
-              details="3454 **** **** ****"
+              details={user?.card_details_number||"3454 **** **** ****"}
               iconDisplay={true}
               onClick={cardHandler.open}
             />

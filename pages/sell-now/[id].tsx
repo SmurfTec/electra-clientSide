@@ -19,6 +19,7 @@ import { useShippingChangeModal,useBillingChangeModal } from '@elektra/hooks';
 
 export default function SellNowPage() {
     const productDetail=useSelector((state:RootState)=>state.entities.productDetail.list)
+    const user=useSelector((state:RootState)=>state.auth.profile)
     const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
     const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
     const [listItemPost, setListItemPost] = useState<ListItemPost>({ condition: productDetail.product.condition, is_repaired_before: 'false', product: String(productDetail.product.id), explain_repair: '', condition_details: null, more_info: '' } as ListItemPost);
@@ -90,20 +91,24 @@ export default function SellNowPage() {
                     <Grid.Col md={6}>
                         <div className='flex mt-[30px] justify-between rounded-[6px] px-[10px] items-center w-full h-[70px] bg-[#3C82D6]'>
                             <p className='text-[13px] text-white'>
-                            Stripe Connection : Not Connected
+                            Stripe Connection :{user?.card_details_number?'Connected':' Not Connected'} 
                             </p>
-                            <Button
-                                className="font-[400] text-[13px] hover:!bg-white rounded-[15px] h-[32px] w-[145px] inline-block !lowercase"
-                                uppercase
-                                disabled={loading}
-                                fullWidth
-                                size="xl"
-                                styles={{ root: { color: '#3C82D6', '&:hover': { color: '#3C82D6',background:"white" } } }}
-                                bg={'white'}
-                                onClick={() => router.push(`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`)}
-                            >
-                                Connect Now
-                            </Button>
+                            {user?.card_details_number==null &&
+                             <Button
+                             className="font-[400] text-[13px] hover:!bg-white rounded-[15px] h-[32px] w-[145px] inline-block !lowercase"
+                             uppercase
+                             disabled={loading}
+                             fullWidth
+                             size="xl"
+                             styles={{ root: { color: '#3C82D6', '&:hover': { color: '#3C82D6',background:"white" } } }}
+                             bg={'white'}
+                             onClick={() => router.push(`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`)}
+                         >
+                             Connect Now
+                             </Button>
+                            }
+                           
+                            
                         </div>
                     <div className='flex items-end justify-between'>
                             <TextInput
@@ -186,7 +191,7 @@ export default function SellNowPage() {
                         </Group>
                         <div className='w-full mt-[20px] flex justify-between items-center text-[16px] px-[10px] py-[15px] bg-[#F1F1F1]'>
                             <p>Total Payout</p>
-                            <p className='font-bold'>$161</p>
+                            <p className='font-bold'>${count-23>0?count-23:0}</p>
                         </div>
                         <div className='flex items-center gap-3 mt-[20px]'>
                             <Button
@@ -209,7 +214,7 @@ export default function SellNowPage() {
                                 size="xl"
                                 styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
                                 bg={'black'}
-                                disabled={Number(productDetail?.product?.highest_offer || 0)==0}
+                                disabled={Number(productDetail?.product?.highest_offer || 0)==0 || userData?.shipping_address_line_1?.length==0 ||userData?.billing_address_line_1?.length==0}
                                 onClick={handleSubmit}
                             >
                                 Next
