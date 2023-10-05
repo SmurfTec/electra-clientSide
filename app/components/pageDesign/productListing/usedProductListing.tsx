@@ -73,26 +73,38 @@ export function UsedProductListing({ accessories, description, itemConditions,co
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
     });
-    if(authData.isAuthenticated){
-      const res = await http.request({
-        url: '/listings',
-        method: 'POST',
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      if (res.isError) {
-        setLoading(false);
+    let data={
+      files:files,
+      listItemPost:listItemPost,
+      details:{
+        accessories:accessories,
+        conditionstatus:itemConditions,
+        moredetails:description
       }
-      {
-        setLoading(false);
-      }
-    }else{
-      const { id } = router.query;
-      const targetUrl = `/product-listing/${id}`
-      router.push(`/auth/login?targetUrl=${targetUrl}`)
     }
+    localStorage.setItem("UsedListingData",JSON.stringify(data))
+    const { id } = router.query;
+    router.push(`/confirmation/${id}?condition=used`)
+    // if(authData.isAuthenticated){
+    //   const res = await http.request({
+    //     url: '/listings',
+    //     method: 'POST',
+    //     data: formData,
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   });
+    //   if (res.isError) {
+    //     setLoading(false);
+    //   }
+    //   {
+    //     setLoading(false);
+    //   }
+    // }else{
+    //   const { id } = router.query;
+    //   const targetUrl = `/product-listing/${id}`
+    //   router.push(`/auth/login?targetUrl=${targetUrl}`)
+    // }
    
     
   };

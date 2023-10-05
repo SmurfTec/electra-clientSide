@@ -10,7 +10,8 @@ import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
 import { useRouter } from 'next/router';
-
+import { useState,useEffect } from 'react';
+import { Dialog } from '@mantine/core';
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
@@ -42,6 +43,7 @@ export function BuyOfferComponent({
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
+  const[showNotification,setshowNotification]=useState(false)
 const router = useRouter()
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
@@ -63,11 +65,26 @@ const router = useRouter()
     totalPrice += Number(highestAsk);
     return totalPrice;
   };
-
+  useEffect(()=>{
+    console.log(count,lowestAsk,"checikg")
+    let lowestask=lowestAsk || 0
+  if(count>lowestask){
+    setshowNotification(true)
+  }
+  },[count])
   return (
     <div>
+       {showNotification && 
+       <Dialog position={{ top: 20, left: 20 }} opened={showNotification} withCloseButton onClose={()=>setshowNotification(false)} size="lg" radius="md">
+       <Text size="sm" mb="xs" fw={500}>
+         You can buy the item at lowest ask
+       </Text>
+
+     
+     </Dialog>
+      }
       <Group>
-        <Text className="uppercase font-semibold" size="sm">
+        <Text className="font-semibold uppercase" size="sm">
           Select Condition{' '}
         </Text>
         <Tooltip
@@ -105,11 +122,11 @@ const router = useRouter()
       {productVariants?.map((item, key) => {
         return (
           <div key={key + item.id} className="my-4">
-            <Text className="uppercase font-semibold my-4" size="sm">
+            <Text className="my-4 font-semibold uppercase" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
-              data={isNew ? item.values : [item.value]}
+              data={isNew ? [item.value] : [item.value]}
               handleState={(value) => {
                 handleListingVariants(item.id, value);
               }}
@@ -139,8 +156,7 @@ const router = useRouter()
               }
             />
           </Input.Wrapper>
-          <Only when={!!highestAsk}>
-            <Input.Wrapper label="HIGHEST ASK" maw={114}>
+          <Input.Wrapper label="HIGHEST OFFER" maw={114}>
               <NumberInput
                 radius={0}
                 styles={{
@@ -159,7 +175,6 @@ const router = useRouter()
                 }
               />
             </Input.Wrapper>
-          </Only>
         </Only>
         <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
@@ -185,7 +200,7 @@ const router = useRouter()
         </Only>
       </Group>
 
-      <Group position="apart" spacing={0} className="mt-6 px-2 lg:px-32 py-6 border-black border-solid ">
+      <Group position="apart" spacing={0} className="px-2 py-6 mt-6 border-black border-solid lg:px-32 ">
         <NumberInput
           disabled={true}
           hideControls
@@ -246,6 +261,7 @@ const router = useRouter()
             bg={'black'}
             component={NextLink}
             href={condition === 'new' ? '/buying-summary' : '/buying-summary/listing'}
+            disabled={Number(highestAsk)==0}
           >
             Review Purchase
           </Button>

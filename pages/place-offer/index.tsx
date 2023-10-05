@@ -68,7 +68,7 @@ export default function PlaceOffer() {
   const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
   const router = useRouter();
   const isListing = router.query.isListing as boolean | undefined;
-  console.log(productDetail,"productDetail")
+ 
   // const condition = "new";
   return (
     <Container fluid>
@@ -90,7 +90,7 @@ export default function PlaceOffer() {
             marketPlaceFee={0}
             receiptFee={feeData?.map((item) => ({
               id: item.id,
-              fees: Number(item.fees),
+              fees: Number(item.fees), 
               title: item.type,
             }))}
             saleTax={0}
