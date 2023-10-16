@@ -213,7 +213,7 @@ console.log(productDetail,"productDetail")
             productVariants={productDetail?.product?.product_variants as Variant[]}
             condition={productDetail?.product?.condition as condition}
             highestAsk={Number(productDetail?.product?.highest_offer)}
-            lowestAsk={Number(productDetail?.product?.asks) || 0}
+            lowestAsk={Number(productDetail?.product?.asks) || 0} 
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}

@@ -49,12 +49,13 @@ export async function getServerSideProps({ req }: NextPageContext) {
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
   const user=useSelector((state:RootState)=>state.auth.profile)
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const{stats,product}=useSelector((state:RootState)=>state.entities.productDetail.list)
   let apiData:ApiData={
     expiration_date:new Date(),
     price:0,
     product:0,
-    shipping_address:""
+    shipping_address:"" 
   }
   let usedListingData:UsedData={
     files:[],
@@ -87,7 +88,8 @@ export default function Confirmation() {
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
-  const[ErrorChangeModal, ErrorOpened, ErrorHandler]=useErrorModal();
+  const [ErrorTxt,setErrorTxt]=useState<string>("")
+  const[ErrorChangeModal, ErrorOpened, ErrorHandler]=useErrorModal({ErrorTxt});
   const router = useRouter();
   const condition:string =  router.query['condition'] === 'new' ? 'New' : 'Used'; //router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
@@ -109,6 +111,9 @@ export default function Confirmation() {
           data,
         });
         if (res.isError) {
+          console.log(res.request)
+         
+          setErrorTxt("You must complete your profile before buying any product")
           setLoading(false);
           ErrorHandler.open()
         }else{
@@ -161,6 +166,7 @@ export default function Confirmation() {
         },
       });
       if (res.isError) {
+        setErrorTxt("You must complete your profile before buying any product : (mobile_no,shipping_address_line_1,shipping_city,shipping_stateorprovince,shipping_postalcode,shipping_country)")
         setLoading(false);
       }else{
         setLoading(false);
@@ -223,23 +229,23 @@ export default function Confirmation() {
           </Group>
 
           <div className="mt-4 space-y-4">
-            <ProductDetails
+            {/* <ProductDetails
               text={'CARD DETAILS'}
               details={user?.card_details_number||"3454 **** **** ****"}
               iconDisplay={true}
               onClick={cardHandler.open}
-            />
+            /> */}
 
             <ProductDetails
               text={'Shipping Address'}
-              details={apiData?.shipping_address}
+              details={profile?.shipping_address_line_1 || ""}
               iconDisplay={true}
               onClick={shippingHandler.open}
             />
             <ProductDetails
               text={'Description'}
               details={product?.product_properties?.description}
-              iconDisplay={true}
+              iconDisplay={false}
               onClick={shippingHandler.open}
             />
             <Only when={condition.toLocaleLowerCase() == 'used'}>
@@ -378,7 +384,7 @@ export default function Confirmation() {
         children={CardModal}
         onClose={cardHandler.close}
         open={cardOpened}
-      />
+      /> 
       <Modal children={ErrorChangeModal} onClose={ErrorHandler.close} open={ErrorOpened} />
       <Modal children={ProductAddedModal} onClose={productAddedHandler.close} open={productAddedOpened} />
       <Modal

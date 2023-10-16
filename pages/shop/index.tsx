@@ -107,7 +107,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     data: productFilters,
     filter: params,
     setFilter: setParams,
-    fetchListings: handleFilter,
+    fetchListings: handleFilter, 
   });
   const matches = useMediaQuery('(max-width: 600px)');
 
@@ -141,8 +141,9 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
       </div>
       <SectionTitle title="All Products" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+      <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
         {shopProducts?.products?.map((product, index) => {
+        
           return (
             <div key={index} className="min-w-[15%]">
               <ProductCard
@@ -153,8 +154,8 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
                 condition={product.condition}
                 usedPrice={Number(product?.user_starting_price)}
                 wishlist={product.is_liked}
-                lowestPrice={Number(product.lowest_price)}
-                highestPrice={Number(product.highest_offer)}
+                lowestPrice={Number(product?.user_starting_price || 0)}
+                highestPrice={Number(product.highest_offer || 0)}
                 price={Number(product?.user_starting_price)}
               />
             </div>
@@ -184,7 +185,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
         className="text-center min-h-[350px]  sm:min-h-[550px] relative"
         src="/images/shop/mobileBanner.png"
       >
-        <div className="absolute top-1/2 sm:left-1/2 -translate-y-1/2 sm:-translate-x-1/2 space-y-8">
+        <div className="absolute space-y-8 -translate-y-1/2 top-1/2 sm:left-1/2 sm:-translate-x-1/2">
           <Title color="white" size={!matches ? 96 : 48} className="font-[300]">
             NOKIA 1.3
           </Title>

@@ -42,7 +42,7 @@ export function BuyOfferComponent({
   const isNew = condition === 'new';
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
-  const [count, handlers] = useCounter(isNew ? Number(highestAsk) : 0, { min: 0 });
+  const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
   const[showNotification,setshowNotification]=useState(false)
 const router = useRouter()
   const handleListingVariants = (id: number, value: string) => {
@@ -62,7 +62,7 @@ const router = useRouter()
     feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
-    totalPrice += Number(highestAsk);
+    totalPrice += Number(lowestAsk);
     return totalPrice;
   };
   useEffect(()=>{
@@ -225,7 +225,7 @@ const router = useRouter()
       </Group>
 
       <div className="my-8">
-        <PositionApart text={'Your Offer'} number={Number(highestAsk)} />
+        <PositionApart text={'Your Offer'} number={Number(lowestAsk)} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
           {receiptFee?.map((item, index) => (

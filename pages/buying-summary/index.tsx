@@ -11,7 +11,7 @@ import { PaymentMethodResult } from '@stripe/stripe-js';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
+import { useShippingChangeModal } from '@elektra/hooks';
 const productDetailData = {
   image: '/images/product.png',
   title: 'Iphone 14 Pro Max',
@@ -55,14 +55,14 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const router = useRouter();
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-
+  
   const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const protectionPlan = protectionPlanData.protectionplans;
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const [orderData, setOrderData] = useState<ProductBuyOrderData>();
   const loading = useSelector((state: RootState) => state.entities.fee.loading);
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
-
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [expiration, setExpiration] = useState(new Date());
 
   const [successPayment, setSuccessPayment] = useState(false);
@@ -115,13 +115,14 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       setSuccessPayment(false);
       return;
     }
+   
     const res = await http.request({
       url: `/products/${productDetail.product.id}/buy`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-
+      
       data: {
         payment_method_id: result.paymentMethod.id,
         //* random between 800 and 1600
@@ -184,7 +185,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer);
+    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
     return totalPrice;
   };
 
@@ -199,16 +200,16 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
           <Grid>
             <Grid.Col xs={12} sm={6}>
-              <div className="overflow-y-auto h-full">
+              <div className="h-full overflow-y-auto">
                 <ProductDetail
                   productVariants={productDetail.product.product_variants}
                   image={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''}
                   title={productDetail.product.title}
                   condition={productDetail.product.condition.toUpperCase()}
                   expiration={productDetailData.expiration}
-                  cardDetails={productDetailData.cardDetails}
-                  address={productDetailData.address}
-                  setExpiration={setExpiration}
+                  cardDetails={productDetailData.cardDetails} 
+                  address={profile?.shipping_address_line_1 || ""}
+                  setExpiration={setExpiration} 
                   // status={''}
                   // saleDate={''}
                   // orderNo={''}f
@@ -218,7 +219,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               </div>
             </Grid.Col>
             <Grid.Col xs={12} sm={6}>
-              <div className=" relative h-full">
+              <div className="relative h-full ">
                 <BiddingSummary
                   expiration={expiration}
                   reciptFee={feeData?.map((item) => ({
@@ -226,7 +227,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     fees: Number(item.fees),
                     title: item.type,
                   }))}
-                  itemPrice={Number(productDetail.product.highest_offer)}
+                  itemPrice={Number(productDetail.product.lowest_ask)}
                   marketPlaceFee={0}
                   salesTax={0}
                   shippingFee={0}
@@ -239,7 +240,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             {protectionPlan.map((item, key) => {
               return (
                 <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(Number(item.id))}>
-                  <div className="overflow-y-auto h-full cursor-pointer">
+                  <div className="h-full overflow-y-auto cursor-pointer">
                     <ProtectPlan
                       id={String(item.id)}
                       title={item.name}

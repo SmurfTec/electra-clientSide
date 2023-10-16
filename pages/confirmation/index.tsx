@@ -7,7 +7,8 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Check } from 'tabler-icons-react';
-
+import { RootState } from '@elektra/store';
+import { useSelector } from 'react-redux';
 const description = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Lorem ipsum dolor sit amet,',
@@ -33,7 +34,7 @@ export default function Confirmation() {
   const router = useRouter();
   const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
-
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const handleSubmit = async () => {
     setLoading(true);
     const data = {
@@ -68,7 +69,7 @@ export default function Confirmation() {
         <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">
             <Only when={condition !== 'New'}>
-              <div className="md:w-auto w-screen">
+              <div className="w-screen md:w-auto">
                 <ProductCarousel images={[]} />
               </div>
             </Only>
@@ -78,7 +79,7 @@ export default function Confirmation() {
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
-          <div className="space-y-2 mt-8 xs:mt-auto">
+          <div className="mt-8 space-y-2 xs:mt-auto">
             <Title className="uppercase" color={'#656565'} order={6}>
               About Product
             </Title>
@@ -106,17 +107,17 @@ export default function Confirmation() {
             </div>
           </Group>
 
-          <div className="space-y-4 mt-4">
-            <ProductDetails
+          <div className="mt-4 space-y-4">
+            {/* <ProductDetails
               text={'CARD DETAILS'}
               details="3454 **** **** ****"
               iconDisplay={true}
               onClick={cardHandler.open}
-            />
+            /> */}
 
             <ProductDetails
               text={'Shipping Address'}
-              details="Street abc1, City Abc, USA,45464"
+              details={profile?.shipping_address_line_1 || ""}
               iconDisplay={true}
               onClick={shippingHandler.open}
             />
@@ -204,7 +205,7 @@ export default function Confirmation() {
               </Text>
             </Group>
           </div>
-          <div className="space-y-2 mt-8">
+          <div className="mt-8 space-y-2">
             <Button
               className="font-[400]"
               uppercase
@@ -231,7 +232,7 @@ export default function Confirmation() {
       </Grid>
 
       <Modal
-        className="mx-0 px-0 xs:mx-10 mb-7 mt-4"
+        className="px-0 mx-0 mt-4 xs:mx-10 mb-7"
         title={'Buying INFO'}
         titlePosition="left"
         size={900}
