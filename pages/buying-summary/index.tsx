@@ -55,7 +55,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const router = useRouter();
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-
+  
   const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const protectionPlan = protectionPlanData.protectionplans;
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
@@ -199,7 +199,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
 
           <Grid>
             <Grid.Col xs={12} sm={6}>
-              <div className="overflow-y-auto h-full">
+              <div className="h-full overflow-y-auto">
                 <ProductDetail
                   productVariants={productDetail.product.product_variants}
                   image={baseURL + '/' + productDetail?.product?.images?.[0]?.filename || ''}
@@ -207,7 +207,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   condition={productDetail.product.condition.toUpperCase()}
                   expiration={productDetailData.expiration}
                   cardDetails={productDetailData.cardDetails}
-                  address={productDetailData.address}
+                  address={profile?.shipping_address_line_1 || ""}
                   setExpiration={setExpiration}
                   // status={''}
                   // saleDate={''}
@@ -218,7 +218,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               </div>
             </Grid.Col>
             <Grid.Col xs={12} sm={6}>
-              <div className=" relative h-full">
+              <div className="relative h-full ">
                 <BiddingSummary
                   expiration={expiration}
                   reciptFee={feeData?.map((item) => ({
@@ -239,7 +239,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             {protectionPlan.map((item, key) => {
               return (
                 <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(Number(item.id))}>
-                  <div className="overflow-y-auto h-full cursor-pointer">
+                  <div className="h-full overflow-y-auto cursor-pointer">
                     <ProtectPlan
                       id={String(item.id)}
                       title={item.name}
