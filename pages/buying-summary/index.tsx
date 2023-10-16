@@ -115,13 +115,14 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       setSuccessPayment(false);
       return;
     }
+   
     const res = await http.request({
       url: `/products/${productDetail.product.id}/buy`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-
+      
       data: {
         payment_method_id: result.paymentMethod.id,
         //* random between 800 and 1600
@@ -206,7 +207,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   title={productDetail.product.title}
                   condition={productDetail.product.condition.toUpperCase()}
                   expiration={productDetailData.expiration}
-                  cardDetails={productDetailData.cardDetails}
+                  cardDetails={productDetailData.cardDetails} 
                   address={profile?.shipping_address_line_1 || ""}
                   setExpiration={setExpiration} 
                   // status={''}
