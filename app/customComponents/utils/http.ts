@@ -10,6 +10,7 @@ const httpRequest = axios.create({
   }
 });
 interface AxiosResponseWithError<T> extends AxiosResponse<T> {
+  message?: string;
   isError?: boolean;
   errorPayload?: Record<string, any> | null;
 }

@@ -111,6 +111,8 @@ export default function Confirmation() {
           data,
         });
         if (res.isError) {
+          console.log(res.request)
+         
           setErrorTxt("You must complete your profile before buying any product")
           setLoading(false);
           ErrorHandler.open()
