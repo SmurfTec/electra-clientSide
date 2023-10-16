@@ -107,7 +107,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     data: productFilters,
     filter: params,
     setFilter: setParams,
-    fetchListings: handleFilter,
+    fetchListings: handleFilter, 
   });
   const matches = useMediaQuery('(max-width: 600px)');
 

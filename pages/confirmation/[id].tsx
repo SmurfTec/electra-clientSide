@@ -55,7 +55,7 @@ export default function Confirmation() {
     expiration_date:new Date(),
     price:0,
     product:0,
-    shipping_address:""
+    shipping_address:"" 
   }
   let usedListingData:UsedData={
     files:[],
