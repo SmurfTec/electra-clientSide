@@ -90,15 +90,15 @@ export function ProductDetail({
         />
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
 
-        <ProductDetails
+        {/* <ProductDetails
           text={'CARD DETAILS'}
           details={cardDetails}
           iconDisplay={!disabled}
           onClick={cardHandler.open}
-        />
+        /> */}
 
         <Modal
-          className="mx-0 px-0 xs:mx-10 mb-7 mt-4"
+          className="px-0 mx-0 mt-4 xs:mx-10 mb-7"
           title={'Buying INFO'}
           titlePosition="left"
           size={900}
@@ -140,7 +140,7 @@ export function ProductDetails({ text, details, onClick, iconDisplay, color, ...
         {text}
         <Only when={!!iconDisplay}>
           <PencilButton onClick={onClick} />
-        </Only>
+        </Only> 
       </Title>
       <Text color={color ?? 'black'} size="md">
         {details}

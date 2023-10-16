@@ -11,7 +11,7 @@ import { PaymentMethodResult } from '@stripe/stripe-js';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
+import { useShippingChangeModal } from '@elektra/hooks';
 const productDetailData = {
   image: '/images/product.png',
   title: 'Iphone 14 Pro Max',
@@ -62,7 +62,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const [orderData, setOrderData] = useState<ProductBuyOrderData>();
   const loading = useSelector((state: RootState) => state.entities.fee.loading);
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
-
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [expiration, setExpiration] = useState(new Date());
 
   const [successPayment, setSuccessPayment] = useState(false);
@@ -208,7 +208,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   expiration={productDetailData.expiration}
                   cardDetails={productDetailData.cardDetails}
                   address={profile?.shipping_address_line_1 || ""}
-                  setExpiration={setExpiration}
+                  setExpiration={setExpiration} 
                   // status={''}
                   // saleDate={''}
                   // orderNo={''}f
