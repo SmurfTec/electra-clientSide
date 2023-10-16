@@ -185,7 +185,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer);
+    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
     return totalPrice;
   };
 
@@ -227,7 +227,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     fees: Number(item.fees),
                     title: item.type,
                   }))}
-                  itemPrice={Number(productDetail.product.highest_offer)}
+                  itemPrice={Number(productDetail.product.lowest_ask)}
                   marketPlaceFee={0}
                   salesTax={0}
                   shippingFee={0}
