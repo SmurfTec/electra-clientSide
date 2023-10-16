@@ -49,6 +49,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
   const user=useSelector((state:RootState)=>state.auth.profile)
+  const profile = useSelector((state: RootState) => state.auth.profile);
   const{stats,product}=useSelector((state:RootState)=>state.entities.productDetail.list)
   let apiData:ApiData={
     expiration_date:new Date(),
@@ -223,23 +224,23 @@ export default function Confirmation() {
           </Group>
 
           <div className="mt-4 space-y-4">
-            <ProductDetails
+            {/* <ProductDetails
               text={'CARD DETAILS'}
               details={user?.card_details_number||"3454 **** **** ****"}
               iconDisplay={true}
               onClick={cardHandler.open}
-            />
+            /> */}
 
             <ProductDetails
               text={'Shipping Address'}
-              details={apiData?.shipping_address}
+              details={profile?.shipping_address_line_1 || ""}
               iconDisplay={true}
               onClick={shippingHandler.open}
             />
             <ProductDetails
               text={'Description'}
               details={product?.product_properties?.description}
-              iconDisplay={true}
+              iconDisplay={false}
               onClick={shippingHandler.open}
             />
             <Only when={condition.toLocaleLowerCase() == 'used'}>
