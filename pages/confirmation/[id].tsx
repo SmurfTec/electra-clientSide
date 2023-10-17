@@ -116,11 +116,7 @@ export default function Confirmation() {
        
         if (res.isError) {
           const  errdata:any=(res.errorPayload)
-         if(errdata.message=="UserPaymentAccount Not found"){
-          setErrorTxt("Please connect your Stripe Payment account in Wallet")
-         }else{
-          setErrorTxt("Please add Shipping Address, Billing Address, Mobile Number in Profile and Settings.")
-         }
+          setErrorTxt(errdata.message)
           
           setLoading(false);
           ErrorHandler.open()
@@ -175,11 +171,8 @@ export default function Confirmation() {
       });
       if (res.isError) {
         const  errdata:any=(res.errorPayload)
-         if(errdata.message=="UserPaymentAccount Not found"){
-          setErrorTxt("Please connect your Stripe Payment account in Wallet")
-         }else{
-          setErrorTxt("Please add Shipping Address, Billing Address, Mobile Number in Profile and Settings.")
-         }
+        setErrorTxt(errdata.message)
+        
         setLoading(false);
       }else{
         setLoading(false);

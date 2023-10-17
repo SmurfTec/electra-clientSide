@@ -111,14 +111,14 @@ export function ProductCard({
               <Text className="text-[#656565]" size={'xs'}>
               {condition=="new"?"Lowest Ask":"Lowest Price"}  
               </Text>
-              <Title order={6}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
+              <Title order={6}>{lowestPrice ? `$${lowestPrice}` : '$0'}</Title>
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
                 Highest Offer
               </Text>
               <Title className="font-bold" order={6}>
-                {highestPrice ? `$${highestPrice}` : '--'}
+                {highestPrice ? `$${highestPrice}` : '$0'}
               </Title>
             </div>
           </Group>
