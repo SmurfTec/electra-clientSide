@@ -109,7 +109,7 @@ export function ProductCard({
           <Group className="mt-4">
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
-                Lowest Price
+              {condition=="new"?"Lowest Ask":"Lowest Price"}  
               </Text>
               <Title order={6}>{lowestPrice ? `$${lowestPrice}` : '--'}</Title>
             </div>

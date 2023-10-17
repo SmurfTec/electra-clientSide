@@ -192,10 +192,10 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
     <div>
       <Container fluid>
         <section className="mt-5">
-          <Text className="text-black font-extrabold" size={32}>
+          <Text className="font-extrabold text-black" size={32}>
             Showing more results for
           </Text>
-          <Text className="text-black font-medium" size={24}>
+          <Text className="font-medium text-black" size={24}>
             “{search}”
           </Text>
           <Divider mt={15} />
@@ -205,7 +205,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
         </div>
         <section className="mt-5">
           <SectionTitle title={`${products?.products.length} Results for ${search}`} />
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
             {products.products.slice(0, 5).map((product, index) => {
               return (
                 <ProductCard
@@ -229,7 +229,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
         <section className="mt-20">
           <SectionTitle key={1} title="Trending Now" label="View All" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
             {trending.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
@@ -254,7 +254,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
         <section className="mt-20">
           <SectionTitle title="Most Sold Items" label="View All" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
             {mostSold.products.slice(0, 5).map((product, index) => {
               return (
                 <div key={index} className="min-w-[15%]">
@@ -279,8 +279,9 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
         <section className="mt-20">
           <SectionTitle title="Latest Items" />
 
-          <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-4 gap-12 place-content-center mt-5">
+          <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
             {latest.products.slice(0, 5).map((product, index) => {
+              // console.log(product,"product")
               return (
                 <div key={index} className="min-w-[15%]">
                   <ProductCard
