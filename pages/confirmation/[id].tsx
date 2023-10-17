@@ -112,10 +112,16 @@ export default function Confirmation() {
             method: 'POST',
           data,
         });
+     
+       
         if (res.isError) {
-          console.log(res.request)
-         
-          setErrorTxt("You must complete your profile before buying any product")
+          const  errdata:any=(res.errorPayload)
+         if(errdata.message=="UserPaymentAccount Not found"){
+          setErrorTxt("Please connect your Stripe Payment account in Wallet")
+         }else{
+          setErrorTxt("Please add Shipping Address, Billing Address, Mobile Number in Profile and Settings.")
+         }
+          
           setLoading(false);
           ErrorHandler.open()
         }else{
@@ -168,7 +174,12 @@ export default function Confirmation() {
         },
       });
       if (res.isError) {
-        setErrorTxt("You must complete your profile before buying any product : (mobile_no,shipping_address_line_1,shipping_city,shipping_stateorprovince,shipping_postalcode,shipping_country)")
+        const  errdata:any=(res.errorPayload)
+         if(errdata.message=="UserPaymentAccount Not found"){
+          setErrorTxt("Please connect your Stripe Payment account in Wallet")
+         }else{
+          setErrorTxt("Please add Shipping Address, Billing Address, Mobile Number in Profile and Settings.")
+         }
         setLoading(false);
       }else{
         setLoading(false);
@@ -388,7 +399,7 @@ export default function Confirmation() {
         onClose={cardHandler.close}
         open={cardOpened}
       /> 
-      <Modal children={ErrorChangeModal} onClose={ErrorHandler.close} open={ErrorOpened} />
+      <Modal title={"Listing Failed"} children={ErrorChangeModal} onClose={ErrorHandler.close} open={ErrorOpened} />
       <Modal children={ProductAddedModal} onClose={productAddedHandler.close} open={productAddedOpened} />
       <Modal
         title="Shipping Address"
