@@ -115,14 +115,14 @@ export function ProductCard({
               </Text>
               <Title order={6}>
                
-                {lowestPrice ? `$${usedPrice}` : '$0'}</Title>
+                {lowestPrice ? `$${lowestPrice || 0}` : '$0'}</Title>
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
                 Highest Offer
               </Text>
               <Title className="font-bold" order={6}>
-                {highestPrice ? `$${highestPrice}` : '$0'}
+                {highestPrice ? `$${highestPrice || 0}` : '$0'}
               </Title>
             </div>
           </Group>
