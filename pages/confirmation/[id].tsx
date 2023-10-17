@@ -51,6 +51,8 @@ export default function Confirmation() {
   const user=useSelector((state:RootState)=>state.auth.profile)
   const profile = useSelector((state: RootState) => state.auth.profile);
   const{stats,product}=useSelector((state:RootState)=>state.entities.productDetail.list)
+  const[check1,setcheck1]=useState(false)
+  const[check2,setcheck2]=useState(false)
   let apiData:ApiData={
     expiration_date:new Date(),
     price:0,
@@ -337,13 +339,13 @@ export default function Confirmation() {
             <ProductDetails text={'Color'} details="Blue" /> */}
 
             <Group pt={14} align="top">
-              <Checkbox maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
+              <Checkbox checked={check1} onChange={(e)=>setcheck1(!check1)} maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
               <Text mt={-7} maw={'80%'} size="13px" color="black">
                 By Checking this you are confirming your device meets the condition requirments stated above
               </Text>
             </Group>
             <Group mt={14} align="top">
-              <Checkbox maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
+              <Checkbox checked={check2} onChange={(e)=>setcheck2(!check2)} maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
               <Text mt={-7} maw={'80%'} size="13px" color="black">
                 You understand you are subject to a <span className="font-[600]">12% cancelation fee</span> if the item
                 fails verifcation.
@@ -357,7 +359,8 @@ export default function Confirmation() {
               fullWidth
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
-              bg={'black'}
+              bg={`black`}
+              disabled={(!check1 || !check2)}
               onClick={handleSubmit}
             >
               Confirm
