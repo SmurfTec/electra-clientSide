@@ -32,7 +32,7 @@ export const useFilterModal = ({data,filter,setFilter,fetchListings}:ProductFilt
       >
         <div>
           <Group position="apart" align="center" my={10}>
-            <Text size={15} className="text-black font-semibold">
+            <Text size={15} className="font-semibold text-black">
               Active Filters
             </Text>
             <Button
@@ -53,11 +53,11 @@ export const useFilterModal = ({data,filter,setFilter,fetchListings}:ProductFilt
         </div>
       </Only>
       <div className="mt-5">
-        <Text size={15} className="text-black font-semibold my-5">
+        <Text size={15} className="my-5 font-semibold text-black">
           Apply Filters
         </Text>
         <Flex gap={10} wrap={'wrap'}>
-        {data.map((item) => (
+        {data?.map((item) => (
           <FilterMenu
             key={item.id}
             filterId={Number(item?.id)}

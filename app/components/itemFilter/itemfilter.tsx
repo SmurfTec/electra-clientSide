@@ -29,7 +29,7 @@ export const ItemFilter = ({ data, filter, setFilter, fetchListings }: ItemFilte
     <Stack>
       <Group position="apart">
         <Group spacing={5}>
-          {data.map((item) => (
+          {data?.map((item) => (
           <FilterMenu
             key={item.id}
             filterId={Number(item?.id)}
