@@ -121,6 +121,7 @@ type homePageProps = {
 
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand, isAuth } = rest;
+  console.log(latest,"latest")
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -155,11 +156,11 @@ export function Index({ ...rest }: homePageProps) {
                       id={product.id}
                       image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                       description={'9/10 condition with charger and box'}
-                      title={product.title}
-                      condition={product.condition}
-                      wishlist={product.is_liked}
-                      lowestPrice={Number(product.lowest_price)}
-                      highestPrice={Number(product.highest_offer)}
+                      title={product?.title}
+                      condition={product?.condition}
+                      wishlist={product?.is_liked}
+                      lowestPrice={Number(product?.user_starting_price)}
+                      highestPrice={Number(product?.highest_offer)}
                       usedPrice={Number(product?.user_starting_price)}
                       price={Number(product?.user_starting_price)}
                     />
@@ -185,8 +186,8 @@ export function Index({ ...rest }: homePageProps) {
                     title={product.title}
                     condition={product.condition}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
-                    highestPrice={Number(product.highest_offer)}
+                    lowestPrice={Number(product?.user_starting_price)}
+                    highestPrice={Number(product?.highest_offer)}
                     price={Number(product?.user_starting_price)}
                     usedPrice={Number(product?.user_starting_price)}
                   />
@@ -269,9 +270,11 @@ export function Index({ ...rest }: homePageProps) {
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Flex className="space-x-8">
             {latest?.products?.map((product, index) => {
+              
               return (
                 <Box key={index} w={250}>
                   <ProductCard
+                    product={product}
                     id={product.id}
                     image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
                     description={'9/10 condition with charger and box'}
@@ -279,7 +282,7 @@ export function Index({ ...rest }: homePageProps) {
                     condition={product.condition}
                     usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
+                    lowestPrice={Number(product.user_starting_price)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
