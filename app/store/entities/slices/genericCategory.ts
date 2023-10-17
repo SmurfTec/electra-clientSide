@@ -29,9 +29,9 @@ const slice = createSlice({
     },
 
     singleCategoryReceived: (state, action) => {
-      const index = state.list.categories.findIndex((item) => item.id === action.payload.id);
+      const index = state?.list?.categories?.findIndex((item) => item.id === action.payload.id);
       if (index !== -1) {
-        state.list.categories.push(action.payload);
+        state?.list?.categories?.push(action.payload);
       } else {
         state.list.categories[index] = action.payload;
       }
