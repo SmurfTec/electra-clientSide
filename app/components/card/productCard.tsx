@@ -19,6 +19,7 @@ export type ProductCardProps = {
   usedPrice?: number | null;
   onClick?: () => void;
   isWishlist?: boolean | undefined;
+  product?:any;
 };
 
 export function ProductCard({
@@ -33,7 +34,8 @@ export function ProductCard({
   highestPrice,
   price,
   onClick,
-  isWishlist
+  isWishlist,
+  product
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
@@ -111,7 +113,9 @@ export function ProductCard({
               <Text className="text-[#656565]" size={'xs'}>
               {condition=="new"?"Lowest Ask":"Lowest Price"}  
               </Text>
-              <Title order={6}>{lowestPrice ? `$${lowestPrice}` : '$0'}</Title>
+              <Title order={6}>
+               
+                {lowestPrice ? `$${usedPrice}` : '$0'}</Title>
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
