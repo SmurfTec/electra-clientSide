@@ -64,9 +64,9 @@ type ProductListingPageProps = {
 
 
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
-  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail.product.condition,is_repaired_before:'false',product:String(productDetail.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
+  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail?.product.condition,is_repaired_before:'false',product:String(productDetail?.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
   const [count, handlers] = useCounter(0, { min: 0 });
-  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
+  const[productDescription,setproductDescription]=useState<string[]>([productDetail?.product?.product_properties?.description])
  
   return ( 
     <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
@@ -77,11 +77,11 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
       <Grid className="my-10">
         <Grid.Col md={6}>
           {listItemPost.condition === 'used' ? (
-            <div className="-ml-11 md:w-auto w-screen mt-5">
+            <div className="w-screen mt-5 -ml-11 md:w-auto">
               <ProductCarousel images={productDetail.product.images} />
             </div>
           ) : (
-            <div className="-ml-12 md:w-auto w-screen mt-5">
+            <div className="w-screen mt-5 -ml-12 md:w-auto">
               <Image alt="product image" src={baseURL + '/' + (productDetail?.product?.images?.[0]?.filename || "")} />
             </div>
           )}
