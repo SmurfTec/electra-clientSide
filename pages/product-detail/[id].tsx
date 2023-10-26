@@ -86,7 +86,6 @@ export default function ProductPage({
   isAuth,
 }: ProductPageProps) {
   const dispatch = useAppDispatch();
-console.log(productDetail,"productDetail")
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
@@ -167,7 +166,7 @@ console.log(productDetail,"productDetail")
       {item.title}
     </Anchor>
   ));
-
+  console.log(productDetail);
   return (
     <>
       {!matches && (
@@ -185,24 +184,19 @@ console.log(productDetail,"productDetail")
             />
 
             <Text className="text-xs font-medium">Have this item?</Text>
-           <div className='flex items-center gap-5'>
-           <Button
-              component={NextLink}
-              href={'/product-listing/' + productDetail?.product?.id}
-              leftIcon={<ShoppingCart />}
-            >
-              Ask For More
-            </Button>
-            {/* /userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id} */}
-            <Button
-              component={NextLink} 
-              href={`/sell-now/${productDetail?.product?.id}`}
-              leftIcon={<ShoppingCart />}
-            >
-              
-              Sell Now
-            </Button>
-           </div>
+            <div className="flex items-center gap-5">
+              <Button
+                component={NextLink}
+                href={'/product-listing/' + productDetail?.product?.id}
+                leftIcon={<ShoppingCart />}
+              >
+                Ask For More
+              </Button>
+              {/* /userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id} */}
+              <Button component={NextLink} href={`/sell-now/${productDetail?.product?.id}`} leftIcon={<ShoppingCart />}>
+                Sell Now
+              </Button>
+            </div>
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
@@ -213,7 +207,7 @@ console.log(productDetail,"productDetail")
             productVariants={productDetail?.product?.product_variants as Variant[]}
             condition={productDetail?.product?.condition as condition}
             highestAsk={Number(productDetail?.product?.highest_offer)}
-            lowestAsk={Number(productDetail?.product?.asks) || 0} 
+            lowestAsk={Number(productDetail?.product?.lowest_ask) || 0}
             price={Number(productDetail?.product?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
@@ -222,7 +216,8 @@ console.log(productDetail,"productDetail")
         </Grid.Col>
       </Grid>
 
-      <Only when={productListing?.listings?.length !== 0}>
+      {/* <Only when={productListing?.listings?.length !== 0}> */}
+      <Only when={true}>
         <Divider className="my-4" />
         <Grid>
           <Grid.Col span={12}>
@@ -256,7 +251,6 @@ console.log(productDetail,"productDetail")
           className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center"
         >
           {listingData?.slice(0, limit).map((product, index) => {
-            console.log(product.condition);
             return (
               <ProductCard
                 id={product.id}

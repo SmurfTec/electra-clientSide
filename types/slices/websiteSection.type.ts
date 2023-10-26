@@ -62,6 +62,7 @@ export type ProductDisplayData = {
   highest_offer: number | null;
   lowest_price: number | null;
   user_starting_price: number | null;
+  lowest_ask: number;
 };
 
 export type UserFavourite = {

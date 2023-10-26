@@ -116,7 +116,7 @@ export const HeaderMenu = () => {
 
   return (
     <>
-      <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={classes.group}>
+      <Group mih={50} bg="rgba(217, 217, 217, 0.35)" className={`${classes.group} md:px-8 px-4`}>
         <Flex className="pt-3 justify-center space-x-5 lg:space-x-12">
           {categories?.map((item, index) => (
             <HoverCard

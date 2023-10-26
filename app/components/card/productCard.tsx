@@ -19,7 +19,7 @@ export type ProductCardProps = {
   usedPrice?: number | null;
   onClick?: () => void;
   isWishlist?: boolean | undefined;
-  product?:any;
+  product?: any;
 };
 
 export function ProductCard({
@@ -35,7 +35,7 @@ export function ProductCard({
   price,
   onClick,
   isWishlist,
-  product
+  product,
 }: ProductCardProps) {
   const theme = useMantineTheme();
   const phone = useMediaQuery('(max-width: 600px)');
@@ -86,9 +86,9 @@ export function ProductCard({
                 size={23}
                 onClick={() => {
                   isLike
-                  ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id }))
-                  : store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
-                  
+                    ? store.dispatch(UnlikeProduct(condition === 'new' ? { product: id } : { listing: id }))
+                    : store.dispatch(likeProduct(condition === 'new' ? { product: id } : { listing: id }));
+
                   onClick && onClick();
                   !isWishlist && setIsLike(!isLike);
                 }}
@@ -111,11 +111,11 @@ export function ProductCard({
           <Group className="mt-4">
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>
-              {condition=="new"?"Lowest Ask":"Lowest Price"}  
+                {condition == 'new' ? 'Lowest Ask' : 'Lowest Price'}
               </Text>
               <Title order={6}>
-               
-                {lowestPrice ? `$${lowestPrice || 0}` : '$0'}</Title>
+                {lowestPrice ? `$${lowestPrice || 0}` : '$0'}
+                </Title>
             </div>
             <div className="max-w-[30%]">
               <Text className="text-[#656565]" size={'xs'}>

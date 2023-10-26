@@ -87,12 +87,12 @@ export async function getServerSideProps(context: NextPageContext) {
   const recommended = store.dispatch(loadRecommendedProducts(isAuth));
 
   const genericCategories = store.dispatch(loadGenericCategory());
-  
-  const notification = store.dispatch(loadNotifications(isAuth))
- 
+
+  const notification = store.dispatch(loadNotifications(isAuth));
+
   const brands = store.dispatch(loadBrand());
 
-  await Promise.all([websiteSection, trending, latest, mostSold,notification  ,recommended, genericCategories, brands]);
+  await Promise.all([websiteSection, trending, latest, mostSold, notification, recommended, genericCategories, brands]);
 
   return {
     props: {
@@ -121,7 +121,6 @@ type homePageProps = {
 
 export function Index({ ...rest }: homePageProps) {
   const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand, isAuth } = rest;
-  console.log(latest,"latest")
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -141,7 +140,6 @@ export function Index({ ...rest }: homePageProps) {
   return (
     <div>
       <section className="mt-4">
-       
         <HeroImage />
       </section>
       <Only when={recommended?.products?.length > 0}>
@@ -159,7 +157,9 @@ export function Index({ ...rest }: homePageProps) {
                       title={product?.title}
                       condition={product?.condition}
                       wishlist={product?.is_liked}
-                      lowestPrice={Number(product?.user_starting_price)}
+                      lowestPrice={
+                        product?.condition === 'new' ? Number(product?.lowest_ask) : Number(product?.lowest_price)
+                      }
                       highestPrice={Number(product?.highest_offer)}
                       usedPrice={Number(product?.user_starting_price)}
                       price={Number(product?.user_starting_price)}
@@ -186,10 +186,12 @@ export function Index({ ...rest }: homePageProps) {
                     title={product.title}
                     condition={product.condition}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product?.user_starting_price)}
+                    lowestPrice={
+                      product?.condition === 'new' ? Number(product?.lowest_ask) : Number(product?.lowest_price)
+                    }
                     highestPrice={Number(product?.highest_offer)}
-                    price={Number(product?.user_starting_price)}
                     usedPrice={Number(product?.user_starting_price)}
+                    price={Number(product?.user_starting_price)}
                   />
                 </Box>
               );
@@ -254,7 +256,9 @@ export function Index({ ...rest }: homePageProps) {
                     usedPrice={Number(product?.user_starting_price)}
                     condition={product.condition}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
+                    lowestPrice={
+                      product?.condition === 'new' ? Number(product?.lowest_ask) : Number(product?.lowest_price)
+                    }
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
@@ -270,7 +274,6 @@ export function Index({ ...rest }: homePageProps) {
         <ScrollArea type="scroll" scrollbarSize={5}>
           <Flex className="space-x-8">
             {latest?.products?.map((product, index) => {
-              
               return (
                 <Box key={index} w={250}>
                   <ProductCard
@@ -282,8 +285,10 @@ export function Index({ ...rest }: homePageProps) {
                     condition={product.condition}
                     usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.user_starting_price)}
-                    highestPrice={Number(product.highest_offer)}
+                    lowestPrice={
+                      product?.condition === 'new' ? Number(product?.lowest_ask) : Number(product?.lowest_price)
+                    }
+                    highestPrice={Number(product?.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
                 </Box>

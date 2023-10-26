@@ -26,7 +26,7 @@ type UsedProductListingProps = {
   accessories: string[];
   itemConditions: string[];
   description: string[];
-  count:number
+  count: number;
 };
 
 const useStyles = createStyles({
@@ -34,16 +34,27 @@ const useStyles = createStyles({
   icon: { transform: 'scale(1.6) !important' },
 });
 
-export function UsedProductListing({ accessories, description, itemConditions,count }: UsedProductListingProps) {
+export function UsedProductListing({ accessories, description, itemConditions, count }: UsedProductListingProps) {
   const { classes } = useStyles();
-  const authData=useSelector((state:any)=>state.auth)
+  const authData = useSelector((state: any) => state.auth);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
+
   const filterFile = (file: FileWithPath) => {
     return files.filter((item) => item !== file);
   };
+
+  const convertFileToBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleSubmit = async () => {
     const formData = new FormData();
     files.map((file) => formData.append('images', file));
@@ -73,18 +84,32 @@ export function UsedProductListing({ accessories, description, itemConditions,co
 
       formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
     });
-    let data={
-      files:files,
-      listItemPost:listItemPost,
-      details:{
-        accessories:accessories,
-        conditionstatus:itemConditions,
-        moredetails:description
-      }
-    }
-    localStorage.setItem("UsedListingData",JSON.stringify(data))
+
+    Promise.all(files.map((file) => convertFileToBase64(file))).then((base64Files) => {
+      const data = {
+        files: base64Files,
+        listItemPost: listItemPost,
+        details: {
+          accessories: accessories,
+          conditionstatus: itemConditions,
+          moredetails: description,
+        },
+      };
+      localStorage.setItem('UsedListingData', JSON.stringify(data));
+    });
+
+    // let data = {
+    //   files: files,
+    //   listItemPost: listItemPost,
+    //   details: {
+    //     accessories: accessories,
+    //     conditionstatus: itemConditions,
+    //     moredetails: description,
+    //   },
+    // };
+    // localStorage.setItem('UsedListingData', JSON.stringify(data));
     const { id } = router.query;
-    router.push(`/confirmation/${id}?condition=used`)
+    router.push(`/confirmation/${id}?condition=used`);
     // if(authData.isAuthenticated){
     //   const res = await http.request({
     //     url: '/listings',
@@ -105,8 +130,6 @@ export function UsedProductListing({ accessories, description, itemConditions,co
     //   const targetUrl = `/product-listing/${id}`
     //   router.push(`/auth/login?targetUrl=${targetUrl}`)
     // }
-   
-    
   };
 
   const previews = files.map((file, index) => {
@@ -310,7 +333,7 @@ export function UsedProductListing({ accessories, description, itemConditions,co
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
               onClick={handleSubmit}
-              disabled={count==0}
+              disabled={count == 0}
             >
               List Item
             </Button>

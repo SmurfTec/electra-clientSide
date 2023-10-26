@@ -46,6 +46,19 @@ export async function getServerSideProps({ req }: NextPageContext) {
   return { props: {} };
 }
 
+const base64ToBlob = (base64: any) => {
+  // Extract the MIME type from the Base64 string
+  const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1];
+  const byteString = atob(base64.split(',')[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([uint8Array], { type: mime });
+};
+
 export default function Confirmation() {
   const phone = useMediaQuery('(max-width: 600px)');
   const user = useSelector((state: RootState) => state.auth.profile);
@@ -131,8 +144,34 @@ export default function Confirmation() {
       }
     } else {
       const formData = new FormData();
-      const { files, listItemPost } = usedListingData;
-      files.map((file) => formData.append('images', file));
+      const mimeToFileExtension = (mime: any) => {
+        switch (mime) {
+          case 'image/jpeg':
+            return '.jpg';
+          case 'image/png':
+            return '.png';
+          case 'image/gif':
+            return '.gif';
+          case 'image/webp':
+            return '.webp';
+          case 'image/bmp':
+            return '.bmp';
+          default:
+            return '.img'; // Default extension (you can adjust this as needed)
+        }
+      };
+
+      const usedListingData = JSON.parse(localStorage.getItem('UsedListingData') || '{}');
+      const base64Files = usedListingData.files || [];
+
+      base64Files.forEach((base64: any, index: any) => {
+        const blob = base64ToBlob(base64);
+        const extension = mimeToFileExtension(blob.type);
+        formData.append('images', blob, `image${index}${extension}`);
+      });
+
+      const { listItemPost } = usedListingData;
+      // files.map((file: any) => formData.append('images', file));
       const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
 
       const numberKeys = ['product', 'ask'];
@@ -141,23 +180,30 @@ export default function Confirmation() {
         if (exclusiveKeys.includes(key)) {
           return;
         }
-        if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
-          listItemPost[key as 'listingVariants'].forEach((item, index) => {
-            //@ts-ignore
-            formData.append(`listingVariants[${index}][variant]`, item.id);
-            formData.append(`listingVariants[${index}][value]`, item.value);
+        const value = listItemPost[key as keyof ListItemPost];
+
+        if (Array.isArray(value)) {
+          value.forEach((item: any, index: any) => {
+            formData.append(`listingVariants[${index}][variant]`, String(item.id));
+            formData.append(`listingVariants[${index}][value]`, String(item.value));
           });
           return;
         }
 
         if (numberKeys.includes(key)) {
-          //@ts-ignore
-          formData.append(key, listItemPost[key]);
+          formData.append(key, String(value));
           return;
         }
 
-        formData.append(key, JSON.stringify(listItemPost[key as keyof ListItemPost]));
+        // Check if the value is a string. If it is, append it as is.
+        // Otherwise, stringify the value before appending.
+        if (typeof value === 'string') {
+          formData.append(key, value);
+        } else {
+          formData.append(key, JSON.stringify(value));
+        }
       });
+
       const res = await http.request({
         url: '/listings',
         method: 'POST',

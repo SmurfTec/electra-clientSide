@@ -24,9 +24,9 @@ export function WishList() {
                   usedPrice={Number(product.user_starting_price)}
                   condition={product?.product?.condition}
                   wishlist={true}
-                  lowestPrice={product?.lowest_price}
-                  highestPrice={product?.highest_offer}
-                  price={Number(product.user_starting_price)}
+                  lowestPrice={Number(product?.lowest_price)}
+                  highestPrice={Number(product?.highest_offer)}
+                  price={Number(product?.user_starting_price)}
                   onClick={() => {
                     store.dispatch(removeFavourite({ id: product?.product.id }));
                   }}

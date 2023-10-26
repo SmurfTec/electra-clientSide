@@ -115,14 +115,14 @@ export const Header = () => {
                       <Menu.Divider />
                       <Menu.Item
                         onClick={() => {
-                          signOut({redirect: false})
+                          signOut({ redirect: false });
                           deleteCookie('authentication');
                           deleteCookie('refresh');
                           setTimeout(() => {
-                            router.push('/auth/login',undefined,{shallow:true});
+                            router.push('/auth/login', undefined, { shallow: true });
                           }, 2000);
                           setTimeout(() => {
-                            router.push('/auth/login',undefined,{shallow:true});
+                            router.push('/auth/login', undefined, { shallow: true });
                             dispatch(logout());
                           }, 3000);
                         }}
