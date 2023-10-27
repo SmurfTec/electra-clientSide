@@ -154,7 +154,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
                 condition={product.condition}
                 usedPrice={Number(product?.user_starting_price)}
                 wishlist={product.is_liked}
-                lowestPrice={product?.condition === 'new' ? Number(product?.lowest_ask) : Number(product?.lowest_price)}
+                lowestPrice={Number(product?.lowest_ask)}
                 highestPrice={Number(product.highest_offer || 0)}
                 price={Number(product?.user_starting_price)}
               />

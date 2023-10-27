@@ -217,7 +217,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                   condition={product.condition}
                   usedPrice={Number(product?.user_starting_price)}
                   wishlist={product.is_liked}
-                  lowestPrice={Number(product.lowest_price)}
+                  lowestPrice={Number(product.lowest_ask)}
                   highestPrice={Number(product.highest_offer)}
                   price={Number(product?.user_starting_price)}
                 />
@@ -241,7 +241,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     condition={product.condition}
                     usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
+                    lowestPrice={Number(product.lowest_ask)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
@@ -266,7 +266,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     condition={product.condition}
                     usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
+                    lowestPrice={Number(product.lowest_ask)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
@@ -292,7 +292,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
                     condition={product.condition}
                     usedPrice={Number(product?.user_starting_price)}
                     wishlist={product.is_liked}
-                    lowestPrice={Number(product.lowest_price)}
+                    lowestPrice={Number(product.lowest_ask)}
                     highestPrice={Number(product.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
