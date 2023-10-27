@@ -62,58 +62,66 @@ type ProductListingPageProps = {
   productDetail: ProductData;
 };
 
-
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
-  const [listItemPost, setListItemPost] = useState<ListItemPost>({condition:productDetail?.product.condition,is_repaired_before:'false',product:String(productDetail?.product.id),explain_repair:'',condition_details:null,more_info:''} as ListItemPost);
+  const [listItemPost, setListItemPost] = useState<ListItemPost>({
+    condition: productDetail?.product.condition,
+    is_repaired_before: 'false',
+    product: String(productDetail?.product.id),
+    explain_repair: '',
+    condition_details: null,
+    more_info: '',
+  } as ListItemPost);
   const [count, handlers] = useCounter(0, { min: 0 });
-  const[productDescription,setproductDescription]=useState<string[]>([productDetail?.product?.product_properties?.description])
- 
-  return ( 
-    <ListItemPostContext.Provider  value={{listItemPost, setListItemPost}}>
-    <Container fluid>
-      <div className="my-10">
-        <PageTitle title="Listing Item" />
-      </div>
-      <Grid className="my-10">
-        <Grid.Col md={6}>
-          {listItemPost.condition === 'used' ? (
-            <div className="w-screen mt-5 -ml-11 md:w-auto">
-              <ProductCarousel images={productDetail.product.images} />
-            </div>
-          ) : (
-            <div className="w-screen mt-5 -ml-12 md:w-auto">
-              <Image alt="product image" src={baseURL + '/' + (productDetail?.product?.images?.[0]?.filename || "")} />
-            </div>
-          )}
-        </Grid.Col>
-        <Grid.Col md={6}>
-          <ListingDescription
-            count={count}
-            handlers={handlers}
-            productVariants={productDetail?.product?.product_variants}
-            condition={listItemPost.condition}
-            description={productDescription}
-            highestAsk={Number(productDetail?.product?.highest_offer || 0)}
-            lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
-            marketPlaceFee={ListingDescriptionData.marketPlaceFee}
-            saleTax={ListingDescriptionData.saleTax}
-            shippingFee={ListingDescriptionData.shippingFee}
-            averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
-          />
-        </Grid.Col>
-        <Only when={listItemPost.condition === 'used'}>
-          <Grid.Col span={12}>
-            <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
-            <UsedProductListing
-              accessories={usedProductListingData.accessories}
-              description={usedProductListingData.description}
-              itemConditions={usedProductListingData.itemConditions}
+  const [productDescription, setproductDescription] = useState<string[]>([
+    productDetail?.product?.product_properties?.description,
+  ]);
+
+  return (
+    <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
+      <Container fluid>
+        <div className="my-10">
+          <PageTitle title="Listing Item" />
+        </div>
+        <Grid className="my-10">
+          <Grid.Col md={6}>
+            {listItemPost.condition === 'used' ? (
+              <div className="w-screen mt-5 -ml-11 md:w-auto">
+                <ProductCarousel images={productDetail.product.images} />
+              </div>
+            ) : (
+              <div className="w-screen mt-5 -ml-12 md:w-auto">
+                <Image alt="product image" src={baseURL + '/' + (productDetail?.product?.images[0]?.filename || '')} />
+              </div>
+            )}
+          </Grid.Col>
+          <Grid.Col md={6}>
+            <ListingDescription
               count={count}
+              handlers={handlers}
+              productVariants={productDetail?.product?.product_variants}
+              condition={listItemPost.condition}
+              description={productDescription}
+              highestAsk={Number(productDetail?.product?.highest_offer || 0)}
+              lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
+              marketPlaceFee={ListingDescriptionData.marketPlaceFee}
+              saleTax={ListingDescriptionData.saleTax}
+              shippingFee={ListingDescriptionData.shippingFee}
+              averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
             />
           </Grid.Col>
-        </Only>
-      </Grid>
-    </Container>
+          <Only when={listItemPost.condition === 'used'}>
+            <Grid.Col span={12}>
+              <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} size="sm" />
+              <UsedProductListing
+                accessories={usedProductListingData.accessories}
+                description={usedProductListingData.description}
+                itemConditions={usedProductListingData.itemConditions}
+                count={count}
+              />
+            </Grid.Col>
+          </Only>
+        </Grid>
+      </Container>
     </ListItemPostContext.Provider>
   );
 }

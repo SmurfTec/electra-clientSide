@@ -85,6 +85,7 @@ export default function ProductPage({
   recommended,
   isAuth,
 }: ProductPageProps) {
+  console.log(productDetail);
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -166,7 +167,6 @@ export default function ProductPage({
       {item.title}
     </Anchor>
   ));
-  console.log(productDetail);
   return (
     <>
       {!matches && (

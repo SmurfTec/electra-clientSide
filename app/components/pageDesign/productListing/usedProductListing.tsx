@@ -168,7 +168,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
         </Badge>
 
         <div className="space-y-8">
-          <div className="my-4 space-y-4">
+          {/* <div className="my-4 space-y-4">
             <Text className="font-[500]" size="md">
               What accessories are included?
             </Text>
@@ -185,7 +185,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
                 );
               })}
             </Group>
-          </div>
+          </div> */}
 
           <div className="my-4 space-y-4">
             <Text className="font-[500]" size="md">
@@ -207,15 +207,21 @@ export function UsedProductListing({ accessories, description, itemConditions, c
                 })}
               </Group>
             </Radio.Group>
-            <Textarea
-              value={listItemPost.explain_repair}
-              onChange={(event) => setListItemPost((prev) => ({ ...prev, explain_repair: event.currentTarget.value }))}
-              styles={{
-                input: { border: '2px solid black', borderRadius: '0' },
-                description: { color: 'black', fontSize: '16px' },
-              }}
-              minRows={4}
-            />
+
+            {/* Conditionally render Textarea based on radio button value */}
+            {listItemPost.is_repaired_before === 'true' && (
+              <Textarea
+                value={listItemPost.explain_repair}
+                onChange={(event) =>
+                  setListItemPost((prev) => ({ ...prev, explain_repair: event.currentTarget.value }))
+                }
+                styles={{
+                  input: { border: '2px solid black', borderRadius: '0' },
+                  description: { color: 'black', fontSize: '16px' },
+                }}
+                minRows={4}
+              />
+            )}
           </div>
 
           <div className="my-4 space-y-4">

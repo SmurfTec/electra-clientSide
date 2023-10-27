@@ -1,5 +1,5 @@
 import { PageTitle, ProductCarousel, ProductDetails, UsedProductListing } from '@elektra/components';
-import { ListItem, Modal, Only, http, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
+import { ListItem, Modal, Only, baseURL, http, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
 import { useCardModal, useProductAddedModal, useShippingChangeModal, useErrorModal } from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { RootState } from '@elektra/store';
@@ -28,16 +28,19 @@ type ApiData = {
   product: number;
   shipping_address: string;
 };
+
 type Details = {
   accessories: string[];
   itemConditions: string[];
   moredetails: string[];
 };
+
 type UsedData = {
   files: FileWithPath[];
   listItemPost: ListItemPost;
   details: Details;
 };
+
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
@@ -47,7 +50,6 @@ export async function getServerSideProps({ req }: NextPageContext) {
 }
 
 const base64ToBlob = (base64: any) => {
-  // Extract the MIME type from the Base64 string
   const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1];
   const byteString = atob(base64.split(',')[1]);
   const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -55,7 +57,6 @@ const base64ToBlob = (base64: any) => {
   for (let i = 0; i < byteString.length; i++) {
     uint8Array[i] = byteString.charCodeAt(i);
   }
-
   return new Blob([uint8Array], { type: mime });
 };
 
@@ -106,7 +107,7 @@ export default function Confirmation() {
   const [ErrorTxt, setErrorTxt] = useState<string>('');
   const [ErrorChangeModal, ErrorOpened, ErrorHandler] = useErrorModal({ ErrorTxt });
   const router = useRouter();
-  const condition: string = router.query['condition'] === 'new' ? 'New' : 'Used'; //router.query['condition'] === 'new' ? 'New' : 'Used';
+  const condition: string = router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
 
   const handleSubmit = async () => {
@@ -157,7 +158,7 @@ export default function Confirmation() {
           case 'image/bmp':
             return '.bmp';
           default:
-            return '.img'; // Default extension (you can adjust this as needed)
+            return '.img';
         }
       };
 
@@ -171,7 +172,6 @@ export default function Confirmation() {
       });
 
       const { listItemPost } = usedListingData;
-      // files.map((file: any) => formData.append('images', file));
       const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
 
       const numberKeys = ['product', 'ask'];
@@ -195,8 +195,6 @@ export default function Confirmation() {
           return;
         }
 
-        // Check if the value is a string. If it is, append it as is.
-        // Otherwise, stringify the value before appending.
         if (typeof value === 'string') {
           formData.append(key, value);
         } else {
@@ -236,13 +234,14 @@ export default function Confirmation() {
       <Grid>
         <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">
-            <Only when={condition.toLowerCase() == 'used'}>
+            <Only when={condition.toLowerCase() === 'used'}>
               <div className="w-screen md:w-auto">
                 <ProductCarousel images={product.images} />
               </div>
             </Only>
             <Only when={condition.toLowerCase() === 'new'}>
               <Image alt="product image" src={product?.images && product?.images[0]?.url} />
+              <Image alt="product image" src={baseURL + '/' + (product?.images && product?.images[0]?.url)} />
             </Only>
           </Stack>
         </Grid.Col>
