@@ -9,22 +9,22 @@ import { Pencil } from 'tabler-icons-react';
 export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
   const product = useSelector((state: RootState) => state.entities.purchasingOrders.list.purchasingActiveOrders.bids).find((item)=>item.id===row.original.id);
-  // const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
+  const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
 
   switch (props.cell.column.id) {
     case 'action':
       return (
         <div>
-          {/* <Modal
+          <Modal
               title="Edit Offer"
               size={500}
               children={OfferEditModal}
               onClose={offerEditHandler.close}
               open={offerEditOpened}
-            /> */}
-          {/* <ActionIcon onClick={offerEditHandler.open}>
+            />
+          <ActionIcon onClick={offerEditHandler.open}>
             <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
-          </ActionIcon> */}
+          </ActionIcon>
         </div>
       );
     default:

@@ -3,7 +3,6 @@ import { useCarouselModal } from '@elektra/hooks';
 import { Variant } from '@elektra/types';
 import { Grid, Group, Image, Modal, Paper, ScrollArea, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-// import Image from 'next/image';
 
 export type ItemCardProps = {
   status?: string;
@@ -13,17 +12,20 @@ export type ItemCardProps = {
   title: string;
   image: string | null;
   productVariants: Variant[];
+  specs?: string[] | null;
 };
 
-export function ItemCard({ title, image, productVariants, date, price, sale, status, ...rest }: ItemCardProps) {
+export function ItemCard({ title, image, productVariants, specs, date, price, sale, status, ...rest }: ItemCardProps) {
   const [carouselModal, carouselOpened, carouselHandler] = useCarouselModal();
   const phone = useMediaQuery('(max-width: 600px)', false);
+
   return (
     <Grid m={0} {...rest} gutter={phone ? 10 : 20}>
       <Only when={!!image}>
         <Grid.Col span={2}>
           <Paper bg={'#F5F5F5'} className="flex justify-center relative">
-            <Image width={60} alt={title} src={image} onClick={carouselHandler.open} />
+            {/* <Image width={60} alt={title} src={image} onClick={carouselHandler.open} /> */}
+            <Image width={60} alt={title} src={image} />
             <Modal
               scrollAreaComponent={ScrollArea}
               fullScreen
@@ -40,7 +42,7 @@ export function ItemCard({ title, image, productVariants, date, price, sale, sta
                 header: {
                   background: 'transparent',
                   position: 'relative',
-                  // height: "12vh"
+                  height: '12vh',
                 },
                 body: {
                   marginTop: '85px',
@@ -75,7 +77,7 @@ export function ItemCard({ title, image, productVariants, date, price, sale, sta
           </Paper>
         </Grid.Col>
       </Only>
-      <Grid.Col span={!image ? 12 :10} className={'space-y-2'}>
+      <Grid.Col span={!image ? 12 : 10} className={'space-y-2'}>
         <Group position="apart">
           <Group>
             <Text color="black" className="font-bold" size={!sale ? 20 : phone ? 14 : 'xl'}>
@@ -97,7 +99,7 @@ export function ItemCard({ title, image, productVariants, date, price, sale, sta
           <Group align="top" spacing={phone ? 8 : 15}>
             {productVariants?.map((item, key) => (
               <div key={key + item.id + item.value}>
-                <TransparentButton label={item.value} />
+                <TransparentButton label={'item.value'} />
               </div>
             ))}
           </Group>
@@ -106,6 +108,15 @@ export function ItemCard({ title, image, productVariants, date, price, sale, sta
               {date}
             </Text>
           </Only>
+        </Group>
+        <Group position="apart" spacing={0}>
+          <Group align="top" spacing={phone ? 8 : 15}>
+            {specs?.map((item: any, key) => (
+              <div key={key + item.id + item.value}>
+                <TransparentButton label={item.value} />
+              </div>
+            ))}
+          </Group>
         </Group>
       </Grid.Col>
     </Grid>

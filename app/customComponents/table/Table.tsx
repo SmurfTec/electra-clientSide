@@ -71,7 +71,6 @@ export function DataTable<T extends { id: string | number }>({
   });
 
   const { classes } = useStyles();
-  console.log(table.getHeaderGroups());
   return (
     <div className="overflow-x-auto w-full">
       <Table className={clsx(classes.table, className)} striped>
@@ -101,7 +100,9 @@ export function DataTable<T extends { id: string | number }>({
         ) : (
           <tbody className="text-center">
             <td colSpan={table.getHeaderGroups()[0].headers.length}>
-              <Text size="md" py={20}>No Result Found</Text>
+              <Text size="md" py={20}>
+                No Result Found
+              </Text>
             </td>
           </tbody>
         )}
@@ -113,8 +114,6 @@ export function DataTable<T extends { id: string | number }>({
 export default DataTable;
 
 export type { tableDataType };
-
-// Styles used by the DataTable
 
 const useStyles = createStyles((theme) => ({
   table: {
