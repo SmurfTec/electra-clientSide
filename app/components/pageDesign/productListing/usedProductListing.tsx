@@ -242,13 +242,13 @@ export function UsedProductListing({ accessories, description, itemConditions, c
             </Radio.Group>
           </div>
 
-          <>
+          {/* <>
             <ListItem
               className="space-y-4"
               data={description}
               icon={<Check size={20} strokeWidth={2} color={'black'} />}
             />
-          </>
+          </> */}
 
           <>
             <Textarea

@@ -296,7 +296,7 @@ export default function Confirmation() {
             />
             <Only when={condition.toLocaleLowerCase() == 'used'}>
               <section className="space-y-8">
-                <div>
+                {/* <div>
                   <Title className="font-[600]" order={6}>
                     What accessories are included
                   </Title>
@@ -317,7 +317,7 @@ export default function Confirmation() {
                       })}
                     </Group>
                   </Group>
-                </div>
+                </div> */}
 
                 {condition.toLocaleLowerCase() == 'used' && (
                   <>
@@ -332,7 +332,7 @@ export default function Confirmation() {
                             classNames={{ leftIcon: classes.leftIcon, root: 'p-0 h-5 w-5 ml-2 rounded-2xl' }}
                           />
                           <Text color={'black'} size="sm">
-                            Yes
+                            {usedListingData?.listItemPost?.is_repaired_before ? 'Yes' : 'No'}
                           </Text>
                         </Group>
                       </Group>
@@ -345,10 +345,10 @@ export default function Confirmation() {
                         What best describes overall condition of your item?
                       </Title>
                       <Text color={'black'} size="md">
-                        Great
+                        {usedListingData?.listItemPost?.condition_details}
                       </Text>
                     </div>
-                    <div>
+                    {/* <div>
                       <Title className="font-[600] mb-[20px]" order={6}>
                         More About This Item
                       </Title>
@@ -357,7 +357,7 @@ export default function Confirmation() {
                         data={usedListingData?.details?.moredetails}
                         icon={<Check size={20} strokeWidth={2} color={'black'} />}
                       />
-                    </div>
+                    </div> */}
                   </>
                 )}
               </section>
