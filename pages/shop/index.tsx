@@ -1,4 +1,4 @@
-import { FooterProductCarousel, ItemFilter, ProductCard, SectionTitle } from '@elektra/components';
+import { FooterProductCarousel, HeroImage, ItemFilter, ProductCard, SectionTitle } from '@elektra/components';
 import { Modal, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
@@ -107,7 +107,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     data: productFilters,
     filter: params,
     setFilter: setParams,
-    fetchListings: handleFilter, 
+    fetchListings: handleFilter,
   });
   const matches = useMediaQuery('(max-width: 600px)');
 
@@ -119,14 +119,49 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     dispatch(fetchShopProducts(isAuth, queryParams + `${queryParams ? '&' : '?'}page=${pageNumber}&limit=10`));
   };
 
+  const categoryImage = [
+    {
+      id: 25,
+      image: '/images/carousel/dummy/1.jpeg',
+    },
+    {
+      id: 23,
+      image: '/images/carousel/dummy/slider1.png',
+    },
+    {
+      id: 22,
+      image: '/images/carousel/dummy/3.jpeg',
+    },
+    {
+      id: 21,
+      image: '/images/carousel/dummy/7.jpeg',
+    },
+    {
+      id: 20,
+      image: '/images/carousel/dummy/10.jpeg',
+    },
+    {
+      id: 18,
+      image: '/images/carousel/dummy/2.jpeg',
+    },
+    {
+      id: 17,
+      image: '/images/carousel/dummy/9.jpeg',
+    },
+    {
+      id: 16,
+      image: '/images/carousel/dummy/6.jpeg',
+    },
+  ];
+  const matchedImage = genericData && categoryImage.find((item) => item.id === genericData.id);
+  const imageSrc = matchedImage
+    ? matchedImage.image
+    : genericData?.image
+    ? `${baseURL}/${genericData.image.filename}`
+    : '/images/shop/heroBanner.jpg';
   return (
     <>
-      <Image
-        className="mt-4"
-        src={genericData?.image ? baseURL + '/' + genericData.image.filename : '/images/shop/heroBanner.jpg'}
-        alt="banner"
-        height={400}
-      />
+      {queryParams === '' ? <HeroImage /> : <Image className="mt-4" src={imageSrc} alt="banner" height={400} />}
       <div className="my-4">
         <Group position="apart">
           <Only when={matches}>
@@ -141,9 +176,8 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
       </div>
       <SectionTitle title="All Products" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
+      <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-4 md:grid-cols-4 place-content-center">
         {shopProducts?.products?.map((product, index) => {
-        
           return (
             <div key={index} className="min-w-[15%]">
               <ProductCard

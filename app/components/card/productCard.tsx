@@ -53,7 +53,7 @@ export function ProductCard({
         <Card.Section>
           {/* <Paper bg={'#F5F5F5'} className="flex items-center justify-center p-6"> */}
           <Paper className="flex items-center justify-center">
-            <Image alt={image} src={image} fit="cover" height={'200px'} />
+            <Image alt={image} src={image} fit="fill" height={'100%'} width={'100%'} />
           </Paper>
         </Card.Section>
         <Only when={!!condition}>

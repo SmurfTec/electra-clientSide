@@ -1,5 +1,5 @@
 import { RootState, logout, useAppDispatch, useSelector } from '@elektra/store';
-import { ActionIcon, Avatar, Flex, Grid, Indicator, Menu, Text, createStyles } from '@mantine/core';
+import { ActionIcon, Avatar, Button, Flex, Grid, Indicator, Menu, Text, createStyles } from '@mantine/core';
 import { useDisclosure, useToggle } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { deleteCookie } from 'cookies-next';
@@ -70,6 +70,79 @@ export const Header = () => {
             </Grid.Col>
             <Grid.Col span={3}>
               <Flex justify={'flex-end'} gap={8}>
+                <Button
+                  className="rounded-3xl px-4 h-7 hover:bg-black"
+                  styles={{
+                    root: {
+                      '&:not([data-disabled]):hover': {
+                        backgroundColor: 'white',
+                      },
+                    },
+                    rightIcon: {
+                      marginLeft: 0,
+                    },
+                  }}
+                  variant="outline"
+                  component={NextLink}
+                  href={`/shop`}
+                >
+                  Shop
+                </Button>
+                <Button
+                  className="rounded-3xl px-4 h-7 hover:bg-black"
+                  styles={{
+                    root: {
+                      '&:not([data-disabled]):hover': {
+                        backgroundColor: 'white',
+                      },
+                    },
+                    rightIcon: {
+                      marginLeft: 0,
+                    },
+                  }}
+                  variant="outline"
+                  component={NextLink}
+                  href={`selling-search`}
+                >
+                  Sell
+                </Button>
+                <Button
+                  className="rounded-3xl px-4 h-7 hover:bg-black"
+                  styles={{
+                    root: {
+                      '&:not([data-disabled]):hover': {
+                        backgroundColor: 'white',
+                      },
+                    },
+                    rightIcon: {
+                      marginLeft: 0,
+                    },
+                  }}
+                  variant="outline"
+                  component={NextLink}
+                  href={`/unavailable-item/request`}
+                >
+                  Request Product
+                </Button>
+
+                <Button
+                  className="rounded-3xl px-4 h-7 hover:bg-black"
+                  styles={{
+                    root: {
+                      '&:not([data-disabled]):hover': {
+                        backgroundColor: 'white',
+                      },
+                    },
+                    rightIcon: {
+                      marginLeft: 0,
+                    },
+                  }}
+                  variant="outline"
+                  component={NextLink}
+                  href={`/contact`}
+                >
+                  Help
+                </Button>
                 <ActionIcon variant="transparent" className="block" size={30} onClick={() => toggleSearch()}>
                   <Avatar radius={'xl'} variant="filled" color="black" size={30}>
                     <IconSearch size={18} strokeWidth={1} />

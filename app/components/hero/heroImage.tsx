@@ -10,17 +10,26 @@ import Herocomponent from './hero';
 
 const data = [
   {
-    backgroundImage: '/images/img.png',
-    tabletImage: '/images/tabletBackground.png',
-    phoneImage: '/images/phoneBackground.png',
+    backgroundImage: '/images/carousel/dummy/9.jpeg',
+    // backgroundImage: '/images/img.png',
+    tabletImage: '/images/carousel/dummy/9.jpeg',
+    phoneImage: '/images/carousel/dummy/9.jpeg',
     title: 'New Iphone 14',
     subTitle: ' Packages',
     href: '/shop',
   },
   {
-    backgroundImage: '/images/img.png',
-    tabletImage: '/images/tabletBackground.png',
-    phoneImage: '/images/phoneBackground.png',
+    backgroundImage: '/images/carousel/dummy/11.jpeg',
+    tabletImage: '/images/carousel/dummy/11.jpeg',
+    phoneImage: '/images/carousel/dummy/11.jpeg',
+    title: 'New Iphone 12',
+    subTitle: ' Packages',
+    href: '/shop',
+  },
+  {
+    backgroundImage: '/images/carousel/dummy/4.jpeg',
+    tabletImage: '/images/carousel/dummy/4.jpeg',
+    phoneImage: '/images/carousel/dummy/4.jpeg',
     title: 'New Iphone 12',
     subTitle: ' Packages',
     href: '/shop',
@@ -63,10 +72,10 @@ export function HeroImage() {
       }}
       className="w-full"
     >
-      {carouselData?.images.map((item, index) => (
+      {data.map((item, index) => (
         <Carousel.Slide className="cursor-pointer" onClick={() => router.push('/shop')} key={index}>
           <Herocomponent
-            backgroundImage={baseURL + '/' + item.filename}
+            backgroundImage={item.backgroundImage}
             // backgroundImage={}
 
             href={'/shop'}
@@ -74,6 +83,17 @@ export function HeroImage() {
           {/* <Image alt="background-image" src={item.backgroundImage} fit='fill' height={phone ? "200px" : undefined} /> */}
         </Carousel.Slide>
       ))}
+      {/* {carouselData?.images.map((item, index) => (
+        <Carousel.Slide className="cursor-pointer" onClick={() => router.push('/shop')} key={index}>
+          <Herocomponent
+            backgroundImage={baseURL + '/' + item.filename}
+            backgroundImage={}
+
+            href={'/shop'}
+          />
+          <Image alt="background-image" src={item.backgroundImage} fit='fill' height={phone ? "200px" : undefined} />
+        </Carousel.Slide>
+      ))} */}
     </Carousel>
   );
 }

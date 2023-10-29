@@ -3,7 +3,6 @@ import { Button, createStyles, Image } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 
-
 export interface IHerocomponentProps {
   backgroundImage: string;
   href: string;
@@ -15,14 +14,14 @@ export const Herocomponent = ({ backgroundImage, href }: IHerocomponentProps) =>
   const matches = useMediaQuery('(max-width: 900px)');
   return (
     <div>
-      <Image alt="background-image" src={backgroundImage} height={350} fit="cover" />
+      <Image alt="background-image" src={backgroundImage} height={350} fit="fill" />
       <div>
         <Only when={!matches}>
-        <div className="absolute top-1/2 -translate-x-1/2 left-[10.5%]">
-          {/* <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">
+          <div className="absolute top-1/2 -translate-x-1/2 left-[10.5%]">
+            {/* <Button component={NextLink} href={href} size={matches ? 'xs' : 'md'} uppercase color="blue">
             Shop Today
           </Button> */}
-        </div>
+          </div>
         </Only>
       </div>
     </div>
