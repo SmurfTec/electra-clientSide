@@ -21,7 +21,7 @@ export type ProductSpecificationProps = {
   technicalSpecification: TechnicalSpecification[];
   isListingVisible: boolean;
   more_info?: string;
-  lowest_ask?:any;
+  lowest_ask?: any;
 };
 
 export function ProductSpecification({
@@ -36,7 +36,7 @@ export function ProductSpecification({
   technicalSpecification,
   isListingVisible,
   more_info,
-  lowest_ask
+  lowest_ask,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({
     more_info: more_info || '',
@@ -45,6 +45,7 @@ export function ProductSpecification({
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });
   const [isLike, setIsLike] = useState(false);
   const phone = useMediaQuery('(max-width: 600px)');
+
   return (
     <div>
       <div className="space-y-2 ">
@@ -178,7 +179,7 @@ export function ProductSpecification({
         {/* <div> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={6}>
-            <BiddingInput title="Lowest Ask" value={lowest_ask || 0} />
+            <BiddingInput title="Lowest Asks" value={lowestAsk} />
           </Grid.Col>
           <Grid.Col span={6}>
             <BiddingInput title="Highest Offer" value={highestAsk} />
@@ -196,7 +197,7 @@ export function ProductSpecification({
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
                 // disabled={lowestAsk === 0 && highestAsk === 0}
-                disabled={lowestAsk==null?true:false}
+                disabled={lowestAsk == null ? true : false}
               >
                 BUY NOW
               </Button>

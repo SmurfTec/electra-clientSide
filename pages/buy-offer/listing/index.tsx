@@ -49,6 +49,7 @@ export default function PlaceOffer() {
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
 
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
+  console.log(productListingById);
   return (
     <Container fluid>
       <div className="my-10">
@@ -72,6 +73,7 @@ export default function PlaceOffer() {
             description={ListingDescriptionData.description}
             highestAsk={productListingById?.listing?.highest_offer}
             lowestAsk={productListingById?.listing?.lowest_offer}
+            price={Number(productListingById?.listing?.ask)}
             marketPlaceFee={0}
             saleTax={0}
             shippingFee={0}

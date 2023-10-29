@@ -186,14 +186,14 @@ export default function ProductPage({
         </Grid.Col>
         <Grid.Col md={6}>
           <ProductSpecification
-            more_info={productListingById.listing.more_info || ""}
+            more_info={productListingById.listing.more_info || ''}
             id={productListingById.listing.id}
             technicalSpecification={productListingById.listing?.technical_specifications || []}
             title={productListingById?.listing?.product?.title || ''}
             productVariants={productListingById.listing?.listing_variants || []}
             condition={productListingById.listing?.condition}
             highestAsk={Number(productListingById?.listing?.highest_offer) || 0}
-            lowestAsk={Number(productListingById?.listing?.ask) || 0}
+            lowestAsk={Number(productListingById?.listing?.ask)}
             price={Number(productListingById?.listing?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}

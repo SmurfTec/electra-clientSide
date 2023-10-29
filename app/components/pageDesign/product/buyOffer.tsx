@@ -24,6 +24,7 @@ type ListingDescriptionProps = {
   shippingFee: number;
   productVariants: Variant[];
   receiptFee: Array<{ id: number; fees: number; title: string }>;
+  price?: number;
 };
 
 export function BuyOfferComponent({
@@ -37,6 +38,7 @@ export function BuyOfferComponent({
   saleTax,
   shippingFee,
   receiptFee,
+  price
 }: ListingDescriptionProps) {
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const isNew = condition === 'new';
@@ -72,17 +74,23 @@ const router = useRouter()
     setshowNotification(true)
   }
   },[count])
+
   return (
     <div>
-       {showNotification && 
-       <Dialog position={{ top: 20, left: 20 }} opened={showNotification} withCloseButton onClose={()=>setshowNotification(false)} size="lg" radius="md">
-       <Text size="sm" mb="xs" fw={500}>
-         You can buy the item at lowest ask
-       </Text>
-
-     
-     </Dialog>
-      }
+      {showNotification && (
+        <Dialog
+          position={{ top: 20, left: 20 }}
+          opened={showNotification}
+          withCloseButton
+          onClose={() => setshowNotification(false)}
+          size="lg"
+          radius="md"
+        >
+          <Text size="sm" mb="xs" fw={500}>
+            You can buy the item at lowest ask
+          </Text>
+        </Dialog>
+      )}
       <Group>
         <Text className="font-semibold uppercase" size="sm">
           Select Condition{' '}
@@ -157,24 +165,24 @@ const router = useRouter()
             />
           </Input.Wrapper>
           <Input.Wrapper label="HIGHEST OFFER" maw={114}>
-              <NumberInput
-                radius={0}
-                styles={{
-                  input: {
-                    background: '#F1F1F1',
-                    fontWeight: 'bold',
-                    fontSize: '24px',
-                    color: '#3C82D6',
-                  },
-                }}
-                hideControls
-                value={Number(highestAsk)}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                formatter={(value) =>
-                  !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
-                }
-              />
-            </Input.Wrapper>
+            <NumberInput
+              radius={0}
+              styles={{
+                input: {
+                  background: '#F1F1F1',
+                  fontWeight: 'bold',
+                  fontSize: '24px',
+                  color: '#3C82D6',
+                },
+              }}
+              hideControls
+              value={Number(highestAsk)}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
+            />
+          </Input.Wrapper>
         </Only>
         <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
@@ -204,7 +212,7 @@ const router = useRouter()
         <NumberInput
           disabled={true}
           hideControls
-          value={count}
+          value={price}
           maw={200}
           p={0}
           onChange={handlers.set}
@@ -261,7 +269,7 @@ const router = useRouter()
             bg={'black'}
             component={NextLink}
             href={condition === 'new' ? '/buying-summary' : '/buying-summary/listing'}
-            disabled={Number(highestAsk)==0}
+            disabled={Number(lowestAsk) == 0}
           >
             Review Purchase
           </Button>
