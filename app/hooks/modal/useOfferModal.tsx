@@ -53,7 +53,7 @@ export type OfferModalProductProps = {
   cardDetails: string;
   address: string;
   saleDate: string;
-  product: Product; // added product property
+  product?: Product; // added product property
 };
 
 export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }, string] => {
@@ -120,7 +120,7 @@ export const useOfferPlaceModal = (
       <div className="w-full space-y-5">
         <ItemCard
           productVariants={productDetailData?.productVariant || []}
-          image={`${baseURL}/${productDetailData.product.attachments[0].url}`}
+          image={`${baseURL}/${productDetailData?.product?.attachments[0].url}`}
           title={productDetailData?.title}
           key={productDetailData?.title}
         />
