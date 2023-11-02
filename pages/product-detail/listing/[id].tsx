@@ -164,6 +164,7 @@ export default function ProductPage({
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
+  console.log(productListingById);
   return (
     <>
       {!matches && (
@@ -197,6 +198,8 @@ export default function ProductPage({
             price={Number(productListingById?.listing?.user_starting_at)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
+            isRpairedBefore={productListingById.listing.is_repaired_before}
+            explainRepair={productListingById?.listing?.explain_repair}
           />
         </Grid.Col>
       </Grid>
@@ -221,7 +224,7 @@ export default function ProductPage({
             </Grid.Col>
           </Only>
 
-          <Grid.Col span={6}>
+          <Grid.Col span={12}>
             <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
             <Only when={!filters}>
               <ProductFilter setFilter={setParams} filter={params} data={productFilters} fetchListings={handleFilter} />

@@ -32,6 +32,10 @@ export function BiddingSummary({
   const isOfferType = router.query.orderType === 'placeOffer';
   const { classes } = useStylesforGlobal();
   const yourOffer = router.query.bidPrice;
+  const actualItemPrice = itemPrice || 0; // Default to 0 if itemPrice is undefined
+  const percentageMarketPlace = (actualItemPrice * 7.5) / 100;
+   const percentageSalesTax = (actualItemPrice * 8.025) / 100;
+
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'scroll' }}
@@ -50,6 +54,65 @@ export function BiddingSummary({
       </Group>
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          MarketPlace Fee (7.5%)
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          ${percentageMarketPlace.toFixed(2)}
+        </Text>
+      </Group>
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          SALES TAX (8.025%)
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          ${percentageSalesTax.toFixed(2)}
+        </Text>
+      </Group>
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          SHIPPING FEE
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          ${15}
+        </Text>
+      </Group>
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          Platform Fee
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          ${5}
+        </Text>
+      </Group>
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          DISCOUNT
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          %0
+        </Text>
+      </Group>
+
+      <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
+
+      <Group className="space-x-4" position="apart">
+        <Text className="font-bold" size="sm">
+          Sale Price
+        </Text>
+        <Text className="font-bold" color="black" size="xl">
+          {
+            actualItemPrice + percentageMarketPlace + percentageSalesTax + 15 + 5
+          }
+        </Text>
+      </Group>
+
       {reciptFee?.map((item, index) => (
         <PositionApart key={index + item.id} text={item.title} number={item.fees} />
       ))}

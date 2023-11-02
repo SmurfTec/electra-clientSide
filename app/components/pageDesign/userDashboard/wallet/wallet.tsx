@@ -9,26 +9,26 @@ import { useRouter } from 'next/router';
 
 export const Wallet = () => {
   const [value, toggle] = useToggle<boolean>([false, true]);
-  const router=useRouter()
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [{error,message}, setError] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
+  const [{ error, message }, setError] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
   const handleSubmit = async () => {
     setLoading(true);
-    setError({ error: false, message: '' })
-    const res = await http.request<{url:string}>({
+    setError({ error: false, message: '' });
+    const res = await http.request<{ url: string }>({
       url: 'wallets/create-account',
       method: 'POST',
     });
-    console.log(router?.query?.targetUrl,"router?.query?.targetUrl")
+    console.log(res);
     if (res.isError) {
-      setError({error:true,message:String(res?.errorPayload?.['message'])})
+      setError({ error: true, message: String(res?.errorPayload?.['message']) });
       setLoading(false);
     } else {
-      let targetUrl:any=router?.query?.targetUrl
-      if(targetUrl){
-        router.push(targetUrl)
+      let targetUrl: any = router?.query?.targetUrl;
+      if (targetUrl) {
+        router.push(targetUrl);
       }
-      window.open(res.data.url, "_blank");
+      window.open(res.data.url, '_blank');
       setLoading(false);
     }
   };
@@ -51,7 +51,11 @@ export const Wallet = () => {
           <Button onClick={handleSubmit} loading={loading}>
             Connect
           </Button>
-          <Only when={error}><Text color='red' mt='md' size={'md'}>{message}</Text></Only>
+          <Only when={error}>
+            <Text color="red" mt="md" size={'md'}>
+              {message}
+            </Text>
+          </Only>
         </Only>
       </Grid.Col>
     </Grid>

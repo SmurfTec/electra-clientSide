@@ -3,14 +3,22 @@ import { useDisclosure } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { CircleCheck } from 'tabler-icons-react';
 
-export const useProductAddedModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+interface ModalOptions {
+  title?: string;
+  description?: string;
+}
+
+export const useProductAddedModal = ({
+  title = 'Product Added Successfully!',
+  description = 'You have successfully placed your ask on this product',
+}: ModalOptions = {}): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">
       <CircleCheck size={60} strokeWidth={1} color={'white'} className="fill-[#3C82D6]" />
-      <Text className="font-bold text-black text-base md:text-xl">Product Added Successfully!</Text>
+      <Text className="font-bold text-black text-base md:text-xl">{title}</Text>
       <Text size="sm" className="text-sm font-medium">
-        You have successfully placed your ask on this product
+        {description}
       </Text>
       <Button
         component={NextLink}

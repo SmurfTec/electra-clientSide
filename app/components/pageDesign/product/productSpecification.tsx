@@ -22,6 +22,8 @@ export type ProductSpecificationProps = {
   isListingVisible: boolean;
   more_info?: string;
   lowest_ask?: any;
+  isRpairedBefore?: boolean;
+  explainRepair?: string | null;
 };
 
 export function ProductSpecification({
@@ -37,9 +39,13 @@ export function ProductSpecification({
   isListingVisible,
   more_info,
   lowest_ask,
+  isRpairedBefore,
+  explainRepair,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({
     more_info: more_info || '',
+    isRpairedBefore,
+    explainRepair,
   });
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });

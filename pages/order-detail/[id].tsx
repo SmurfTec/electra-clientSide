@@ -52,7 +52,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
       unsubscribe = true;
     };
   }, []);
-
+  console.log(orderDetail);
   return (
     <Container mt={50} fluid>
       <PageTitle title="Viewing Details" />
@@ -61,7 +61,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
           <div className="overflow-y-auto h-full">
             <ProductDetail
               setExpiration={setExpiration}
-              image={baseURL + '/' + orderDetail?.product?.attachments?.[0]?.filename}
+              image={baseURL + '/' + orderDetail?.product?.images?.[0]?.filename}
               title={String(orderDetail?.product?.title)}
               productVariants={orderDetail.product_variants || []}
               condition={'Not in Data'}
@@ -91,7 +91,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
               // yourOffer={BiddingSummaryData.yourOffer}
               reciptFee={orderDetail.receipt_fees!}
               itemPrice={orderDetail?.saleprice}
-              marketPlaceFee={0}
+              marketPlaceFee={10}
               salesTax={0}
               shippingFee={0}
               totalPrice={0}

@@ -105,7 +105,10 @@ export default function Confirmation() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [CardModal, cardOpened, cardHandler] = useCardModal();
-  const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
+  const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal({
+    title: 'You have successfully listed this item',
+  });
+  // const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [ErrorTxt, setErrorTxt] = useState<string>('');
   const [ErrorChangeModal, ErrorOpened, ErrorHandler] = useErrorModal({ ErrorTxt });
@@ -175,14 +178,14 @@ export default function Confirmation() {
       });
 
       const { listItemPost } = usedListingData;
-      const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
+      // const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
 
       const numberKeys = ['product', 'ask'];
 
       Object.keys(listItemPost).map((key) => {
-        if (exclusiveKeys.includes(key)) {
-          return;
-        }
+        // if (exclusiveKeys.includes(key)) {
+        //   return;
+        // }
         const value = listItemPost[key as keyof ListItemPost];
 
         if (Array.isArray(value)) {
@@ -213,6 +216,7 @@ export default function Confirmation() {
           'Content-Type': 'multipart/form-data',
         },
       });
+
       if (res.isError) {
         const errdata: any = res.errorPayload;
         setErrorTxt(errdata.message);
@@ -476,7 +480,7 @@ export default function Confirmation() {
       />
       <Modal title={'Listing Failed'} children={ErrorChangeModal} onClose={ErrorHandler.close} open={ErrorOpened} />
       <Modal
-        title={'Ask Placed Successfully'}
+        // title={'Ask Placed Successfully'}
         children={ProductAddedModal}
         onClose={productAddedHandler.close}
         open={productAddedOpened}

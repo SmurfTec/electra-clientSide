@@ -76,6 +76,7 @@ type Product = {
   title: string;
   attachments: Attachment[];
   specs: Specification[];
+  images: Attachment[];
 };
 type Seller = {
   id: number;

@@ -1,4 +1,4 @@
-import { ListItem } from '@elektra/customComponents';
+import { ListItem, Only } from '@elektra/customComponents';
 import { Divider, Group, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Check, CircleCheck, Search } from 'tabler-icons-react';
@@ -14,15 +14,23 @@ const description = [
 ];
 
 type SellerDetailDrawerProps = {
-  more_info: string
-}
+  more_info: string;
+  isRpairedBefore?: boolean;
+  explainRepair?: string | null;
+};
 
-export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useSellerDetailDrawer = ({
+  more_info,
+  isRpairedBefore,
+  explainRepair,
+}: SellerDetailDrawerProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const Modal = (
     <Stack align="stretch" spacing="md" className="mt-6">
-      <Text size="md" color='black'>{more_info}</Text>
+      {/* <Text size="md" color="black">
+        {more_info}
+      </Text> */}
       {/* <TextInput
         styles={{ input: { backgroundColor: '#F1F1F1' } }}
         radius={'md'}
@@ -30,8 +38,8 @@ export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [Re
         rightSection={<Search color="#656565" />}
         className="w-full px-2"
         placeholder="Filter Details"
-      />
-      <div>
+      /> */}
+      {/* <div>
         <Title order={5} className="font-medium">
           What accessories are included?
         </Title>
@@ -42,18 +50,22 @@ export const useSellerDetailDrawer = ({more_info}: SellerDetailDrawerProps): [Re
           <Text size={'sm'}>Original Box</Text>
         </Group>
         <Divider mt={15} />
-      </div>
-      <div>
+      </div> */}
+      <Only when={isRpairedBefore as boolean}>
         <Title order={5} className="font-medium">
           Has your item ever been repaired before?
         </Title>
-        <Text size={'sm'}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tincidunt elit. Nunc euismod odio sit amet
-          lorem lobortis, vel lacinia libero tristique. Nunc porttitor arcu accumsan,
-        </Text>
+        <Text size={'sm'}>{explainRepair}</Text>
         <Divider mt={15} />
-      </div>
-      <div>
+      </Only>
+      <Only when={more_info !== ""}>
+        <Title order={5} className="font-medium">
+          Tell us more about your item?
+        </Title>
+        <Text size={'sm'}>{more_info}</Text>
+        <Divider mt={15} />
+      </Only>
+      {/* <div>
         <Title order={5} className="font-medium">
           What best describes overall condition of your item?
         </Title>
