@@ -1,26 +1,26 @@
-import { ListItem, ListItemPostContext, Only, http } from '@elektra/customComponents';
-import { RootState } from '@elektra/store';
-import { ListItemPost, Variant, condition } from '@elektra/types';
-import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
-import { useCounter } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { useRouter } from 'next/router';
+// External Libraries
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip, Select } from '@mantine/core';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
+
+// Internal Imports
+import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
+import { RootState } from '@elektra/store';
+import { ListItemPost, Variant, condition } from '@elektra/types';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
-import { Select } from '@mantine/core';
-type handlerprops={
-   increment: () => void;
-   decrement: () => void;
-   set: (value: number) => void;
-   reset: () => void;
-}
+
+type handlerprops = {
+  increment: () => void;
+  decrement: () => void;
+  set: (value: number) => void;
+  reset: () => void;
+};
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
-
   averageSalePrice?: number;
   lowestAsk: number;
   highestAsk: number;
@@ -28,39 +28,38 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
-  count:number;
-  handlers:handlerprops;
+  count: number;
+  handlers: handlerprops;
 };
 
 export function ListingDescription({
   condition,
-  description, 
-  averageSalePrice,
-  productVariants,
+  description,
   lowestAsk,
   highestAsk,
-
-  marketPlaceFee, 
+  marketPlaceFee,
   saleTax,
   shippingFee,
+  productVariants,
   count,
-  handlers
+  handlers,
 }: ListingDescriptionProps) {
-  
   const router = useRouter();
-  localStorage.setItem("fee",JSON.stringify({
-    marketPlaceFee, 
-  saleTax,
-  shippingFee,
-  }))
+  localStorage.setItem(
+    'fee',
+    JSON.stringify({
+      marketPlaceFee,
+      saleTax,
+      shippingFee,
+    })
+  );
 
   const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  // const [ handlers] = useCounter(0, { min: 0 });
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
-  const authData=useSelector((state:any)=>state.auth)
+  const authData = useSelector((state: any) => state.auth);
   useEffect(() => {
     if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
   }, [count]);
@@ -75,16 +74,12 @@ export function ListingDescription({
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
-  
+
   const handleSubmit = async () => {
-    
     setLoading(true);
     const formData = new FormData();
-
     const exclusiveKeys = ['condition_details', 'explain_repair', 'more_info', 'is_repaired_before'];
-
     const numberKeys = ['product', 'ask'];
-
     Object.keys(listItemPost).map((key) => {
       if (exclusiveKeys.includes(key)) {
         return;
@@ -107,44 +102,24 @@ export function ListingDescription({
       formData.append(key, listItemPost[key as keyof ListItemPost]);
     });
 
-if(authData.isAuthenticated){
-  const { id } = router.query;
-  
-  const currentDate = new Date();
-  const calculatedDate = new Date(currentDate);
-  calculatedDate.setDate(currentDate.getDate() + Number(days));
-  const data={
-    price:count, 
-    expiration_date: calculatedDate,
-    shipping_address: authData?.profile?.shipping_address_line_1,
-    product: Number(id)
-  }
-localStorage.setItem('ListingData',JSON.stringify(data))
-router.push(`/confirmation/${id}?condition=new`)
-//  const res = await http.request({
-//       url: '/asks',
-//       method: 'POST',
-//       data: data,
-//     });
-//     if (res.isError) {
-//       setLoading(false);
-//       return;
-//     }
-//     setLoading(false);
-//     notifications.show({
-//       message: 'Listing placed successfully',
-//       autoClose: 3000,
-//     });
-
-//     setTimeout(() => {
-//       router.push('/userdashboard?tab=selling');
-//     }, 4000);
-}else{
-  const { id } = router.query;
-  const targetUrl = `/product-listing/${id}`
-  router.push(`/auth/login?targetUrl=${targetUrl}`)
-}
-   
+    if (authData.isAuthenticated) {
+      const { id } = router.query;
+      const currentDate = new Date();
+      const calculatedDate = new Date(currentDate);
+      calculatedDate.setDate(currentDate.getDate() + Number(days));
+      const data = {
+        price: count,
+        expiration_date: calculatedDate,
+        shipping_address: authData?.profile?.shipping_address_line_1,
+        product: Number(id),
+      };
+      localStorage.setItem('ListingData', JSON.stringify(data));
+      router.push(`/confirmation/${id}?condition=new`);
+    } else {
+      const { id } = router.query;
+      const targetUrl = `/product-listing/${id}`;
+      router.push(`/auth/login?targetUrl=${targetUrl}`);
+    }
   };
 
   return (
@@ -220,58 +195,42 @@ router.push(`/confirmation/${id}?condition=new`)
           />
         </Input.Wrapper>
         <Input.Wrapper label="HIGHEST OFFER" maw={114}>
-            <NumberInput
-              radius={0}
-              styles={{
-                input: {
-                  background: '#F1F1F1',
-                  fontWeight: 'bold',
-                  fontSize: '24px',
-                  color: '#3C82D6',
-                },
-              }}
-              hideControls
-              value={highestAsk}
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-              formatter={(value) =>
-                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
-              }
-              disabled
-            />
-          </Input.Wrapper>
-        {/* <Only when={!!highestAsk}>
-          <Input.Wrapper label="HIGHEST ASK" maw={114}>
-            <NumberInput
-              radius={0}
-              styles={{
-                input: {
-                  background: '#F1F1F1',
-                  fontWeight: 'bold',
-                  fontSize: '24px',
-                  color: '#3C82D6',
-                },
-              }}
-              hideControls
-              value={highestAsk}
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-              formatter={(value) =>
-                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
-              }
-              disabled
-            />
-          </Input.Wrapper>
-        </Only> */}
+          <NumberInput
+            radius={0}
+            styles={{
+              input: {
+                background: '#F1F1F1',
+                fontWeight: 'bold',
+                fontSize: '24px',
+                color: '#3C82D6',
+              },
+            }}
+            hideControls
+            value={highestAsk}
+            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+            formatter={(value) =>
+              !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+            }
+            disabled
+          />
+        </Input.Wrapper>
       </Group>
       <Group>
-       <div className='flex flex-col gap-[0px]'>
-       <p className='text-[18px] font-bold'>Ask Expiration</p>
-      <Select className='Expiration-dropdown !h-[3.25rem]' data={[
-        {value:'7',label:'7 Days'},  //'7','14','21','30'
-        {value:'14',label:'14 Days'},
-        {value:'21',label:'21 Days'},
-        {value:'30',label:'30 Days'}
-      ]} value={days} onChange={(value:any)=>setdays(value)} />
-       </div>
+        <div className="flex flex-col gap-[0px]">
+          <p className="text-[18px] font-bold">Ask Expiration</p>
+          <Select
+            className="Expiration-dropdown !h-[3.25rem]"
+            data={[
+              { value: '1', label: '1 Days' }, //'7','14','21','30'
+              { value: '7', label: '7 Days' },
+              { value: '14', label: '14 Days' },
+              { value: '21', label: '21 Days' },
+              { value: '30', label: '30 Days' },
+            ]}
+            value={days}
+            onChange={(value: any) => setdays(value)}
+          />
+        </div>
       </Group>
       <Group position="apart" spacing={0} className="px-2 py-1 mt-6 border-black border-solid lg:px-24 md:py-6 ">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
@@ -306,16 +265,21 @@ router.push(`/confirmation/${id}?condition=new`)
         <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} />
-          <PositionApart text={'Sales Tax'} number={saleTax} />
-          <PositionApart text={'Shipping Fee'} number={shippingFee} />
+          <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} sign="-" />
+          <PositionApart text={'Sales Tax'} number={saleTax} sign="-" />
+          <PositionApart text={'Shipping Fee'} number={shippingFee} sign="-" />
+
           {/* <PositionApart text={'Discount'} number={Number(discount)} discount /> */}
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={Number(count + marketPlaceFee + saleTax + shippingFee)} />
+        <PositionApart
+          text={'Total Price'}
+          number={count > 0 ? Number(count - marketPlaceFee - saleTax - shippingFee) : 0}
+        />
       </div>
 
-      <Only when={isNew}>
+      {/* <Only when={isNew}> */}
+      <Only when={listItemPost.condition === 'new'}>
         <Grid>
           <Grid.Col span={6}>
             <Button
@@ -340,7 +304,7 @@ router.push(`/confirmation/${id}?condition=new`)
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              disabled={count==0}
+              disabled={count == 0}
               onClick={handleSubmit}
             >
               List Item

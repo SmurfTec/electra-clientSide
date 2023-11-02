@@ -55,7 +55,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const router = useRouter();
   const [plan, setPlan] = useState<number | null>(null);
   const dispatch = useAppDispatch();
-  
+
   const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);
   const protectionPlan = protectionPlanData.protectionplans;
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
@@ -115,17 +115,15 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       setSuccessPayment(false);
       return;
     }
-   
+
     const res = await http.request({
       url: `/products/${productDetail.product.id}/buy`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      
       data: {
         payment_method_id: result.paymentMethod.id,
-        //* random between 800 and 1600
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
 
         expiration_date: expiration,
@@ -134,6 +132,15 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         product: productDetail.product.id,
       },
     });
+    console.log({
+      payment_method_id: result.paymentMethod.id,
+      price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask),
+
+      expiration_date: expiration,
+      coupon: coupon || '',
+      shipping_address: '{{$randomStreetAddress}}',
+      product: productDetail.product.id,
+    });
     if (res.isError) {
       notifications.show({
         message: res?.errorPayload?.message || 'Failed to proccess your request',
@@ -141,6 +148,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       });
     }
     const paymentResponse = await res.data;
+
     if (paymentResponse) {
       setSuccessPayment(true);
       return;
@@ -152,6 +160,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const [StripeModal, stripeOpened, stripeHandler] = useStripeModal({
     stripePaymentMethodHandler: isOfferType ? placeOfferSubmit : stripePaymentMethodHandler,
   });
+
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal({
     address: '',
     cardDetails: '',
@@ -162,6 +171,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     productVariant: productDetail?.product?.product_variants,
     expiration: '',
   });
+
   const profile = useSelector((state: RootState) => state.auth.profile);
   const yourOffer = router.query.bidPrice;
 
@@ -207,9 +217,9 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   title={productDetail.product.title}
                   condition={productDetail.product.condition.toUpperCase()}
                   expiration={productDetailData.expiration}
-                  cardDetails={productDetailData.cardDetails} 
-                  address={profile?.shipping_address_line_1 || ""}
-                  setExpiration={setExpiration} 
+                  cardDetails={productDetailData.cardDetails}
+                  address={profile?.shipping_address_line_1 || ''}
+                  setExpiration={setExpiration}
                   // status={''}
                   // saleDate={''}
                   // orderNo={''}f

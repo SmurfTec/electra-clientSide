@@ -56,13 +56,9 @@ const CardDetailComponent = ({ stripePaymentMethodHandler }: CardDetailProps) =>
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -74,7 +70,6 @@ const CardDetailComponent = ({ stripePaymentMethodHandler }: CardDetailProps) =>
         name: 'Jenny Rosen',
       },
     });
-
     stripePaymentMethodHandler(result).then(() => setLoading(false));
   };
 

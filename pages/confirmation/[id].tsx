@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { ProductData } from '../../types/slices';
 import { ListItemPost } from '@elektra/types';
 import { FileWithPath } from '@mantine/dropzone';
+import { UsedProductCarousel } from '@elektra/components/pageDesign/product/UsedProductCarousel';
 
 const description = [
   'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
@@ -73,6 +74,7 @@ export default function Confirmation() {
     product: 0,
     shipping_address: '',
   };
+
   let usedListingData: UsedData = {
     files: [],
     listItemPost: {
@@ -91,6 +93,7 @@ export default function Confirmation() {
       moredetails: [],
     },
   };
+
   const storedData = localStorage.getItem('ListingData');
   const usedProductData = localStorage.getItem('UsedListingData');
   if (storedData !== null) {
@@ -236,11 +239,11 @@ export default function Confirmation() {
           <Stack align="center" justify="center">
             <Only when={condition.toLowerCase() === 'used'}>
               <div className="w-screen md:w-auto">
-                <ProductCarousel images={product.images} />
+                <UsedProductCarousel images={usedListingData.files} />
+                {/* <Image alt="product image" src={usedListingData.files[0]} /> */}
               </div>
             </Only>
             <Only when={condition.toLowerCase() === 'new'}>
-              <Image alt="product image" src={product?.images && product?.images[0]?.url} />
               <Image alt="product image" src={baseURL + '/' + (product?.images && product?.images[0]?.url)} />
             </Only>
           </Stack>
@@ -260,16 +263,30 @@ export default function Confirmation() {
               <Text className="text-[13px] font-[500]" color="black">
                 My Ask
               </Text>
-              <Text className="text-[48px] font-[600]" color="black">
-                ${apiData?.price}
-              </Text>
+              {condition.toLowerCase() === 'used' ? (
+                <Text className="text-[48px] font-[600]" color="black">
+                  ${usedListingData.listItemPost.ask}
+                </Text>
+              ) : (
+                <Text className="text-[48px] font-[600]" color="black">
+                  ${apiData?.price}
+                </Text>
+              )}
             </div>
             <div className="mt-2">
               <Text className="text-[13px] font-[500]" color="black">
                 After Fee
               </Text>
               <Text className="text-[48px] font-[600]" color="black">
-                ${apiData?.price - 23 > 0 ? apiData?.price - 23 : 0}
+                {condition.toLowerCase() === 'used' ? (
+                  <Text className="text-[48px] font-[600]" color="black">
+                    ${Number(usedListingData.listItemPost.ask) > 0 ? Number(usedListingData.listItemPost.ask) - 23 : 0}
+                  </Text>
+                ) : (
+                  <Text className="text-[48px] font-[600]" color="black">
+                    ${apiData?.price - 23 > 0 ? apiData?.price - 23 : 0}
+                  </Text>
+                )}
               </Text>
             </div>
           </Group>
@@ -339,6 +356,22 @@ export default function Confirmation() {
                       {/* <Text className="mt-6" color={'black'} size="md">
                    {productD}
                   </Text> */}
+                    </div>
+                    <div>
+                      <Title className="font-[600]" order={6}>
+                        Which Best describes the overall condition of your item?
+                      </Title>
+                      <Text color={'black'} size="sm">
+                        {usedListingData?.listItemPost?.explain_repair}
+                      </Text>
+                    </div>
+                    <div>
+                      <Title className="font-[600]" order={6}>
+                        More info
+                      </Title>
+                      <Text color={'black'} size="sm">
+                        {usedListingData?.listItemPost?.more_info}
+                      </Text>
                     </div>
                     <div>
                       <Title className="font-[600]" order={6}>
@@ -442,7 +475,13 @@ export default function Confirmation() {
         open={cardOpened}
       />
       <Modal title={'Listing Failed'} children={ErrorChangeModal} onClose={ErrorHandler.close} open={ErrorOpened} />
-      <Modal children={ProductAddedModal} onClose={productAddedHandler.close} open={productAddedOpened} />
+      <Modal
+        title={'Ask Placed Successfully'}
+        children={ProductAddedModal}
+        onClose={productAddedHandler.close}
+        open={productAddedOpened}
+        // open={true}
+      />
       <Modal
         title="Shipping Address"
         titlePosition="left"

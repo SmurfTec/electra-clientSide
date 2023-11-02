@@ -3,10 +3,10 @@ import { ListItemPostContext, Only, baseURL } from '@elektra/customComponents';
 import { initStore, loadProductData } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
 import { Container, Divider, Grid, Image } from '@mantine/core';
-import { FileWithPath } from '@mantine/dropzone';
 import { NextPageContext } from 'next';
-import { Dispatch, SetStateAction, createContext, useState } from 'react';
+import { useState } from 'react';
 import { useCounter } from '@mantine/hooks';
+
 const ListingDescriptionData = {
   carrier: 'AT&T',
   color: 'Blue',
@@ -48,7 +48,6 @@ const usedProductListingData = {
 };
 
 export async function getServerSideProps(context: NextPageContext) {
-  // id: 1 means homepage data
   const store = initStore();
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
   await Promise.all([productData]);
@@ -58,6 +57,7 @@ export async function getServerSideProps(context: NextPageContext) {
     },
   };
 }
+
 type ProductListingPageProps = {
   productDetail: ProductData;
 };
@@ -84,7 +84,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
         </div>
         <Grid className="my-10">
           <Grid.Col md={6}>
-            {listItemPost.condition === 'used' ? (
+            {productDetail.product.condition === 'used' ? (
               <div className="w-screen mt-5 -ml-11 md:w-auto">
                 <ProductCarousel images={productDetail.product.images} />
               </div>
@@ -99,7 +99,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
               count={count}
               handlers={handlers}
               productVariants={productDetail?.product?.product_variants}
-              condition={listItemPost.condition}
+              condition={productDetail?.product?.condition}
               description={productDescription}
               highestAsk={Number(productDetail?.product?.highest_offer || 0)}
               lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}

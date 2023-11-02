@@ -10,7 +10,7 @@ import { Check, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from './placeOffer';
 import { useRouter } from 'next/router';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog } from '@mantine/core';
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -38,15 +38,15 @@ export function BuyOfferComponent({
   saleTax,
   shippingFee,
   receiptFee,
-  price
+  price,
 }: ListingDescriptionProps) {
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const isNew = condition === 'new';
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
-  const[showNotification,setshowNotification]=useState(false)
-const router = useRouter()
+  const [showNotification, setshowNotification] = useState(false);
+  const router = useRouter();
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -67,13 +67,13 @@ const router = useRouter()
     totalPrice += Number(lowestAsk);
     return totalPrice;
   };
-  useEffect(()=>{
-    console.log(count,lowestAsk,"checikg")
-    let lowestask=lowestAsk || 0
-  if(count>lowestask){
-    setshowNotification(true)
-  }
-  },[count])
+  useEffect(() => {
+    console.log(count, lowestAsk, 'checikg');
+    let lowestask = lowestAsk || 0;
+    if (count > lowestask) {
+      setshowNotification(true);
+    }
+  }, [count]);
 
   return (
     <div>
@@ -212,7 +212,7 @@ const router = useRouter()
         <NumberInput
           disabled={true}
           hideControls
-          value={price}
+          value={Number(lowestAsk)}
           maw={200}
           p={0}
           onChange={handlers.set}

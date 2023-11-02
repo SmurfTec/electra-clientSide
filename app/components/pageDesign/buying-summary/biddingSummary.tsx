@@ -106,8 +106,9 @@ type PositionApartProps = {
   number: number;
   numberColor?: string;
   discount?: boolean;
+  sign?: string;
 };
-export function PositionApart({ text, number, discount, numberColor }: PositionApartProps) {
+export function PositionApart({ text, number, discount, numberColor, sign }: PositionApartProps) {
   const [discountModal, discountOpened, discountHandler] = useDiscountModal();
   return (
     <Group className="space-x-4" position="apart">
@@ -121,7 +122,7 @@ export function PositionApart({ text, number, discount, numberColor }: PositionA
         </Only>
       </Text>
       <Text className="font-bold" color={numberColor ?? 'black'} size="xl">
-        ${number}
+        {sign}${number}
       </Text>
     </Group>
   );
