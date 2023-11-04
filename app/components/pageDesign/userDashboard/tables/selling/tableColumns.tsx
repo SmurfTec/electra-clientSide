@@ -1,6 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-export function getHeaderColumn<T extends { id: string | number }>(tile: 'active' | 'pending' | 'completed') {
+export function getHeaderColumn<T extends { id: string | number }>(
+  tile: 'active' | 'pending' | 'completed',
+  tab?: 'myAsks' | 'myListings'
+) {
+  // console.log(id);
   const ActiveColumns: Array<ColumnDef<T, unknown>> = [
     {
       id: 'id',
@@ -18,7 +22,7 @@ export function getHeaderColumn<T extends { id: string | number }>(tile: 'active
       id: 'askPrice',
       accessorKey: 'askPrice',
       footer: () => null,
-      header: 'Ask Price',
+      header: tab === 'myListings' ? 'Item Price' : 'Ask Price',
     },
     {
       id: 'highestOffer',
@@ -26,12 +30,22 @@ export function getHeaderColumn<T extends { id: string | number }>(tile: 'active
       footer: () => null,
       header: 'Highest Offer',
     },
-    {
-      id: 'lowestOffer',
-      accessorKey: 'lowestOffer',
-      footer: () => null,
-      header: 'Lowest Ask',
-    },
+    ...(tab === 'myAsks'
+      ? [
+          {
+            id: 'lowestOffer',
+            accessorKey: 'lowestOffer',
+            footer: () => null,
+            header: 'Lowest Ask',
+          },
+        ]
+      : []),
+    // {
+    //   id: 'lowestOffer',
+    //   accessorKey: 'lowestOffer',
+    //   footer: () => null,
+    //   header: 'Lowest Ask',
+    // },
     {
       id: 'action',
       footer: () => null,
@@ -116,6 +130,7 @@ export function getHeaderColumn<T extends { id: string | number }>(tile: 'active
       footer: () => null,
     },
   ];
+
   const tileData = {
     active: ActiveColumns,
     pending: PendingColumns,

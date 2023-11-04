@@ -185,7 +185,7 @@ export const useOfferEditModal = (
 
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal(productDetailData);
   const [count, handlers] = useCounter(0, { min: 0 });
-  console.log(productDetailData);
+
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">

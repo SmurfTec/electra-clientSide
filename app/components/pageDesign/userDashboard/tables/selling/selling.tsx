@@ -9,10 +9,11 @@ import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
- 
+
 export function Selling() {
   const intialLimit = 4;
   const [value, setValue] = useState('active');
+  const [subTabState, setSubTabState] = useState('myListings');
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
@@ -20,7 +21,7 @@ export function Selling() {
   const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders } = useSelector(
     (state: RootState) => state.entities.sellingOrders.list
   );
- 
+
   const activeTileData: SimpleStatCardProps[] = [
     {
       title: 'No of Listings',
@@ -56,6 +57,7 @@ export function Selling() {
       type: '$',
     },
   ];
+
   const completedTileData: SimpleStatCardProps[] = [
     {
       title: 'Total Sale',
@@ -83,9 +85,10 @@ export function Selling() {
     id: order?.product?.id,
     itemName: order?.product?.title ?? '-',
     askPrice: `$${order?.my_offer}`,
-    highestOffer: `$${order?.highest_bid||0}`,
-    lowestOffer:`$${order?.lowest_ask}`
+    highestOffer: `$${order?.highest_bid || 0}`,
+    lowestOffer: `$${order?.lowest_ask}`,
   }));
+
   const SellingPendingOrdersData = sellingPendingOrders.orders.map((order) => ({
     id: order?.id,
     itemName: order?.product?.title ?? '-',
@@ -94,6 +97,7 @@ export function Selling() {
     saleDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
     orderStatus: order?.status,
   }));
+
   const SellingCompletedOrdersData = sellingCompletedOrders.orders.map((order) => ({
     id: order?.id,
     itemName: order?.product?.title ?? '-',
@@ -104,7 +108,7 @@ export function Selling() {
 
   const tableData: tableDataType = {
     active: {
-      columns: getHeaderColumn('active'),
+      columns: getHeaderColumn('active', subTabState === 'myAsks' ? 'myAsks' : 'myListings'),
       data: SellingActiveOrdersData,
       RowUI: ActiveSimpleRow,
       tileData: activeTileData,
@@ -124,6 +128,7 @@ export function Selling() {
   };
 
   const selected = tableData[value as keyof tableDataType];
+
   return (
     <div className="mt-5">
       <TableHeaderBar
@@ -134,6 +139,8 @@ export function Selling() {
         searchDatestate={searchDate}
         segmentedSetState={setValue}
         segmentedstate={value}
+        subTabState={subTabState}
+        setSubTabState={setSubTabState}
       />
       <Only when={value === 'completed'}>
         <Group position="apart" className="my-5">

@@ -2,23 +2,34 @@ import { ActionIcon, Badge, Button, Grid, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
-import { http } from '@elektra/customComponents';
+import { Modal, http } from '@elektra/customComponents';
+import { useOfferEditModal } from '@elektra/hooks';
+import { useSelector } from 'react-redux';
+import { RootState } from '@elektra/store';
+import { useUpdateAskListingModal } from '@elektra/hooks/modal/useUpdateAskListingModal';
 export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
-const handleSell=async(id:any)=>{
-  
-  const res = await http.request({
-    url: `/products/${id}/sell`,
-    method: 'POST',
-   
-  });
-  console.log(res,"res")
-}
+
+  const product = useSelector((state: RootState) => state.entities.sellingOrders.list.sellingActiveOrders.asks).find(
+    (item: any) => {
+      return item.product.id === row.original.id;
+    }
+  );
+
+  const [OfferEditModal, offerEditOpened, offerEditHandler] = useUpdateAskListingModal(product);
+
+  const handleSell = async (id: any) => {
+    const res = await http.request({
+      url: `/products/${id}/sell`,
+      method: 'POST',
+    });
+    console.log(res, 'res');
+  };
   switch (props.cell.column.id) {
     case 'action':
       return (
         <Grid p={0} m={0}>
-          <Grid.Col className='text-right' span={10}>
+          <Grid.Col className="text-right" span={10}>
             <Button
               variant="outline"
               styles={{
@@ -30,14 +41,21 @@ const handleSell=async(id:any)=>{
               }}
               radius="xl"
               component={NextLink}
-              onClick={()=>handleSell(row.original.id)}
+              onClick={() => handleSell(row.original.id)}
               href={`/userdashboard?tab=purchasing`}
             >
               Sell Now
             </Button>
           </Grid.Col>
           <Grid.Col span={2}>
-            <ActionIcon>
+            <Modal
+              title="Edit Listing"
+              size={500}
+              children={OfferEditModal}
+              onClose={offerEditHandler.close}
+              open={offerEditOpened}
+            />
+            <ActionIcon onClick={offerEditHandler.open}>
               <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
             </ActionIcon>
           </Grid.Col>

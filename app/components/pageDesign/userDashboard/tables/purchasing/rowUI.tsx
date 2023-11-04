@@ -6,9 +6,11 @@ import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { Pencil } from 'tabler-icons-react';
 
-export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
+export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
-  const product = useSelector((state: RootState) => state.entities.purchasingOrders.list.purchasingActiveOrders.bids).find((item)=>item.id===row.original.id);
+  const product = useSelector(
+    (state: RootState) => state.entities.purchasingOrders.list.purchasingActiveOrders.bids
+  ).find((item) => item.id === row.original.id);
   const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
 
   switch (props.cell.column.id) {
@@ -16,22 +18,26 @@ export function ActiveSimpleRow<T extends { id: string | number  }>(props: CellC
       return (
         <div>
           <Modal
-              title="Edit Offer"
-              size={500}
-              children={OfferEditModal}
-              onClose={offerEditHandler.close}
-              open={offerEditOpened}
-            />
+            title="Edit Offer"
+            size={500}
+            children={OfferEditModal}
+            onClose={offerEditHandler.close}
+            open={offerEditOpened}
+          />
           <ActionIcon onClick={offerEditHandler.open}>
             <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
           </ActionIcon>
         </div>
       );
     default:
-      return <Text color="inherit" className='text-[11px] md:text-sm font-medium'>{cell.getValue() as string}</Text>;
+      return (
+        <Text color="inherit" className="text-[11px] md:text-sm font-medium">
+          {cell.getValue() as string}
+        </Text>
+      );
   }
 }
-export function PendingSimpleRow<T extends { id: string | number  }>(props: CellContext<T, unknown>) {
+export function PendingSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
   switch (props.cell.column.id) {
     case 'trackingNo':
