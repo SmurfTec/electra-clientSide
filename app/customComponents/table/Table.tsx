@@ -32,6 +32,10 @@ type DataTableProps<T extends { id: string | number }> = {
 };
 
 function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
+  if (data.length === 0) {
+    return [];
+  }
+
   return Object.keys(data[0]).map(
     (key) =>
       ({
@@ -41,6 +45,7 @@ function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
       } as ColumnDef<T, unknown>)
   );
 }
+
 
 export function DataTable<T extends { id: string | number }>({
   data,

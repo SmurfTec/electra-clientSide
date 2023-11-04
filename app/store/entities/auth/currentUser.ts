@@ -7,6 +7,7 @@ export type AuthSession = {
   user: User | null;
   profile: Profile | null;
   isAuthenticated: boolean;
+  is_stripe_account?: boolean;
 };
 
 const initialState: AuthSession = {
@@ -23,6 +24,8 @@ const slice = createSlice({
       authSession.isAuthenticated = action.payload.isAuthenticated;
       authSession.user = action.payload.user;
       authSession.profile = action.payload.profile;
+      console.log(action.payload);
+      authSession.is_stripe_account = action.payload.user?.is_stripe_account;
     },
     logout: (authSession) => {
       authSession.user = null;

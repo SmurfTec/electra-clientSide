@@ -10,9 +10,9 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useStyles } from './signup';
-import { setCookie } from "cookies-next";
+import { setCookie } from 'cookies-next';
 
-export async function getServerSideProps({req}: NextPageContext) {
+export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (isAuth) {
     return { redirect: { permanent: false, destination: '/userdashboard' } };
@@ -38,8 +38,11 @@ export default function Login() {
   }, [router]);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  
-  const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({ email: form.values.email,purpose:'passwordChange' });
+
+  const [EmailModal, emailOpened, emailHandler] = useEmailVerificationModel({
+    email: form.values.email,
+    purpose: 'passwordChange',
+  });
   const phone = useMediaQuery('(max-width: 600px)');
   const handleLoginSubmit = async (values: typeof initialValues) => {
     setLoading(true);
@@ -57,13 +60,14 @@ export default function Login() {
     } else {
       const user = res.data['user'];
       const profile = user['profile'];
+      const is_stripe_account = user['is_stripe_account'];
       delete user['profile'];
       const authToken = String(res.data['authentication']);
       const refreshToken = String(res.data['refresh']);
       setCookie('authentication', authToken);
       setCookie('refresh', refreshToken);
-      dispatch(login({ isAuthenticated: true, user, profile }));
-      const targetUrl:any=router.query.targetUrl || '/userdashboard'
+      dispatch(login({ isAuthenticated: true, user, profile, is_stripe_account }));
+      const targetUrl: any = router.query.targetUrl || '/userdashboard';
       router.push(targetUrl);
       setLoading(false);
     }
@@ -75,16 +79,15 @@ export default function Login() {
       const { email } = form.values;
       const res = await http.request({
         url: 'auth/forgot-password',
-        data: {email},
+        data: { email },
         method: 'POST',
       });
-      if(res.isError){
+      if (res.isError) {
         form.setErrors({
           email: res.errorPayload?.['message'] ?? 'user not found',
         });
         setLoading(false);
-      }
-      else{
+      } else {
         emailHandler.open();
         setLoading(false);
       }

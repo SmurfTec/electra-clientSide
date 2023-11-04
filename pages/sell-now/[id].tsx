@@ -1,5 +1,5 @@
 import { PageTitle, ProductCarousel } from '@elektra/components';
-import { ListItemPostContext, baseURL, useStylesforGlobal } from '@elektra/customComponents';
+import { ListItemPostContext, Only, baseURL, useStylesforGlobal } from '@elektra/customComponents';
 import { initStore, loadProductData } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
 import { Button, Container, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
@@ -37,6 +37,10 @@ export default function SellNowPage() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.auth.profile);
+  const is_stripe_account = useSelector((state: RootState) =>
+    state.auth.user ? state.auth.user.is_stripe_account : undefined
+  );
+
   const [profile, setprofile] = useState(userData);
   const { classes } = useStylesforGlobal();
   const [shippingaddress, setshippingaddress] = useState<string>(profile?.shipping_address_line_1 || '');
@@ -97,27 +101,29 @@ export default function SellNowPage() {
           </Grid.Col>
           <Grid.Col md={1}></Grid.Col>
           <Grid.Col md={6}>
-            <div className="flex mt-[30px] justify-between rounded-[6px] px-[10px] items-center w-full h-[70px] bg-[#3C82D6]">
-              <p className="text-[13px] text-white">
-                Stripe Connection :{user?.card_details_number ? 'Connected' : ' Not Connected'}
-              </p>
-              {user?.card_details_number == null && (
-                <Button
-                  className="font-[400] text-[13px] hover:!bg-white rounded-[15px] h-[32px] w-[145px] inline-block !lowercase"
-                  uppercase
-                  disabled={loading}
-                  fullWidth
-                  size="xl"
-                  styles={{ root: { color: '#3C82D6', '&:hover': { color: '#3C82D6', background: 'white' } } }}
-                  bg={'white'}
-                  onClick={() =>
-                    router.push(`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`)
-                  }
-                >
-                  Connect Now
-                </Button>
-              )}
-            </div>
+            <Only when={!is_stripe_account}>
+              <div className="flex mt-[30px] justify-between rounded-[6px] px-[10px] items-center w-full h-[70px] bg-[#3C82D6]">
+                <p className="text-[13px] text-white">
+                  Stripe Connection :{user?.card_details_number ? 'Connected' : ' Not Connected'}
+                </p>
+                {user?.card_details_number == null && (
+                  <Button
+                    className="font-[400] text-[13px] hover:!bg-white rounded-[15px] h-[32px] w-[145px] inline-block !lowercase"
+                    uppercase
+                    disabled={loading}
+                    fullWidth
+                    size="xl"
+                    styles={{ root: { color: '#3C82D6', '&:hover': { color: '#3C82D6', background: 'white' } } }}
+                    bg={'white'}
+                    onClick={() =>
+                      router.push(`/userdashboard?tab=wallet&targetUrl=/product-listing/${productDetail?.product?.id}`)
+                    }
+                  >
+                    Connect Now
+                  </Button>
+                )}
+              </div>
+            </Only>
             <div className="flex items-end justify-between">
               <TextInput
                 value={shippingaddress}

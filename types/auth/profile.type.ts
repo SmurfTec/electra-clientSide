@@ -28,7 +28,7 @@ export type Profile = {
   account_no: string | null;
   routing_digits: string | null;
   platform_profit: number | null;
-  swift_code: any
+  swift_code: any;
   card_details_expiration_date: string | null;
   card_details_cvv: string | null;
   billing_adress_line_2?: string | null;
@@ -42,4 +42,5 @@ export type Profile = {
   receive_notifications?: null | boolean;
   maintenance_mode: string | null;
   image_url: string;
+  is_stripe_account: boolean;
 };

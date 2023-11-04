@@ -13,4 +13,5 @@ export type User = {
   code_2fa?: null;
   permissions?: null[] | null;
   roles?: null[] | null;
+  is_stripe_account?: any;
 };

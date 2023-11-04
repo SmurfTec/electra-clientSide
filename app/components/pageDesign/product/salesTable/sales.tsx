@@ -524,7 +524,7 @@ export const SalesTable = ({data}:SalesTableProps) => {
   const salesTableData = useMemo(() => {
     return data?.map((item, key) => ({
       id: item?.id,
-      itemName: item?.item_name??"-",
+      itemName: item?.item_name ?? '-',
       condition: item?.condition,
       capacity: 'NID',
       carrier: 'NID',
@@ -534,5 +534,6 @@ export const SalesTable = ({data}:SalesTableProps) => {
     }));
   }, [data]);
 
-  return <>{salesTableData?.length > 0 && <DataTable data={salesTableData} />}</>;
+  // return <>{salesTableData?.length > 0 && <DataTable data={salesTableData} />}</>;
+  return <DataTable data={salesTableData} />;
 };

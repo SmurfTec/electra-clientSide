@@ -164,7 +164,8 @@ export default function ProductPage({
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
-  console.log(productListingById);
+
+
   return (
     <>
       {!matches && (
