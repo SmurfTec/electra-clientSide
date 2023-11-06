@@ -4,7 +4,7 @@ import { Product } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
 const trendingURL = '/products/trending';
-const trendingProtectedURL = '/products/protected/trending';
+const trendingProtectedURL = '/products/trending/protected';
 
 // const trendingURL = '/products/?sort=-created_on';
 const latestURL = '/products/?sort=-created_on';
@@ -12,7 +12,7 @@ const latestProtectedURL = '/products/protected?sort=-created_on';
 const mostSoldURL = '/products/sold';
 const mostSoldProtectedURL = '/products/protected/sold';
 const recommendedURL = '/products/recommended';
-const recommendedProtectedURL = '/products/protected/recommended';
+const recommendedProtectedURL = '/products/recommended/protected';
 
 const shopProducts = '/products';
 const shopProtectedProducts = '/products/protected';

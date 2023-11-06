@@ -253,7 +253,7 @@ export function Index({ ...rest }: homePageProps) {
                     condition={product.condition}
                     wishlist={product.is_liked}
                     lowestPrice={Number(product?.lowest_ask)}
-                    highestPrice={Number(product.highest_offer)}
+                    highestPrice={Number(product?.highest_offer)}
                     price={Number(product?.user_starting_price)}
                   />
                 </Box>

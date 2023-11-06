@@ -251,7 +251,7 @@ export default function ProductPage({
                 condition={product.condition}
                 wishlist={false}
                 lowestPrice={product.ask}
-                highestPrice={product.highest_offer}
+                highestPrice={Number(product?.highest_offer)}
                 price={product.saleprice}
               />
             );
@@ -303,7 +303,7 @@ export default function ProductPage({
                       condition={product.condition}
                       wishlist={false}
                       lowestPrice={Number(product.lowest_price)}
-                      highestPrice={Number(product.highest_offer)}
+                      highestPrice={Number(product?.highest_offer)}
                       price={Number(product?.user_starting_price)}
                     />
                   </div>

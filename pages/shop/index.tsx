@@ -189,7 +189,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
                 usedPrice={Number(product?.user_starting_price)}
                 wishlist={product.is_liked}
                 lowestPrice={Number(product?.lowest_ask)}
-                highestPrice={Number(product.highest_offer || 0)}
+                highestPrice={Number(product?.highest_offer)}
                 price={Number(product?.user_starting_price)}
               />
             </div>
