@@ -1,9 +1,10 @@
-import { DataTable } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { SalesHistory } from '../../../../../types/slices';
+import DataTable from './Table';
+import { getHeaderColumn } from './tableColumns';
 
 const tabledata = [
   {
@@ -518,9 +519,9 @@ const tabledata = [
   },
 ];
 type SalesTableProps = {
-  data:SalesHistory[]
-}
-export const SalesTable = ({data}:SalesTableProps) => {
+  data: SalesHistory[];
+};
+export const SalesTable = ({ data }: SalesTableProps) => {
   const salesTableData = useMemo(() => {
     return data?.map((item, key) => ({
       id: item?.id,
@@ -533,7 +534,7 @@ export const SalesTable = ({data}:SalesTableProps) => {
       date: format(new Date(item.date), 'dd MMM, yyyy'),
     }));
   }, [data]);
-
+  const columns = getHeaderColumn();
   // return <>{salesTableData?.length > 0 && <DataTable data={salesTableData} />}</>;
-  return <DataTable data={salesTableData} />;
+  return <DataTable data={data} columns={columns} />;
 };

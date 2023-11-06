@@ -85,7 +85,6 @@ export default function ProductPage({
   recommended,
   isAuth,
 }: ProductPageProps) {
-  console.log(productDetail);
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
