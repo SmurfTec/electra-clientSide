@@ -102,18 +102,22 @@ export default function Confirmation() {
   if (usedProductData !== null) {
     usedListingData = JSON.parse(usedProductData);
   }
-
+  const router = useRouter();
+  const condition: string = router.query['condition'] === 'new' ? 'New' : 'Used';
   const [loading, setLoading] = useState<boolean>(false);
   const [CardModal, cardOpened, cardHandler] = useCardModal();
   const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal({
-    title: 'You have successfully listed this item',
+    title: condition.toLowerCase() == 'new' ? 'Ask Placed successfully' : 'Listing Added successfully',
+    description:
+      condition.toLowerCase() == 'new'
+        ? 'You have successfully placed your ask on this product'
+        : 'You have successfully listed this item',
   });
   // const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [ErrorTxt, setErrorTxt] = useState<string>('');
   const [ErrorChangeModal, ErrorOpened, ErrorHandler] = useErrorModal({ ErrorTxt });
-  const router = useRouter();
-  const condition: string = router.query['condition'] === 'new' ? 'New' : 'Used';
+
   const { classes } = useStylesforGlobal();
 
   const handleSubmit = async () => {
