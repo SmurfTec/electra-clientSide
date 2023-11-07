@@ -170,6 +170,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     title: productDetail?.product.title,
     productVariant: productDetail?.product?.product_variants,
     expiration: '',
+    viewMessage: 'VIEW PURCHASED ITEM',
   });
 
   const profile = useSelector((state: RootState) => state.auth.profile);
@@ -229,7 +230,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               </div>
             </Grid.Col>
             <Grid.Col xs={12} sm={6}>
-              <div className="relative h-full ">
+              <div className="relative h-full">
                 <BiddingSummary
                   expiration={expiration}
                   reciptFee={feeData?.map((item) => ({
@@ -270,7 +271,8 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             title={isOfferType ? 'Offer Placed' : 'Product Purchased'}
             children={OfferPlaceModal}
             onClose={offerPlaceHandler.close}
-            open={offerPlaceOpened}
+            // open={offerPlaceOpened}
+            open={true}
           />
         </Radio.Group>
 

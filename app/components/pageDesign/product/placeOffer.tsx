@@ -1,10 +1,10 @@
 import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant, condition } from '@elektra/types';
-import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Select, Text, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
-import { useContext, useState,useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
@@ -38,12 +38,13 @@ export function PlaceOfferComponent({
   shippingFee,
   receiptFee,
 }: ListingDescriptionProps) {
-  const [count, handlers] = useCounter(0, { min: 0 }); 
-  const[showNotification,setshowNotification]=useState(false)
+  const [days, setdays] = useState();
+  const [count, handlers] = useCounter(0, { min: 0 });
+  const [showNotification, setshowNotification] = useState(false);
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) || 0;
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
-  const router = useRouter()
+  const router = useRouter();
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -64,24 +65,29 @@ export function PlaceOfferComponent({
     totalPrice += count;
     return totalPrice;
   };
-useEffect(()=>{
-  console.log(count,lowestAsk,"checikg")
-if(count>lowestAsk ){
-  setshowNotification(true)
-}
-},[count])
+  useEffect(() => {
+    console.log(count, lowestAsk, 'checikg');
+    if (count > lowestAsk) {
+      setshowNotification(true);
+    }
+  }, [count]);
   return (
     <div>
-      {showNotification && 
-       <Dialog position={{ top: 20, left: 20 }} opened={showNotification} withCloseButton onClose={()=>setshowNotification(false)} size="lg" radius="md">
-       <Text size="sm" mb="xs" fw={500}>
-         You can buy the item at lowest ask
-       </Text>
+      {showNotification && (
+        <Dialog
+          position={{ top: 20, left: 20 }}
+          opened={showNotification}
+          withCloseButton
+          onClose={() => setshowNotification(false)}
+          size="lg"
+          radius="md"
+        >
+          <Text size="sm" mb="xs" fw={500}>
+            You can buy the item at lowest ask
+          </Text>
+        </Dialog>
+      )}
 
-     
-     </Dialog>
-      }
-     
       <Group>
         <Text className="py-4 font-semibold uppercase sm:py-0" size="sm">
           Select Condition{' '}
@@ -156,24 +162,41 @@ if(count>lowestAsk ){
             />
           </Input.Wrapper>
           <Input.Wrapper label="HIGHEST OFFER" maw={114}>
-              <NumberInput
-                radius={0}
-                styles={{
-                  input: {
-                    background: '#F1F1F1',
-                    fontWeight: 'bold',
-                    fontSize: '24px',
-                    color: '#3C82D6',
-                  },
-                }}
-                hideControls
-                value={highestAsk}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                formatter={(value) =>
-                  !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
-                }
+            <NumberInput
+              radius={0}
+              styles={{
+                input: {
+                  background: '#F1F1F1',
+                  fontWeight: 'bold',
+                  fontSize: '24px',
+                  color: '#3C82D6',
+                },
+              }}
+              hideControls
+              value={highestAsk}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
+            />
+          </Input.Wrapper>
+          <Group>
+            <div className="flex flex-col gap-[0px]">
+              <p className="text-[18px] font-bold">Offer Expiration</p>
+              <Select
+                className="Expiration-dropdown"
+                data={[
+                  { value: '1', label: '1 Days' }, //'7','14','21','30'
+                  { value: '7', label: '7 Days' },
+                  { value: '14', label: '14 Days' },
+                  { value: '21', label: '21 Days' },
+                  { value: '30', label: '30 Days' },
+                ]}
+                value={days}
+                onChange={(value: any) => setdays(value)}
               />
-            </Input.Wrapper>
+            </div>
+          </Group>
         </Only>
         <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
@@ -205,7 +228,6 @@ if(count>lowestAsk ){
         </ActionIcon>
         <NumberInput
           hideControls
-          
           value={count}
           maw={200}
           p={0}
@@ -265,7 +287,7 @@ if(count>lowestAsk ){
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            disabled={count==0}
+            disabled={count == 0}
             href={
               isListing
                 ? `/buying-summary/listing?orderType=placeOffer&bidPrice=` + count

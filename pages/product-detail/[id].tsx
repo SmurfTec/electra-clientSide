@@ -38,6 +38,7 @@ import {
   ScrollArea,
   Stack,
   Text,
+  Title,
 } from '@mantine/core';
 import { useMediaQuery, useScrollIntoView } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
@@ -245,16 +246,16 @@ export default function ProductPage({
           </Grid.Col>
         </Grid>
 
-        <div
-          ref={targetRef}
-          className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center"
-        >
-          {listingData?.slice(0, limit).map((product, index) => {
-            return (
+        {listingData && listingData.length > 0 ? (
+          listingData.slice(0, limit).map((product, index) => (
+            <div
+              ref={targetRef}
+              className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center"
+            >
               <ProductCard
                 id={product.id}
                 key={index}
-                image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                image={baseURL + '/' + (product?.images?.[0]?.filename || 'default-placeholder.jpg')}
                 description={product.condition_details}
                 title={product.product_data.title}
                 condition={product.condition}
@@ -263,9 +264,13 @@ export default function ProductPage({
                 highestPrice={Number(product?.highest_offer)}
                 price={product.saleprice}
               />
-            );
-          })}
-        </div>
+            </div>
+          ))
+        ) : (
+          <Title align="initial" className="font-bold uppercase my-8 text-center" color={'black'} order={4}>
+            NO USED LISTINGS FOUND
+          </Title>
+        )}
 
         <Center className="mt-20 space-x-3">
           <Only when={limit === 5 && listingData?.length > 5}>

@@ -203,7 +203,7 @@ export function ProductSpecification({
                 className="w-full h-10 uppercase font-[200]"
                 bg="black"
                 // disabled={lowestAsk === 0 && highestAsk === 0}
-                disabled={lowestAsk == null ? true : false}
+                disabled={lowestAsk ? false : true}
               >
                 BUY NOW
               </Button>

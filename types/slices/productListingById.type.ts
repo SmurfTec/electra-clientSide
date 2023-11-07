@@ -84,6 +84,7 @@ type Listing = {
   brand: string;
   highest_offer: number | null;
   lowest_offer: number | null;
+  lowest_ask: number | null;
   user_starting_at: number;
   bids: any | null;
   images: Image[];

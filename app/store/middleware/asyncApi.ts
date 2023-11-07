@@ -9,7 +9,7 @@ type ApiRequestParams = {
   onStart?: string;
   onSuccess?: string;
   onError?: string;
-  data?: Record<string,unknown>;
+  data?: Record<string, unknown>;
   ttl?: number;
 };
 
@@ -24,6 +24,7 @@ export const apiRequest = <T>({ url, method, data, params, onSuccess, onError, o
     if (onStart) {
       dispatch({ type: onStart });
     }
+
     if (response.isError) {
       if (response.status === HttpStatusCode.Unauthorized) {
         if (response.data) dispatch(logout());

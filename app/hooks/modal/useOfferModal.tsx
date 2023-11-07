@@ -1,5 +1,5 @@
 import { ItemCard } from '@elektra/components';
-import { Modal as ProductModal, baseURL } from '@elektra/customComponents';
+import { Modal as ProductModal } from '@elektra/customComponents';
 import { resetCoupon, useAppDispatch } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import {
@@ -34,16 +34,6 @@ const productDetailData = {
   saleDate: '23/10/2023',
 };
 
-type Attachment = {
-  url: string;
-  // ... other properties of an attachment
-};
-
-type Product = {
-  attachments: Attachment[];
-  // ... other properties of a product
-};
-
 export type OfferModalProductProps = {
   image: string;
   title: string;
@@ -53,7 +43,7 @@ export type OfferModalProductProps = {
   cardDetails: string;
   address: string;
   saleDate: string;
-  product?: Product; // added product property
+  viewMessage: string;
 };
 
 export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }, string] => {
@@ -112,6 +102,7 @@ export const useOfferPlaceModal = (
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
+    console.log(opened);
     if (opened) dispatch(resetCoupon());
   }, [opened]);
 
@@ -120,7 +111,7 @@ export const useOfferPlaceModal = (
       <div className="w-full space-y-5">
         <ItemCard
           productVariants={productDetailData?.productVariant || []}
-          image={`${baseURL}/${productDetailData?.product?.attachments[0].url}`}
+          image={productDetailData?.image}
           title={productDetailData?.title}
           key={productDetailData?.title}
         />
@@ -153,7 +144,7 @@ export const useOfferPlaceModal = (
       <Group position="apart" className="w-full" mt={10}>
         {/* <Center> */}
         <Text className="font-semibold text-black" size={12}>
-          View your offers
+          {productDetailData.viewMessage}
         </Text>
 
         <Button
@@ -179,26 +170,26 @@ export const useOfferPlaceModal = (
 };
 
 export const useOfferEditModal = (
-  productDetailData: any
+  productDetailData: OfferModalProductProps
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal(productDetailData);
   const [count, handlers] = useCounter(0, { min: 0 });
-
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
       <div className="w-full space-y-5">
-        <ItemCard
-          // color={productDetailData.color}
-          // company={productDetailData.company}
-          // image={productDetailData?.image}
-          image={`${baseURL}/${productDetailData.product.attachments[0].url}`}
-          productVariants={[]}
-          specs={productDetailData.product?.specs}
-          title={productDetailData?.product.title}
-          key={productDetailData?.title + productDetailData?.image}
-        />
+        <div className="ml-7 md:ml-16">
+          <ItemCard
+            // color={productDetailData.color}
+            // company={productDetailData.company}
+            image={productDetailData?.image}
+            productVariants={[]}
+            // space={productDetailData.space}
+            title={productDetailData?.title}
+            key={productDetailData?.title + productDetailData?.image}
+          />
+        </div>
         <Divider variant="dashed" />
       </div>
       <ProductModal
@@ -208,11 +199,7 @@ export const useOfferEditModal = (
         open={offerPlaceOpened}
       />
       <Text className="text-sm font-medium mt-5">Type your new offer here</Text>
-      <Group
-        position="center"
-        spacing={0}
-        className="mt-6 py-4 px-8 border-solid border-2 border-black w-full flex justify-between"
-      >
+      <Group position="center" spacing={0} className="mt-6 py-4 px-8 border-solid border-2 border-black">
         <ActionIcon component="button" size="lg" color="dark" radius={0} variant="filled" onClick={handlers.decrement}>
           <Minus size={16} color="white" />
         </ActionIcon>

@@ -162,6 +162,7 @@ export function BuyOfferComponent({
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
               }
+              disabled
             />
           </Input.Wrapper>
           <Input.Wrapper label="HIGHEST OFFER" maw={114}>
@@ -181,6 +182,7 @@ export function BuyOfferComponent({
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
               }
+              disabled
             />
           </Input.Wrapper>
         </Only>

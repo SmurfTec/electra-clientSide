@@ -154,6 +154,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     title: productListingById?.product.title,
     productVariant: productListingById?.listing_variants,
     expiration: '',
+    viewMessage: ''
   });
   const profile = useSelector((state: RootState) => state.auth.profile);
   const coupon = useSelector((state: RootState) => state.entities.coupon.list.coupon);

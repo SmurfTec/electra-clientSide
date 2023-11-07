@@ -34,12 +34,12 @@ export function BiddingSummary({
   const yourOffer = router.query.bidPrice;
   const actualItemPrice = itemPrice || 0; // Default to 0 if itemPrice is undefined
   const percentageMarketPlace = (actualItemPrice * 7.5) / 100;
-   const percentageSalesTax = (actualItemPrice * 8.025) / 100;
+  const percentageSalesTax = (actualItemPrice * 8.025) / 100;
 
   return (
     <div
-      style={{ border: '1px solid', borderColor: '#B4B4B4', overflowY: 'scroll' }}
-      className="p-8 rounded-xl space-y-3 h-full md:absolute md:h-full md:w-full"
+      style={{ border: '1px solid', borderColor: '#B4B4B4' }}
+      className="p-8 rounded-xl space-y-3 h-full  md:h-full md:w-full"
     >
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -91,18 +91,18 @@ export function BiddingSummary({
         </Text>
       </Group>
 
-      <Group className="space-x-4" position="apart">
+      {/* <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           DISCOUNT
         </Text>
         <Text className="font-bold" color="black" size="xl">
           %0
         </Text>
-      </Group>
+      </Group> */}
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
 
-      <Group className="space-x-4" position="apart">
+      {/* <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           Sale Price
         </Text>
@@ -111,7 +111,7 @@ export function BiddingSummary({
             actualItemPrice + percentageMarketPlace + percentageSalesTax + 15 + 5
           }
         </Text>
-      </Group>
+      </Group> */}
 
       {reciptFee?.map((item, index) => (
         <PositionApart key={index + item.id} text={item.title} number={item.fees} />

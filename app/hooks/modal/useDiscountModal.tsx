@@ -9,6 +9,7 @@ import { useRedeemSuccesfullModal } from './useRedeemModal';
 export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const [RedeemSuccessfulModal, openedSuccess, redeemHandler] = useRedeemSuccesfullModal();
 
@@ -21,26 +22,27 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
     },
   });
   const handleSubmit = async (code: string) => {
-    const { data, isError } = await dispatch(loadCoupon(code));
-    if (isError) {
-      setError(true);
+    const response = await dispatch(loadCoupon(code));
+    if (response.isError) {
+      // Assuming errorPayload is the correct key based on your console.log
+      // Change to the actual key if different
+      setErrorMessage(response.errorPayload?.message || 'An unknown error occurred');
       return;
     }
-
-    setError(false);
-
+    setErrorMessage(null);
+    close();
     redeemHandler.open();
   };
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
-      {!error && (
+      {errorMessage === null && (
         <Text size="sm" className="font-semibold">
           Add discount codes to get discounts
         </Text>
       )}
-      {error && (
+      {errorMessage && (
         <Text size="sm" className="font-semibold" color="red">
-          Please enter correct code
+          {errorMessage} {/* Display the error message from the state */}
         </Text>
       )}
       <form

@@ -18,6 +18,7 @@ export function Selling() {
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
+
   const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders } = useSelector(
     (state: RootState) => state.entities.sellingOrders.list
   );

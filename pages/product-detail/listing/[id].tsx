@@ -64,11 +64,12 @@ const items = [
 ));
 
 export async function getServerSideProps(context: NextPageContext) {
-  // id: 1 means homepage data
   const isAuth = await isAuthenticated(context.req);
-  const listingData = store.dispatch(loadListingProducts(Number(context.query.id), isAuth));
   const productVariants = store.dispatch(loadProductVariants());
-  const productListingById = store.dispatch(loadProductListingById(Number(context.query.id)));
+  const productListingById: any = await store.dispatch(loadProductListingById(Number(context.query.id)));
+  // const productListingByIdData: any = productListingById.data.listing.product.id;
+  // console.log(productListingById.data.listing.product.id);
+  const listingData = store.dispatch(loadListingProducts(Number(productListingById.data.listing.product.id), isAuth));
   const recommended = store.dispatch(loadRecommendedProducts(isAuth));
   await Promise.all([listingData, productVariants, productListingById, recommended]);
   return {
@@ -97,6 +98,11 @@ export default function ProductPage({
   recommended,
   isAuth,
 }: ProductPageProps) {
+  console.log('productListing', productListing);
+  console.log('productVariants', productVariants);
+  console.log('productListingById', productListingById);
+  console.log('recommended', recommended);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -163,9 +169,6 @@ export default function ProductPage({
     const productId = Number(router.query['id']);
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
-
-
-
   return (
     <>
       {!matches && (
@@ -181,7 +184,11 @@ export default function ProductPage({
             </div>
 
             <Text className="text-xs font-medium">Have this item?</Text>
-            <Button component={NextLink} href="/product-listing" leftIcon={<ShoppingCart />}>
+            <Button
+              component={NextLink}
+              href={`/sell-now/listing/${productListingById.listing.id}`}
+              leftIcon={<ShoppingCart />}
+            >
               Sell Now
             </Button>
           </Stack>

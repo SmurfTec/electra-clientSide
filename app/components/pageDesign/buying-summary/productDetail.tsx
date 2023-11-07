@@ -44,11 +44,11 @@ export function ProductDetail({
     const newDate = new Date().setDate(new Date().getDate() + Number(expirationDate));
     setExpiration(new Date(newDate));
   }, [expirationDate]);
-
+  
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
-      className="p-8 rounded-xl"
+      className="p-8 rounded-xl h-full"
     >
       <ItemCard productVariants={productVariants} image={image} title={title} key={title} />
 
@@ -140,7 +140,7 @@ export function ProductDetails({ text, details, onClick, iconDisplay, color, ...
         {text}
         <Only when={!!iconDisplay}>
           <PencilButton onClick={onClick} />
-        </Only> 
+        </Only>
       </Title>
       <Text color={color ?? 'black'} size="md">
         {details}

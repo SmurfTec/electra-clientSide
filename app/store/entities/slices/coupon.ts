@@ -60,7 +60,6 @@ export const resetCoupon = () => {
 };
 
 export const loadCoupon = (code: string) => async (dispatch: AppDispatch) => {
-  console.log(code);
   return await dispatch(
     apiRequest({
       url: URL + code,

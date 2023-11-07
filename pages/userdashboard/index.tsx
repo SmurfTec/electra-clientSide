@@ -32,16 +32,16 @@ export async function getServerSideProps({ req }: NextPageContext) {
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
 
-  const payouts = store.dispatch(loadPayouts())
+  const payouts = store.dispatch(loadPayouts());
 
-  await Promise.all([userFavourite, userReward, orderPurchasing,orderSelling, payouts]);
+  await Promise.all([userFavourite, userReward, orderPurchasing, orderSelling, payouts]);
   return {
     props: {
       userRewardData: store.getState().entities.userReward.list,
       userFavouriteData: store.getState().entities.userFavourite.list,
       orderPurchasingData: store.getState().entities.purchasingOrders.list,
       orderSellingData: store.getState().entities.sellingOrders.list,
-      payouts: store.getState().entities.payouts.list
+      payouts: store.getState().entities.payouts.list,
     },
   };
 }
@@ -51,7 +51,7 @@ type UserDashBoardPageProps = {
   userFavouriteData: UserFavourite;
   orderPurchasingData: PurchasingOrders;
   orderSellingData: SellingOrders;
-  payouts: Payouts[]
+  payouts: Payouts[];
 };
 
 export default function UserDashboard({
@@ -59,7 +59,7 @@ export default function UserDashboard({
   userFavouriteData,
   orderPurchasingData,
   orderSellingData,
-  payouts
+  payouts,
 }: UserDashBoardPageProps) {
   const tabViewData: tabViewData[] = [
     {
@@ -99,10 +99,10 @@ export default function UserDashboard({
       dispatch(rehydrateUserReward(userRewardData));
       dispatch(rehydrateUserFavourite(userFavouriteData));
       dispatch(rehydrateOrderPurchasing(orderPurchasingData));
-      console.log(orderSellingData,"orderSellingData")
+      console.log(orderSellingData, 'orderSellingData');
       dispatch(rehydrateOrderSelling(orderSellingData));
-      dispatch(rehydratePayouts(payouts))
-      }
+      dispatch(rehydratePayouts(payouts));
+    }
     return () => {
       unsubscribe = true;
     };

@@ -98,8 +98,8 @@ export function ItemCard({ title, image, productVariants, specs, date, price, sa
         <Group position="apart" spacing={0}>
           <Group align="top" spacing={phone ? 8 : 15}>
             {productVariants?.map((item, key) => (
-              <div key={key + item.id + item.value}>
-                <TransparentButton label={'item.value'} />
+              <div key={key}>
+                <TransparentButton label={item.variant} />
               </div>
             ))}
           </Group>
