@@ -19,6 +19,7 @@ type ProductDetailProps = {
   protectionPlan?: string;
   productVariants: Variant[];
   setExpiration: Dispatch<SetStateAction<Date>>;
+  trackingId?: string;
 };
 
 export function ProductDetail({
@@ -35,6 +36,7 @@ export function ProductDetail({
   disabled,
   protectionPlan,
   productVariants,
+  trackingId,
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler, expirationDate] = useOfferModal();
@@ -44,7 +46,7 @@ export function ProductDetail({
     const newDate = new Date().setDate(new Date().getDate() + Number(expirationDate));
     setExpiration(new Date(newDate));
   }, [expirationDate]);
-  
+
   return (
     <div
       style={{ border: '1px solid', borderColor: '#B4B4B4', minHeight: '65vh !important', overflowY: 'auto' }}
@@ -63,11 +65,11 @@ export function ProductDetail({
             </Grid.Col>
           )}
 
-          {protectionPlan && (
+          {/* {protectionPlan && (
             <Grid.Col p={0} span={4}>
               <ProductDetails text={'Protection Plan'} details={protectionPlan} />
             </Grid.Col>
-          )}
+          )} */}
         </Grid>
         <Grid>
           {saleDate && (
@@ -81,13 +83,19 @@ export function ProductDetail({
               <ProductDetails text={'Order No'} details={orderNo} color={'#3C82D6'} />
             </Grid.Col>
           )}
+
+          {trackingId && (
+            <Grid.Col p={0} span={4}>
+              <ProductDetails text={'Tracking Id'} details={trackingId} />
+            </Grid.Col>
+          )}
         </Grid>
-        <ProductDetails
+        {/* <ProductDetails
           text={'OFFER EXPIRATION'}
           details={expiration}
           iconDisplay={!disabled}
           onClick={offerHandler.open}
-        />
+        /> */}
         <Modal title="Offer Expiration" children={OfferModal} onClose={offerHandler.close} open={offerOpened} />
 
         {/* <ProductDetails

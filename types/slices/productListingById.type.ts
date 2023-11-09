@@ -23,7 +23,7 @@ type User = {
 export type ListItemPost = {
   condition: condition;
   ask: string;
-  is_repaired_before: 'false' | 'true';
+  is_repaired_before: boolean;
   explain_repair: string;
   condition_details: string | null;
   more_info: string;

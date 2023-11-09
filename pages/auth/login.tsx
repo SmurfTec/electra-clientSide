@@ -67,7 +67,7 @@ export default function Login() {
       setCookie('authentication', authToken);
       setCookie('refresh', refreshToken);
       dispatch(login({ isAuthenticated: true, user, profile, is_stripe_account }));
-      const targetUrl: any = router.query.targetUrl || '/userdashboard';
+      const targetUrl: any = router.query.targetUrl || '/userdashboard/?tab=settings';
       router.push(targetUrl);
       setLoading(false);
     }

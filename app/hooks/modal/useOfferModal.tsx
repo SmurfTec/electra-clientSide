@@ -43,7 +43,7 @@ export type OfferModalProductProps = {
   cardDetails: string;
   address: string;
   saleDate: string;
-  viewMessage: string;
+  orderType?: string | string[] | undefined;
 };
 
 export const useOfferModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }, string] => {
@@ -100,9 +100,7 @@ export const useOfferPlaceModal = (
   const dispatch = useAppDispatch();
 
   const [opened, { open, close }] = useDisclosure(false);
-
   useEffect(() => {
-    console.log(opened);
     if (opened) dispatch(resetCoupon());
   }, [opened]);
 
@@ -144,7 +142,7 @@ export const useOfferPlaceModal = (
       <Group position="apart" className="w-full" mt={10}>
         {/* <Center> */}
         <Text className="font-semibold text-black" size={12}>
-          {productDetailData.viewMessage}
+          {productDetailData.orderType === 'placeOffer' ? 'View your offers' : 'VIEW PURCHASED ITEM'}
         </Text>
 
         <Button

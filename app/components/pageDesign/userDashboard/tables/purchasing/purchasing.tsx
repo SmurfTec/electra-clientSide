@@ -34,19 +34,19 @@ export function Purchasing() {
   const pendingTileData: SimpleStatCardProps[] = [
     {
       title: 'Total Value',
-      value: Number(Number(purchasingPendingOrders?.orderStats[0].total_value).toFixed(0)),
+      value: Number(Number(purchasingPendingOrders?.orderStats[0]?.total_value).toFixed(0)),
       type: '$',
     },
     {
       title: 'Pending Orders',
-      value: Number(purchasingPendingOrders?.orderStats[0].pending_orders),
+      value: Number(purchasingPendingOrders?.orderStats[0]?.pending_orders),
       type: 'N/A',
     },
   ];
   const completedTileData: SimpleStatCardProps[] = [
     {
       title: 'Total Spent',
-      value: Number(purchasingCompletedOrders?.orderStats[0].total_spent),
+      value: Number(purchasingCompletedOrders?.orderStats[0]?.total_spent),
       type: '$',
     },
     {

@@ -82,7 +82,7 @@ export default function Confirmation() {
       condition: 'used',
       condition_details: '',
       explain_repair: '',
-      is_repaired_before: 'false',
+      is_repaired_before: false,
       more_info: '',
       product: '',
       listingVariants: [],
@@ -365,12 +365,23 @@ export default function Confirmation() {
                    {productD}
                   </Text> */}
                     </div>
+                    {usedListingData?.listItemPost?.is_repaired_before && (
+                      <div>
+                        <Title className="font-[600]" order={6}>
+                          Which Best describes the overall condition of your item?
+                        </Title>
+                        <Text color={'black'} size="sm">
+                          {usedListingData?.listItemPost?.explain_repair}
+                        </Text>
+                      </div>
+                    )}
+
                     <div>
                       <Title className="font-[600]" order={6}>
-                        Which Best describes the overall condition of your item?
+                        What best describes overall condition of your item?
                       </Title>
-                      <Text color={'black'} size="sm">
-                        {usedListingData?.listItemPost?.explain_repair}
+                      <Text color={'black'} size="md">
+                        {usedListingData?.listItemPost?.condition_details}
                       </Text>
                     </div>
                     <div>
@@ -379,14 +390,6 @@ export default function Confirmation() {
                       </Title>
                       <Text color={'black'} size="sm">
                         {usedListingData?.listItemPost?.more_info}
-                      </Text>
-                    </div>
-                    <div>
-                      <Title className="font-[600]" order={6}>
-                        What best describes overall condition of your item?
-                      </Title>
-                      <Text color={'black'} size="md">
-                        {usedListingData?.listItemPost?.condition_details}
                       </Text>
                     </div>
                     {/* <div>

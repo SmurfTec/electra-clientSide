@@ -77,6 +77,7 @@ type Product = {
   attachments: Attachment[];
   specs: Specification[];
   images: Attachment[];
+  product_variants: Variant[];
 };
 type Seller = {
   id: number;

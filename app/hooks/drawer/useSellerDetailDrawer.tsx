@@ -25,7 +25,7 @@ export const useSellerDetailDrawer = ({
   explainRepair,
 }: SellerDetailDrawerProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-
+  console.log(isRpairedBefore);
   const Modal = (
     <Stack align="stretch" spacing="md" className="mt-6">
       {/* <Text size="md" color="black">
@@ -51,6 +51,11 @@ export const useSellerDetailDrawer = ({
         </Group>
         <Divider mt={15} />
       </div> */}
+      <Title order={5} className="font-medium">
+        Has your item ever been repaired before?
+      </Title>
+      {isRpairedBefore ? <Text size={'sm'}>Yes</Text> : <Text size={'sm'}>No</Text>}
+      <Divider mt={15} />
       <Only when={isRpairedBefore as boolean}>
         <Title order={5} className="font-medium">
           Has your item ever been repaired before?
@@ -58,7 +63,7 @@ export const useSellerDetailDrawer = ({
         <Text size={'sm'}>{explainRepair}</Text>
         <Divider mt={15} />
       </Only>
-      <Only when={more_info !== ""}>
+      <Only when={more_info !== ''}>
         <Title order={5} className="font-medium">
           Tell us more about your item?
         </Title>

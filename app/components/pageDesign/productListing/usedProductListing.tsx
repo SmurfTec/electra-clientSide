@@ -18,7 +18,7 @@ import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
 import { ListItemPost } from '@elektra/types';
 import { useRouter } from 'next/router';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
 import { useSelector } from 'react-redux';
 
@@ -40,6 +40,10 @@ export function UsedProductListing({ accessories, description, itemConditions, c
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
+  const [hasRepairDetails, setHasRepairDetails] = useState(false);
+  const [hasConditionSelected, setHasConditionSelected] = useState(false);
+  const [hasTypeDescription, setHasTypeDescription] = useState(false);
+  const [hasEnoughPhotos, setHasEnoughPhotos] = useState(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
 
   const filterFile = (file: FileWithPath) => {
@@ -153,6 +157,26 @@ export function UsedProductListing({ accessories, description, itemConditions, c
       </div>
     );
   });
+
+  useEffect(() => {
+    // Check if repair details are filled if "Yes" is selected
+    const repairDetailsValid =
+      listItemPost.is_repaired_before !== true || listItemPost.explain_repair?.trim().length > 0;
+    setHasRepairDetails(repairDetailsValid);
+
+    // Check if an item condition is selected
+    const conditionSelected = !!listItemPost.condition_details;
+    setHasConditionSelected(conditionSelected);
+
+    // Check if type description is filled
+    const typeDescriptionValid = listItemPost.more_info?.trim().length > 0;
+    setHasTypeDescription(typeDescriptionValid);
+
+    // Check if at least 6 photos are uploaded
+    const enoughPhotosUploaded = files.length >= 1;
+    setHasEnoughPhotos(enoughPhotosUploaded);
+  }, [files, listItemPost]);
+
   return (
     <Grid>
       <Grid.Col xs={9}>
@@ -193,9 +217,9 @@ export function UsedProductListing({ accessories, description, itemConditions, c
             </Text>
 
             <Radio.Group
-              value={listItemPost.is_repaired_before}
+              value={listItemPost.is_repaired_before.toString()}
               onChange={(value: 'true' | 'false') =>
-                setListItemPost((prev) => ({ ...prev, is_repaired_before: value }))
+                setListItemPost((prev) => ({ ...prev, is_repaired_before: value === 'true' }))
               }
             >
               <Group>
@@ -209,7 +233,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
             </Radio.Group>
 
             {/* Conditionally render Textarea based on radio button value */}
-            {listItemPost.is_repaired_before === 'true' && (
+            {listItemPost.is_repaired_before === true && (
               <Textarea
                 value={listItemPost.explain_repair}
                 onChange={(event) =>
@@ -339,7 +363,9 @@ export function UsedProductListing({ accessories, description, itemConditions, c
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
               onClick={handleSubmit}
-              disabled={count == 0}
+              disabled={
+                !hasRepairDetails || !hasConditionSelected || !hasTypeDescription || !hasEnoughPhotos || count === 0
+              }
             >
               List Item
             </Button>

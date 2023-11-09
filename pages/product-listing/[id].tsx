@@ -65,7 +65,7 @@ type ProductListingPageProps = {
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail?.product.condition,
-    is_repaired_before: 'false',
+    is_repaired_before: false,
     product: String(productDetail?.product.id),
     explain_repair: '',
     condition_details: null,

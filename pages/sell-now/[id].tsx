@@ -13,16 +13,18 @@ import { RootState } from '@elektra/store';
 import { useSelector } from '@elektra/store';
 import { http, Modal } from '@elektra/customComponents';
 import { useShippingChangeModal, useBillingChangeModal } from '@elektra/hooks';
+import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
 
 export default function SellNowPage() {
   const [isPhoneDisabled, setIsPhoneDisabled] = useState(true);
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const user = useSelector((state: RootState) => state.auth.profile);
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
+  const [PhoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
   const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail.product.condition,
-    is_repaired_before: 'false',
+    is_repaired_before: false,
     product: String(productDetail.product.id),
     explain_repair: '',
     condition_details: null,
@@ -66,7 +68,7 @@ export default function SellNowPage() {
     setbillingaddress(userData?.billing_address_line_1 || '');
     setphone(userData?.mobile_no || '');
   }, [userData]);
-
+  console.log(is_stripe_account);
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
       <Container fluid>
@@ -170,12 +172,12 @@ export default function SellNowPage() {
                 label="Phone Number"
                 className="font-semibold uppercase"
                 classNames={{ input: classes.input }}
-                disabled={isPhoneDisabled} // Use the state variable here
+                disabled={true}
               />
               <Button
                 leftIcon={<Pencil />}
                 // Toggle the disabled state on button click
-                onClick={() => setIsPhoneDisabled(!isPhoneDisabled)}
+                onClick={phoneHandler.open}
                 classNames={{ leftIcon: classes.leftIcon, root: 'px-[0.5rem] py-[1.6rem]' }}
               />
             </div>
@@ -247,6 +249,16 @@ export default function SellNowPage() {
           children={BillingChangeModal}
           onClose={billingHandler.close}
           open={billingOpened}
+        />
+        <Modal
+          size={800}
+          title="Mobile No"
+          className="mx-10 mt-4 mb-7"
+          titlePosition="left"
+          children={PhoneChangeModal}
+          onClose={phoneHandler.close}
+          open={phoneModalOpened}
+          // open={true}
         />
       </Container>
     </ListItemPostContext.Provider>

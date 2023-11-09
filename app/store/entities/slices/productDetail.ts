@@ -57,8 +57,6 @@ export const resetProductDetailSlice = () => {
   };
 };
 
-
-
 export const loadProductData = (id: number) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
@@ -70,7 +68,7 @@ export const loadProductData = (id: number) => async (dispatch: AppDispatch) => 
   );
 };
 
-export const loadMoreProducts = (params:string) => async (dispatch: AppDispatch) => {
+export const loadMoreProducts = (params: string) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({
       url: URL + params,

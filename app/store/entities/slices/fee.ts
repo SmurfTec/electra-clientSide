@@ -48,7 +48,6 @@ export const rehydrateFees = (payload: FeeData) => {
   };
 };
 
-
 export const loadFee = (categoryId: string) => async (dispatch: AppDispatch) => {
   return await dispatch(
     apiRequest({

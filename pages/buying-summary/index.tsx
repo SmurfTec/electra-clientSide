@@ -170,7 +170,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     title: productDetail?.product.title,
     productVariant: productDetail?.product?.product_variants,
     expiration: '',
-    viewMessage: 'VIEW PURCHASED ITEM',
+    orderType: router.query.orderType,
   });
 
   const profile = useSelector((state: RootState) => state.auth.profile);
@@ -271,8 +271,8 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             title={isOfferType ? 'Offer Placed' : 'Product Purchased'}
             children={OfferPlaceModal}
             onClose={offerPlaceHandler.close}
-            // open={offerPlaceOpened}
-            open={true}
+            open={offerPlaceOpened}
+            // open={true}
           />
         </Radio.Group>
 

@@ -167,6 +167,7 @@ export default function ProductPage({
       {item.title}
     </Anchor>
   ));
+  console.log(productDetail);
   return (
     <>
       {!matches && (

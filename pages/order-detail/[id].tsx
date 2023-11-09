@@ -63,7 +63,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
               setExpiration={setExpiration}
               image={baseURL + '/' + orderDetail?.product?.images?.[0]?.filename}
               title={String(orderDetail?.product?.title)}
-              productVariants={orderDetail.product_variants || []}
+              productVariants={orderDetail?.product?.product_variants || []}
               condition={'Not in Data'}
               expiration={'Not in Data'}
               orderNo={String(orderDetail?.id)}
@@ -81,6 +81,7 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
               }
               saleDate={format(new Date(String(orderDetail?.created_on)), 'dd MMM, yyyy')}
               disabled={true}
+              trackingId={orderDetail?.trackingid}
             />
           </div>
         </Grid.Col>
