@@ -59,6 +59,17 @@ export const loadFee = (categoryId: string) => async (dispatch: AppDispatch) => 
   );
 };
 
+export const loadAllFees = () => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: '/fees',
+      onStart: slice.actions.feeRequested.type,
+      onSuccess: slice.actions.feeReceived.type,
+      onError: slice.actions.feeFailed.type,
+    })
+  );
+};
+
 //  export reducer function
 export const feeReducer = slice.reducer;
 

@@ -11,6 +11,7 @@ import { RootState } from '@elektra/store';
 import { ListItemPost, Variant, condition } from '@elektra/types';
 import { PositionApart } from '../buying-summary';
 import { ButtonChip } from '../product/placeOffer';
+import { calculateFees } from '@elektra/customComponents/utils/calculateFees';
 
 type handlerprops = {
   increment: () => void;
@@ -24,9 +25,6 @@ type ListingDescriptionProps = {
   averageSalePrice?: number;
   lowestAsk: number;
   highestAsk: number;
-  marketPlaceFee: number;
-  saleTax: number;
-  shippingFee: number;
   productVariants: Variant[];
   count: number;
   handlers: handlerprops;
@@ -37,29 +35,36 @@ export function ListingDescription({
   description,
   lowestAsk,
   highestAsk,
-  marketPlaceFee,
-  saleTax,
-  shippingFee,
   productVariants,
   count,
   handlers,
 }: ListingDescriptionProps) {
   const router = useRouter();
-  localStorage.setItem(
-    'fee',
-    JSON.stringify({
-      marketPlaceFee,
-      saleTax,
-      shippingFee,
-    })
-  );
-
   const [days, setdays] = useState<any>('30');
   const [loading, setLoading] = useState<boolean>(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
   const authData = useSelector((state: any) => state.auth);
+  const { fees } = useSelector((state: RootState) => state.entities.fee.list);
+
+  const marketplaceFeeObject = fees.find((fee) => fee.type === 'Marketplace');
+  const marketplaceFee = marketplaceFeeObject ? parseFloat(marketplaceFeeObject.fees) : 0;
+  const marketplaceFeeSymbol = marketplaceFeeObject && marketplaceFeeObject.value_type === 'percentage' ? '%' : '';
+
+  const salesTaxObject = fees.find((fee) => fee.type === 'Sales Tax');
+  const salesTax = salesTaxObject ? parseFloat(salesTaxObject.fees) : 0;
+  const salesTaxSymbol = salesTaxObject && salesTaxObject.value_type === 'percentage' ? '%' : '';
+
+  const shippingFeeObject = fees.find((fee) => fee.type === 'Shipping Fee');
+  const shippingFee = shippingFeeObject ? parseFloat(shippingFeeObject.fees) : 0;
+  const shippingSymbol = shippingFeeObject && shippingFeeObject.value_type === 'percentage' ? '%' : '';
+
+  const calculatedFees = calculateFees(fees, count);
+  const calculatedMarketplaceFee = calculatedFees.find((fee) => fee.type === 'Marketplace')?.calculatedFee || 0;
+  const calculatedSalesTax = calculatedFees.find((fee) => fee.type === 'Sales Tax')?.calculatedFee || 0;
+  const calculatedShippingFee = calculatedFees.find((fee) => fee.type === 'Shipping Fee')?.calculatedFee || 0;
+
   useEffect(() => {
     if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
   }, [count]);
@@ -74,7 +79,8 @@ export function ListingDescription({
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
-
+  const totalPrice =
+    count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -107,11 +113,14 @@ export function ListingDescription({
       const currentDate = new Date();
       const calculatedDate = new Date(currentDate);
       calculatedDate.setDate(currentDate.getDate() + Number(days));
+      const totalPrice =
+        count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
       const data = {
         price: count,
         expiration_date: calculatedDate,
         shipping_address: authData?.profile?.shipping_address_line_1,
         product: Number(id),
+        totalPriceAfterFees: totalPrice,
       };
       localStorage.setItem('ListingData', JSON.stringify(data));
       router.push(`/confirmation/${id}?condition=new`);
@@ -265,17 +274,25 @@ export function ListingDescription({
         <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          <PositionApart text={'MarketPlace Fee (7.5%)'} number={marketPlaceFee} sign="-" />
-          <PositionApart text={'Sales Tax'} number={saleTax} sign="-" />
-          <PositionApart text={'Shipping Fee'} number={shippingFee} sign="-" />
-
+          <PositionApart
+            text={`MarketPlace Fee (${marketplaceFee}${marketplaceFeeSymbol})`}
+            number={parseFloat(calculatedMarketplaceFee.toFixed(2))}
+            sign={`${count > 0 ? '-' : ''}`}
+          />
+          <PositionApart
+            text={`Sales Tax (${salesTax}${salesTaxSymbol})`}
+            number={parseFloat(calculatedSalesTax.toFixed(2))}
+            sign={`${count > 0 ? '-' : ''}`}
+          />
+          <PositionApart
+            text={`Shipping Fee (${shippingFee}${shippingSymbol})`}
+            number={parseFloat(calculatedShippingFee.toFixed(2))}
+            sign={`${count > 0 ? '-' : ''}`}
+          />
           {/* <PositionApart text={'Discount'} number={Number(discount)} discount /> */}
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart
-          text={'Total Price'}
-          number={count > 0 ? Number(count - marketPlaceFee - saleTax - shippingFee) : 0}
-        />
+        <PositionApart text={'Total Price'} number={parseFloat(totalPrice)} />
       </div>
 
       {/* <Only when={isNew}> */}

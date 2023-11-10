@@ -10,11 +10,13 @@ import {
 } from '@elektra/components';
 import { Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import {
+  loadAllFees,
   loadBrand,
   loadGenericCategory,
   loadNotifications,
   loadWebsiteSection,
   login,
+  rehydrateFees,
   rehydrateWebsiteSection,
   store,
   useAppDispatch,
@@ -26,7 +28,7 @@ import {
   loadTrendingProducts,
   rehydrateSpecialProducts,
 } from '@elektra/store/entities/slices/specialProducts';
-import { BrandsResponse, GenericCategoryResponse, Product, WebsiteSection } from '@elektra/types';
+import { BrandsResponse, FeeData, GenericCategoryResponse, Product, WebsiteSection } from '@elektra/types';
 import { Box, Flex, Grid, Image, ScrollArea } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useEffect } from 'react';
@@ -92,7 +94,19 @@ export async function getServerSideProps(context: NextPageContext) {
 
   const brands = store.dispatch(loadBrand());
 
-  await Promise.all([websiteSection, trending, latest, mostSold, notification, recommended, genericCategories, brands]);
+  const allFees = store.dispatch(loadAllFees());
+
+  await Promise.all([
+    websiteSection,
+    trending,
+    latest,
+    mostSold,
+    notification,
+    recommended,
+    genericCategories,
+    brands,
+    allFees,
+  ]);
 
   return {
     props: {
@@ -104,6 +118,7 @@ export async function getServerSideProps(context: NextPageContext) {
       genericCategories: store.getState().entities.genericCategory.list,
       brand: store.getState().entities.brand.list,
       isAuth,
+      fees: store.getState().entities.fee.list,
     },
   };
 }
@@ -117,10 +132,11 @@ type homePageProps = {
   genericCategories: GenericCategoryResponse;
   brand: BrandsResponse;
   isAuth: boolean;
+  fees: FeeData;
 };
 
 export function Index({ ...rest }: homePageProps) {
-  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand, isAuth } = rest;
+  const { latest, mostSold, trending, websiteSection, recommended, genericCategories, brand, isAuth, fees } = rest;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -129,6 +145,7 @@ export function Index({ ...rest }: homePageProps) {
       if (!isAuth) {
         dispatch(login({ isAuthenticated: false, user: null, profile: null }));
       }
+      dispatch(rehydrateFees(fees));
       dispatch(rehydrateWebsiteSection(websiteSection));
       dispatch(rehydrateSpecialProducts({ mostSold, trending, latest }));
     }

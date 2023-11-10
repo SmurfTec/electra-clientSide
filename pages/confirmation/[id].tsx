@@ -28,6 +28,7 @@ type ApiData = {
   price: number;
   product: number;
   shipping_address: string;
+  totalPriceAfterFees?: string;
 };
 
 type Details = {
@@ -73,6 +74,7 @@ export default function Confirmation() {
     price: 0,
     product: 0,
     shipping_address: '',
+    totalPriceAfterFees: '',
   };
 
   let usedListingData: UsedData = {
@@ -129,6 +131,7 @@ export default function Confirmation() {
         expiration_date: apiData.expiration_date,
         shipping_address: apiData.shipping_address,
         product: apiData.product,
+        totalPriceAfterFees: apiData.totalPriceAfterFees,
       };
       const res = await http.request({
         url: '/asks',
@@ -292,7 +295,7 @@ export default function Confirmation() {
                   </Text>
                 ) : (
                   <Text className="text-[48px] font-[600]" color="black">
-                    ${apiData?.price - 23 > 0 ? apiData?.price - 23 : 0}
+                    ${apiData?.totalPriceAfterFees}
                   </Text>
                 )}
               </Text>

@@ -103,9 +103,6 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
               description={productDescription}
               highestAsk={Number(productDetail?.product?.highest_offer || 0)}
               lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
-              marketPlaceFee={ListingDescriptionData.marketPlaceFee}
-              saleTax={ListingDescriptionData.saleTax}
-              shippingFee={ListingDescriptionData.shippingFee}
               averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
             />
           </Grid.Col>
