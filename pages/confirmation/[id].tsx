@@ -41,6 +41,7 @@ type UsedData = {
   files: FileWithPath[];
   listItemPost: ListItemPost;
   details: Details;
+  totalPriceAfterFees?: string;
 };
 
 export async function getServerSideProps({ req }: NextPageContext) {
@@ -241,7 +242,7 @@ export default function Confirmation() {
       }
     }
   };
-
+  console.log(usedListingData.totalPriceAfterFees);
   return (
     <div>
       <PageTitle title="Confirmation" className="mt-14" />
@@ -291,7 +292,7 @@ export default function Confirmation() {
               <Text className="text-[48px] font-[600]" color="black">
                 {condition.toLowerCase() === 'used' ? (
                   <Text className="text-[48px] font-[600]" color="black">
-                    ${Number(usedListingData.listItemPost.ask) > 0 ? Number(usedListingData.listItemPost.ask) - 23 : 0}
+                    ${usedListingData.totalPriceAfterFees}
                   </Text>
                 ) : (
                   <Text className="text-[48px] font-[600]" color="black">

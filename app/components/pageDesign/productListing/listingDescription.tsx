@@ -65,6 +65,10 @@ export function ListingDescription({
   const calculatedSalesTax = calculatedFees.find((fee) => fee.type === 'Sales Tax')?.calculatedFee || 0;
   const calculatedShippingFee = calculatedFees.find((fee) => fee.type === 'Shipping Fee')?.calculatedFee || 0;
 
+  const totalPrice =
+    count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
+  const totalPriceNumber = parseFloat(totalPrice);
+
   useEffect(() => {
     if (count) setListItemPost((prev) => ({ ...prev, ask: String(count) }));
   }, [count]);
@@ -79,8 +83,7 @@ export function ListingDescription({
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
-  const totalPrice =
-    count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
+  
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -321,7 +324,7 @@ export function ListingDescription({
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              disabled={count == 0}
+              disabled={totalPriceNumber < 0}
               onClick={handleSubmit}
             >
               List Item

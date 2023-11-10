@@ -11,16 +11,10 @@ interface Fee {
   value_type: 'percentage' | 'value';
 }
 
-// This interface now only cares about the array of fees.
-interface FeeData {
-  fees: Fee[];
-}
-
 interface CalculatedFee extends Fee {
   calculatedFee: number;
 }
 
-// The function now accepts only the fees array instead of the FeeData object.
 export function calculateFees(fees: Fee[], baseAmount: number): CalculatedFee[] {
   const relevantFees = fees.filter(
     (fee) =>

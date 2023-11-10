@@ -4,53 +4,70 @@ export function getHeaderColumn<T extends { id: string | number }>(
   tile: 'active' | 'pending' | 'completed',
   tab?: 'myAsks' | 'myListings'
 ) {
-  // console.log(id);
-  const ActiveColumns: Array<ColumnDef<T, unknown>> = [
-    {
-      id: 'id',
-      accessorKey: 'id',
-      footer: () => null,
-      header: 'ID',
-    },
-    {
-      id: 'itemName',
-      accessorKey: 'itemName',
-      footer: () => null,
-      header: 'Item Name',
-    },
-    {
-      id: 'askPrice',
-      accessorKey: 'askPrice',
-      footer: () => null,
-      header: tab === 'myListings' ? 'Item Price' : 'Ask Price',
-    },
-    {
-      id: 'highestOffer',
-      accessorKey: 'highestOffer',
-      footer: () => null,
-      header: 'Highest Offer',
-    },
-    ...(tab === 'myAsks'
-      ? [
-          {
-            id: 'lowestOffer',
-            accessorKey: 'lowestOffer',
-            footer: () => null,
-            header: 'Lowest Ask',
-          },
-        ]
-      : []),
-    // {
-    //   id: 'lowestOffer',
-    //   accessorKey: 'lowestOffer',
-    //   footer: () => null,
-    //   header: 'Lowest Ask',
-    // },
-    {
-      id: 'action',
-      footer: () => null,
-    },
-  ];
+  let ActiveColumns: Array<ColumnDef<T, unknown>> = [];
+  if (tab === 'myAsks') {
+    ActiveColumns = [
+      {
+        id: 'id',
+        accessorKey: 'id',
+        footer: () => null,
+        header: 'ID',
+      },
+      {
+        id: 'itemName',
+        accessorKey: 'itemName',
+        footer: () => null,
+        header: 'Item Name',
+      },
+      {
+        id: 'askPrice',
+        accessorKey: 'askPrice',
+        footer: () => null,
+        header: 'Ask Price',
+      },
+      {
+        id: 'highestOffer',
+        accessorKey: 'highestOffer',
+        footer: () => null,
+        header: 'Highest Offer',
+      },
+      {
+        id: 'lowestAsk',
+        accessorKey: 'lowestAsk',
+        footer: () => null,
+        header: 'Lowest Ask',
+      },
+      {
+        id: 'action',
+        footer: () => null,
+      },
+    ];
+  } else if (tab === 'myListings') {
+    ActiveColumns = [
+      {
+        id: 'id',
+        accessorKey: 'id',
+        footer: () => null,
+        header: 'ID',
+      },
+      {
+        id: 'itemName',
+        accessorKey: 'itemName',
+        footer: () => null,
+        header: 'Item Name',
+      },
+      {
+        id: 'listingPrice',
+        accessorKey: 'listingPrice',
+        footer: () => null,
+        header: 'Item Price',
+      },
+      {
+        id: 'action',
+        footer: () => null,
+      },
+    ];
+  }
   const PendingColumns: Array<ColumnDef<T, unknown>> = [
     {
       id: 'id',

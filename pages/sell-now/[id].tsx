@@ -16,7 +16,6 @@ import { useShippingChangeModal, useBillingChangeModal } from '@elektra/hooks';
 import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
 
 export default function SellNowPage() {
-  const [isPhoneDisabled, setIsPhoneDisabled] = useState(true);
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const user = useSelector((state: RootState) => state.auth.profile);
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();

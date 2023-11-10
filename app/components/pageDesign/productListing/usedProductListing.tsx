@@ -1,9 +1,8 @@
-import { ListItem, ListItemPostContext, http } from '@elektra/customComponents';
+import { ListItemPostContext } from '@elektra/customComponents';
 import {
   ActionIcon,
   Badge,
   Button,
-  Checkbox,
   Divider,
   Grid,
   Group,
@@ -18,9 +17,11 @@ import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
 import { ListItemPost } from '@elektra/types';
 import { useRouter } from 'next/router';
-import { FC, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Check, QuestionMark, Upload, X } from 'tabler-icons-react';
 import { useSelector } from 'react-redux';
+import { RootState } from '@elektra/store';
+import { calculateFees } from '@elektra/customComponents/utils/calculateFees';
 
 type UsedProductListingProps = {
   accessories: string[];
@@ -36,7 +37,6 @@ const useStyles = createStyles({
 
 export function UsedProductListing({ accessories, description, itemConditions, count }: UsedProductListingProps) {
   const { classes } = useStyles();
-  const authData = useSelector((state: any) => state.auth);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [files, setFiles] = useState<FileWithPath[]>([]);
@@ -45,6 +45,28 @@ export function UsedProductListing({ accessories, description, itemConditions, c
   const [hasTypeDescription, setHasTypeDescription] = useState(false);
   const [hasEnoughPhotos, setHasEnoughPhotos] = useState(false);
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
+
+  const { fees } = useSelector((state: RootState) => state.entities.fee.list);
+  const marketplaceFeeObject = fees.find((fee) => fee.type === 'Marketplace');
+  const marketplaceFee = marketplaceFeeObject ? parseFloat(marketplaceFeeObject.fees) : 0;
+  const marketplaceFeeSymbol = marketplaceFeeObject && marketplaceFeeObject.value_type === 'percentage' ? '%' : '';
+
+  const salesTaxObject = fees.find((fee) => fee.type === 'Sales Tax');
+  const salesTax = salesTaxObject ? parseFloat(salesTaxObject.fees) : 0;
+  const salesTaxSymbol = salesTaxObject && salesTaxObject.value_type === 'percentage' ? '%' : '';
+
+  const shippingFeeObject = fees.find((fee) => fee.type === 'Shipping Fee');
+  const shippingFee = shippingFeeObject ? parseFloat(shippingFeeObject.fees) : 0;
+  const shippingSymbol = shippingFeeObject && shippingFeeObject.value_type === 'percentage' ? '%' : '';
+
+  const calculatedFees = calculateFees(fees, count);
+  const calculatedMarketplaceFee = calculatedFees.find((fee) => fee.type === 'Marketplace')?.calculatedFee || 0;
+  const calculatedSalesTax = calculatedFees.find((fee) => fee.type === 'Sales Tax')?.calculatedFee || 0;
+  const calculatedShippingFee = calculatedFees.find((fee) => fee.type === 'Shipping Fee')?.calculatedFee || 0;
+
+  const totalPrice =
+    count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
+  const totalPriceNumber = parseFloat(totalPrice);
 
   const filterFile = (file: FileWithPath) => {
     return files.filter((item) => item !== file);
@@ -93,6 +115,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
       const data = {
         files: base64Files,
         listItemPost: listItemPost,
+        totalPriceAfterFees: totalPrice,
         details: {
           accessories: accessories,
           conditionstatus: itemConditions,
@@ -176,7 +199,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
     const enoughPhotosUploaded = files.length >= 1;
     setHasEnoughPhotos(enoughPhotosUploaded);
   }, [files, listItemPost]);
-
+  console.log(totalPrice);
   return (
     <Grid>
       <Grid.Col xs={9}>
@@ -364,7 +387,12 @@ export function UsedProductListing({ accessories, description, itemConditions, c
               bg={'black'}
               onClick={handleSubmit}
               disabled={
-                !hasRepairDetails || !hasConditionSelected || !hasTypeDescription || !hasEnoughPhotos || count === 0
+                !hasRepairDetails ||
+                !hasConditionSelected ||
+                !hasTypeDescription ||
+                !hasEnoughPhotos ||
+                count === 0 ||
+                totalPriceNumber < 0
               }
             >
               List Item

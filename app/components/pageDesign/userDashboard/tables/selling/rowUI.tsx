@@ -3,20 +3,18 @@ import { NextLink } from '@mantine/next';
 import { CellContext } from '@tanstack/react-table';
 import { CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
 import { Modal, http } from '@elektra/customComponents';
-import { useOfferEditModal } from '@elektra/hooks';
 import { useSelector } from 'react-redux';
 import { RootState } from '@elektra/store';
-import { useUpdateAskListingModal } from '@elektra/hooks/modal/useUpdateAskListingModal';
+import { useListingModal } from '@elektra/hooks/modal/useListingModal';
 export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
-
   const product = useSelector((state: RootState) => state.entities.sellingOrders.list.sellingActiveOrders.asks).find(
     (item: any) => {
       return item.product.id === row.original.id;
     }
   );
 
-  const [OfferEditModal, offerEditOpened, offerEditHandler] = useUpdateAskListingModal(product);
+  const [listingEditModal, listingEditOpened, listingEditHandler] = useListingModal(product);
 
   const handleSell = async (id: any) => {
     const res = await http.request({
@@ -51,11 +49,11 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
             <Modal
               title="Edit Listing"
               size={500}
-              children={OfferEditModal}
-              onClose={offerEditHandler.close}
-              open={offerEditOpened}
+              children={listingEditModal}
+              onClose={listingEditHandler.close}
+              open={listingEditOpened}
             />
-            <ActionIcon onClick={offerEditHandler.open}>
+            <ActionIcon onClick={listingEditHandler.open}>
               <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
             </ActionIcon>
           </Grid.Col>

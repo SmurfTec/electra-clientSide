@@ -5,6 +5,8 @@ import {
   initStore,
   loadOrderPurchasing,
   loadOrderSelling,
+  loadOrderSellingAsks,
+  loadOrderSellingListings,
   loadPayouts,
   loadUserFavourite,
   loadUserReward,
@@ -31,10 +33,19 @@ export async function getServerSideProps({ req }: NextPageContext) {
   const userReward = store.dispatch(loadUserReward());
   const orderPurchasing = store.dispatch(loadOrderPurchasing());
   const orderSelling = store.dispatch(loadOrderSelling());
-
+  const orderSellingAsks = store.dispatch(loadOrderSellingAsks());
+  const orderSellingListings = store.dispatch(loadOrderSellingListings());
   const payouts = store.dispatch(loadPayouts());
 
-  await Promise.all([userFavourite, userReward, orderPurchasing, orderSelling, payouts]);
+  await Promise.all([
+    userFavourite,
+    userReward,
+    orderPurchasing,
+    orderSelling,
+    orderSellingAsks,
+    orderSellingListings,
+    payouts,
+  ]);
   return {
     props: {
       userRewardData: store.getState().entities.userReward.list,
@@ -42,6 +53,8 @@ export async function getServerSideProps({ req }: NextPageContext) {
       orderPurchasingData: store.getState().entities.purchasingOrders.list,
       orderSellingData: store.getState().entities.sellingOrders.list,
       payouts: store.getState().entities.payouts.list,
+      orderSellingAsksData: store.getState().entities.sellingOrders.list.sellingAsks,
+      orderSellingListingsData: store.getState().entities.sellingOrders.list.sellingListings,
     },
   };
 }
@@ -52,6 +65,7 @@ type UserDashBoardPageProps = {
   orderPurchasingData: PurchasingOrders;
   orderSellingData: SellingOrders;
   payouts: Payouts[];
+  orderSellingListingsData: any;
 };
 
 export default function UserDashboard({
@@ -60,6 +74,7 @@ export default function UserDashboard({
   orderPurchasingData,
   orderSellingData,
   payouts,
+  orderSellingListingsData,
 }: UserDashBoardPageProps) {
   const tabViewData: tabViewData[] = [
     {
@@ -93,13 +108,13 @@ export default function UserDashboard({
   ];
   const profile = useSelector((state: RootState) => state.auth.profile);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     let unsubscribe = false;
     if (!unsubscribe) {
       dispatch(rehydrateUserReward(userRewardData));
       dispatch(rehydrateUserFavourite(userFavouriteData));
       dispatch(rehydrateOrderPurchasing(orderPurchasingData));
-      console.log(orderSellingData, 'orderSellingData');
       dispatch(rehydrateOrderSelling(orderSellingData));
       dispatch(rehydratePayouts(payouts));
     }

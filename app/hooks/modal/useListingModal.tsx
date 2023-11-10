@@ -4,7 +4,7 @@ import { ActionIcon, Button, Center, Divider, Group, NumberInput, Stack, Text } 
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { Minus, Plus } from 'tabler-icons-react';
 
-export const useUpdateAskListingModal = (
+export const useListingModal = (
   productDetailData: any
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,9 +17,9 @@ export const useUpdateAskListingModal = (
           // color={productDetailData.color}
           // company={productDetailData.company}
           // image={productDetailData?.image}
-          image={`${baseURL}/${productDetailData.product.attachments[0].url}`}
+          image={`${baseURL}/${productDetailData?.product?.attachments[0].url}`}
           productVariants={[]}
-          specs={productDetailData.product?.specs}
+          specs={productDetailData?.product?.specs}
           title={productDetailData?.product.title}
           key={productDetailData?.title + productDetailData?.image}
         />

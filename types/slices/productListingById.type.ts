@@ -22,16 +22,16 @@ type User = {
 };
 export type ListItemPost = {
   condition: condition;
-  ask: string;
+  ask?: string;
   is_repaired_before: boolean;
   explain_repair: string;
   condition_details: string | null;
   more_info: string;
   product: string;
-  listingVariants: {
-    id: number
-    value: string
-  }[]
+  listingVariants?: {
+    id: number;
+    value: string;
+  }[];
 };
 
 export type listingVariants = {
@@ -60,7 +60,7 @@ type ListingStats = {
   total_amount_sold_percentage: number | null;
 };
 
-type Listing = {
+export type Listing = {
   id: number;
   created_on: string;
   updated_on: string;
@@ -71,6 +71,10 @@ type Listing = {
   explain_repair: string | null;
   condition_details: string;
   more_info: string;
+  product_data: {
+    id: number;
+    title: string;
+  };
   product: {
     id: number;
     title: string;

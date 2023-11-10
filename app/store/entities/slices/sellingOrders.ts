@@ -3,6 +3,8 @@ import { AppDispatch } from '@elektra/store/storeContext';
 import { SellingOrders } from '@elektra/types';
 import { createSlice } from '@reduxjs/toolkit';
 
+const OrderSellingAsksURL = '/asks/me';
+const OrderSellingListingsURL = '/listings/me';
 const OrderSellingActiveURL = '/asks/me';
 const OrderSellingCompletedURL = '/orders/me/selling?status=completed';
 const OrderSellingPendingURL = '/orders/me/selling?status=pending';
@@ -29,6 +31,14 @@ const initialState: OrdersSlice = {
       orderStats: [],
       results: 0,
     },
+    sellingAsks: {
+      asks: [],
+      askStats: { active_asks: '', gross_value: 0, net_value: 0, no_of_listing: '' },
+    },
+    sellingListings: {
+      listings: [],
+      listingStats: { active_listings: '', gross_value: 0, no_of_listing: 0, total_listings: '' },
+    },
   },
   loading: false,
 };
@@ -37,6 +47,32 @@ const slice = createSlice({
   name: 'SellingOrders',
   initialState,
   reducers: {
+    // Reducers for /asks/me
+    orderSellingAsksRequested: (state) => {
+      state.loading = true;
+    },
+    orderSellingAsksReceived: (state, action) => {
+      state.list.sellingAsks.asks = action.payload.asks;
+      state.list.sellingAsks.askStats = action.payload.askStats;
+      state.loading = false;
+    },
+    orderSellingAsksFailed: (state) => {
+      state.loading = false;
+    },
+
+    // Reducers for /listings/me
+    orderSellingListingsRequested: (state) => {
+      state.loading = true;
+    },
+    orderSellingListingsReceived: (state, action) => {
+      state.list.sellingListings.listings = action.payload.listings;
+      state.list.sellingListings.listingStats = action.payload.stats;
+      state.loading = false;
+    },
+    orderSellingListingsFailed: (state) => {
+      state.loading = false;
+    },
+
     orderSellingActiveRequested: (state) => {
       state.loading = true;
     },
@@ -78,13 +114,37 @@ const slice = createSlice({
 
     orderSellingRehydrated: (state, action) => {
       state.loading = true;
-      state.list.sellingPendingOrders = action.payload.sellingPendingOrders;
-      state.list.sellingActiveOrders = action.payload.sellingActiveOrders;
-      state.list.sellingCompletedOrders = action.payload.sellingCompletedOrders;
+      // state.list.sellingPendingOrders = action.payload.sellingPendingOrders;
+      // state.list.sellingActiveOrders = action.payload.sellingActiveOrders;
+      // state.list.sellingCompletedOrders = action.payload.sellingCompletedOrders;
+      state.list = action.payload;
       state.loading = false;
     },
   },
 });
+
+export const loadOrderSellingAsks = () => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: OrderSellingAsksURL,
+      onStart: slice.actions.orderSellingAsksRequested.type,
+      onSuccess: slice.actions.orderSellingAsksReceived.type,
+      onError: slice.actions.orderSellingAsksFailed.type,
+    })
+  );
+};
+
+// For /listings/me
+export const loadOrderSellingListings = () => async (dispatch: AppDispatch) => {
+  return await dispatch(
+    apiRequest({
+      url: OrderSellingListingsURL,
+      onStart: slice.actions.orderSellingListingsRequested.type,
+      onSuccess: slice.actions.orderSellingListingsReceived.type,
+      onError: slice.actions.orderSellingListingsFailed.type,
+    })
+  );
+};
 
 export const rehydrateOrderSelling = (payload: SellingOrders) => {
   return {

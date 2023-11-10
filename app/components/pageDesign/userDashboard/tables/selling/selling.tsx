@@ -19,19 +19,24 @@ export function Selling() {
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
 
-  const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders } = useSelector(
-    (state: RootState) => state.entities.sellingOrders.list
-  );
+  const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders, sellingAsks, sellingListings } =
+    useSelector((state: RootState) => state.entities.sellingOrders.list);
 
   const activeTileData: SimpleStatCardProps[] = [
     {
-      title: 'No of Listings',
-      value: Number(sellingActiveOrders?.askStats?.no_of_listing),
+      title: subTabState === 'myAsks' ? 'No of Asks' : 'No of Listings',
+      value:
+        subTabState === 'myAsks'
+          ? Number(sellingAsks?.askStats?.active_asks)
+          : Number(sellingListings?.listingStats?.total_listings),
       type: 'N/A',
     },
     {
       title: 'Gross Value',
-      value: Number(sellingActiveOrders?.askStats?.gross_value),
+      value:
+        subTabState === 'myAsks'
+          ? Number(sellingAsks?.askStats?.gross_value)
+          : Number(sellingListings?.listingStats?.gross_value),
       type: '$',
     },
   ];
@@ -85,6 +90,21 @@ export function Selling() {
     lowestOffer: `$${order?.lowest_ask}`,
   }));
 
+  const SellingMyAsksData = sellingAsks.asks.map((ask) => ({
+    id: ask?.product?.id,
+    itemName: ask?.product?.title ?? '-',
+    askPrice: `$${ask?.my_offer}`,
+    highestOffer: `$${ask?.highest_bid}`,
+    lowestAsk: `$${ask?.lowest_ask}`,
+  }));
+
+  const SellingMyListingsData = sellingListings.listings.map((listing) => ({
+    id: listing?.product_data?.id,
+    itemName: listing?.product_data?.title ?? '-',
+    listingPrice: `${listing?.lowest_ask}`,
+    highestOffer: `${listing?.highest_offer}`,
+  }));
+
   const SellingPendingOrdersData = sellingPendingOrders.orders.map((order) => ({
     id: order?.id,
     itemName: order?.product?.title ?? '-',
@@ -105,7 +125,7 @@ export function Selling() {
   const tableData: tableDataType = {
     active: {
       columns: getHeaderColumn('active', subTabState === 'myAsks' ? 'myAsks' : 'myListings'),
-      data: SellingActiveOrdersData,
+      data: subTabState === 'myAsks' ? SellingMyAsksData : SellingMyListingsData,
       RowUI: ActiveSimpleRow,
       tileData: activeTileData,
     },

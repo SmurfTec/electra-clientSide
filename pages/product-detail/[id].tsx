@@ -167,7 +167,7 @@ export default function ProductPage({
       {item.title}
     </Anchor>
   ));
-  console.log(productDetail);
+
   return (
     <>
       {!matches && (
@@ -217,8 +217,8 @@ export default function ProductPage({
         </Grid.Col>
       </Grid>
 
-      {/* <Only when={productListing?.listings?.length !== 0}> */}
-      <Only when={true}>
+      <Only when={productListing?.listings?.length > 0}>
+        {/* <Only when={true}> */}
         <Divider className="my-4" />
         <Grid>
           <Grid.Col span={12}>
@@ -248,11 +248,8 @@ export default function ProductPage({
         </Grid>
 
         {listingData && listingData.length > 0 ? (
-          listingData.slice(0, limit).map((product, index) => (
-            <div
-              ref={targetRef}
-              className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center"
-            >
+          <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-5 md:grid-cols-4 place-content-center">
+            {listingData.slice(0, limit).map((product, index) => (
               <ProductCard
                 id={product.id}
                 key={index}
@@ -265,8 +262,8 @@ export default function ProductPage({
                 highestPrice={Number(product?.highest_offer)}
                 price={product.saleprice}
               />
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <Title align="initial" className="font-bold uppercase my-8 text-center" color={'black'} order={4}>
             NO USED LISTINGS FOUND
