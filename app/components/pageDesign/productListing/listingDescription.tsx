@@ -83,7 +83,7 @@ export function ListingDescription({
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
   };
-  
+
   const handleSubmit = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -94,7 +94,7 @@ export function ListingDescription({
         return;
       }
       if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
-        listItemPost[key as 'listingVariants'].forEach((item, index) => {
+        listItemPost[key as 'listingVariants']?.forEach((item, index) => {
           //@ts-ignore
           formData.append(`listingVariants[${index}][variant]`, item.id);
           formData.append(`listingVariants[${index}][value]`, item.value);

@@ -94,7 +94,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
         return;
       }
       if (Array.isArray(listItemPost[key as keyof ListItemPost])) {
-        listItemPost[key as 'listingVariants'].forEach((item, index) => {
+        listItemPost[key as 'listingVariants']?.forEach((item, index) => {
           //@ts-ignore
           formData.append(`listingVariants[${index}][variant]`, item.id);
           formData.append(`listingVariants[${index}][value]`, item.value);
