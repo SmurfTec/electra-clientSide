@@ -159,6 +159,7 @@ export function PlaceOfferComponent({
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
               }
+              disabled
             />
           </Input.Wrapper>
           <Input.Wrapper label="HIGHEST OFFER" maw={114}>
@@ -178,12 +179,19 @@ export function PlaceOfferComponent({
               formatter={(value) =>
                 !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',') : '$ '
               }
+              disabled
             />
           </Input.Wrapper>
           <Group>
-            <div className="flex flex-col gap-[0px]">
-              <p className="text-[18px] font-bold">Offer Expiration</p>
+            <Input.Wrapper label="Offer Expiration" maw={114}>
               <Select
+                styles={{
+                  input: {
+                    fontWeight: 'bold',
+                    fontSize: '24px',
+                    color: '#3C82D6',
+                  },
+                }}
                 className="Expiration-dropdown"
                 data={[
                   { value: '1', label: '1 Days' }, //'7','14','21','30'
@@ -195,7 +203,7 @@ export function PlaceOfferComponent({
                 value={days}
                 onChange={(value: any) => setdays(value)}
               />
-            </div>
+            </Input.Wrapper>
           </Group>
         </Only>
         <Only when={!isNew}>

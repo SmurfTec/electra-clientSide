@@ -1,14 +1,43 @@
 import { ItemCard } from '@elektra/components';
-import { baseURL } from '@elektra/customComponents';
+import { HttpStatusCode, baseURL, http } from '@elektra/customComponents';
 import { ActionIcon, Button, Center, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 import { Minus, Plus } from 'tabler-icons-react';
 
-export const useListingModal = (
+export const useUpdateListingModal = (
   productDetailData: any
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   const [count, handlers] = useCounter(0, { min: 0 });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const updateListing = async (newPrice: number) => {
+    setIsLoading(true);
+    setError('');
+    const payload = {
+      price: newPrice,
+      product: productDetailData?.product?.id,
+    };
+
+    try {
+      const response = await http.request({
+        url: `/listings/${productDetailData.id}`,
+        method: 'PATCH',
+        data: payload,
+      });
+      if (response.status === HttpStatusCode.Ok) {
+        setError('Failed to update ask');
+      } else {
+        setError('Error updating ask');
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setError('Failed to update ask');
+    }
+  };
+  const imageUrl = productDetailData?.images?.[0]?.url || 'defaultImageUrl';
 
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
@@ -17,10 +46,10 @@ export const useListingModal = (
           // color={productDetailData.color}
           // company={productDetailData.company}
           // image={productDetailData?.image}
-          image={`${baseURL}/${productDetailData?.product?.attachments[0].url}`}
+          image={`${baseURL}/${imageUrl}`}
           productVariants={[]}
           specs={productDetailData?.product?.specs}
-          title={productDetailData?.product.title}
+          title={productDetailData?.product_data.title}
           key={productDetailData?.title + productDetailData?.image}
         />
         <Divider variant="dashed" />
@@ -52,6 +81,11 @@ export const useListingModal = (
           <Plus size={16} color="white" />
         </ActionIcon>
       </Group>
+      {error && (
+        <Text size={'sm'} color="red">
+          {error}
+        </Text>
+      )}
       <Center className="space-x-5 mt-5">
         <Button
           styles={{
@@ -72,9 +106,10 @@ export const useListingModal = (
           }}
           onClick={() => {
             // Handle the update logic here
-            console.log('Updated ask value to:', count);
+            updateListing(count);
             close();
           }}
+          loading={isLoading}
         >
           UPDATE
         </Button>

@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
-import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
+import { ActiveAskRow, ActiveListingRow, ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
 
 export function Selling() {
@@ -35,8 +35,8 @@ export function Selling() {
       title: 'Gross Value',
       value:
         subTabState === 'myAsks'
-          ? Number(sellingAsks?.askStats?.gross_value)
-          : Number(sellingListings?.listingStats?.gross_value),
+          ? Math.round((Number(sellingAsks?.askStats?.gross_value) + Number.EPSILON) * 100) / 100
+          : Math.round((Number(sellingListings?.listingStats?.gross_value) + Number.EPSILON) * 100) / 100,
       type: '$',
     },
   ];
@@ -91,7 +91,7 @@ export function Selling() {
   }));
 
   const SellingMyAsksData = sellingAsks.asks.map((ask) => ({
-    id: ask?.product?.id,
+    id: ask?.id,
     itemName: ask?.product?.title ?? '-',
     askPrice: `$${ask?.my_offer}`,
     highestOffer: `$${ask?.highest_bid}`,
@@ -99,9 +99,9 @@ export function Selling() {
   }));
 
   const SellingMyListingsData = sellingListings.listings.map((listing) => ({
-    id: listing?.product_data?.id,
+    id: listing?.id,
     itemName: listing?.product_data?.title ?? '-',
-    listingPrice: `${listing?.lowest_ask}`,
+    listingPrice: `${listing?.ask}`,
     highestOffer: `${listing?.highest_offer}`,
   }));
 
@@ -126,7 +126,8 @@ export function Selling() {
     active: {
       columns: getHeaderColumn('active', subTabState === 'myAsks' ? 'myAsks' : 'myListings'),
       data: subTabState === 'myAsks' ? SellingMyAsksData : SellingMyListingsData,
-      RowUI: ActiveSimpleRow,
+      // RowUI: ActiveSimpleRow,
+      RowUI: subTabState === 'myAsks' ? ActiveAskRow : ActiveListingRow,
       tileData: activeTileData,
     },
     pending: {

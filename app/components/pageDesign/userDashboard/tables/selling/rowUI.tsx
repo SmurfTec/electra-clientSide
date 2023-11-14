@@ -5,7 +5,124 @@ import { CircleCheck, CircleX, Pencil } from 'tabler-icons-react';
 import { Modal, http } from '@elektra/customComponents';
 import { useSelector } from 'react-redux';
 import { RootState } from '@elektra/store';
-import { useListingModal } from '@elektra/hooks/modal/useListingModal';
+
+import { useUpdateAskModal } from '@elektra/hooks/modal/useUpdateAskModal';
+import { useUpdateListingModal } from '@elektra/hooks/modal/useUpdateListingModal';
+
+export function ActiveAskRow<T extends { id: string | number; askPrice: string }>({
+  row,
+  cell,
+}: CellContext<T, unknown>) {
+  const product = useSelector((state: RootState) => state.entities.sellingOrders.list.sellingAsks.asks).find(
+    (item: any) => {
+      return item.id === row.original.id;
+    }
+  );
+
+  const [askUpdateModal, askUpdateOpened, askUpdateHandler] = useUpdateAskModal(product);
+  const handleSell = (id: any) => {
+    console.log('Selling Ask with ID:', id);
+    // Add logic to handle sell
+  };
+
+  switch (cell.column.id) {
+    case 'action':
+      return (
+        <Grid p={0} m={0}>
+          <Grid.Col className="text-right" span={10}>
+            <Button
+              variant="outline"
+              styles={{
+                root: {
+                  padding: '0px 10px',
+
+                  borderRadius: '30px',
+                },
+              }}
+              radius="xl"
+              component={NextLink}
+              onClick={() => handleSell(row.original.id)}
+              href={`/userdashboard?tab=purchasing`}
+            >
+              Sell Now
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={2}>
+            <Modal
+              title="Update Ask"
+              size={500}
+              children={askUpdateModal}
+              onClose={askUpdateHandler.close}
+              open={askUpdateOpened}
+            />
+            <ActionIcon onClick={askUpdateHandler.open}>
+              <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
+            </ActionIcon>
+          </Grid.Col>
+        </Grid>
+      );
+    default:
+      return <Text color="inherit">{cell.getValue() as string}</Text>;
+  }
+}
+
+export function ActiveListingRow<T extends { id: string | number; askPrice: string }>({
+  row,
+  cell,
+}: CellContext<T, unknown>) {
+  const product = useSelector((state: RootState) => state.entities.sellingOrders.list.sellingListings.listings).find(
+    (item: any) => {
+      return item.id === row.original.id;
+    }
+  );
+
+  const [listingUpdateModal, listingUpdateOpened, listingUpdateHandler] = useUpdateListingModal(product);
+  const handleSell = (id: any) => {
+    console.log('Selling Ask with ID:', id);
+    // Add logic to handle sell
+  };
+
+  switch (cell.column.id) {
+    case 'action':
+      return (
+        <Grid p={0} m={0}>
+          <Grid.Col className="text-right" span={10}>
+            <Button
+              variant="outline"
+              styles={{
+                root: {
+                  padding: '0px 10px',
+
+                  borderRadius: '30px',
+                },
+              }}
+              radius="xl"
+              component={NextLink}
+              onClick={() => handleSell(row.original.id)}
+              href={`/userdashboard?tab=purchasing`}
+            >
+              Sell Now
+            </Button>
+          </Grid.Col>
+          <Grid.Col span={2}>
+            <Modal
+              title="Update Listing"
+              size={500}
+              children={listingUpdateModal}
+              onClose={listingUpdateHandler.close}
+              open={listingUpdateOpened}
+            />
+            <ActionIcon onClick={listingUpdateHandler.open}>
+              <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
+            </ActionIcon>
+          </Grid.Col>
+        </Grid>
+      );
+    default:
+      return <Text color="inherit">{cell.getValue() as string}</Text>;
+  }
+}
+
 export function ActiveSimpleRow<T extends { id: string | number }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
   const product = useSelector((state: RootState) => state.entities.sellingOrders.list.sellingActiveOrders.asks).find(
@@ -13,8 +130,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
       return item.product.id === row.original.id;
     }
   );
-
-  const [listingEditModal, listingEditOpened, listingEditHandler] = useListingModal(product);
+  const [listingEditModal, listingEditOpened, listingEditHandler] = useUpdateListingModal(product);
 
   const handleSell = async (id: any) => {
     const res = await http.request({
@@ -63,6 +179,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
       return <Text color="inherit">{cell.getValue() as string}</Text>;
   }
 }
+
 export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
 
@@ -102,6 +219,7 @@ export function PendingSimpleRow<T extends { id: string }>(props: CellContext<T,
       return <Text color="inherit">{cell.getValue() as string}</Text>;
   }
 }
+
 export function CompletedSimpleRow<T extends { id: string }>(props: CellContext<T, unknown>) {
   const { row, cell } = props;
 

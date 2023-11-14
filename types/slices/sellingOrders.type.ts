@@ -36,6 +36,7 @@ type AskStats = {
 };
 
 type Ask = {
+  id: number;
   highest_offer: any;
   lowest_ask: any;
   highest_bid: any;
