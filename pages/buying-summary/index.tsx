@@ -226,6 +226,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   // orderNo={''}f
                   disabled={false}
                   // protectionPlan={''}
+                  phone={profile?.mobile_no}
                 />
               </div>
             </Grid.Col>

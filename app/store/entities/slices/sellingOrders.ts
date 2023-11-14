@@ -123,10 +123,11 @@ const slice = createSlice({
   },
 });
 
-export const loadOrderSellingAsks = () => async (dispatch: AppDispatch) => {
+export const loadOrderSellingAsks = (date?: string) => async (dispatch: AppDispatch) => {
+  const url = date ? `${OrderSellingAsksURL}?created_on=${date}` : OrderSellingAsksURL;
   return await dispatch(
     apiRequest({
-      url: OrderSellingAsksURL,
+      url: url,
       onStart: slice.actions.orderSellingAsksRequested.type,
       onSuccess: slice.actions.orderSellingAsksReceived.type,
       onError: slice.actions.orderSellingAsksFailed.type,

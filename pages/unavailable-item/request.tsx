@@ -1,23 +1,73 @@
 import { Modal } from '@elektra/customComponents';
 import { useRequestItemModal } from '@elektra/hooks';
+import { useAppDispatch } from '@elektra/store';
+import { apiRequest } from '@elektra/store/middleware';
 import { Button, createStyles, Image, Stack, Textarea, TextInput, Title } from '@mantine/core';
+import { useState } from 'react';
 import { ArrowUpRight } from 'tabler-icons-react';
 
 export default function RequestItem() {
   const { classes } = useStyles();
   const [RequestModal, requestOpened, requestHandler] = useRequestItemModal();
+  const dispatch = useAppDispatch();
+  const [title, setTitle] = useState(''); // State for the product name
+  const [description, setDescription] = useState(''); // State for the description
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const handleRequestClick = async () => {
+    // Check if title or description is empty
+    if (!title.trim() || !description.trim()) {
+      setError('Title and description cannot be empty.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(''); // Clear any previous errors
+    const requestData = { title, description };
+
+    const res = await dispatch(
+      apiRequest({
+        url: '/productrequests',
+        method: 'POST',
+        data: requestData,
+      })
+    );
+
+    if (res.isError) {
+      setIsLoading(false);
+      setError('Something went wrong please try again later');
+      return;
+    }
+
+    setIsLoading(false);
+    requestHandler.open();
+  };
+
   return (
     <Stack align="center" className="py-24">
-      <Image alt='' mah={100} maw={100} src={'/images/plainbox.png'} />
+      <Image alt="" mah={100} maw={100} src={'/images/plainbox.png'} />
       <Title order={4} className="font-semibold">
         Requesting product to be added
       </Title>
-      <TextInput placeholder='Product Name' size={'lg'} classNames={{ input: classes.input }} />
-      <Textarea placeholder='Description' classNames={{ input: classes.areaInput }}/>
+      <TextInput
+        placeholder="Product Name"
+        size={'lg'}
+        classNames={{ input: classes.input }}
+        value={title}
+        onChange={(event) => setTitle(event.currentTarget.value)}
+      />
+      <Textarea
+        placeholder="Description"
+        classNames={{ input: classes.areaInput }}
+        value={description}
+        onChange={(event) => setDescription(event.currentTarget.value)}
+      />
+      {error && <div className="error-message">{error}</div>} {/* Display error message */}
       <Button
         rightIcon={<ArrowUpRight size={38} strokeWidth={1.2} color={'white'} />}
         size="lg"
-        onClick={requestHandler.open}
+        onClick={handleRequestClick}
+        loading={isLoading}
         classNames={{ root: classes.blueButton }}
       >
         REQUEST
@@ -39,7 +89,7 @@ const useStyles = createStyles((theme) => ({
   areaInput: {
     borderRadius: 'unset',
     border: '2px solid black',
-    height:'170px',
+    height: '170px',
     width: '400px',
   },
   grayButton: {

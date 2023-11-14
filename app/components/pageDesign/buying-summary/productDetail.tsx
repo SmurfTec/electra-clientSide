@@ -4,6 +4,7 @@ import { Variant } from '@elektra/types';
 import { Grid, Text, Title } from '@mantine/core';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { ItemCard } from '../../card';
+import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
 
 type ProductDetailProps = {
   image: string;
@@ -20,6 +21,7 @@ type ProductDetailProps = {
   productVariants: Variant[];
   setExpiration: Dispatch<SetStateAction<Date>>;
   trackingId?: string;
+  phone?: string | null;
 };
 
 export function ProductDetail({
@@ -37,10 +39,12 @@ export function ProductDetail({
   protectionPlan,
   productVariants,
   trackingId,
+  phone
 }: ProductDetailProps) {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [OfferModal, offerOpened, offerHandler, expirationDate] = useOfferModal();
   const [CardModal, cardOpened, cardHandler] = useCardModal();
+  const [phoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
 
   useEffect(() => {
     const newDate = new Date().setDate(new Date().getDate() + Number(expirationDate));
@@ -121,6 +125,17 @@ export function ProductDetail({
           iconDisplay={!disabled}
           onClick={shippingHandler.open}
         />
+        <ProductDetails text={'Phone'} details={phone} iconDisplay={!disabled} onClick={phoneHandler.open} />
+        <Modal
+          size={800}
+          title="Mobile No"
+          className="mx-10 mt-4 mb-7"
+          titlePosition="left"
+          children={phoneChangeModal}
+          onClose={phoneHandler.close}
+          open={phoneModalOpened}
+          // open={true}
+        />
         <Modal
           title="Shipping Address"
           titlePosition="left"
@@ -136,7 +151,7 @@ export function ProductDetail({
 
 type productDetailsProps = {
   text: string;
-  details: string | number;
+  details: any;
   iconDisplay?: boolean;
   onClick?: () => void;
   color?: string;

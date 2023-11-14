@@ -155,7 +155,7 @@ export function BiddingSummary({
           </Grid.Col>
           <Grid.Col span={11} className="text-left">
             <Text className="font-bold uppercase" size="sm">
-              earn {(totalPrice * 0.01).toFixed()} points for this purchase
+              Earn {totalPrice.toFixed()} points for this purchase
             </Text>
           </Grid.Col>
         </Grid>
