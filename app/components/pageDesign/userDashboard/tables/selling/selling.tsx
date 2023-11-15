@@ -1,10 +1,10 @@
 import { SimpleStatCardProps } from '@elektra/components/card';
 import { DataTable, Only, tableDataType } from '@elektra/customComponents';
-import { RootState, loadOrderSellingAsks, useAppDispatch, useSelector } from '@elektra/store';
+import { RootState, useSelector } from '@elektra/store';
 import { ActionIcon, Button, Center, Group, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveAskRow, ActiveListingRow, ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
@@ -18,14 +18,6 @@ export function Selling() {
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
-const dispatch = useAppDispatch();
-
-useEffect(() => {
-  if (searchDate) {
-    // Assuming searchDate is in the correct format
-    dispatch(loadOrderSellingAsks(searchDate));
-  }
-}, [searchDate, dispatch]);
 
   const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders, sellingAsks, sellingListings } =
     useSelector((state: RootState) => state.entities.sellingOrders.list);
@@ -104,6 +96,7 @@ useEffect(() => {
     askPrice: `$${ask?.my_offer}`,
     highestOffer: `$${ask?.highest_bid}`,
     lowestAsk: `$${ask?.lowest_ask}`,
+    offerDate: format(new Date(String(ask?.offer_date)), 'dd MMM, yyyy'),
   }));
 
   const SellingMyListingsData = sellingListings.listings.map((listing) => ({
@@ -111,6 +104,7 @@ useEffect(() => {
     itemName: listing?.product_data?.title ?? '-',
     listingPrice: `${listing?.ask}`,
     highestOffer: `${listing?.highest_offer}`,
+    offerDate: format(new Date(String(listing?.created_on)), 'dd MMM, yyyy'),
   }));
 
   const SellingPendingOrdersData = sellingPendingOrders.orders.map((order) => ({
@@ -243,10 +237,11 @@ useEffect(() => {
       <DataTable
         data={value === 'active' ? selected.data.slice(0, limit) : selected.data}
         columns={selected.columns}
-        search={searchValue}
+        search={searchValue || searchDate}
         RowUI={selected.RowUI}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
+        offerColumnVisibility={false}
       />
       <Only when={value === 'active' && limit !== selected.data.length && intialLimit < selected.data.length}>
         <Center className="mt-5 space-x-3">

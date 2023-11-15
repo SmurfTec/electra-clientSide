@@ -41,6 +41,12 @@ export function getHeaderColumn<T extends { id: string | number }>(
         id: 'action',
         footer: () => null,
       },
+      {
+        id: 'offerDate',
+        accessorKey: 'offerDate',
+        footer: () => null,
+        header: 'Offer Date',
+      },
     ];
   } else if (tab === 'myListings') {
     ActiveColumns = [
@@ -61,6 +67,10 @@ export function getHeaderColumn<T extends { id: string | number }>(
         accessorKey: 'listingPrice',
         footer: () => null,
         header: 'Item Price',
+      },
+      {
+        id: 'offerDate',
+        accessorKey: 'offerDate',
       },
       {
         id: 'action',

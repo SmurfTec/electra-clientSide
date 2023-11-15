@@ -29,6 +29,7 @@ type DataTableProps<T extends { id: string | number }> = {
   className?: string;
   selectedRows?: RowSelectionState;
   setSelectedRows?: OnChangeFn<RowSelectionState>;
+  offerColumnVisibility?: any;
 };
 
 function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
@@ -46,7 +47,6 @@ function getHeaderColumn<T extends { id: string | number }>(data: Array<T>) {
   );
 }
 
-
 export function DataTable<T extends { id: string | number }>({
   data,
   columns,
@@ -55,6 +55,7 @@ export function DataTable<T extends { id: string | number }>({
   className,
   selectedRows,
   setSelectedRows,
+  offerColumnVisibility,
 }: DataTableProps<T>) {
   const defaultRowUI = {
     cell: (props: CellContext<T, unknown>) => (RowUI ? <RowUI {...props} /> : props.cell.getValue()),
@@ -66,6 +67,7 @@ export function DataTable<T extends { id: string | number }>({
     state: {
       globalFilter: search,
       rowSelection: selectedRows,
+      columnVisibility: { offerDate: offerColumnVisibility },
     },
     onRowSelectionChange: setSelectedRows,
     defaultColumn: defaultRowUI,
@@ -74,7 +76,7 @@ export function DataTable<T extends { id: string | number }>({
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
-
+  console.log(data);
   const { classes } = useStyles();
   return (
     <div className="overflow-x-auto w-full">

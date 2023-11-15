@@ -40,6 +40,8 @@ export default function RequestItem() {
     }
 
     setIsLoading(false);
+    setTitle('');
+    setDescription('');
     requestHandler.open();
   };
 

@@ -1,8 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-export function getHeaderColumn<T extends { id: string | number }>(tile:"active"|"pending"|"completed") {
-
-    
+export function getHeaderColumn<T extends { id: string | number }>(tile: 'active' | 'pending' | 'completed') {
   const ActiveColumns: Array<ColumnDef<T, unknown>> = [
     {
       id: 'id',
@@ -123,10 +121,10 @@ export function getHeaderColumn<T extends { id: string | number }>(tile:"active"
       footer: () => null,
     },
   ];
-  const tileData ={
-    active:ActiveColumns,
-    pending:PendingColumns,
-    completed:CompletedColumns
-}
+  const tileData = {
+    active: ActiveColumns,
+    pending: PendingColumns,
+    completed: CompletedColumns,
+  };
   return tileData[tile];
 }
