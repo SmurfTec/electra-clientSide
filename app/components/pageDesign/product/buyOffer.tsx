@@ -1,7 +1,7 @@
 import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant, condition } from '@elektra/types';
-import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Text, Title, Tooltip } from '@mantine/core';
 import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useContext } from 'react';
@@ -25,6 +25,10 @@ type ListingDescriptionProps = {
   productVariants: Variant[];
   receiptFee: Array<{ id: number; fees: number; title: string }>;
   price?: number;
+  isRepairedBefore?: boolean;
+  moreInfo?: string;
+  conditionDetails?: string;
+  explainRepair?: string | null;
 };
 
 export function BuyOfferComponent({
@@ -39,6 +43,10 @@ export function BuyOfferComponent({
   shippingFee,
   receiptFee,
   price,
+  conditionDetails,
+  isRepairedBefore,
+  moreInfo,
+  explainRepair,
 }: ListingDescriptionProps) {
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const isNew = condition === 'new';
@@ -47,6 +55,7 @@ export function BuyOfferComponent({
   const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
   const [showNotification, setshowNotification] = useState(false);
   const router = useRouter();
+
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -68,7 +77,6 @@ export function BuyOfferComponent({
     return totalPrice;
   };
   useEffect(() => {
-    console.log(count, lowestAsk, 'checikg');
     let lowestask = lowestAsk || 0;
     if (count > lowestask) {
       setshowNotification(true);
@@ -91,10 +99,14 @@ export function BuyOfferComponent({
           </Text>
         </Dialog>
       )}
-      <Group>
+      <Text className="font-semibold uppercase" size="sm">
+        Condition
+      </Text>
+      {/* <Group>
         <Text className="font-semibold uppercase" size="sm">
-          Select Condition{' '}
+          Select Condition
         </Text>
+
         <Tooltip
           styles={{
             tooltip: {
@@ -111,12 +123,12 @@ export function BuyOfferComponent({
             <QuestionMark size={'10px'} />
           </ActionIcon>
         </Tooltip>
-      </Group>
+      </Group> */}
 
       <div className="my-4">
         <ButtonChip
           data={[isNew ? 'New' : 'Used']}
-          initialValue={condition}
+          initialValue={isNew ? 'New' : 'Used'}
           handleState={(value) => {
             setListItemPost((prev) => ({ ...prev, condition: value as condition }));
           }}
@@ -124,17 +136,41 @@ export function BuyOfferComponent({
       </div>
 
       <div className="my-8">
-        <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} />
+        {/* <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} /> */}
+        <Title order={5} className="font-medium">
+          Has your item ever been repaired before?
+        </Title>
+        {isRepairedBefore ? <Text size={'sm'}>Yes</Text> : <Text size={'sm'}>No</Text>}
+        <Text size={'sm'}>{explainRepair}</Text>
+      </div>
+
+      <div className="my-8">
+        {/* <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} /> */}
+        <Title order={5} className="font-medium">
+          Condition
+        </Title>
+        <Text size={'sm'}>{conditionDetails}</Text>
+      </div>
+
+      <div className="my-8">
+        {/* <ListItem className="space-y-4" data={description} icon={<Check size={20} strokeWidth={2} color={'black'} />} /> */}
+        <Title order={5} className="font-medium">
+          Tell us more about your item?
+        </Title>
+        <Text size={'sm'}>{moreInfo}</Text>
       </div>
 
       {productVariants?.map((item, key) => {
+        const initialValue = productVariants.length === 1 ? item.value : '';
+
         return (
-          <div key={key + item.id} className="my-4">
+          <div key={`variant-${item.id}-${key}`} className="my-4">
             <Text className="my-4 font-semibold uppercase" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
-              data={isNew ? [item.value] : [item.value]}
+              data={[item.value]}
+              initialValue={initialValue}
               handleState={(value) => {
                 handleListingVariants(item.id, value);
               }}
@@ -186,7 +222,7 @@ export function BuyOfferComponent({
             />
           </Input.Wrapper>
         </Only>
-        <Only when={!isNew}>
+        {/* <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
             <NumberInput
               radius={0}
@@ -207,7 +243,7 @@ export function BuyOfferComponent({
               disabled
             />
           </Input.Wrapper>
-        </Only>
+        </Only> */}
       </Group>
 
       <Group position="apart" spacing={0} className="px-2 py-6 mt-6 border-black border-solid lg:px-32 ">
@@ -239,7 +275,7 @@ export function BuyOfferComponent({
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
           {receiptFee?.map((item, index) => (
-            <PositionApart key={index + item.id} text={item.title} number={item.fees} />
+            <PositionApart key={`receipt-${item.id}-${index}`} text={item.title} number={item.fees} />
           ))}
           <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>

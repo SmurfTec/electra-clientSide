@@ -32,9 +32,6 @@ export function BiddingSummary({
   const isOfferType = router.query.orderType === 'placeOffer';
   const { classes } = useStylesforGlobal();
   const yourOffer = router.query.bidPrice;
-  const actualItemPrice = itemPrice || 0; // Default to 0 if itemPrice is undefined
-  const percentageMarketPlace = (actualItemPrice * 7.5) / 100;
-  const percentageSalesTax = (actualItemPrice * 8.025) / 100;
 
   return (
     <div
@@ -54,24 +51,6 @@ export function BiddingSummary({
       </Group>
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
-
-      <Group className="space-x-4" position="apart">
-        <Text className="font-bold" size="sm">
-          MarketPlace Fee (7.5%)
-        </Text>
-        <Text className="font-bold" color="black" size="xl">
-          ${percentageMarketPlace.toFixed(2)}
-        </Text>
-      </Group>
-
-      <Group className="space-x-4" position="apart">
-        <Text className="font-bold" size="sm">
-          SALES TAX (8.025%)
-        </Text>
-        <Text className="font-bold" color="black" size="xl">
-          ${percentageSalesTax.toFixed(2)}
-        </Text>
-      </Group>
 
       <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -114,7 +93,7 @@ export function BiddingSummary({
       </Group> */}
 
       {reciptFee?.map((item, index) => (
-        <PositionApart key={index + item.id} text={item.title} number={item.fees} />
+        <PositionApart key={item.id} text={item.title} number={item.fees} />
       ))}
       <Only when={!disabled}>
         <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} />

@@ -54,7 +54,7 @@ export async function getServerSideProps({ req }: NextPageContext) {
       orderSellingData: store.getState().entities.sellingOrders.list,
       payouts: store.getState().entities.payouts.list,
       orderSellingAsksData: store.getState().entities.sellingOrders.list.sellingAsks,
-      orderSellingListingsData: store.getState().entities.sellingOrders.list.sellingListings,
+      orderSellingListingsData: store.getState().entities.sellingOrders.list?.sellingListings,
     },
   };
 }

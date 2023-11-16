@@ -86,7 +86,7 @@ export const Header = () => {
                   component={NextLink}
                   href={`/shop`}
                 >
-                  Shop
+                  Browse
                 </Button>
                 <Button
                   className="rounded-3xl px-4 h-7 hover:bg-black"

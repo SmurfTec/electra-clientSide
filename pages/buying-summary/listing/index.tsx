@@ -179,7 +179,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     feeData?.map((fee) => {
       totalPrice += Number(fee.fees);
     });
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.highest_offer);
+    totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
     return totalPrice;
   };
 
@@ -208,6 +208,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                   // saleDate={''}
                   // orderNo={''}
                   disabled={false}
+                  phone={profile?.mobile_no}
                   // protectionPlan={''}
                 />
               </div>
@@ -221,7 +222,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     fees: Number(item.fees),
                     title: item.type,
                   }))}
-                  itemPrice={Number(productListingById?.highest_offer)}
+                  itemPrice={Number(productListingById?.ask)}
                   marketPlaceFee={0}
                   salesTax={0}
                   shippingFee={0}
@@ -233,7 +234,12 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
             </Grid.Col>
             {protectionPlan.map((item, key) => {
               return (
-                <Grid.Col key={key + item.created_on} xs={12} sm={6} onClick={() => setPlan(Number(item.id))}>
+                <Grid.Col
+                  key={`protectionPlan-${key}-${item.id}`}
+                  xs={12}
+                  sm={6}
+                  onClick={() => setPlan(Number(item.id))}
+                >
                   <div className="overflow-y-auto h-full cursor-pointer">
                     <ProtectPlan
                       id={String(item.id)}

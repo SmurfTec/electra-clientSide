@@ -4,7 +4,7 @@ import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Variant } from '@elektra/types';
 import { Container, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req }: NextPageContext) {
@@ -49,7 +49,10 @@ export default function BuyOffer() {
   };
 
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
-  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
+  const [productDescription, setproductDescription] = useState<string[]>([
+    productDetail.product.product_properties.description,
+  ]);
+
   return (
     <Container fluid>
       <div className="my-10">

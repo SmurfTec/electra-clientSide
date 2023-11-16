@@ -17,12 +17,14 @@ type SellerDetailDrawerProps = {
   more_info: string;
   isRpairedBefore?: boolean;
   explainRepair?: string | null;
+  condition_details?: string | null | undefined;
 };
 
 export const useSellerDetailDrawer = ({
   more_info,
   isRpairedBefore,
   explainRepair,
+  condition_details,
 }: SellerDetailDrawerProps): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
   console.log(isRpairedBefore);
@@ -55,14 +57,22 @@ export const useSellerDetailDrawer = ({
         Has your item ever been repaired before?
       </Title>
       {isRpairedBefore ? <Text size={'sm'}>Yes</Text> : <Text size={'sm'}>No</Text>}
-      <Divider mt={15} />
+      {/* <Divider mt={15} /> */}
       <Only when={isRpairedBefore as boolean}>
-        <Title order={5} className="font-medium">
+        {/* <Title order={5} className="font-medium">
           Has your item ever been repaired before?
-        </Title>
+        </Title> */}
         <Text size={'sm'}>{explainRepair}</Text>
         <Divider mt={15} />
       </Only>
+
+      <div>
+        <Title order={5} className="font-medium">
+          Condition
+        </Title>
+        <Text size={'sm'}>{condition_details}</Text>
+        <Divider mt={15} />
+      </div>
       <Only when={more_info !== ''}>
         <Title order={5} className="font-medium">
           Tell us more about your item?

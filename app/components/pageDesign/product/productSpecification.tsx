@@ -24,6 +24,7 @@ export type ProductSpecificationProps = {
   lowest_ask?: any;
   isRpairedBefore?: boolean;
   explainRepair?: string | null;
+  condition_details?: string | null;
 };
 
 export function ProductSpecification({
@@ -41,11 +42,13 @@ export function ProductSpecification({
   lowest_ask,
   isRpairedBefore,
   explainRepair,
+  condition_details,
 }: ProductSpecificationProps) {
   const [SellerDetailModal, sellerDetailOpened, sellerDetailHandler] = useSellerDetailDrawer({
     more_info: more_info || '',
     isRpairedBefore,
     explainRepair,
+    condition_details,
   });
   const [TechinalSpecificationModal, techinalSpecificationOpened, techinalSpecificationHandler] =
     useTechinalSpecificationDrawer({ techinalSpecificationDrawerData: technicalSpecification });

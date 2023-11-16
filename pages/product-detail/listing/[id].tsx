@@ -169,6 +169,7 @@ export default function ProductPage({
     const productId = Number(router.query['id']);
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
+
   return (
     <>
       {!matches && (
@@ -202,12 +203,13 @@ export default function ProductPage({
             productVariants={productListingById.listing?.listing_variants || []}
             condition={productListingById.listing?.condition}
             highestAsk={Number(productListingById?.listing?.highest_offer) || 0}
-            lowestAsk={Number(productListingById?.listing?.ask)}
-            price={Number(productListingById?.listing?.user_starting_at)}
+            lowestAsk={Number(productListingById?.listing?.lowest_ask)}
+            price={Number(productListingById?.listing?.ask)}
             scrollIntoView={scrollIntoView}
             isListingVisible={productListing?.listings?.length !== 0}
             isRpairedBefore={productListingById.listing.is_repaired_before}
             explainRepair={productListingById?.listing?.explain_repair}
+            condition_details={productListingById?.listing?.condition_details}
           />
         </Grid.Col>
       </Grid>

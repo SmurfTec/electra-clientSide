@@ -45,11 +45,9 @@ export default function PlaceOffer() {
     //USED CASE
     averageSalePrice: 200,
   };
-
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
-
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
-  console.log(productListingById);
+
   return (
     <Container fluid>
       <div className="my-10">
@@ -72,12 +70,16 @@ export default function PlaceOffer() {
             condition={'used'}
             description={ListingDescriptionData.description}
             highestAsk={productListingById?.listing?.highest_offer}
-            lowestAsk={productListingById?.listing?.lowest_offer}
+            lowestAsk={productListingById?.listing?.lowest_ask}
             price={Number(productListingById?.listing?.ask)}
             marketPlaceFee={0}
             saleTax={0}
             shippingFee={0}
             averageSalePrice={Number(productListingById.listing.saleprice)}
+            isRepairedBefore={productListingById?.listing.is_repaired_before}
+            moreInfo={productListingById?.listing.more_info}
+            conditionDetails={productListingById?.listing.condition_details}
+            explainRepair={productListingById?.listing.explain_repair}
           />
         </Grid.Col>
       </Grid>
