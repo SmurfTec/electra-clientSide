@@ -125,21 +125,11 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       data: {
         payment_method_id: result.paymentMethod.id,
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
-
         expiration_date: expiration,
         coupon: coupon || '',
         shipping_address: '{{$randomStreetAddress}}',
         product: productDetail.product.id,
       },
-    });
-    console.log({
-      payment_method_id: result.paymentMethod.id,
-      price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask),
-
-      expiration_date: expiration,
-      coupon: coupon || '',
-      shipping_address: '{{$randomStreetAddress}}',
-      product: productDetail.product.id,
     });
     if (res.isError) {
       notifications.show({
