@@ -7,10 +7,11 @@ interface ModalOptions {
   description?: string;
 }
 
-export const useInfoModal = ({
-  title = 'Alert!',
-  description = 'Please add Shipping and Billing address to continue selling and purchasing',
-}: ModalOptions = {}): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
+export const useInfoModal = ({ title = 'Alert!', description }: ModalOptions = {}): [
+  React.ReactNode,
+  boolean,
+  { open: () => void; close: () => void }
+] => {
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
     <Stack align="center" spacing="sm" className="mb-6">

@@ -58,8 +58,10 @@ export default function Login() {
       });
       setLoading(false);
     } else {
+      console.log(res.data);
       const user = res.data['user'];
       const profile = user['profile'];
+      console.log('profile', profile);
       const is_stripe_account = user['is_stripe_account'];
       delete user['profile'];
       const authToken = String(res.data['authentication']);

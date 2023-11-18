@@ -13,7 +13,7 @@ export const usePhoneModal = (): [React.ReactNode, boolean, { open: () => void; 
   const dispatch = useAppDispatch();
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
-  console.log(profile);
+
   const defaultCountry = 'US';
   const initialValues = {
     mobile_no: profile?.mobile_no ?? '',

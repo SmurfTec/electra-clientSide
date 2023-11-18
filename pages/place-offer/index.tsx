@@ -1,10 +1,11 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
 import { baseURL, isAuthenticated } from '@elektra/customComponents';
+import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
 import { RootState, loadFee, useAppDispatch } from '@elektra/store';
-import { Container, Grid, Image } from '@mantine/core';
+import { Container, Grid, Image, Modal } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export async function getServerSideProps({ req, query }: NextPageContext) {
@@ -22,6 +23,7 @@ export default function PlaceOffer() {
   }, []);
 
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
+
   const ListingDescriptionData = {
     carrier: 'AT&T',
     color: 'Blue',
@@ -62,14 +64,13 @@ export default function PlaceOffer() {
     ],
   };
 
-  // const [condition, setCondition] = useState<string>('New');
-
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
-  const[productDescription,setproductDescription]=useState<string[]>([productDetail.product.product_properties.description])
+  const [productDescription, setproductDescription] = useState<string[]>([
+    productDetail.product.product_properties.description,
+  ]);
   const router = useRouter();
   const isListing = router.query.isListing as boolean | undefined;
- 
-  // const condition = "new";
+
   return (
     <Container fluid>
       <div className="my-10">
@@ -90,7 +91,7 @@ export default function PlaceOffer() {
             marketPlaceFee={0}
             receiptFee={feeData?.map((item) => ({
               id: item.id,
-              fees: Number(item.fees), 
+              fees: Number(item.fees),
               title: item.type,
             }))}
             saleTax={0}

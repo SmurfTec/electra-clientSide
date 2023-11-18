@@ -83,6 +83,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
   const [activePage, setPage] = useState(1);
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
   const productFilters = useSelector((state: RootState) => state.entities.productVariants.list.variants);
+
   const handleFilter = async (label: string, value: string, id: number) => {
     let newParams = params;
     const existParam = newParams.find((item) => item.id === id);

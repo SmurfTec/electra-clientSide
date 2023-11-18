@@ -1,4 +1,4 @@
-import { ListItem, ListItemPostContext, Only } from '@elektra/customComponents';
+import { ListItem, ListItemPostContext, Modal, Only } from '@elektra/customComponents';
 import { RootState } from '@elektra/store';
 import { Variant, condition } from '@elektra/types';
 import { ActionIcon, Button, Divider, Grid, Group, Input, NumberInput, Select, Text, Tooltip } from '@mantine/core';
@@ -10,6 +10,7 @@ import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { useRouter } from 'next/router';
 import { Dialog } from '@mantine/core';
+import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
 
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
@@ -28,16 +29,16 @@ type ListingDescriptionProps = {
 export function PlaceOfferComponent({
   condition,
   description,
-  averageSalePrice,
   isListing,
   productVariants,
   lowestAsk,
   highestAsk,
-  marketPlaceFee,
-  saleTax,
-  shippingFee,
   receiptFee,
 }: ListingDescriptionProps) {
+  const [infoModal, infoModalOpen, infoModalHandler] = useInfoModal({
+    title: 'You can buy the item at lowest ask',
+    description: '',
+  });
   const [days, setdays] = useState();
   const [count, handlers] = useCounter(0, { min: 0 });
   const [showNotification, setshowNotification] = useState(false);
@@ -66,14 +67,22 @@ export function PlaceOfferComponent({
     return totalPrice;
   };
   useEffect(() => {
-    console.log(count, lowestAsk, 'checikg');
     if (count > lowestAsk) {
-      setshowNotification(true);
+      // setshowNotification(true);
+      console.log(infoModalHandler.open());
     }
   }, [count]);
+
+  // useEffect(() => {
+  //   // Auto-select the variant if there's only one
+  //   if (productVariants?.length === 1) {
+  //     const singleVariant = productVariants[0];
+  //     handleListingVariants(singleVariant.id, singleVariant.value);
+  //   }
+  // }, [productVariants, handleListingVariants]);
   return (
     <div>
-      {showNotification && (
+      {/* {showNotification && (
         <Dialog
           position={{ top: 20, left: 20 }}
           opened={showNotification}
@@ -86,13 +95,20 @@ export function PlaceOfferComponent({
             You can buy the item at lowest ask
           </Text>
         </Dialog>
-      )}
+      )} */}
+
+      <Modal
+        children={infoModal}
+        onClose={infoModalHandler.close}
+        open={infoModalOpen}
+        // open={showNotification}
+      />
 
       <Group>
         <Text className="py-4 font-semibold uppercase sm:py-0" size="sm">
-          Select Condition{' '}
+          Select
         </Text>
-        <Tooltip
+        {/* <Tooltip
           styles={{
             tooltip: {
               color: 'black',
@@ -107,7 +123,7 @@ export function PlaceOfferComponent({
           <ActionIcon size={'xs'} color={'black'} variant="filled">
             <QuestionMark size={'10px'} />
           </ActionIcon>
-        </Tooltip>
+        </Tooltip> */}
       </Group>
 
       <div className="my-4">
@@ -125,13 +141,15 @@ export function PlaceOfferComponent({
       </div>
 
       {productVariants?.map((item, key) => {
+        const isOnlyVariant = productVariants.length === 1;
         return (
           <div key={key + item.id} className="my-4">
             <Text className="my-4 font-semibold uppercase" size="sm">
               {item.variant}
             </Text>
             <ButtonChip
-              data={isNew ? [item.value] : [item.value]}
+              data={[item.value]}
+              initialValue={isOnlyVariant ? item.value : undefined}
               handleState={(value) => {
                 handleListingVariants(item.id, value);
               }}
@@ -190,6 +208,7 @@ export function PlaceOfferComponent({
                     fontWeight: 'bold',
                     fontSize: '24px',
                     color: '#3C82D6',
+                    height: '2.25rem',
                   },
                 }}
                 className="Expiration-dropdown"
@@ -206,6 +225,7 @@ export function PlaceOfferComponent({
             </Input.Wrapper>
           </Group>
         </Only>
+
         <Only when={!isNew}>
           <Input.Wrapper label="Similar items average sale price">
             <NumberInput
@@ -263,9 +283,10 @@ export function PlaceOfferComponent({
         <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          {receiptFee?.map((item, index) => (
-            <PositionApart key={index + item.id} text={item.title} number={item.fees} />
+          {receiptFee?.map((item) => (
+            <PositionApart key={`${item.id}-${item.title}`} text={item.title} number={item.fees} />
           ))}
+
           <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
@@ -298,8 +319,8 @@ export function PlaceOfferComponent({
             disabled={count == 0}
             href={
               isListing
-                ? `/buying-summary/listing?orderType=placeOffer&bidPrice=` + count
-                : `/buying-summary?orderType=placeOffer&bidPrice=` + count
+                ? `/buying-summary/listing?orderType=placeOffer&bidPrice=${count}&expiration=${days}`
+                : `/buying-summary?orderType=placeOffer&bidPrice=${count}&expiration=${days}`
             }
           >
             Review Offer

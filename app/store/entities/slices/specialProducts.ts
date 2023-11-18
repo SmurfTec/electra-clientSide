@@ -201,6 +201,7 @@ export const fetchShopProducts =
 export const loadFilterProducts =
   (isAuth: boolean, params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
+    // console.log(isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`);
     return await dispatch(
       apiRequest({
         url: isAuth ? shopProtectedProducts : shopProducts + `?${params}`,

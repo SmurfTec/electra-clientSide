@@ -86,16 +86,16 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         price: isOfferType ? Number(yourOffer) : Number(productDetail?.product?.highest_offer),
 
         // * random future date
-        expiration_date: expiration,
+        expiration_date: offerExpiration,
         coupon: coupon || '',
-        shipping_address: '{{$randomStreetAddress}}',
+        shipping_address: profile?.shipping_address_line_1,
         product: productDetail.product.id,
       },
     });
     if (res.isError) {
       notifications.show({
         message: res?.errorPayload?.message || 'Failed to process your request',
-        autoClose: false,
+        autoClose: true,
       });
 
       if (res?.errorPayload?.message === 'Coupon Already Used') {
@@ -146,6 +146,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   };
 
   const isOfferType = router.query.orderType === 'placeOffer';
+  const offerExpiration = router.query.expiration;
 
   const [StripeModal, stripeOpened, stripeHandler] = useStripeModal({
     stripePaymentMethodHandler: isOfferType ? placeOfferSubmit : stripePaymentMethodHandler,
@@ -164,6 +165,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   });
 
   const profile = useSelector((state: RootState) => state.auth.profile);
+
   const yourOffer = router.query.bidPrice;
 
   const handleSubmit = async () => {

@@ -52,7 +52,7 @@ export function ProductCard({
       >
         <Card.Section>
           {/* <Paper bg={'#F5F5F5'} className="flex items-center justify-center p-6"> */}
-          <Paper className="flex items-center justify-center h-64">
+          <Paper className="flex items-center justify-center h-64 overflow-hidden">
             <Image alt={image} src={image} fit="fill" height={'100%'} width={'100%'} />
           </Paper>
         </Card.Section>

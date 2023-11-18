@@ -8,53 +8,44 @@ import { useRedeemSuccesfullModal } from './useRedeemModal';
 
 export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const [RedeemSuccessfulModal, openedSuccess, redeemHandler] = useRedeemSuccesfullModal();
-
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       code: '',
     },
     validate: {
-      code: (value) => (value.length < 6 ? 'atleast 6 digit' : null),
+      code: (value) => (value.length < 6 ? 'At least 6 digits required' : null),
     },
   });
+
   const handleSubmit = async (code: string) => {
+    setLoading(true);
     const response = await dispatch(loadCoupon(code));
+    setLoading(false);
     if (response.isError) {
-      // Assuming errorPayload is the correct key based on your console.log
-      // Change to the actual key if different
-      setErrorMessage(response.errorPayload?.message || 'An unknown error occurred');
+      form.setErrors({ code: response.errorPayload?.message || 'An unknown error occurred' });
       return;
     }
-    setErrorMessage(null);
     close();
     redeemHandler.open();
   };
+
   const Modal = (
     <Stack align="center" spacing="xl" className="mt-6">
-      {errorMessage === null && (
-        <Text size="sm" className="font-semibold">
-          Add discount codes to get discounts
-        </Text>
-      )}
-      {errorMessage && (
-        <Text size="sm" className="font-semibold" color="red">
-          {errorMessage} {/* Display the error message from the state */}
-        </Text>
-      )}
+      <Text size="sm" className="font-semibold">
+        Add discount codes to get discounts
+      </Text>
       <form
-        onSubmit={form.onSubmit(({ code }) => {
-          handleSubmit(code);
+        onSubmit={form.onSubmit(async ({ code }) => {
+          await handleSubmit(code);
         })}
       >
         <TextInput
           placeholder="code"
-          className="w-[100%] mr-20"
+          className="w-full"
           size="lg"
-          min={0}
           styles={{
             input: {
               borderRadius: 'unset',
@@ -65,10 +56,9 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
             },
           }}
           {...form.getInputProps('code')}
-          error={error}
         />
         <div className="text-center mt-4">
-          <Button type="submit" uppercase>
+          <Button type="submit" uppercase loading={loading}>
             Add
           </Button>
         </div>
@@ -81,5 +71,12 @@ export const useDiscountModal = (): [React.ReactNode, boolean, { open: () => voi
       />
     </Stack>
   );
+
+  // Reset form errors when the modal opens
+  // open = () => {
+  //   form.reset();
+  //   redeemHandler.open();
+  // };
+
   return [Modal, opened, { open, close }];
 };

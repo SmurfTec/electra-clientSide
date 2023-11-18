@@ -216,6 +216,8 @@ export default function Confirmation() {
         }
       });
 
+      formData.append('expiration_date', usedListingData.expiration_date);
+
       const res = await http.request({
         url: '/listings',
         method: 'POST',

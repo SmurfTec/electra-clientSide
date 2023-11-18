@@ -15,7 +15,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
   const dispatch = useAppDispatch();
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
-  console.log(profile);
+
   const defaultCountry = 'US';
   const initialValues = {
     address1: profile?.shipping_address_line_1 ?? '',
@@ -31,7 +31,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
     country: Joi.string().required(),
     state: Joi.string().required(),
     city: Joi.string().required(),
-    postalCode: Joi.string().required(),
+    postalCode: Joi.number().required(),
   });
   const form = useForm({
     initialValues: initialValues,

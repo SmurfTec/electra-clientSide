@@ -28,6 +28,7 @@ type UsedProductListingProps = {
   itemConditions: string[];
   description: string[];
   count: number;
+  days: string;
 };
 
 const useStyles = createStyles({
@@ -35,7 +36,7 @@ const useStyles = createStyles({
   icon: { transform: 'scale(1.6) !important' },
 });
 
-export function UsedProductListing({ accessories, description, itemConditions, count }: UsedProductListingProps) {
+export function UsedProductListing({ accessories, description, itemConditions, count, days }: UsedProductListingProps) {
   const { classes } = useStyles();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -47,26 +48,6 @@ export function UsedProductListing({ accessories, description, itemConditions, c
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
 
   const { fees } = useSelector((state: RootState) => state.entities.fee.list);
-  const marketplaceFeeObject = fees.find((fee) => fee.type === 'Marketplace');
-  const marketplaceFee = marketplaceFeeObject ? parseFloat(marketplaceFeeObject.fees) : 0;
-  const marketplaceFeeSymbol = marketplaceFeeObject && marketplaceFeeObject.value_type === 'percentage' ? '%' : '';
-
-  const salesTaxObject = fees.find((fee) => fee.type === 'Sales Tax');
-  const salesTax = salesTaxObject ? parseFloat(salesTaxObject.fees) : 0;
-  const salesTaxSymbol = salesTaxObject && salesTaxObject.value_type === 'percentage' ? '%' : '';
-
-  const shippingFeeObject = fees.find((fee) => fee.type === 'Shipping Fee');
-  const shippingFee = shippingFeeObject ? parseFloat(shippingFeeObject.fees) : 0;
-  const shippingSymbol = shippingFeeObject && shippingFeeObject.value_type === 'percentage' ? '%' : '';
-
-  const calculatedFees = calculateFees(fees, count);
-  const calculatedMarketplaceFee = calculatedFees.find((fee) => fee.type === 'Marketplace')?.calculatedFee || 0;
-  const calculatedSalesTax = calculatedFees.find((fee) => fee.type === 'Sales Tax')?.calculatedFee || 0;
-  const calculatedShippingFee = calculatedFees.find((fee) => fee.type === 'Shipping Fee')?.calculatedFee || 0;
-
-  const totalPrice =
-    count > 0 ? (count - calculatedMarketplaceFee - calculatedSalesTax - calculatedShippingFee).toFixed(2) : '0.00';
-  const totalPriceNumber = parseFloat(totalPrice);
 
   const filterFile = (file: FileWithPath) => {
     return files.filter((item) => item !== file);
@@ -79,6 +60,15 @@ export function UsedProductListing({ accessories, description, itemConditions, c
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+  };
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+    fees?.map((fee) => {
+      totalPrice += Number(fee.fees);
+    });
+    totalPrice += count;
+    return totalPrice;
   };
 
   const handleSubmit = async () => {
@@ -115,12 +105,13 @@ export function UsedProductListing({ accessories, description, itemConditions, c
       const data = {
         files: base64Files,
         listItemPost: listItemPost,
-        totalPriceAfterFees: totalPrice,
+        totalPriceAfterFees: getTotalPrice(),
         details: {
           accessories: accessories,
           conditionstatus: itemConditions,
           moredetails: description,
         },
+        expiration_date: days,
       };
       localStorage.setItem('UsedListingData', JSON.stringify(data));
     });
@@ -199,7 +190,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
     const enoughPhotosUploaded = files.length >= 1;
     setHasEnoughPhotos(enoughPhotosUploaded);
   }, [files, listItemPost]);
-  console.log(totalPrice);
+  console.log(getTotalPrice());
   return (
     <Grid>
       <Grid.Col xs={9}>
@@ -392,7 +383,7 @@ export function UsedProductListing({ accessories, description, itemConditions, c
                 !hasTypeDescription ||
                 !hasEnoughPhotos ||
                 count === 0 ||
-                totalPriceNumber < 0
+                getTotalPrice() < 0
               }
             >
               List Item

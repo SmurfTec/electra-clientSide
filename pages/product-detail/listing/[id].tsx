@@ -1,7 +1,6 @@
 import {
   ProductCard,
   ProductCarousel,
-  // ProductCharts,
   ProductFilter,
   ProductSpecification,
   ProductStats,
@@ -98,10 +97,6 @@ export default function ProductPage({
   recommended,
   isAuth,
 }: ProductPageProps) {
-  console.log('productListing', productListing);
-  console.log('productVariants', productVariants);
-  console.log('productListingById', productListingById);
-  console.log('recommended', recommended);
 
   const dispatch = useAppDispatch();
   useEffect(() => {

@@ -52,7 +52,7 @@ export function BiddingSummary({
 
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
 
-      <Group className="space-x-4" position="apart">
+      {/* <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
           SHIPPING FEE
         </Text>
@@ -68,7 +68,7 @@ export function BiddingSummary({
         <Text className="font-bold" color="black" size="xl">
           ${5}
         </Text>
-      </Group>
+      </Group> */}
 
       {/* <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -79,7 +79,7 @@ export function BiddingSummary({
         </Text>
       </Group> */}
 
-      <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
+      {/* <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" /> */}
 
       {/* <Group className="space-x-4" position="apart">
         <Text className="font-bold" size="sm">
@@ -154,7 +154,13 @@ export function PositionApart({ text, number, discount, numberColor, sign }: Pos
   const [discountModal, discountOpened, discountHandler] = useDiscountModal();
   return (
     <Group className="space-x-4" position="apart">
-      <Modal title="Discount" children={discountModal} onClose={discountHandler.close} open={discountOpened} />
+      <Modal
+        title="Discount"
+        children={discountModal}
+        onClose={discountHandler.close}
+        open={discountOpened}
+        // open={true}
+      />
       <Text className="font-bold uppercase" size="sm">
         {text}
         <Only when={!!discount}>

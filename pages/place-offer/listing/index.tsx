@@ -55,7 +55,7 @@ export default function PlaceOffer() {
   // const [condition, setCondition] = useState<string>('New');
 
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list.listing);
-
+console.log(productListingById);
   const router = useRouter();
   // const condition = "new";
   return (

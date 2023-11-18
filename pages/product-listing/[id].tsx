@@ -1,10 +1,10 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
 import { ListItemPostContext, Only, baseURL } from '@elektra/customComponents';
-import { initStore, loadProductData } from '@elektra/store';
+import { RootState, initStore, loadFee, loadProductData, useAppDispatch, useSelector } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
 import { Container, Divider, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCounter } from '@mantine/hooks';
 
 const ListingDescriptionData = {
@@ -63,6 +63,7 @@ type ProductListingPageProps = {
 };
 
 export default function ProductListingPage({ productDetail }: ProductListingPageProps) {
+  const [days, setDays] = useState('30');
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail?.product.condition,
     is_repaired_before: false,
@@ -75,6 +76,13 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
   const [productDescription, setproductDescription] = useState<string[]>([
     productDetail?.product?.product_properties?.description,
   ]);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadFee(String(productDetail?.product?.category?.id)));
+  }, []);
+
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
 
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
@@ -104,6 +112,13 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
               highestAsk={Number(productDetail?.product?.highest_offer || 0)}
               lowestAsk={Number(productDetail?.product?.lowest_ask || 0)}
               averageSalePrice={Number(productDetail?.stats?.stats?.avg_sale_price || 0)}
+              receiptFee={feeData?.map((item) => ({
+                id: item.id,
+                fees: Number(item.fees),
+                title: item.type,
+              }))}
+              days={days}
+              setDays={setDays}
             />
           </Grid.Col>
           <Only when={listItemPost.condition === 'used'}>
@@ -114,6 +129,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
                 description={usedProductListingData.description}
                 itemConditions={usedProductListingData.itemConditions}
                 count={count}
+                days={days}
               />
             </Grid.Col>
           </Only>

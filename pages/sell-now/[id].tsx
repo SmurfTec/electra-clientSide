@@ -1,8 +1,8 @@
-import { PageTitle, ProductCarousel } from '@elektra/components';
+import { PageTitle, PositionApart, ProductCarousel } from '@elektra/components';
 import { ListItemPostContext, Only, baseURL, useStylesforGlobal } from '@elektra/customComponents';
-import { initStore, loadProductData } from '@elektra/store';
+import { initStore, loadFee, loadProductData, useAppDispatch } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
-import { Button, Container, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
+import { Button, Container, Divider, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
 
 import { NextPageContext } from 'next';
 import { useState, useEffect } from 'react';
@@ -21,6 +21,7 @@ export default function SellNowPage() {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [PhoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
   const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
+
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail.product.condition,
     is_repaired_before: false,
@@ -32,9 +33,11 @@ export default function SellNowPage() {
   const [count, handlers] = useCounter(Number(productDetail?.product?.highest_offer || 0), {
     min: Number(productDetail?.product?.highest_offer || 0),
   });
+
   const [productDescription, setproductDescription] = useState<string[]>([
     productDetail.product.product_properties.description,
   ]);
+  
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.auth.profile);
@@ -47,6 +50,23 @@ export default function SellNowPage() {
   const [shippingaddress, setshippingaddress] = useState<string>(profile?.shipping_address_line_1 || '');
   const [billingaddress, setbillingaddress] = useState<string>(profile?.billing_address_line_1 || '');
   const [phone, setphone] = useState<string>(profile?.mobile_no || '');
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadFee(String(productDetail?.product?.category?.id)));
+  }, []);
+
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+    feeData?.map((fee) => {
+      totalPrice += Number(fee.fees);
+    });
+    totalPrice += count;
+    return totalPrice;
+  };
+
   const handleSubmit = async () => {
     try {
       const res = await http.request({
@@ -67,7 +87,7 @@ export default function SellNowPage() {
     setbillingaddress(userData?.billing_address_line_1 || '');
     setphone(userData?.mobile_no || '');
   }, [userData]);
-  console.log(is_stripe_account);
+
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
       <Container fluid>
@@ -203,9 +223,17 @@ export default function SellNowPage() {
                 }}
               />
             </Group>
+            <div className="my-8">
+              <div className="space-y-4">
+                {feeData?.map((item: any) => (
+                  <PositionApart key={`${item.id}-${item.title}`} text={item.type} number={item.fees} />
+                ))}
+              </div>
+            </div>
+
             <div className="w-full mt-[20px] flex justify-between items-center text-[16px] px-[10px] py-[15px] bg-[#F1F1F1]">
               <p>Total Payout</p>
-              <p className="font-bold">${count - 23 > 0 ? count - 23 : 0}</p>
+              <p className="font-bold">${getTotalPrice()}</p>
             </div>
             <div className="flex items-center gap-3 mt-[20px]">
               <Button

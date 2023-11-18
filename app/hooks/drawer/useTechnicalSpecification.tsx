@@ -19,13 +19,13 @@ export const useTechinalSpecificationDrawer = ({techinalSpecificationDrawerData}
   const [opened, { open, close }] = useDisclosure(false);
   const Modal = (
     <Stack align="stretch" spacing="xl" className="mt-6">
-      <TextInput
+      {/* <TextInput
         styles={{ input: { backgroundColor: '#F1F1F1' } }}
         radius={'md'}
         size="xl"
         className="w-full px-2"
         placeholder="Filter Specification"
-      />
+      /> */}
       {techinalSpecificationDrawerData.map((item, key) => {
         return (
           <div key={key + item?.title}>
