@@ -1,10 +1,8 @@
 import { PageTitle, PositionApart, ProductCarousel } from '@elektra/components';
 import { ListItemPostContext, Only, baseURL, useStylesforGlobal } from '@elektra/customComponents';
-import { initStore, loadFee, loadProductData, useAppDispatch } from '@elektra/store';
-import { ListItemPost, ProductData } from '@elektra/types';
-import { Button, Container, Divider, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
-
-import { NextPageContext } from 'next';
+import { loadFee, useAppDispatch } from '@elektra/store';
+import { ListItemPost } from '@elektra/types';
+import { Button, Container, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { useCounter } from '@mantine/hooks';
 import { useRouter } from 'next/router';
@@ -14,14 +12,56 @@ import { useSelector } from '@elektra/store';
 import { http, Modal } from '@elektra/customComponents';
 import { useShippingChangeModal, useBillingChangeModal } from '@elektra/hooks';
 import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
+import { checkProfileCompleteness } from '@elektra/customComponents/utils/checkProfileCompleteness';
+import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
 
 export default function SellNowPage() {
+  const [profileCompleteness, setProfileCompleteness] = useState({ isComplete: true, missingFields: '' });
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const user = useSelector((state: RootState) => state.auth.profile);
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [PhoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
   const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
 
+  const updateActions = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
+      {profileCompleteness.missingFields.includes('Shipping Address') && (
+        <Button
+          onClick={shippingHandler.open}
+          // leftIcon={<IconShippingBox size={16} />}
+          variant="outline"
+          style={{ justifyContent: 'flex-start' }}
+        >
+          Update Shipping Address
+        </Button>
+      )}
+      {profileCompleteness.missingFields.includes('Billing Address') && (
+        <Button
+          onClick={billingHandler.open}
+          // leftIcon={<IconReceipt2 size={16} />}
+          variant="outline"
+          style={{ justifyContent: 'flex-start' }}
+        >
+          Update Billing Address
+        </Button>
+      )}
+      {profileCompleteness.missingFields.includes('Phone Number') && (
+        <Button
+          onClick={phoneHandler.open}
+          // leftIcon={<IconPhone size={16} />}
+          variant="outline"
+          style={{ justifyContent: 'flex-start' }}
+        >
+          Update Phone Number
+        </Button>
+      )}
+    </div>
+  );
+  const [infoModal, infoModalOpen, infoModalHandler] = useInfoModal({
+    title: 'Incomplete Profile',
+    description: `Please complete your profile. Missing: ${profileCompleteness.missingFields}`,
+    actions: updateActions, // Add this line
+  });
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail.product.condition,
     is_repaired_before: false,
@@ -34,10 +74,6 @@ export default function SellNowPage() {
     min: Number(productDetail?.product?.highest_offer || 0),
   });
 
-  const [productDescription, setproductDescription] = useState<string[]>([
-    productDetail.product.product_properties.description,
-  ]);
-  
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.auth.profile);
@@ -46,6 +82,7 @@ export default function SellNowPage() {
   );
 
   const [profile, setprofile] = useState(userData);
+
   const { classes } = useStylesforGlobal();
   const [shippingaddress, setshippingaddress] = useState<string>(profile?.shipping_address_line_1 || '');
   const [billingaddress, setbillingaddress] = useState<string>(profile?.billing_address_line_1 || '');
@@ -68,18 +105,29 @@ export default function SellNowPage() {
   };
 
   const handleSubmit = async () => {
+    const profileCheck = checkProfileCompleteness(user);
+    if (!profileCheck.isComplete) {
+      infoModalHandler.open();
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await http.request({
         url: `/products/${productDetail?.product.id}/sell`,
         method: 'POST',
       });
+      setLoading(false);
       if (!res.isError) {
         router.push(`/userdashboard?tab=selling`);
       }
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
+
 
   useEffect(() => {
     setprofile(userData);
@@ -88,12 +136,23 @@ export default function SellNowPage() {
     setphone(userData?.mobile_no || '');
   }, [userData]);
 
+  useEffect(() => {
+    const result = checkProfileCompleteness(profile);
+    setProfileCompleteness(result);
+  }, [profile]);
+
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
       <Container fluid>
+        <Modal children={infoModal} onClose={infoModalHandler.close} open={infoModalOpen} />
         <div className="my-10">
           <PageTitle title="Listing Item" />
         </div>
+        {!profileCompleteness.isComplete && (
+          <div>
+            <p>Please complete your profile: {profileCompleteness.missingFields}</p>
+          </div>
+        )}
         <Grid className="my-10">
           <Grid.Col md={5}>
             <div>

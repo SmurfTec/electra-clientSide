@@ -5,9 +5,10 @@ import { CircleCheck } from 'tabler-icons-react';
 interface ModalOptions {
   title?: string;
   description?: string;
+  actions?: React.ReactNode;
 }
 
-export const useInfoModal = ({ title = 'Alert!', description }: ModalOptions = {}): [
+export const useInfoModal = ({ title = 'Alert!', description, actions }: ModalOptions = {}): [
   React.ReactNode,
   boolean,
   { open: () => void; close: () => void }
@@ -20,6 +21,7 @@ export const useInfoModal = ({ title = 'Alert!', description }: ModalOptions = {
       <Text size="sm" className="text-sm font-medium">
         {description}
       </Text>
+      {actions}
       <Button
         onClick={() => close()}
         size={'lg'}
