@@ -22,7 +22,7 @@ function ElektraApp({ Component, pageProps }: AppProps) {
       </Head>
       <main>
         <SessionProvider session={pageProps.session}>
-          <StoreProvider LoadingOverlay={<Loader />}>
+          <StoreProvider>
             <MantineProvider withGlobalStyles emotionCache={cache} withNormalizeCSS theme={themeOverride}>
               <Global styles={globalStyles} />
               <RouterTransition />

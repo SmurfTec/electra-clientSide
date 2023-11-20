@@ -97,7 +97,6 @@ export default function ProductPage({
   recommended,
   isAuth,
 }: ProductPageProps) {
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     let unsubscribe = false;
@@ -165,6 +164,10 @@ export default function ProductPage({
     dispatch(loadListingProducts(productId, isAuth, `&limit=15&page=${pageNumber}`));
   };
 
+  useEffect(() => {
+    // Yahan par bhi, aap category ID ke sath listings fetch kar sakte hain
+    dispatch(loadListingProducts(productListingById.listing.product.id, isAuth));
+  }, [productListingById.listing.product.id, isAuth, dispatch]);
   return (
     <>
       {!matches && (
@@ -294,27 +297,27 @@ export default function ProductPage({
       <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
-          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
-            <Center className="space-x-8 md:space-x-16">
-              {recommended?.products?.slice(0, 5).map((product, index) => {
-                return (
-                  <div key={index} className="min-w-[15%]">
-                    <ProductCard
-                      id={product.id}
-                      image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
-                      description={'9/10 condition with charger and box'}
-                      title={product.title}
-                      condition={product.condition}
-                      wishlist={false}
-                      lowestPrice={Number(product.lowest_price)}
-                      highestPrice={Number(product?.highest_offer)}
-                      price={Number(product?.user_starting_price)}
-                    />
-                  </div>
-                );
-              })}
-            </Center>
-          </ScrollArea>
+          {/* <ScrollArea h={4380} type="scroll" scrollbarSize={5}> */}
+          <Center className="space-x-8 md:space-x-16">
+            {recommended?.products?.slice(0, 5).map((product, index) => {
+              return (
+                <div key={index} className="min-w-[15%]">
+                  <ProductCard
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={false}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product?.highest_offer)}
+                    price={Number(product?.user_starting_price)}
+                  />
+                </div>
+              );
+            })}
+          </Center>
+          {/* </ScrollArea> */}
         </section>
       </Only>
       {/* <div className="">

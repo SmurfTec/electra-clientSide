@@ -11,7 +11,7 @@ type StoreProviderProps = {
 function StoreProvider({ children, LoadingOverlay }: StoreProviderProps) {
   return (
     <Provider store={store}>
-      <PersistGate loading={LoadingOverlay ?? <>loading</>} persistor={persistor}>
+      <PersistGate persistor={persistor}>
         {children}
       </PersistGate>
     </Provider>

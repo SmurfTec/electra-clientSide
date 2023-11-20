@@ -58,10 +58,8 @@ export default function Login() {
       });
       setLoading(false);
     } else {
-      console.log(res.data);
       const user = res.data['user'];
       const profile = user['profile'];
-      console.log('profile', profile);
       const is_stripe_account = user['is_stripe_account'];
       delete user['profile'];
       const authToken = String(res.data['authentication']);
@@ -69,7 +67,9 @@ export default function Login() {
       setCookie('authentication', authToken);
       setCookie('refresh', refreshToken);
       dispatch(login({ isAuthenticated: true, user, profile, is_stripe_account }));
-      const targetUrl: any = router.query.targetUrl || '/userdashboard/?tab=settings';
+      // const targetUrl = router.query.source || '/userdashboard';
+      // router.push(targetUrl);
+      const targetUrl: any = router.query.source || '/userdashboard/?tab=settings';
       router.push(targetUrl);
       setLoading(false);
     }

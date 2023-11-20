@@ -98,10 +98,10 @@ export function Footer() {
             <Container size={1100}>
               <Group position="apart" className="border-2 border-red relative space-y-4">
                 <Group position="apart" className="xs:space-x-20">
-                  <Group position="apart" className='space-x-4 md:space-x-8' align="bottom">
-                    <Title mb={-2} color={'white'} order={4} className="leading-0">
+                  <Group position="apart" className="space-x-4 md:space-x-8" align="bottom">
+                    <Text component={NextLink} href="/" mb={-2} color={'white'} className="leading-0">
                       Elektra
-                    </Title>
+                    </Text>
                     <Group align="end" className="xs:space-x-2">
                       <Text size={phone ? '12px' : '15px'} className="inline-block" color={'#B4B4B4'}>
                         Privacy Policy
@@ -139,9 +139,9 @@ export function Footer() {
                     Info@lorem.com
                   </Text>
                   <div className="space-x-4">
-                    <BrandFacebook stroke='2' fill='white' />
-                    <BrandTwitter fill='white' />
-                    <BrandLinkedin fill='white' />
+                    <BrandFacebook stroke="2" fill="white" />
+                    <BrandTwitter fill="white" />
+                    <BrandLinkedin fill="white" />
                   </div>
                 </Group>
               </Group>
@@ -151,9 +151,7 @@ export function Footer() {
       </section>
 
       {/* FOOTER MOBILE FIXED MENU*/}
-      {phone && (
-        <FooterMenu />
-      )}
+      {phone && <FooterMenu />}
     </div>
   );
 }

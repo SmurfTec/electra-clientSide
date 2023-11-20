@@ -201,10 +201,11 @@ export const fetchShopProducts =
 export const loadFilterProducts =
   (isAuth: boolean, params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
-    // console.log(isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`);
+    // console.log(isAuth ? shopProtectedProducts : shopProducts + `?${params}`);
+    console.log(isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`);
     return await dispatch(
       apiRequest({
-        url: isAuth ? shopProtectedProducts : shopProducts + `?${params}`,
+        url: isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`,
         onStart: slice.actions.specialProductRequested.type,
         onSuccess: slice.actions.shopProductsReceived.type,
         onError: slice.actions.specialProductFailed.type,

@@ -56,7 +56,7 @@ export const FilterMenu = ({ label, data, filterState, fetchListings, filterId, 
           {label}
         </Button>
       </Menu.Target>
-      <Menu.Dropdown>
+      {/* <Menu.Dropdown>
         {data.map((item, index) => (
           <div key={index}>
             <Menu.Item
@@ -72,6 +72,31 @@ export const FilterMenu = ({ label, data, filterState, fetchListings, filterId, 
             {data.length !== index + 1 && <Menu.Divider key={index + 1} />}
           </div>
         ))}
+      </Menu.Dropdown> */}
+      <Menu.Dropdown>
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <div key={index}>
+              <Menu.Item
+                key={index}
+                rightSection={
+                  state.includes(item) ? (
+                    <CircleCheck size={17} color="white" fill="rgba(60, 130, 214, 1)" />
+                  ) : undefined
+                }
+                className="text-base  text-black font-normal"
+                onClick={() => handleState(item)}
+              >
+                {item}
+              </Menu.Item>
+              {data.length !== index + 1 && <Menu.Divider key={index + 1} />}
+            </div>
+          ))
+        ) : (
+          <Menu.Item disabled className="text-base  text-black font-normal">
+            No items
+          </Menu.Item>
+        )}
       </Menu.Dropdown>
     </Menu>
   );

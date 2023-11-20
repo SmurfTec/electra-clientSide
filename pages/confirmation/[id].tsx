@@ -1,18 +1,28 @@
 import { PageTitle, ProductCarousel, ProductDetails, UsedProductListing } from '@elektra/components';
 import { ListItem, Modal, Only, baseURL, http, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
-import { useCardModal, useProductAddedModal, useShippingChangeModal, useErrorModal } from '@elektra/hooks';
+import {
+  useCardModal,
+  useProductAddedModal,
+  useShippingChangeModal,
+  useErrorModal,
+  useBillingChangeModal,
+} from '@elektra/hooks';
 import { Button, Checkbox, Grid, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { RootState } from '@elektra/store';
 import { useMediaQuery } from '@mantine/hooks';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Check } from 'tabler-icons-react';
 import { useSelector } from 'react-redux';
 import { ProductData } from '../../types/slices';
 import { ListItemPost } from '@elektra/types';
 import { FileWithPath } from '@mantine/dropzone';
 import { UsedProductCarousel } from '@elektra/components/pageDesign/product/UsedProductCarousel';
+import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
+import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
+import UpdateActionsComponent from '@elektra/customComponents/profile/ProfileUpdateActions';
+import { checkProfileCompleteness } from '@elektra/customComponents/utils/checkProfileCompleteness';
 
 const description = [
   'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
@@ -47,7 +57,8 @@ type UsedData = {
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-    return { redirect: { permanent: false, destination: '/auth/login' } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -64,6 +75,16 @@ const base64ToBlob = (base64: any) => {
 };
 
 export default function Confirmation() {
+  const [profileCompleteness, setProfileCompleteness] = useState({ isComplete: true, missingFields: '' });
+  const [PhoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
+  const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
+  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
+  const [infoModal, infoModalOpen, infoModalHandler] = useInfoModal({
+    title: 'Incomplete Profile',
+    description: `Please complete your profile. Missing: ${profileCompleteness.missingFields}`,
+    actions: UpdateActionsComponent({ profileCompleteness, shippingHandler, billingHandler, phoneHandler }),
+  });
+
   const phone = useMediaQuery('(max-width: 600px)');
   const user = useSelector((state: RootState) => state.auth.profile);
   const profile = useSelector((state: RootState) => state.auth.profile);
@@ -117,13 +138,19 @@ export default function Confirmation() {
         : 'You have successfully listed this item',
   });
   // const [ProductAddedModal, productAddedOpened, productAddedHandler] = useProductAddedModal();
-  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
+
   const [ErrorTxt, setErrorTxt] = useState<string>('');
   const [ErrorChangeModal, ErrorOpened, ErrorHandler] = useErrorModal({ ErrorTxt });
 
   const { classes } = useStylesforGlobal();
 
   const handleSubmit = async () => {
+    const profileCheck = checkProfileCompleteness(user);
+    if (!profileCheck.isComplete) {
+      infoModalHandler.open();
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     let data = {};
     if (condition.toLowerCase() === 'new') {
@@ -244,10 +271,28 @@ export default function Confirmation() {
       }
     }
   };
-  console.log(usedListingData.totalPriceAfterFees);
+  useEffect(() => {
+    const result = checkProfileCompleteness(profile);
+    setProfileCompleteness(result);
+  }, [profile]);
   return (
     <div>
       <PageTitle title="Confirmation" className="mt-14" />
+      <Modal
+        children={infoModal}
+        onClose={infoModalHandler.close}
+        open={infoModalOpen}
+        // open={true}
+      />
+      <Modal
+        size={800}
+        title="Billing Address"
+        className="mx-10 mt-4 mb-7"
+        titlePosition="left"
+        children={BillingChangeModal}
+        onClose={billingHandler.close}
+        open={billingOpened}
+      />
       <Grid>
         <Grid.Col md={6} mt={50}>
           <Stack align="center" justify="center">

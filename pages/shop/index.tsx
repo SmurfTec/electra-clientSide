@@ -104,6 +104,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadFilterProducts(isAuth, paramString));
   };
+  
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
     filter: params,

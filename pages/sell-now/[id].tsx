@@ -1,5 +1,5 @@
 import { PageTitle, PositionApart, ProductCarousel } from '@elektra/components';
-import { ListItemPostContext, Only, baseURL, useStylesforGlobal } from '@elektra/customComponents';
+import { ListItemPostContext, Only, baseURL, isAuthenticated, useStylesforGlobal } from '@elektra/customComponents';
 import { loadFee, useAppDispatch } from '@elektra/store';
 import { ListItemPost } from '@elektra/types';
 import { Button, Container, Grid, Group, Image, NumberInput, TextInput } from '@mantine/core';
@@ -14,6 +14,17 @@ import { useShippingChangeModal, useBillingChangeModal } from '@elektra/hooks';
 import { usePhoneModal } from '@elektra/hooks/modal/usePhoneModal';
 import { checkProfileCompleteness } from '@elektra/customComponents/utils/checkProfileCompleteness';
 import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
+import { NextPageContext } from 'next';
+
+export async function getServerSideProps(context: NextPageContext) {
+  const isAuth = await isAuthenticated(context.req);
+
+  if (!isAuth) {
+    const sourceUrl = context.req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+  }
+  return { props: {} };
+}
 
 export default function SellNowPage() {
   const [profileCompleteness, setProfileCompleteness] = useState({ isComplete: true, missingFields: '' });
@@ -22,46 +33,13 @@ export default function SellNowPage() {
   const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [PhoneChangeModal, phoneModalOpened, phoneHandler] = usePhoneModal();
   const [BillingChangeModal, billingOpened, billingHandler] = useBillingChangeModal();
-
-  const updateActions = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
-      {profileCompleteness.missingFields.includes('Shipping Address') && (
-        <Button
-          onClick={shippingHandler.open}
-          // leftIcon={<IconShippingBox size={16} />}
-          variant="outline"
-          style={{ justifyContent: 'flex-start' }}
-        >
-          Update Shipping Address
-        </Button>
-      )}
-      {profileCompleteness.missingFields.includes('Billing Address') && (
-        <Button
-          onClick={billingHandler.open}
-          // leftIcon={<IconReceipt2 size={16} />}
-          variant="outline"
-          style={{ justifyContent: 'flex-start' }}
-        >
-          Update Billing Address
-        </Button>
-      )}
-      {profileCompleteness.missingFields.includes('Phone Number') && (
-        <Button
-          onClick={phoneHandler.open}
-          // leftIcon={<IconPhone size={16} />}
-          variant="outline"
-          style={{ justifyContent: 'flex-start' }}
-        >
-          Update Phone Number
-        </Button>
-      )}
-    </div>
-  );
-  const [infoModal, infoModalOpen, infoModalHandler] = useInfoModal({
+  const [infoModalContent, setInfoModalContent] = useState({
     title: 'Incomplete Profile',
     description: `Please complete your profile. Missing: ${profileCompleteness.missingFields}`,
-    actions: updateActions, // Add this line
   });
+
+  const [infoModal, infoModalOpen, infoModalHandler] = useInfoModal(infoModalContent);
+
   const [listItemPost, setListItemPost] = useState<ListItemPost>({
     condition: productDetail.product.condition,
     is_repaired_before: false,
@@ -105,6 +83,15 @@ export default function SellNowPage() {
   };
 
   const handleSubmit = async () => {
+    if (!is_stripe_account) {
+      setInfoModalContent({
+        title: 'Stripe Account Required',
+        description: 'Please connect your Stripe account to sell items.',
+      });
+      infoModalHandler.open();
+      return;
+    }
+
     const profileCheck = checkProfileCompleteness(user);
     if (!profileCheck.isComplete) {
       infoModalHandler.open();
@@ -123,11 +110,9 @@ export default function SellNowPage() {
         router.push(`/userdashboard?tab=selling`);
       }
     } catch (err) {
-      console.log(err);
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     setprofile(userData);
@@ -144,15 +129,15 @@ export default function SellNowPage() {
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
       <Container fluid>
-        <Modal children={infoModal} onClose={infoModalHandler.close} open={infoModalOpen} />
+        <Modal
+          children={infoModal}
+          onClose={infoModalHandler.close}
+          open={infoModalOpen}
+          // open={true}
+        />
         <div className="my-10">
           <PageTitle title="Listing Item" />
         </div>
-        {!profileCompleteness.isComplete && (
-          <div>
-            <p>Please complete your profile: {profileCompleteness.missingFields}</p>
-          </div>
-        )}
         <Grid className="my-10">
           <Grid.Col md={5}>
             <div>

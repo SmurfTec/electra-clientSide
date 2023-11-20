@@ -41,7 +41,6 @@ export function PlaceOfferComponent({
   });
   const [days, setdays] = useState();
   const [count, handlers] = useCounter(0, { min: 0 });
-  const [showNotification, setshowNotification] = useState(false);
   const isNew = condition === 'new';
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) || 0;
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);

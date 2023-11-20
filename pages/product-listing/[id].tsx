@@ -1,37 +1,11 @@
 import { ListingDescription, PageTitle, ProductCarousel, UsedProductListing } from '@elektra/components';
-import { ListItemPostContext, Only, baseURL } from '@elektra/customComponents';
+import { ListItemPostContext, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { RootState, initStore, loadFee, loadProductData, useAppDispatch, useSelector } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
 import { Container, Divider, Grid, Image } from '@mantine/core';
 import { NextPageContext } from 'next';
 import { useEffect, useState } from 'react';
 import { useCounter } from '@mantine/hooks';
-
-const ListingDescriptionData = {
-  carrier: 'AT&T',
-  color: 'Blue',
-  description: [
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    'Lorem ipsum dolor sit amet,',
-    'Mauris id lacus gravida erat rutrum facilisis.',
-    'Sed et quam pretium, laoreet metus sed,',
-  ],
-  storage: '128 GB',
-
-  carrierData: ['AT&T', 'Verizon', 'T-mobile', 'Factory Unlocked'],
-  colorData: ['Blue', 'Black', 'White'],
-  storageData: ['128 GB', '256 GB', '512 GB'],
-  marketPlaceFee: 5,
-  saleTax: 3,
-  shippingFee: 15,
-  discount: 0,
-  //NEW CASE
-  lowestAsk: 169,
-  highestAsk: 179,
-
-  //USED CASE
-  averageSalePrice: 200,
-};
 
 const usedProductListingData = {
   accessories: ['Charger Cable', 'Original Box', 'Charging Cube'],
@@ -49,6 +23,12 @@ const usedProductListingData = {
 
 export async function getServerSideProps(context: NextPageContext) {
   const store = initStore();
+  const isAuth = await isAuthenticated(context.req);
+  if (!isAuth) {
+    const sourceUrl = context.req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+  }
+
   const productData = store.dispatch(loadProductData(Number(context.query.id)));
   await Promise.all([productData]);
   return {

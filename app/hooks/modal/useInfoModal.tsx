@@ -22,7 +22,7 @@ export const useInfoModal = ({ title = 'Alert!', description, actions }: ModalOp
         {description}
       </Text>
       {actions}
-      <Button
+      {/* <Button
         onClick={() => close()}
         size={'lg'}
         variant="outline"
@@ -36,7 +36,7 @@ export const useInfoModal = ({ title = 'Alert!', description, actions }: ModalOp
         }}
       >
         Close
-      </Button>
+      </Button> */}
     </Stack>
   );
   return [Modal, opened, { open, close }];

@@ -303,7 +303,7 @@ export default function ProductPage({
       <Only when={recommended?.products?.length > 0}>
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
-          <ScrollArea h={380} type="scroll" scrollbarSize={5}>
+          {/* <ScrollArea h={380} type="scroll" scrollbarSize={5}> */}
             <Center className="space-x-8 md:space-x-16">
               {recommended?.products?.slice(0, 5).map((product, index) => {
                 return (
@@ -323,7 +323,7 @@ export default function ProductPage({
                 );
               })}
             </Center>
-          </ScrollArea>
+          {/* </ScrollArea> */}
         </section>
       </Only>
       {/* <div className="">

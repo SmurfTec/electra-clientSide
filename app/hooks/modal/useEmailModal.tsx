@@ -69,7 +69,7 @@ export const useEmailVerificationModel = ({
         close();
         signUpSuccesHandler.open();
         setTimeout(() => {
-          router.push('/auth/login',undefined,{shallow:true});
+          router.push('/auth/login', undefined, { shallow: true });
         }, 1500);
       }
     }
@@ -94,7 +94,7 @@ export const useEmailVerificationModel = ({
         setLoading(false);
         close();
         setTimeout(() => {
-          router.push('/auth/login',undefined,{shallow:true});
+          router.push('/auth/login', undefined, { shallow: true });
         }, 500);
       }
     }
@@ -135,7 +135,7 @@ export const useEmailVerificationModel = ({
           delete user['profile'];
           dispatch(updateUser({ isAuthenticated: true, user, profile }));
           setLoading(false);
-          close()
+          close();
         }
       }
     }

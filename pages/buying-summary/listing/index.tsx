@@ -28,7 +28,8 @@ const productDetailData = {
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-    return { redirect: { permanent: false, destination: '/auth/login' } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());

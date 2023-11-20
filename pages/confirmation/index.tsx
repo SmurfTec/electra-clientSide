@@ -20,7 +20,8 @@ const description = [
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-    return { redirect: { permanent: false, destination: '/auth/login' } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -34,8 +35,8 @@ export default function Confirmation() {
   const router = useRouter();
   const condition = router.query['condition'] === 'new' ? 'New' : 'Used';
   const { classes } = useStylesforGlobal();
-  const[check1,setcheck1]=useState(false)
-  const[check2,setcheck2]=useState(false)
+  const [check1, setcheck1] = useState(false);
+  const [check2, setcheck2] = useState(false);
   const profile = useSelector((state: RootState) => state.auth.profile);
   const handleSubmit = async () => {
     setLoading(true);
@@ -119,7 +120,7 @@ export default function Confirmation() {
 
             <ProductDetails
               text={'Shipping Address'}
-              details={profile?.shipping_address_line_1 || ""}
+              details={profile?.shipping_address_line_1 || ''}
               iconDisplay={true}
               onClick={shippingHandler.open}
             />
@@ -194,13 +195,25 @@ export default function Confirmation() {
             <ProductDetails text={'Color'} details="Blue" />
 
             <Group pt={14} align="top">
-              <Checkbox checked={check1} onChange={(e)=>setcheck1(!check1)} maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
+              <Checkbox
+                checked={check1}
+                onChange={(e) => setcheck1(!check1)}
+                maw={'20%'}
+                styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }}
+                value={'First'}
+              />
               <Text mt={-7} maw={'80%'} size="13px" color="black">
                 By Checking this you are confirming your device meets the condition requirments stated above
               </Text>
             </Group>
             <Group mt={14} align="top">
-              <Checkbox checked={check2} onChange={(e)=>setcheck2(!check2)} maw={'20%'} styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }} value={'First'} />
+              <Checkbox
+                checked={check2}
+                onChange={(e) => setcheck2(!check2)}
+                maw={'20%'}
+                styles={{ input: { background: '#D9D9D9', borderRadius: '0' } }}
+                value={'First'}
+              />
               <Text mt={-7} maw={'80%'} size="13px" color="black">
                 You understand you are subject to a <span className="font-[600]">12% cancelation fee</span> if the item
                 fails verifcation.
@@ -215,7 +228,7 @@ export default function Confirmation() {
               size="xl"
               styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
               bg={'black'}
-              disabled={(!check1 || !check2)}
+              disabled={!check1 || !check2}
               onClick={handleSubmit}
             >
               Confirm

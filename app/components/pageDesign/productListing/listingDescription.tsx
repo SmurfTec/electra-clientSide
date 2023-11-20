@@ -108,7 +108,7 @@ export function ListingDescription({
     } else {
       const { id } = router.query;
       const targetUrl = `/product-listing/${id}`;
-      router.push(`/auth/login?targetUrl=${targetUrl}`);
+      router.push(`/auth/login?source=${encodeURIComponent(targetUrl)}`);
     }
   };
 

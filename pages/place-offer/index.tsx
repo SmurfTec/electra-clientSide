@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux';
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-    return { redirect: { permanent: false, destination: '/auth/login' } };
+const sourceUrl = req?.headers?.referer || '/';
+return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -23,46 +24,6 @@ export default function PlaceOffer() {
   }, []);
 
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
-
-  const ListingDescriptionData = {
-    carrier: 'AT&T',
-    color: 'Blue',
-    description: [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      'Lorem ipsum dolor sit amet,',
-      'Mauris id lacus gravida erat rutrum facilisis.',
-      'Sed et quam pretium, laoreet metus sed,',
-    ],
-    storage: '128 GB',
-
-    carrierData: ['AT&T', 'Verizon', 'T-mobile', 'Factory Unlocked'],
-    colorData: ['Blue', 'Black', 'White'],
-    storageData: ['128 GB', '256 GB', '512 GB'],
-    marketPlaceFee: 5,
-    saleTax: 3,
-    shippingFee: 15,
-    discount: 0,
-    //NEW CASE
-    lowestAsk: 169,
-    highestAsk: 179,
-
-    //USED CASE
-    averageSalePrice: 200,
-  };
-
-  const usedProductListingData = {
-    accessories: ['Charger Cable', 'Original Box', 'Charging Cube'],
-    itemConditions: ['Poor', 'Good', 'Fair', 'Great', 'Flawless', 'New'],
-    description: [
-      'Device has signs of heavy use such as deep scratches, dents, scuffs, or excessive scratching',
-      'Fully functional with no operational problems',
-      'No chips or cracks in front or back glass',
-      'Above 80 percent battery health with no Service alert in Settings',
-      'All devices must be free of any lock, carrier blacklist, or financial obligations',
-      'Absolutely no Ghost Image',
-      'No LCD or display defects (aftermarket, burns, damage or no display)',
-    ],
-  };
 
   const productDetail = useSelector((state: RootState) => state.entities.productDetail.list);
   const [productDescription, setproductDescription] = useState<string[]>([

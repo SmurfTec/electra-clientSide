@@ -93,6 +93,7 @@ export const TableHeaderBar = ({
                   border: 'none !important',
                 },
               }}
+              color="blue"
               radius="md"
               size="lg"
               className="w-full"

@@ -11,7 +11,6 @@ import { PaymentMethodResult } from '@stripe/stripe-js';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useShippingChangeModal } from '@elektra/hooks';
 const productDetailData = {
   image: '/images/product.png',
   title: 'Iphone 14 Pro Max',
@@ -28,7 +27,8 @@ const productDetailData = {
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-    return { redirect: { permanent: false, destination: '/auth/login' } };
+const sourceUrl = req?.headers?.referer || '/';
+return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());
@@ -62,7 +62,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   const [orderData, setOrderData] = useState<ProductBuyOrderData>();
   const loading = useSelector((state: RootState) => state.entities.fee.loading);
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
-  const [ShippingChangeModal, shippingOpened, shippingHandler] = useShippingChangeModal();
   const [expiration, setExpiration] = useState(new Date());
 
   const [successPayment, setSuccessPayment] = useState(false);

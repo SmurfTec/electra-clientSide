@@ -6,8 +6,13 @@ import { Cashout } from './cashout';
 import { WalletLeftSide } from './leftSide';
 import { WalletRightSide } from './rightSide';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@elektra/store';
 
 export const Wallet = () => {
+  const is_stripe_account = useSelector((state: RootState) =>
+    state.auth.user ? state.auth.user.is_stripe_account : undefined
+  );
   const [value, toggle] = useToggle<boolean>([false, true]);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,7 +24,6 @@ export const Wallet = () => {
       url: 'wallets/create-account',
       method: 'POST',
     });
-    console.log(res);
     if (res.isError) {
       setError({ error: true, message: String(res?.errorPayload?.['message']) });
       setLoading(false);
@@ -48,8 +52,8 @@ export const Wallet = () => {
         <Only when={value}>
           <Text className="text-2xl text-black">Connect to Stripe</Text>
           <Divider my="sm" />
-          <Button onClick={handleSubmit} loading={loading}>
-            Connect
+          <Button onClick={handleSubmit} loading={loading} disabled={is_stripe_account}>
+            {is_stripe_account ? 'Connected' : 'Connect'}
           </Button>
           <Only when={error}>
             <Text color="red" mt="md" size={'md'}>
