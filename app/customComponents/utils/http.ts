@@ -1,13 +1,13 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode, Method } from 'axios';
 import { getCookie } from 'cookies-next';
 
-export const baseURL = 'http://ec2-18-118-28-197.us-east-2.compute.amazonaws.com:3010';
+export const baseURL = 'http://ec2-18-191-157-113.us-east-2.compute.amazonaws.com:3010';
 const httpRequest = axios.create({
   withCredentials: true,
   baseURL,
-  headers:{
-    "ngrok-skip-browser-warning": true,
-  }
+  headers: {
+    'ngrok-skip-browser-warning': true,
+  },
 });
 interface AxiosResponseWithError<T> extends AxiosResponse<T> {
   message?: string;
@@ -34,7 +34,7 @@ httpRequest.interceptors.response.use(
     return errorMessage;
   }
 );
-function request<T=any,R = AxiosResponseWithError<T>,D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
+function request<T = any, R = AxiosResponseWithError<T>, D = unknown>(config: AxiosRequestConfig<D>): Promise<R> {
   const headertoken = getHeaders();
   config.headers = typeof window !== 'undefined' ? { ...config.headers, ...headertoken } : config.headers;
   return httpRequest.request(config);
