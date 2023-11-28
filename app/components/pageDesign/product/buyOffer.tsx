@@ -23,7 +23,7 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
-  receiptFee: Array<{ id: number; fees: number; title: string }>;
+  receiptFee: Array<{ id: number; fees: number; title: string; value_type: string }>;
   price?: number;
   isRepairedBefore?: boolean;
   moreInfo?: string;
@@ -69,13 +69,19 @@ export function BuyOfferComponent({
   };
 
   const getTotalPrice = () => {
-    let totalPrice = 0;
-    feeData?.map((fee) => {
-      totalPrice += Number(fee.fees);
+    let totalPrice = count;
+
+    receiptFee?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
     });
-    totalPrice += Number(lowestAsk);
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
+
   useEffect(() => {
     let lowestask = lowestAsk || 0;
     if (count > lowestask) {

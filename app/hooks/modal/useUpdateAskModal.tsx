@@ -26,8 +26,7 @@ export const useUpdateAskModal = (
         method: 'PUT',
         data: payload,
       });
-      if (response.status === HttpStatusCode.Ok) {
-        setError('Failed to update ask');
+      if (response.status === 200) {
       } else {
         setError('Error updating ask');
       }

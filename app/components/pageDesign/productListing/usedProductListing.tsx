@@ -63,12 +63,17 @@ export function UsedProductListing({ accessories, description, itemConditions, c
   };
 
   const getTotalPrice = () => {
-    let totalPrice = 0;
-    fees?.map((fee) => {
-      totalPrice += Number(fee.fees);
+    let totalPrice = count;
+
+    fees?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
     });
-    totalPrice += count;
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
 
   const handleSubmit = async () => {

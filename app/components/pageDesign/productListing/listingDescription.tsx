@@ -27,7 +27,7 @@ type ListingDescriptionProps = {
   productVariants: Variant[];
   count: number;
   handlers: handlerprops;
-  receiptFee: Array<{ id: number; fees: number; title: string }>;
+  receiptFee: Array<{ id: number; fees: number; title: string; value_type?: string }>;
   days: string;
   setDays: any;
 };
@@ -113,12 +113,17 @@ export function ListingDescription({
   };
 
   const getTotalPrice = () => {
-    let totalPrice = 0;
-    receiptFee?.map((fee) => {
-      totalPrice += Number(fee.fees);
+    let totalPrice = count;
+
+    receiptFee?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice -= (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice -= Number(fee.fees);
+      }
     });
-    totalPrice += count;
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
 
   return (
@@ -222,6 +227,7 @@ export function ListingDescription({
           <Select
             className="Expiration-dropdown !h-[3.25rem]"
             data={[
+              { value: '1', label: '1 Day' },
               { value: '7', label: '7 Days' },
               { value: '14', label: '14 Days' },
               { value: '21', label: '21 Days' },
@@ -265,11 +271,21 @@ export function ListingDescription({
         <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          {receiptFee?.map((item) => (
-            <PositionApart key={`${item.id}-${item.title}`} text={item.title} number={item.fees} />
-          ))}
-          {/* <PositionApart text={'Discount'} number={Number(discount)} discount /> */}
+          {receiptFee?.map((item) => {
+            const displayTitle = item.value_type === 'percentage' ? `${item.title} (%)` : item.title;
+            const displayFees =
+              item.value_type === 'percentage' ? ((count * Number(item.fees)) / 100).toFixed(2) : item.fees;
+            return (
+              <PositionApart
+                key={`${item.id}-${item.title}`}
+                text={displayTitle}
+                number={Number(displayFees)}
+                sign={'-'}
+              />
+            );
+          })}
         </div>
+
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <PositionApart text={'Total Price'} number={getTotalPrice() - Number(discount)} />
       </div>

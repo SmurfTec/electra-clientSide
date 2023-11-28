@@ -23,7 +23,7 @@ type ListingDescriptionProps = {
   shippingFee: number;
   productVariants: Variant[];
   isListing?: boolean;
-  receiptFee: Array<{ id: number; fees: number; title: string }>;
+  receiptFee: Array<{ id: number; fees: number; title: string; value_type: string }>;
 };
 
 export function PlaceOfferComponent({
@@ -58,12 +58,17 @@ export function PlaceOfferComponent({
   };
 
   const getTotalPrice = () => {
-    let totalPrice = 0;
-    receiptFee?.map((fee) => {
-      totalPrice += Number(fee.fees);
+    let totalPrice = count;
+
+    receiptFee?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
     });
-    totalPrice += count;
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
   useEffect(() => {
     if (count > lowestAsk) {

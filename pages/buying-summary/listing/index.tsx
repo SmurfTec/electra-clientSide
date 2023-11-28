@@ -175,15 +175,30 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     if (orderData) offerPlaceHandler.open();
   }, [orderData]);
 
+  // const getTotalPrice = () => {
+  //   let totalPrice = 0;
+  //   feeData?.map((fee) => {
+  //     totalPrice += Number(fee.fees);
+  //   });
+  //   totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
+  //   return totalPrice;
+  // };
+
   const getTotalPrice = () => {
     let totalPrice = 0;
-    feeData?.map((fee) => {
-      totalPrice += Number(fee.fees);
-    });
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
-    return totalPrice;
-  };
 
+    feeData?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
+    });
+
+    totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
+
+    return Number(totalPrice.toFixed(2));
+  };
   return (
     <>
       <Only when={loading}>

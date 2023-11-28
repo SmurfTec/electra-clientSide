@@ -96,6 +96,7 @@ export default function ProductListingPage({ productDetail }: ProductListingPage
                 id: item.id,
                 fees: Number(item.fees),
                 title: item.type,
+                value_type: item.value_type,
               }))}
               days={days}
               setDays={setDays}

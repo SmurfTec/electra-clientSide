@@ -27,8 +27,8 @@ const productDetailData = {
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-const sourceUrl = req?.headers?.referer || '/';
-return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   const store = initStore();
   const { isError, data } = await store.dispatch(loadProtectionPlan());
@@ -182,13 +182,29 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
     if (orderData) offerPlaceHandler.open();
   }, [orderData]);
 
+  // const getTotalPrice = () => {
+  //   let totalPrice = 0;
+  //   feeData?.map((fee) => {
+  //     totalPrice += Number(fee.fees);
+  //   });
+  //   totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
+  //   return totalPrice;
+  // };
+
   const getTotalPrice = () => {
     let totalPrice = 0;
-    feeData?.map((fee) => {
-      totalPrice += Number(fee.fees);
+
+    feeData?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
     });
+
     totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
 
   return (

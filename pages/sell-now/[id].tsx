@@ -73,13 +73,27 @@ export default function SellNowPage() {
 
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
 
+  // const getTotalPrice = () => {
+  //   let totalPrice = 0;
+  //   feeData?.map((fee) => {
+  //     totalPrice += Number(fee.fees);
+  //   });
+  //   totalPrice += count;
+  //   return totalPrice;
+  // };
+
   const getTotalPrice = () => {
     let totalPrice = 0;
-    feeData?.map((fee) => {
-      totalPrice += Number(fee.fees);
+
+    feeData?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+      } else {
+        totalPrice += Number(fee.fees);
+      }
     });
-    totalPrice += count;
-    return totalPrice;
+
+    return Number(totalPrice.toFixed(2));
   };
 
   const handleSubmit = async () => {

@@ -24,7 +24,7 @@ export const useUpdateListingModal = (
     try {
       const response = await http.request({
         url: `/listings/${productDetailData.id}`,
-        method: 'PATCH',
+        method: 'PUT',
         data: payload,
       });
       if (response.status === HttpStatusCode.Ok) {
