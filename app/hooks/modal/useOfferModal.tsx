@@ -147,7 +147,7 @@ export const useOfferPlaceModal = (
 
         <Button
           component={NextLink}
-          href="/userdashboard?tab=purchasing"
+          href="/userdashboard?tab=purchasing&subtab=pending"
           styles={{
             root: {
               borderRadius: 20,

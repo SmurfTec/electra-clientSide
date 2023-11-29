@@ -23,7 +23,7 @@ type ListingDescriptionProps = {
   saleTax: number;
   shippingFee: number;
   productVariants: Variant[];
-  receiptFee: Array<{ id: number; fees: number; title: string; value_type: string }>;
+  receiptFee: Array<{ id: number; fees: number; title: string; value_type?: string }>;
   price?: number;
   isRepairedBefore?: boolean;
   moreInfo?: string;

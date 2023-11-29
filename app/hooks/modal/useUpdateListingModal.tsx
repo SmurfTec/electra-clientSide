@@ -107,7 +107,7 @@ export const useUpdateListingModal = (
           onClick={() => {
             // Handle the update logic here
             updateListing(count);
-            close();
+            // close();
           }}
           loading={isLoading}
         >

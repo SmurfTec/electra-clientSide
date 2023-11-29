@@ -12,6 +12,7 @@ export const useUpdateAskModal = (
   const [count, handlers] = useCounter(0, { min: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const updateAsk = async (newPrice: number) => {
     setIsLoading(true);
     setError('');
@@ -27,6 +28,7 @@ export const useUpdateAskModal = (
         data: payload,
       });
       if (response.status === 200) {
+        setSuccessMessage('Ask successfully updated');
       } else {
         setError('Error updating ask');
       }
@@ -78,6 +80,12 @@ export const useUpdateAskModal = (
           <Plus size={16} color="white" />
         </ActionIcon>
       </Group>
+
+      {successMessage && (
+        <Text size={'sm'} color="green">
+          {successMessage}
+        </Text>
+      )}
       {error && (
         <Text size={'sm'} color="red">
           {error}

@@ -23,7 +23,7 @@ type ListingDescriptionProps = {
   shippingFee: number;
   productVariants: Variant[];
   isListing?: boolean;
-  receiptFee: Array<{ id: number; fees: number; title: string; value_type: string }>;
+  receiptFee: Array<{ id: number; fees: number; title: string; value_type?: string }>;
 };
 
 export function PlaceOfferComponent({
@@ -70,12 +70,12 @@ export function PlaceOfferComponent({
 
     return Number(totalPrice.toFixed(2));
   };
-  useEffect(() => {
-    if (count > lowestAsk) {
-      // setshowNotification(true);
-      console.log(infoModalHandler.open());
-    }
-  }, [count]);
+  // useEffect(() => {
+  //   if (count > lowestAsk) {
+  //     // setshowNotification(true);
+  //     console.log(infoModalHandler.open());
+  //   }
+  // }, [count]);
 
   // useEffect(() => {
   //   // Auto-select the variant if there's only one
@@ -84,6 +84,14 @@ export function PlaceOfferComponent({
   //     handleListingVariants(singleVariant.id, singleVariant.value);
   //   }
   // }, [productVariants, handleListingVariants]);
+  const [hasShownModal, setHasShownModal] = useState(false);
+  useEffect(() => {
+    if (count > lowestAsk && !hasShownModal) {
+      console.log(infoModalHandler.open());
+      setHasShownModal(true); // Modal show kar diya gaya hai
+    }
+    // Yahan aapka baaki ka logic jaise ke count change hone par kuch aur karna ho, woh likh sakte hain
+  }, [count, lowestAsk, hasShownModal, infoModalHandler]);
   return (
     <div>
       {/* {showNotification && (

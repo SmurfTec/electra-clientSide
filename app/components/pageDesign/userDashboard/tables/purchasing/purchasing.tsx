@@ -3,11 +3,12 @@ import { DataTable, Only, tableDataType } from '@elektra/customComponents';
 import { RootState, useSelector } from '@elektra/store';
 import { ActionIcon, Center, Text } from '@mantine/core';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowDown } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
+import { useRouter } from 'next/router';
 
 export function Purchasing() {
   const intialLimit = 4;
@@ -16,6 +17,15 @@ export function Purchasing() {
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
+  const router = useRouter();
+  const subtab: any = router.query.subtab;
+
+  useEffect(() => {
+    if (subtab) {
+      setValue(subtab);
+    }
+  }, [subtab]);
+
   const { purchasingActiveOrders, purchasingCompletedOrders, purchasingPendingOrders } = useSelector(
     (state: RootState) => state.entities.purchasingOrders.list
   );
