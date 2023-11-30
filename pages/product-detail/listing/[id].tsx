@@ -168,6 +168,7 @@ export default function ProductPage({
     // Yahan par bhi, aap category ID ke sath listings fetch kar sakte hain
     dispatch(loadListingProducts(productListingById.listing.product.id, isAuth));
   }, [productListingById.listing.product.id, isAuth, dispatch]);
+
   return (
     <>
       {!matches && (
@@ -182,14 +183,14 @@ export default function ProductPage({
               <ProductCarousel images={productListingById?.listing?.images ?? []} />
             </div>
 
-            <Text className="text-xs font-medium">Have this item?</Text>
-            <Button
+            {/* <Text className="text-xs font-medium">Have this item?</Text> */}
+            {/* <Button
               component={NextLink}
               href={`/sell-now/listing/${productListingById.listing.id}`}
               leftIcon={<ShoppingCart />}
             >
               Sell Now
-            </Button>
+            </Button> */}
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>
@@ -290,7 +291,8 @@ export default function ProductPage({
       <div className="mt-4">
         <ProductStats condition="used" />
       </div>
-      <div className="my-10">
+      <div className="my-10 space-y-10">
+        <Text className="text-black font-bold text-xl md:text-2xl">Sales History</Text>
         <SalesTable data={productListingById.sales_history} />
       </div>
 

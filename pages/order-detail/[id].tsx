@@ -18,8 +18,8 @@ import { useEffect, useState } from 'react';
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-const sourceUrl = req?.headers?.referer || '/';
-return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   const store = initStore();
   const orderDetail = store.dispatch(loadOrderDetail(String(query.id)));

@@ -188,7 +188,10 @@ export function ProductSpecification({
         {/* <div> */}
         <Grid m={'calc(-1.25rem / 2)'}>
           <Grid.Col span={6}>
-            <BiddingInput title="Lowest Asks" value={lowestAsk} />
+            <BiddingInput
+              title={condition === 'used' ? 'Item Price' : 'Lowest Asks'}
+              value={condition === 'used' ? price : lowestAsk}
+            />
           </Grid.Col>
           <Grid.Col span={6}>
             <BiddingInput title="Highest Offer" value={highestAsk} />

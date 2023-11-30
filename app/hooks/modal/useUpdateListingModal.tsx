@@ -9,15 +9,17 @@ export const useUpdateListingModal = (
   productDetailData: any
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [count, handlers] = useCounter(0, { min: 0 });
+  const initialCount = productDetailData?.ask || 0;
+  const [count, handlers] = useCounter(initialCount, { min: 0 });
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const updateListing = async (newPrice: number) => {
     setIsLoading(true);
     setError('');
     const payload = {
-      price: newPrice,
+      ask: newPrice.toString(),
       product: productDetailData?.product?.id,
     };
 
@@ -27,8 +29,9 @@ export const useUpdateListingModal = (
         method: 'PUT',
         data: payload,
       });
-      if (response.status === HttpStatusCode.Ok) {
-        setError('Failed to update ask');
+
+      if (response.status === 200) {
+        setSuccessMessage('Ask successfully updated');
       } else {
         setError('Error updating ask');
       }
@@ -81,6 +84,11 @@ export const useUpdateListingModal = (
           <Plus size={16} color="white" />
         </ActionIcon>
       </Group>
+      {successMessage && (
+        <Text size={'sm'} color="green">
+          {successMessage}
+        </Text>
+      )}
       {error && (
         <Text size={'sm'} color="red">
           {error}

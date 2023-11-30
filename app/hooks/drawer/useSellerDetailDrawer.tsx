@@ -56,7 +56,15 @@ export const useSellerDetailDrawer = ({
       <Title order={5} className="font-medium">
         Has your item ever been repaired before?
       </Title>
-      {isRpairedBefore ? <Text size={'sm'}>Yes</Text> : <Text size={'sm'}>No</Text>}
+      {isRpairedBefore ? (
+        <Text className="font-extrabold" size={'sm'}>
+          Yes
+        </Text>
+      ) : (
+        <Text size={'sm'} className="font-extrabold">
+          No
+        </Text>
+      )}
       {/* <Divider mt={15} /> */}
       <Only when={isRpairedBefore as boolean}>
         {/* <Title order={5} className="font-medium">

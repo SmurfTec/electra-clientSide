@@ -9,7 +9,8 @@ export const useUpdateAskModal = (
   productDetailData: any
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [count, handlers] = useCounter(0, { min: 0 });
+  const initialCount = productDetailData?.my_offer || 0;
+  const [count, handlers] = useCounter(initialCount, { min: 0 });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');

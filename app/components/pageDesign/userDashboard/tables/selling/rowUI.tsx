@@ -20,9 +20,12 @@ export function ActiveAskRow<T extends { id: string | number; askPrice: string }
   );
 
   const [askUpdateModal, askUpdateOpened, askUpdateHandler] = useUpdateAskModal(product);
-  const handleSell = (id: any) => {
-    console.log('Selling Ask with ID:', id);
-    // Add logic to handle sell
+  const handleSell = async (id: any) => {
+    const res = await http.request({
+      url: `/products/${id}/sell`,
+      method: 'POST',
+    });
+    console.log(res, 'res');
   };
 
   switch (cell.column.id) {
@@ -77,9 +80,11 @@ export function ActiveListingRow<T extends { id: string | number; askPrice: stri
   );
 
   const [listingUpdateModal, listingUpdateOpened, listingUpdateHandler] = useUpdateListingModal(product);
-  const handleSell = (id: any) => {
-    console.log('Selling Ask with ID:', id);
-    // Add logic to handle sell
+  const handleSell = async (id: any) => {
+    const res = await http.request({
+      url: `/products/${product?.product_data.id}/sell`,
+      method: 'POST',
+    });
   };
 
   switch (cell.column.id) {
@@ -133,6 +138,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
   const [listingEditModal, listingEditOpened, listingEditHandler] = useUpdateListingModal(product);
 
   const handleSell = async (id: any) => {
+    console.log('object');
     const res = await http.request({
       url: `/products/${id}/sell`,
       method: 'POST',

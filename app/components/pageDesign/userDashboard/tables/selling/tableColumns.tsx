@@ -69,6 +69,12 @@ export function getHeaderColumn<T extends { id: string | number }>(
         header: 'Item Price',
       },
       {
+        id: 'highestOffer',
+        accessorKey: 'highestOffer',
+        footer: () => null,
+        header: 'Highest Offer',
+      },
+      {
         id: 'offerDate',
         accessorKey: 'offerDate',
       },
