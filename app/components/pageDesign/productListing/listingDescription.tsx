@@ -287,7 +287,7 @@ export function ListingDescription({
         </div>
 
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={getTotalPrice() - Number(discount)} />
+        <PositionApart text={'Total Payout'} number={getTotalPrice() - Number(discount)} />
       </div>
 
       {/* <Only when={isNew}> */}

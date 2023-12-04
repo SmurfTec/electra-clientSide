@@ -7,14 +7,11 @@ import { useSelector } from 'react-redux';
 
 export type BiddingSummaryProps = {
   itemPrice?: number;
-  marketPlaceFee: number;
-  salesTax: number;
-  shippingFee: number;
   totalPrice: number;
   disabled?: boolean;
   protectionPlan?: string;
   onClick?: () => void;
-  reciptFee: Array<{ id: number; fees: number; title: string }>;
+  reciptFee: Array<{ id: number; fees: number; title: string, value_type?: string }>;
   expiration: Date;
 };
 
@@ -92,11 +89,21 @@ export function BiddingSummary({
         </Text>
       </Group> */}
 
-      {reciptFee?.map((item, index) => (
+      {/* {reciptFee?.map((item, index) => (
         <PositionApart key={item.id} text={item.title} number={item.fees} />
-      ))}
-      <Only when={!disabled}>
-        <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} />
+      ))} */}
+
+      {reciptFee?.map((item) => {
+        const displayTitle = item.value_type === 'percentage' ? `${item.title} (${item.fees}%)` : item.title;
+        const displayFees =
+          item.value_type === 'percentage' ? (((itemPrice ?? 0) * Number(item.fees)) / 100).toFixed(2) : item.fees;
+        return (
+          <PositionApart key={`${item.id}-${item.title}`} text={displayTitle} number={Number(displayFees)} sign={'+'} />
+        );
+      })}
+      <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
+      <Only when={true}>
+        {/* <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} /> */}
         <PositionApart text={'TOTAL PRICE'} number={Number(totalPrice) - Number(discount)} numberColor={'#3C82D6'} />
       </Only>
       <Only when={!disabled}>

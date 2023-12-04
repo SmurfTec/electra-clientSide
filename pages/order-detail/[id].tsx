@@ -71,15 +71,8 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
               protectionPlan={String(orderDetail?.protection_plan?.name ?? '-')}
               status={String(orderDetail?.status)}
               cardDetails={'Not in Data'}
-              address={
-                profile?.shipping_address_line_1
-                  ? `${profile?.shipping_address_line_1}, ${
-                      profile?.shipping_adress_line_2 ? profile?.shipping_adress_line_2 + ',' : ''
-                    } ${profile?.shipping_city},  ${profile?.shipping_stateorprovince}, ${profile?.shipping_country}, ${
-                      profile?.shipping_postalcode
-                    }`
-                  : '-'
-              }
+              address={profile?.shipping_address_line_1 ? `${profile?.shipping_address_line_1}` : '-'}
+              phone={profile?.mobile_no}
               saleDate={format(new Date(String(orderDetail?.created_on)), 'dd MMM, yyyy')}
               disabled={true}
               trackingId={orderDetail?.trackingid}
@@ -92,11 +85,8 @@ export default function OrderDetail({ orderDetail }: OrderDetailPageProps) {
               expiration={expiration}
               // yourOffer={BiddingSummaryData.yourOffer}
               reciptFee={orderDetail.receipt_fees!}
-              itemPrice={orderDetail?.saleprice}
-              marketPlaceFee={10}
-              salesTax={0}
-              shippingFee={0}
-              totalPrice={0}
+              itemPrice={orderDetail?.receipt.item_price}
+              totalPrice={orderDetail?.receipt.purchase_price}
               disabled={true}
             />
           </div>

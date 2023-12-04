@@ -111,7 +111,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       return;
     }
     const res = await http.request({
-      url: `/products/${productListingById.id}/buy`,
+      url: `/listings/${productListingById.id}/buy`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -239,9 +239,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     title: item.type,
                   }))}
                   itemPrice={Number(productListingById?.ask)}
-                  marketPlaceFee={0}
-                  salesTax={0}
-                  shippingFee={0}
                   totalPrice={getTotalPrice()}
                   protectionPlan={String(plan)}
                   onClick={handleSubmit}

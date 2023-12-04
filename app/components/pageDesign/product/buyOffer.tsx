@@ -78,7 +78,7 @@ export function BuyOfferComponent({
         totalPrice += Number(fee.fees);
       }
     });
-
+    console.log(totalPrice);
     return Number(totalPrice.toFixed(2));
   };
 
@@ -280,9 +280,19 @@ export function BuyOfferComponent({
         <PositionApart text={'Your Offer'} number={Number(lowestAsk)} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          {receiptFee?.map((item, index) => (
-            <PositionApart key={`receipt-${item.id}-${index}`} text={item.title} number={item.fees} />
-          ))}
+          {receiptFee?.map((item) => {
+            const displayTitle = item.value_type === 'percentage' ? `${item.title} (${item.fees}%)` : item.title;
+            const displayFees =
+              item.value_type === 'percentage' ? ((count * Number(item.fees)) / 100).toFixed(2) : item.fees;
+            return (
+              <PositionApart
+                key={`${item.id}-${item.title}`}
+                text={displayTitle}
+                number={Number(displayFees)}
+                sign={'+'}
+              />
+            );
+          })}
           <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />

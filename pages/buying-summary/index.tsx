@@ -191,9 +191,24 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   //   return totalPrice;
   // };
 
-  const getTotalPrice = () => {
-    let totalPrice = 0;
+  // const getTotalPrice = () => {
+  //   let totalPrice = 0;
 
+  //   feeData?.forEach((fee) => {
+  //     if (fee.value_type === 'percentage') {
+  //       totalPrice += (totalPrice * Number(fee.fees)) / 100;
+  //     } else {
+  //       totalPrice += Number(fee.fees);
+  //     }
+  //   });
+
+  //   totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
+  //   console.log(totalPrice);
+  //   return Number(totalPrice.toFixed(2));
+  // };
+
+  const getTotalPrice = () => {
+    let totalPrice = isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
     feeData?.forEach((fee) => {
       if (fee.value_type === 'percentage') {
         totalPrice += (totalPrice * Number(fee.fees)) / 100;
@@ -201,9 +216,6 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
         totalPrice += Number(fee.fees);
       }
     });
-
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
-
     return Number(totalPrice.toFixed(2));
   };
 
@@ -245,11 +257,9 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     id: item.id,
                     fees: Number(item.fees),
                     title: item.type,
+                    value_type: item.value_type,
                   }))}
                   itemPrice={Number(productDetail.product.lowest_ask)}
-                  marketPlaceFee={0}
-                  salesTax={0}
-                  shippingFee={0}
                   totalPrice={getTotalPrice()}
                   protectionPlan={String(plan)}
                   onClick={handleSubmit}

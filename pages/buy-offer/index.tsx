@@ -69,6 +69,7 @@ export default function BuyOffer() {
               id: item.id,
               fees: Number(item.fees),
               title: item.type,
+              value_type: item.value_type,
             }))}
             productVariants={productDetail?.product.product_variants as Variant[]}
             condition={'new'}
