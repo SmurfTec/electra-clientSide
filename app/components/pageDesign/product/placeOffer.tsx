@@ -86,11 +86,10 @@ export function PlaceOfferComponent({
   // }, [productVariants, handleListingVariants]);
   const [hasShownModal, setHasShownModal] = useState(false);
   useEffect(() => {
-    if (count > lowestAsk && !hasShownModal) {
+    if (count > lowestAsk && !hasShownModal && isNew) {
       console.log(infoModalHandler.open());
-      setHasShownModal(true); // Modal show kar diya gaya hai
+      setHasShownModal(true);
     }
-    // Yahan aapka baaki ka logic jaise ke count change hone par kuch aur karna ho, woh likh sakte hain
   }, [count, lowestAsk, hasShownModal, infoModalHandler]);
   return (
     <div>
@@ -220,16 +219,14 @@ export function PlaceOfferComponent({
                     fontWeight: 'bold',
                     fontSize: '24px',
                     color: '#3C82D6',
-                    height: '2.25rem',
+                    border: '2px solid #000',
+                    maxHeight: '36px'
                   },
                 }}
                 className="Expiration-dropdown"
                 data={[
-                  { value: '1', label: '1 Days' }, //'7','14','21','30'
-                  { value: '7', label: '7 Days' },
-                  { value: '14', label: '14 Days' },
-                  { value: '21', label: '21 Days' },
-                  { value: '30', label: '30 Days' },
+                  { value: '3', label: '3 Days' },
+                  { value: '6', label: '6 Days' },
                 ]}
                 value={days}
                 onChange={(value: any) => setdays(value)}
@@ -328,7 +325,7 @@ export function PlaceOfferComponent({
             styles={{ root: { color: 'white', '&:hover': { color: 'white' } } }}
             bg={'black'}
             component={NextLink}
-            disabled={count == 0}
+            disabled={count === 0 || !days}
             href={
               isListing
                 ? `/buying-summary/listing?orderType=placeOffer&bidPrice=${count}&expiration=${days}`
