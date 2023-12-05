@@ -66,6 +66,7 @@ export default function PlaceOffer() {
               id: item.id,
               fees: Number(item.fees),
               title: item.type,
+              value_type: item.value_type,
             }))}
             productVariants={productListingById?.listing.listing_variants as Variant[]}
             condition={'used'}

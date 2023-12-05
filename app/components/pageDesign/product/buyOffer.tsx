@@ -48,7 +48,6 @@ export function BuyOfferComponent({
   const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
   const [showNotification, setshowNotification] = useState(false);
   const router = useRouter();
-  console.log(discount);
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
@@ -275,7 +274,7 @@ export function BuyOfferComponent({
           {receiptFee?.map((item) => {
             const displayTitle = item.value_type === 'percentage' ? `${item.title} (${item.fees}%)` : item.title;
             const displayFees =
-              item.value_type === 'percentage' ? ((count * Number(item.fees)) / 100).toFixed(2) : item.fees;
+              item.value_type === 'percentage' ? ((Number(lowestAsk) * Number(item.fees)) / 100).toFixed(2) : item.fees;
             return (
               <PositionApart
                 key={`${item.id}-${item.title}`}

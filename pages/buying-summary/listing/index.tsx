@@ -185,7 +185,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   // };
 
   const getTotalPrice = () => {
-    let totalPrice = 0;
+    let totalPrice = productListingById?.ask | 0;
 
     feeData?.forEach((fee) => {
       if (fee.value_type === 'percentage') {
@@ -195,7 +195,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
       }
     });
 
-    totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
+    // totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
 
     return Number(totalPrice.toFixed(2));
   };
@@ -237,6 +237,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
                     id: item.id,
                     fees: Number(item.fees),
                     title: item.type,
+                    value_type: item.value_type,
                   }))}
                   itemPrice={Number(productListingById?.ask)}
                   totalPrice={getTotalPrice()}
@@ -265,9 +266,9 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               );
             })}
           </Grid>
-          <div onClick={() => setPlan(0)} className="cursor-pointer">
+          {/* <div onClick={() => setPlan(0)} className="cursor-pointer">
             <SummaryFooter />
-          </div>
+          </div> */}
 
           <Modal
             title={'Product Purchased'}
