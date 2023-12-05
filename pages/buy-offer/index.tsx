@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux';
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-const sourceUrl = req?.headers?.referer || '/';
-return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -76,9 +76,6 @@ export default function BuyOffer() {
             description={productDescription}
             highestAsk={productDetail.product.highest_offer}
             lowestAsk={productDetail.product.lowest_ask}
-            marketPlaceFee={0}
-            saleTax={0}
-            shippingFee={0}
             averageSalePrice={productDetail?.stats?.stats?.avg_sale_price}
           />
         </Grid.Col>

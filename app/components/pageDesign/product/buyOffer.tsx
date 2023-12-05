@@ -15,13 +15,9 @@ import { Dialog } from '@mantine/core';
 type ListingDescriptionProps = {
   condition: 'new' | 'used';
   description: string[];
-
   averageSalePrice?: number;
   lowestAsk: number | null;
   highestAsk: number | null;
-  marketPlaceFee: number;
-  saleTax: number;
-  shippingFee: number;
   productVariants: Variant[];
   receiptFee: Array<{ id: number; fees: number; title: string; value_type?: string }>;
   price?: number;
@@ -38,9 +34,6 @@ export function BuyOfferComponent({
   productVariants,
   lowestAsk,
   highestAsk,
-  marketPlaceFee,
-  saleTax,
-  shippingFee,
   receiptFee,
   price,
   conditionDetails,
@@ -69,7 +62,7 @@ export function BuyOfferComponent({
   };
 
   const getTotalPrice = () => {
-    let totalPrice = count;
+    let totalPrice = price || 0;
 
     receiptFee?.forEach((fee) => {
       if (fee.value_type === 'percentage') {
@@ -78,7 +71,6 @@ export function BuyOfferComponent({
         totalPrice += Number(fee.fees);
       }
     });
-    console.log(totalPrice);
     return Number(totalPrice.toFixed(2));
   };
 

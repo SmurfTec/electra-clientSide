@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux';
 export async function getServerSideProps({ req }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-const sourceUrl = req?.headers?.referer || '/';
-return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -73,9 +73,6 @@ export default function PlaceOffer() {
             highestAsk={productListingById?.listing?.highest_offer}
             lowestAsk={productListingById?.listing?.lowest_ask}
             price={Number(productListingById?.listing?.ask)}
-            marketPlaceFee={0}
-            saleTax={0}
-            shippingFee={0}
             averageSalePrice={Number(productListingById.listing.saleprice)}
             isRepairedBefore={productListingById?.listing.is_repaired_before}
             moreInfo={productListingById?.listing.more_info}
