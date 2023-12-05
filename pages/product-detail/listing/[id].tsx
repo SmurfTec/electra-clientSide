@@ -169,6 +169,12 @@ export default function ProductPage({
     dispatch(loadListingProducts(productListingById.listing.product.id, isAuth));
   }, [productListingById.listing.product.id, isAuth, dispatch]);
 
+  useEffect(() => {
+    dispatch(rehydrateProductListingById({ ...productListingById }));
+  }, [productListingById, dispatch]);
+
+  const id = router.query['id'];
+  const key = Array.isArray(id) ? id[0] : id || 'default-key';
   return (
     <>
       {!matches && (
@@ -176,7 +182,7 @@ export default function ProductPage({
           {items}
         </Breadcrumbs>
       )}
-      <Grid>
+      <Grid key={key}>
         <Grid.Col md={6} mt={matches ? 0 : 40}>
           <Stack align="center" justify="center" className="w-full">
             <div className=" md:w-auto w-screen ">
