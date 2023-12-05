@@ -6,10 +6,9 @@ import { useCounter } from '@mantine/hooks';
 import { NextLink } from '@mantine/next';
 import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Check, Minus, Plus, QuestionMark } from 'tabler-icons-react';
+import { Check, Minus, Plus } from 'tabler-icons-react';
 import { PositionApart } from '../buying-summary';
 import { useRouter } from 'next/router';
-import { Dialog } from '@mantine/core';
 import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
 
 type ListingDescriptionProps = {
@@ -18,9 +17,6 @@ type ListingDescriptionProps = {
   averageSalePrice?: number;
   lowestAsk: number;
   highestAsk: number;
-  marketPlaceFee: number;
-  saleTax: number;
-  shippingFee: number;
   productVariants: Variant[];
   isListing?: boolean;
   receiptFee: Array<{ id: number; fees: number; title: string; value_type?: string }>;
@@ -212,7 +208,7 @@ export function PlaceOfferComponent({
             />
           </Input.Wrapper>
           <Group>
-            <Input.Wrapper label="Offer Expiration" maw={114}>
+            <Input.Wrapper label="Offer Expiration" maw={240}>
               <Select
                 styles={{
                   input: {
@@ -220,7 +216,7 @@ export function PlaceOfferComponent({
                     fontSize: '24px',
                     color: '#3C82D6',
                     border: '2px solid #000',
-                    maxHeight: '36px'
+                    maxHeight: '36px',
                   },
                 }}
                 className="Expiration-dropdown"
@@ -292,9 +288,19 @@ export function PlaceOfferComponent({
         <PositionApart text={'Your Offer'} number={count} />
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
         <div className="space-y-4">
-          {receiptFee?.map((item) => (
-            <PositionApart key={`${item.id}-${item.title}`} text={item.title} number={item.fees} />
-          ))}
+          {receiptFee?.map((item) => {
+            const displayTitle = item.value_type === 'percentage' ? `${item.title} (${item.fees}%)` : item.title;
+            const displayFees =
+              item.value_type === 'percentage' ? ((Number(count) * Number(item.fees)) / 100).toFixed(2) : item.fees;
+            return (
+              <PositionApart
+                key={`${item.id}-${item.title}`}
+                text={displayTitle}
+                number={Number(displayFees)}
+                sign={'+'}
+              />
+            );
+          })}
 
           <PositionApart text={'Discount'} number={Number(discount)} discount />
         </div>

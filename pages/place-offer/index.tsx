@@ -11,8 +11,8 @@ import { useSelector } from 'react-redux';
 export async function getServerSideProps({ req, query }: NextPageContext) {
   const isAuth = await isAuthenticated(req);
   if (!isAuth) {
-const sourceUrl = req?.headers?.referer || '/';
-return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
+    const sourceUrl = req?.headers?.referer || '/';
+    return { redirect: { permanent: false, destination: `/auth/login?source=${encodeURIComponent(sourceUrl)}` } };
   }
   return { props: {} };
 }
@@ -49,15 +49,12 @@ export default function PlaceOffer() {
             description={productDescription}
             highestAsk={Number(productDetail?.product?.highest_offer)}
             lowestAsk={Number(productDetail?.product?.lowest_ask)}
-            marketPlaceFee={0}
             receiptFee={feeData?.map((item) => ({
               id: item.id,
               fees: Number(item.fees),
               title: item.type,
+              value_type: item.value_type,
             }))}
-            saleTax={0}
-            shippingFee={0}
-            averageSalePrice={0}
           />
         </Grid.Col>
       </Grid>

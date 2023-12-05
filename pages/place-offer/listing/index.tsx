@@ -74,6 +74,7 @@ console.log(productListingById);
               id: item.id,
               fees: Number(item.fees),
               title: item.type,
+              value_type: item.value_type,
             }))}
             isListing={true}
             productVariants={productListingById.listing_variants}
@@ -81,9 +82,6 @@ console.log(productListingById);
             description={ListingDescriptionData.description}
             highestAsk={Number(productListingById.highest_offer)}
             lowestAsk={Number(productListingById.lowest_offer)}
-            marketPlaceFee={0}
-            saleTax={0}
-            shippingFee={0}
             averageSalePrice={0}
           />
         </Grid.Col>

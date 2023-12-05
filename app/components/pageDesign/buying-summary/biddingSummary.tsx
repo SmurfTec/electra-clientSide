@@ -96,7 +96,9 @@ export function BiddingSummary({
       {reciptFee?.map((item) => {
         const displayTitle = item.value_type === 'percentage' ? `${item.title} (${item.fees}%)` : item.title;
         const displayFees =
-          item.value_type === 'percentage' ? (((itemPrice ?? 0) * Number(item.fees)) / 100).toFixed(2) : item.fees;
+          item.value_type === 'percentage'
+            ? ((((isOfferType ? Number(yourOffer) : itemPrice) ?? 0) * Number(item.fees)) / 100).toFixed(2)
+            : item.fees;
         return (
           <PositionApart key={`${item.id}-${item.title}`} text={displayTitle} number={Number(displayFees)} sign={'+'} />
         );
