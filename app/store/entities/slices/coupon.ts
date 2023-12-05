@@ -35,6 +35,9 @@ const slice = createSlice({
     },
 
     couponFailed: (state) => {
+      state.list.coupon = null;
+      state.list.discount = null;
+
       state.loading = false;
     },
 

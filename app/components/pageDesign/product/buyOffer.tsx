@@ -48,7 +48,7 @@ export function BuyOfferComponent({
   const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
   const [showNotification, setshowNotification] = useState(false);
   const router = useRouter();
-
+  console.log(discount);
   const handleListingVariants = (id: number, value: string) => {
     const listingVariants = listItemPost?.listingVariants ?? [];
     const index = listingVariants?.findIndex((item) => item.id === id);
