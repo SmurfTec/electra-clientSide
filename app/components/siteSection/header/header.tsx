@@ -182,6 +182,10 @@ export const Header = () => {
                         wishlist
                       </Menu.Item>
                       <Menu.Divider />
+                      <Menu.Item component={NextLink} className="uppercase" href={'/userdashboard?tab=wallet'}>
+                        Wallet
+                      </Menu.Item>
+                      <Menu.Divider />
                       <Menu.Item component={NextLink} className="uppercase" href={'/userdashboard?tab=settings'}>
                         settings
                       </Menu.Item>

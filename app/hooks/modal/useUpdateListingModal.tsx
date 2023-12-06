@@ -1,5 +1,6 @@
 import { ItemCard } from '@elektra/components';
 import { HttpStatusCode, baseURL, http } from '@elektra/customComponents';
+import { AppDispatch, loadOrderSellingListings, useDispatch } from '@elektra/store';
 import { ActionIcon, Button, Center, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
@@ -11,7 +12,7 @@ export const useUpdateListingModal = (
   const [opened, { open, close }] = useDisclosure(false);
   const initialCount = productDetailData?.ask || 0;
   const [count, handlers] = useCounter(initialCount, { min: 0 });
-
+  const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -31,13 +32,15 @@ export const useUpdateListingModal = (
       });
 
       if (response.status === 200) {
-        setSuccessMessage('Ask successfully updated');
+        setSuccessMessage('Listing successfully updated');
+        await dispatch(loadOrderSellingListings());
+        close();
       } else {
-        setError('Error updating ask');
+        setError('Error updating listing');
       }
       setIsLoading(false);
     } catch (error) {
-      setError('Failed to update ask');
+      setError('Failed to update listing');
     }
   };
   const imageUrl = productDetailData?.images?.[0]?.url || 'defaultImageUrl';
@@ -57,7 +60,7 @@ export const useUpdateListingModal = (
         />
         <Divider variant="dashed" />
       </div>
-      <Text className="text-sm font-medium mt-5">Enter your new ask value:</Text>
+      <Text className="text-sm font-medium mt-5">Enter your new listing value:</Text>
       <Group
         position="center"
         spacing={0}

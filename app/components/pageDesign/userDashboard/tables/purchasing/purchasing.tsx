@@ -29,6 +29,7 @@ export function Purchasing() {
   const { purchasingActiveOrders, purchasingCompletedOrders, purchasingPendingOrders } = useSelector(
     (state: RootState) => state.entities.purchasingOrders.list
   );
+
   const activeTileData: SimpleStatCardProps[] = [
     {
       title: 'Active Offers',
@@ -70,29 +71,55 @@ export function Purchasing() {
       type: 'N/A',
     },
   ];
-  const PurchasingActiveOrdersData = purchasingActiveOrders.bids.map((order) => ({
-    id: order?.id,
-    itemName: order?.product?.title ?? '-',
-    highestOffer: `$${order?.highest_offer ?? 0}`,
-    lowestOffer: `$${order?.lowest_ask ?? 0}`,
-    myOffer: `$${order?.my_offer ?? 0}`,
-    offerDate: format(new Date(order?.offer_date), 'dd MMM, yyyy'),
-  }));
-  const PurchasingPendingOrdersData = purchasingPendingOrders.orders.map((order) => ({
-    id: order?.id,
-    itemName: order?.product?.title ?? '-',
-    purchasePrice: order?.saleprice,
-    trackingNo: order?.trackingid,
-    orderStatus: order?.status,
-    offerDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
-  }));
-  const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order) => ({
-    id: order?.id,
-    itemName: order?.product?.title ?? '-',
-    purchaseDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
-    coveragePlan: order?.protection_plan?.name ?? '-',
-    orderNo: order?.trackingid,
-  }));
+  const PurchasingActiveOrdersData = purchasingActiveOrders.bids
+    .filter((order) => order.is_active) // This line filters out orders that are not active
+    .map((order) => ({
+      id: order?.id,
+      itemName: order?.product?.title ?? '-',
+      highestOffer: `$${order?.highest_offer ?? 0}`,
+      lowestOffer: `$${order?.lowest_ask ?? 0}`,
+      myOffer: `$${order?.my_offer ?? 0}`,
+      offerDate: format(new Date(order?.offer_date), 'dd MMM, yyyy'),
+    }));
+
+  // const PurchasingPendingOrdersData = purchasingPendingOrders.orders.map((order) => ({
+  //   id: order?.id,
+  //   itemName: order?.product?.title ?? '-',
+  //   purchasePrice: order?.saleprice,
+  //   trackingNo: order?.trackingid,
+  //   orderStatus: order?.status,
+  //   offerDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+  // }));
+
+  const PurchasingPendingOrdersData = purchasingPendingOrders.orders
+    .filter((order) => order.status === 'waiting-for-seller') // Filter orders where the status is 'waiting-for-seller'
+    .map((order) => ({
+      id: order?.id,
+      itemName: order?.product?.title ?? '-',
+      purchasePrice: order?.saleprice,
+      trackingNo: order?.trackingid,
+      orderStatus: 'pending', // Set status to 'pending' for all filtered orders
+      offerDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+    }));
+
+  // const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders.map((order) => ({
+  //   id: order?.id,
+  //   itemName: order?.product?.title ?? '-',
+  //   purchaseDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+  //   coveragePlan: order?.protection_plan?.name ?? '-',
+  //   orderNo: order?.trackingid,
+  // }));
+
+  const PurchasingCompletedOrdersData = purchasingCompletedOrders.orders
+    .filter((order) => order.status === 'completed') // Replace with the actual condition for a completed order
+    .map((order) => ({
+      id: order?.id,
+      itemName: order?.product?.title ?? '-',
+      purchaseDate: format(new Date(String(order?.created_on)), 'dd MMM, yyyy'),
+      coveragePlan: order?.protection_plan?.name ?? '-',
+      orderNo: order?.trackingid,
+    }));
+
   const tableData: tableDataType = {
     active: {
       columns: getHeaderColumn('active'),

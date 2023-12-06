@@ -12,7 +12,7 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
   const [offerModal, offerOpened, offerHandler] = useRedeemSuccesfullModal();
   const [failModal, failOpened, failHandler] = useRedeemUnSuccesfullModal();
   const [count, handlers] = useCounter(profile?.coins, { min: 0 });
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (coins: number) => {
     const res = await http.request({
@@ -25,11 +25,14 @@ export const useRedeemInputModal = (): [React.ReactNode, number, boolean, { open
 
     if (res.isError) {
       failHandler.open();
+      close();
       return;
     }
-    
+
+    close();
     offerHandler.open();
-    dispatch(updateUserProfile(Number(profile?.id)))
+
+    dispatch(updateUserProfile(Number(profile?.id)));
     return;
   };
 

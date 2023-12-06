@@ -1,5 +1,6 @@
 import { ItemCard } from '@elektra/components';
 import { HttpStatusCode, baseURL, http } from '@elektra/customComponents';
+import { AppDispatch, loadOrderSellingListings, useDispatch } from '@elektra/store';
 import { ActionIcon, Button, Center, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
@@ -14,6 +15,7 @@ export const useUpdateAskModal = (
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const dispatch: AppDispatch = useDispatch();
   const updateAsk = async (newPrice: number) => {
     setIsLoading(true);
     setError('');
@@ -30,6 +32,9 @@ export const useUpdateAskModal = (
       });
       if (response.status === 200) {
         setSuccessMessage('Ask successfully updated');
+        setSuccessMessage('Listing successfully updated');
+        await dispatch(loadOrderSellingListings());
+        close();
       } else {
         setError('Error updating ask');
       }

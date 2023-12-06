@@ -281,9 +281,9 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
               );
             })}
           </Grid>
-          <div onClick={() => setPlan(0)} className="cursor-pointer">
+          {/* <div onClick={() => setPlan(0)} className="cursor-pointer">
             <SummaryFooter />
-          </div>
+          </div> */}
 
           <Modal
             title={isOfferType ? 'Offer Placed' : 'Product Purchased'}

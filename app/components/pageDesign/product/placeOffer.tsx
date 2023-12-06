@@ -252,6 +252,28 @@ export function PlaceOfferComponent({
               disabled
             />
           </Input.Wrapper>
+          <Group>
+            <Input.Wrapper label="Offer Expiration">
+              <Select
+                styles={{
+                  input: {
+                    fontWeight: 'bold',
+                    fontSize: '24px',
+                    color: '#3C82D6',
+                    border: '2px solid #000',
+                    maxHeight: '36px',
+                  },
+                }}
+                className="Expiration-dropdown"
+                data={[
+                  { value: '3', label: '3 Days' },
+                  { value: '6', label: '6 Days' },
+                ]}
+                value={days}
+                onChange={(value: any) => setdays(value)}
+              />
+            </Input.Wrapper>
+          </Group>
         </Only>
       </Group>
 

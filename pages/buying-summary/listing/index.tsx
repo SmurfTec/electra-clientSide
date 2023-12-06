@@ -271,7 +271,7 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
           </div> */}
 
           <Modal
-            title={'Product Purchased'}
+            title={'Offer Placed'}
             children={OfferPlaceModal}
             onClose={offerPlaceHandler.close}
             open={offerPlaceOpened}
