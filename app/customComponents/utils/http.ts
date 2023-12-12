@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, HttpStatusCode, Method } from 'axios';
 import { getCookie } from 'cookies-next';
 
-export const baseURL = 'http://ec2-18-191-157-113.us-east-2.compute.amazonaws.com:3010';
+export const baseURL = 'http://ec2-3-137-170-245.us-east-2.compute.amazonaws.com:3010';
 const httpRequest = axios.create({
   withCredentials: true,
   baseURL,
