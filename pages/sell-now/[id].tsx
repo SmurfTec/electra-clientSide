@@ -73,6 +73,27 @@ export default function SellNowPage() {
 
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
 
+  const [sellSuccessModal, sellSuccessModalOpened, sellSuccessModalHandler] = useInfoModal({
+    title: 'Success!',
+    description: 'You have successfully sold the item, go to your Dashboard',
+    actions: (
+      <Button
+        onClick={() => router.push('/userdashboard?tab=selling&subtab=pending')}
+        size={'lg'}
+        variant="outline"
+        className="w-1/3 mt-2 text-sm font-medium"
+        styles={{
+          root: {
+            padding: 'unset',
+            borderRadius: '35px',
+            border: '1px solid',
+          },
+        }}
+      >
+        Go to Dashboard
+      </Button>
+    ),
+  });
   // const getTotalPrice = () => {
   //   let totalPrice = 0;
   //   feeData?.map((fee) => {
@@ -82,17 +103,33 @@ export default function SellNowPage() {
   //   return totalPrice;
   // };
 
-  const getTotalPrice = () => {
-    let totalPrice = 0;
+  // const getTotalPrice = () => {
+  //   let totalPrice = 0;
 
-    feeData?.forEach((fee) => {
+  //   feeData?.forEach((fee) => {
+  //     if (fee.value_type === 'percentage') {
+  //       totalPrice -= (totalPrice * Number(fee.fees)) / 100;
+  //     } else {
+  //       totalPrice -= Number(fee.fees);
+  //     }
+  //   });
+
+  //   return Number(totalPrice.toFixed(2));
+  // };
+
+  const getTotalPrice = () => {
+    let percentageDeduction = 0;
+    let fixedValueDeduction = 0;
+
+    feeData.forEach((fee) => {
       if (fee.value_type === 'percentage') {
-        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+        percentageDeduction += (count * Number(fee.fees)) / 100;
       } else {
-        totalPrice += Number(fee.fees);
+        fixedValueDeduction += Number(fee.fees);
       }
     });
 
+    let totalPrice = count - percentageDeduction - fixedValueDeduction;
     return Number(totalPrice.toFixed(2));
   };
 
@@ -121,7 +158,8 @@ export default function SellNowPage() {
       });
       setLoading(false);
       if (!res.isError) {
-        router.push(`/userdashboard?tab=selling`);
+        sellSuccessModalHandler.open();
+        // router.push(`/userdashboard?tab=selling`);
       }
     } catch (err) {
       setLoading(false);
@@ -150,7 +188,7 @@ export default function SellNowPage() {
           // open={true}
         />
         <div className="my-10">
-          <PageTitle title="Listing Item" />
+          <PageTitle title="Selling" />
         </div>
         <Grid className="my-10">
           <Grid.Col md={5}>
@@ -283,9 +321,24 @@ export default function SellNowPage() {
             </Group>
             <div className="my-8">
               <div className="space-y-4">
-                {feeData?.map((item: any) => (
+                {/* {feeData?.map((item: any) => (
                   <PositionApart key={`${item.id}-${item.title}`} text={item.type} number={item.fees} />
-                ))}
+                ))} */}
+                {feeData?.map((item: any) => {
+                  const displayTitle = item.value_type === 'percentage' ? `${item.type} (${item.fees}%)` : item.type;
+                  const displayFees =
+                    item.value_type === 'percentage'
+                      ? ((Number(count) * Number(item.fees)) / 100).toFixed(2)
+                      : item.fees;
+                  return (
+                    <PositionApart
+                      key={`${item.id}-${item.title}`}
+                      text={displayTitle}
+                      number={Number(displayFees)}
+                      sign={'-'}
+                    />
+                  );
+                })}
               </div>
             </div>
 
@@ -346,6 +399,7 @@ export default function SellNowPage() {
           // open={true}
         />
       </Container>
+      <Modal children={sellSuccessModal} onClose={sellSuccessModalHandler.close} open={sellSuccessModalOpened} />
     </ListItemPostContext.Provider>
   );
 }

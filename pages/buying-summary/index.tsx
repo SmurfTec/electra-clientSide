@@ -208,14 +208,21 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   // };
 
   const getTotalPrice = () => {
-    let totalPrice = isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
+    let originalTotalPrice = isOfferType ? Number(yourOffer) : Number(productDetail?.product?.lowest_ask);
+    let percentageIncrease = 0;
+    let fixedValueIncrease = 0;
+
+    // Calculate the total percentage and fixed value increases
     feeData?.forEach((fee) => {
       if (fee.value_type === 'percentage') {
-        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+        percentageIncrease += (originalTotalPrice * Number(fee.fees)) / 100;
       } else {
-        totalPrice += Number(fee.fees);
+        fixedValueIncrease += Number(fee.fees);
       }
     });
+
+    // Apply the increases to the original total price
+    let totalPrice = originalTotalPrice + percentageIncrease + fixedValueIncrease;
     return Number(totalPrice.toFixed(2));
   };
 

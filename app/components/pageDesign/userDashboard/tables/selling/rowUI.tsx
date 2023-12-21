@@ -8,6 +8,10 @@ import { RootState } from '@elektra/store';
 
 import { useUpdateAskModal } from '@elektra/hooks/modal/useUpdateAskModal';
 import { useUpdateListingModal } from '@elektra/hooks/modal/useUpdateListingModal';
+import { useConfirmationModal } from '@elektra/hooks/modal/useConfirmationModal';
+import { useState } from 'react';
+import { useInfoModal } from '@elektra/hooks/modal/useInfoModal';
+import { useRouter } from 'next/router';
 
 export function ActiveAskRow<T extends { id: string | number; askPrice: string }>({
   row,
@@ -19,13 +23,43 @@ export function ActiveAskRow<T extends { id: string | number; askPrice: string }
     }
   );
 
-  const [askUpdateModal, askUpdateOpened, askUpdateHandler] = useUpdateAskModal(product);
-  const handleSell = async (id: any) => {
-    const res = await http.request({
-      url: `/products/${id}/sell`,
-      method: 'POST',
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const [confirmationModal, isConfirmationModalOpen, { open: openConfirmationModal, close: closeConfirmationModal }] =
+    useConfirmationModal({
+      highestOffer: product?.highest_bid,
+      onConfirm: () => handleSell(row.original.id),
+      onCancel: () => closeConfirmationModal(),
+      isLoading,
+      error,
     });
-    console.log(res, 'res');
+
+  const handleSellNowClick = () => {
+    openConfirmationModal();
+  };
+
+  const [askUpdateModal, askUpdateOpened, askUpdateHandler] = useUpdateAskModal(product);
+
+  const handleSell = async (id: any) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const res = await http.request({
+        url: `/products/${id}/sell`,
+        method: 'POST',
+      });
+
+      if (res.status !== 200) {
+        setError(res?.errorPayload?.message);
+        return;
+      }
+      closeConfirmationModal();
+    } catch (err) {
+      setError('An error occurred while selling the product.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   switch (cell.column.id) {
@@ -43,12 +77,22 @@ export function ActiveAskRow<T extends { id: string | number; askPrice: string }
                 },
               }}
               radius="xl"
-              component={NextLink}
-              onClick={() => handleSell(row.original.id)}
-              href={`/userdashboard?tab=purchasing`}
+              // component={NextLink}
+              // onClick={() => handleSell(row.original.id)}
+              // href={``}
+              // href={`/userdashboard?tab=purchasing`}
+              onClick={handleSellNowClick}
+              loading={isLoading}
             >
               Sell Now
             </Button>
+            <Modal
+              title="Confirm Sale"
+              size={500}
+              children={confirmationModal}
+              onClose={closeConfirmationModal}
+              open={isConfirmationModalOpen}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
             <Modal
@@ -79,12 +123,73 @@ export function ActiveListingRow<T extends { id: string | number; askPrice: stri
     }
   );
 
-  const [listingUpdateModal, listingUpdateOpened, listingUpdateHandler] = useUpdateListingModal(product);
-  const handleSell = async (id: any) => {
-    const res = await http.request({
-      url: `/products/${product?.product_data.id}/sell`,
-      method: 'POST',
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const [confirmationModal, isConfirmationModalOpen, { open: openConfirmationModal, close: closeConfirmationModal }] =
+    useConfirmationModal({
+      highestOffer: product?.highest_offer,
+      onConfirm: () => handleSell(row.original.id),
+      onCancel: () => closeConfirmationModal(),
+      isLoading,
+      error,
     });
+
+  const handleSellNowClick = () => {
+    openConfirmationModal();
+  };
+
+  const [listingUpdateModal, listingUpdateOpened, listingUpdateHandler] = useUpdateListingModal(product);
+  // const handleSell = async (id: any) => {
+  //   const res = await http.request({
+  //     url: `/products/${product?.product_data.id}/sell`,
+  //     method: 'POST',
+  //   });
+  // };
+
+  const router = useRouter();
+  const [sellSuccessModal, sellSuccessModalOpened, sellSuccessModalHandler] = useInfoModal({
+    title: 'Success!',
+    description: 'You have successfully sold the item, go to your Dashboard',
+    actions: (
+      <Button
+        onClick={() => router.push('/userdashboard?tab=selling&subtab=pending')}
+        size={'lg'}
+        variant="outline"
+        className="w-1/3 mt-2 text-sm font-medium"
+        styles={{
+          root: {
+            padding: 'unset',
+            borderRadius: '35px',
+            border: '1px solid',
+          },
+        }}
+      >
+        Go to Dashboard
+      </Button>
+    ),
+  });
+
+  const handleSell = async (id: any) => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const res = await http.request({
+        url: `/products/${product?.product_data.id}/sell`,
+        method: 'POST',
+      });
+
+      if (res.status !== 200) {
+        setError(res?.errorPayload?.message);
+        return;
+      }
+      closeConfirmationModal();
+      sellSuccessModalHandler.open();
+    } catch (err) {
+      setError('An error occurred while selling the product.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   switch (cell.column.id) {
@@ -102,12 +207,20 @@ export function ActiveListingRow<T extends { id: string | number; askPrice: stri
                 },
               }}
               radius="xl"
-              component={NextLink}
-              onClick={() => handleSell(row.original.id)}
-              href={`/userdashboard?tab=purchasing`}
+              // component={NextLink}
+              // onClick={() => handleSell(row.original.id)}
+              // href={`/userdashboard?tab=purchasing`}
+              onClick={handleSellNowClick}
             >
               Sell Now
             </Button>
+            <Modal
+              title="Confirm Sale"
+              size={500}
+              children={confirmationModal}
+              onClose={closeConfirmationModal}
+              open={isConfirmationModalOpen}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
             <Modal
@@ -121,6 +234,7 @@ export function ActiveListingRow<T extends { id: string | number; askPrice: stri
               <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
             </ActionIcon>
           </Grid.Col>
+          <Modal children={sellSuccessModal} onClose={sellSuccessModalHandler.close} open={sellSuccessModalOpened} />
         </Grid>
       );
     default:

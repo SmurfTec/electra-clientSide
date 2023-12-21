@@ -106,7 +106,6 @@ export default function ProductPage({
   // const listingProducts = useSelector((state: RootState) => state.entities?.productListing?.list);
   const graphData = productDetail?.stats?.trade_range;
   const productFilters = productVariants?.variants;
-
   const router = useRouter();
 
   const [activePage, setPage] = useState(1);
@@ -304,25 +303,25 @@ export default function ProductPage({
         <section className="mt-8 md:mt-20">
           <SectionTitle title="Recommended For You" label="View All" link="?data=recommended" />
           {/* <ScrollArea h={380} type="scroll" scrollbarSize={5}> */}
-            <Center className="space-x-8 md:space-x-16">
-              {recommended?.products?.slice(0, 5).map((product, index) => {
-                return (
-                  <div key={index} className="min-w-[15%]">
-                    <ProductCard
-                      id={product.id}
-                      image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
-                      description={'9/10 condition with charger and box'}
-                      title={product.title}
-                      condition={product.condition}
-                      wishlist={false}
-                      lowestPrice={Number(product.lowest_price)}
-                      highestPrice={Number(product?.highest_offer)}
-                      price={Number(product?.user_starting_price)}
-                    />
-                  </div>
-                );
-              })}
-            </Center>
+          <Center className="space-x-8 md:space-x-16">
+            {recommended?.products?.slice(0, 5).map((product, index) => {
+              return (
+                <div key={index} className="min-w-[15%]">
+                  <ProductCard
+                    id={product.id}
+                    image={baseURL + '/' + (product?.images?.[0]?.filename || '')}
+                    description={'9/10 condition with charger and box'}
+                    title={product.title}
+                    condition={product.condition}
+                    wishlist={false}
+                    lowestPrice={Number(product.lowest_price)}
+                    highestPrice={Number(product?.highest_offer)}
+                    price={Number(product?.user_starting_price)}
+                  />
+                </div>
+              );
+            })}
+          </Center>
           {/* </ScrollArea> */}
         </section>
       </Only>

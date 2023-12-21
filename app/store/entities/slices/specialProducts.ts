@@ -14,7 +14,8 @@ const mostSoldProtectedURL = '/products/protected/sold';
 const recommendedURL = '/products/recommended';
 const recommendedProtectedURL = '/products/recommended/protected';
 
-const shopProducts = '/products';
+const shopProducts = '/products?is_active=true';
+// const shopProducts = '/products';
 const shopProtectedProducts = '/products/protected';
 
 type ProductData = {
@@ -71,7 +72,6 @@ const slice = createSlice({
     },
 
     shopProductsReceived: (state, action) => {
-      console.log(action.payload);
       state.list.shopProducts = action.payload;
       state.loading = false;
     },
@@ -188,7 +188,6 @@ export const fetchShopProducts =
   (isAuth: boolean, param: string = '') =>
   async (dispatch: AppDispatch) => {
     const finalUrl = isAuth ? shopProtectedProducts : shopProducts;
-    console.log(finalUrl + `${param}`);
     return await dispatch(
       apiRequest({
         url: finalUrl + `${param}`,

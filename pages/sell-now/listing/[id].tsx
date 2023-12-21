@@ -1,4 +1,4 @@
-import { PageTitle, ProductCarousel } from '@elektra/components';
+import { PageTitle, PositionApart, ProductCarousel } from '@elektra/components';
 import { ListItemPostContext, Only, baseURL, useStylesforGlobal } from '@elektra/customComponents';
 import { initStore, loadProductData } from '@elektra/store';
 import { ListItemPost, ProductData } from '@elektra/types';
@@ -68,12 +68,29 @@ export default function SellNowPage() {
     setbillingaddress(userData?.billing_address_line_1 || '');
     setphone(userData?.mobile_no || '');
   }, [userData]);
+  const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
+
+  const getTotalPrice = () => {
+    let percentageDeduction = 0;
+    let fixedValueDeduction = 0;
+
+    feeData.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        percentageDeduction += (count * Number(fee.fees)) / 100;
+      } else {
+        fixedValueDeduction += Number(fee.fees);
+      }
+    });
+
+    let totalPrice = count - percentageDeduction - fixedValueDeduction;
+    return Number(totalPrice.toFixed(2));
+  };
 
   return (
     <ListItemPostContext.Provider value={{ listItemPost, setListItemPost }}>
       <Container fluid>
         <div className="my-10">
-          <PageTitle title="Listing Item" />
+          <PageTitle title="Selling" />
         </div>
         <Grid className="my-10">
           <Grid.Col md={5}>
@@ -201,9 +218,33 @@ export default function SellNowPage() {
                 }}
               />
             </Group>
+
+            <div className="my-8">
+              <div className="space-y-4">
+                {/* {feeData?.map((item: any) => (
+                  <PositionApart key={`${item.id}-${item.title}`} text={item.type} number={item.fees} />
+                ))} */}
+                {feeData?.map((item: any) => {
+                  const displayTitle = item.value_type === 'percentage' ? `${item.type} (${item.fees}%)` : item.type;
+                  const displayFees =
+                    item.value_type === 'percentage'
+                      ? ((Number(count) * Number(item.fees)) / 100).toFixed(2)
+                      : item.fees;
+                  return (
+                    <PositionApart
+                      key={`${item.id}-${item.title}`}
+                      text={displayTitle}
+                      number={Number(displayFees)}
+                      sign={'-'}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="w-full mt-[20px] flex justify-between items-center text-[16px] px-[10px] py-[15px] bg-[#F1F1F1]">
               <p>Total Payout</p>
-              <p className="font-bold">${count - 23 > 0 ? count - 23 : 0}</p>
+              <p className="font-bold">${getTotalPrice()}</p>
             </div>
             <div className="flex items-center gap-3 mt-[20px]">
               <Button

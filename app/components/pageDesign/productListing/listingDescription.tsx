@@ -112,17 +112,22 @@ export function ListingDescription({
     }
   };
 
-  const getTotalPrice = () => {
-    let totalPrice = count;
+  // const getTotalPrice = () => {
+  //   let totalPrice = count;
 
-    receiptFee?.forEach((fee) => {
+  const getTotalPrice = () => {
+    let percentageDeduction = 0;
+    let fixedValueDeduction = 0;
+
+    receiptFee.forEach((fee) => {
       if (fee.value_type === 'percentage') {
-        totalPrice -= (totalPrice * Number(fee.fees)) / 100;
+        percentageDeduction += (count * Number(fee.fees)) / 100;
       } else {
-        totalPrice -= Number(fee.fees);
+        fixedValueDeduction += Number(fee.fees);
       }
     });
 
+    let totalPrice = count - percentageDeduction - fixedValueDeduction;
     return Number(totalPrice.toFixed(2));
   };
 

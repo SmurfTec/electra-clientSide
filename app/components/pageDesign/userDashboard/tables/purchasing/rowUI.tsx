@@ -11,13 +11,14 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
   const product = useSelector(
     (state: RootState) => state.entities.purchasingOrders.list.purchasingActiveOrders.bids
   ).find((item) => item.id === row.original.id);
-  // const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
+
+  const [OfferEditModal, offerEditOpened, offerEditHandler] = useOfferEditModal(product);
 
   switch (props.cell.column.id) {
     case 'action':
       return (
         <div>
-          {/* <Modal
+          <Modal
             title="Edit Offer"
             size={500}
             children={OfferEditModal}
@@ -26,7 +27,7 @@ export function ActiveSimpleRow<T extends { id: string | number }>(props: CellCo
           />
           <ActionIcon onClick={offerEditHandler.open}>
             <Pencil color="white" fill="black" size="1rem" strokeWidth={1} />
-          </ActionIcon> */}
+          </ActionIcon>
         </div>
       );
     default:

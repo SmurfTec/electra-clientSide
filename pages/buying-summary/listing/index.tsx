@@ -185,16 +185,23 @@ export default function BuyingSummary({ protectionPlanData }: BuyingSummaryPageP
   // };
 
   const getTotalPrice = () => {
-    let totalPrice = productListingById?.ask | 0;
+    let originalTotalPrice = productListingById?.ask | 0;
+    let percentageIncrease = 0;
+    let fixedValueIncrease = 0;
 
+    // Calculate the total percentage and fixed value increases
     feeData?.forEach((fee) => {
       if (fee.value_type === 'percentage') {
-        totalPrice += (totalPrice * Number(fee.fees)) / 100;
+        percentageIncrease += (originalTotalPrice * Number(fee.fees)) / 100;
       } else {
-        totalPrice += Number(fee.fees);
+        fixedValueIncrease += Number(fee.fees);
       }
     });
 
+    // Apply the increases to the original total price
+    let totalPrice = originalTotalPrice + percentageIncrease + fixedValueIncrease;
+
+    // Uncomment and adjust the following line if needed
     // totalPrice += isOfferType ? Number(yourOffer) : Number(productListingById?.ask);
 
     return Number(totalPrice.toFixed(2));

@@ -4,11 +4,12 @@ import { RootState, useSelector } from '@elektra/store';
 import { ActionIcon, Button, Center, Group, Text } from '@mantine/core';
 import { NextLink } from '@mantine/next';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowDown, Plus } from 'tabler-icons-react';
 import { TableHeaderBar } from '../comman';
 import { ActiveAskRow, ActiveListingRow, ActiveSimpleRow, CompletedSimpleRow, PendingSimpleRow } from './rowUI';
 import { getHeaderColumn } from './tableColumns';
+import { useRouter } from 'next/router';
 
 export function Selling() {
   const intialLimit = 4;
@@ -18,7 +19,16 @@ export function Selling() {
   const [searchDate, setSearchDate] = useState<string>('');
   const [selectedRows, setSelectedRows] = useState({});
   const [limit, setLimit] = useState(intialLimit);
-
+  
+  const router = useRouter();
+  const subtab: any = router.query.subtab;
+  
+  useEffect(() => {
+    if (subtab) {
+      setValue(subtab);
+    }
+  }, [subtab]);
+  
   const { sellingActiveOrders, sellingCompletedOrders, sellingPendingOrders, sellingAsks, sellingListings } =
     useSelector((state: RootState) => state.entities.sellingOrders.list);
 
@@ -89,6 +99,7 @@ export function Selling() {
     highestOffer: `$${order?.highest_bid || 0}`,
     lowestOffer: `$${order?.lowest_ask}`,
   }));
+  console.log(sellingAsks);
 
   const SellingMyAsksData = sellingAsks.asks.map((ask) => ({
     id: ask?.id,

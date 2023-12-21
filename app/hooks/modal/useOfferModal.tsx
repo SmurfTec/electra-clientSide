@@ -168,11 +168,12 @@ export const useOfferPlaceModal = (
 };
 
 export const useOfferEditModal = (
-  productDetailData: OfferModalProductProps
+  productDetailData: any
 ): [React.ReactNode, boolean, { open: () => void; close: () => void }] => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [OfferPlaceModal, offerPlaceOpened, offerPlaceHandler] = useOfferPlaceModal(productDetailData);
+
   const [count, handlers] = useCounter(0, { min: 0 });
   const Modal = (
     <Stack align="center" justify="center" px={10} spacing={0} className="mt-4">
@@ -181,7 +182,7 @@ export const useOfferEditModal = (
           <ItemCard
             // color={productDetailData.color}
             // company={productDetailData.company}
-            image={productDetailData?.image}
+            image={productDetailData.product?.attachments?.[0]?.url || 'pathToYourDefaultImage.jpg'}
             productVariants={[]}
             // space={productDetailData.space}
             title={productDetailData?.title}

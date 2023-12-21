@@ -33,8 +33,8 @@ export function getHeaderColumn() {
       header: 'Color',
     },
     {
-      id: 'lowest-offer',
-      accessorKey: 'lowest_offer',
+      id: 'lowestOffer',
+      accessorKey: 'lowestOffer',
       footer: () => null,
       header: 'Lowest Offer',
     },

@@ -1,6 +1,6 @@
 import { ItemCard } from '@elektra/components';
 import { HttpStatusCode, baseURL, http } from '@elektra/customComponents';
-import { AppDispatch, loadOrderSellingListings, useDispatch } from '@elektra/store';
+import { AppDispatch, loadOrderSellingAsks, loadOrderSellingListings, useDispatch } from '@elektra/store';
 import { ActionIcon, Button, Center, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { useCounter, useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
@@ -33,7 +33,7 @@ export const useUpdateAskModal = (
       if (response.status === 200) {
         setSuccessMessage('Ask successfully updated');
         setSuccessMessage('Listing successfully updated');
-        await dispatch(loadOrderSellingListings());
+        await dispatch(loadOrderSellingAsks());
         close();
       } else {
         setError('Error updating ask');

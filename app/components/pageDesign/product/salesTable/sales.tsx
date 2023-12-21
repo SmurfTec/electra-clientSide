@@ -522,6 +522,7 @@ type SalesTableProps = {
   data: SalesHistory[];
 };
 export const SalesTable = ({ data }: SalesTableProps) => {
+  console.log(data);
   const salesTableData = useMemo(() => {
     return data?.map((item, key) => ({
       id: item?.id,
@@ -531,10 +532,11 @@ export const SalesTable = ({ data }: SalesTableProps) => {
       carrier: 'NID',
       color: 'NID',
       lowestOffer: `$${item.lowest_offer}`,
+      salePrice: `$${item.ask_price}`,
       date: format(new Date(item.date), 'dd MMM, yyyy'),
     }));
   }, [data]);
   const columns = getHeaderColumn();
   // return <>{salesTableData?.length > 0 && <DataTable data={salesTableData} />}</>;
-  return <DataTable data={data} columns={columns} />;
+  return <DataTable data={salesTableData} columns={columns} />;
 };

@@ -10,6 +10,7 @@ import {
 import { FilterDisplay, Modal, Only, baseURL, isAuthenticated } from '@elektra/customComponents';
 import { useFilterModal } from '@elektra/hooks';
 import {
+  RootState,
   loadProductListingById,
   loadProductVariants,
   loadRecommendedProducts,
@@ -18,6 +19,7 @@ import {
   rehydrateProductVariants,
   store,
   useAppDispatch,
+  useSelector,
 } from '@elektra/store';
 
 import { loadListingProducts, rehydrateListingProductData } from '@elektra/store/entities/slices/productListing';
@@ -66,8 +68,6 @@ export async function getServerSideProps(context: NextPageContext) {
   const isAuth = await isAuthenticated(context.req);
   const productVariants = store.dispatch(loadProductVariants());
   const productListingById: any = await store.dispatch(loadProductListingById(Number(context.query.id)));
-  // const productListingByIdData: any = productListingById.data.listing.product.id;
-  // console.log(productListingById.data.listing.product.id);
   const listingData = store.dispatch(loadListingProducts(Number(productListingById.data.listing.product.id), isAuth));
   const recommended = store.dispatch(loadRecommendedProducts(isAuth));
   await Promise.all([listingData, productVariants, productListingById, recommended]);
@@ -165,13 +165,13 @@ export default function ProductPage({
   };
 
   useEffect(() => {
-    // Yahan par bhi, aap category ID ke sath listings fetch kar sakte hain
     dispatch(loadListingProducts(productListingById.listing.product.id, isAuth));
   }, [productListingById.listing.product.id, isAuth, dispatch]);
 
   useEffect(() => {
     dispatch(rehydrateProductListingById({ ...productListingById }));
   }, [productListingById, dispatch]);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const id = router.query['id'];
   const key = Array.isArray(id) ? id[0] : id || 'default-key';
@@ -189,14 +189,15 @@ export default function ProductPage({
               <ProductCarousel images={productListingById?.listing?.images ?? []} />
             </div>
 
-            {/* <Text className="text-xs font-medium">Have this item?</Text> */}
-            {/* <Button
-              component={NextLink}
-              href={`/sell-now/listing/${productListingById.listing.id}`}
-              leftIcon={<ShoppingCart />}
-            >
-              Sell Now
-            </Button> */}
+            {Number(user?.id) === productListingById.listing.user.id && (
+              <Button
+                component={NextLink}
+                href={`/sell-now/listing/${productListingById.listing.id}`}
+                leftIcon={<ShoppingCart />}
+              >
+                Sell Now
+              </Button>
+            )}
           </Stack>
         </Grid.Col>
         <Grid.Col md={6}>

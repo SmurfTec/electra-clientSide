@@ -105,7 +105,7 @@ export function BiddingSummary({
       })}
       <Divider color={'rgba(0, 0, 0, 0.08)'} variant="dashed" size="sm" />
       <Only when={true}>
-        {/* <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} /> */}
+        <PositionApart text={'DISCOUNT'} number={Number(discount)} discount={true} />
         <PositionApart text={'TOTAL PRICE'} number={Number(totalPrice) - Number(discount)} numberColor={'#3C82D6'} />
       </Only>
       <Only when={!disabled}>
