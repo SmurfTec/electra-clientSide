@@ -175,7 +175,7 @@ export function ActiveListingRow<T extends { id: string | number; askPrice: stri
     setError('');
     try {
       const res = await http.request({
-        url: `/products/${product?.product_data.id}/sell`,
+        url: `/listings/${product?.product_data.id}/sell`,
         method: 'POST',
       });
 
