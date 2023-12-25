@@ -54,6 +54,26 @@ export default function BuyOffer() {
     productDetail.product.product_properties.description,
   ]);
 
+  const getTotalPrice = () => {
+    let totalPrice = productDetail?.product?.lowest_ask || 0;
+    let totalPercentageFees = 0;
+
+    feeData?.forEach((fee) => {
+      if (fee.value_type !== 'percentage') {
+        totalPrice += Number(fee.fees);
+      }
+    });
+
+    feeData?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        totalPercentageFees += (totalPrice * Number(fee.fees)) / 100;
+      }
+    });
+
+    totalPrice += totalPercentageFees;
+    return Number(totalPrice.toFixed(2));
+  };
+
   return (
     <Container fluid>
       <div className="my-10">
@@ -77,6 +97,7 @@ export default function BuyOffer() {
             highestAsk={productDetail.product.highest_offer}
             lowestAsk={productDetail.product.lowest_ask}
             averageSalePrice={productDetail?.stats?.stats?.avg_sale_price}
+            price={getTotalPrice()}
           />
         </Grid.Col>
       </Grid>

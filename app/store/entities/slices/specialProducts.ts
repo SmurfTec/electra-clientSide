@@ -15,6 +15,7 @@ const recommendedURL = '/products/recommended';
 const recommendedProtectedURL = '/products/recommended/protected';
 
 const shopProducts = '/products?is_active=true';
+const showMoreProducts = '/products';
 // const shopProducts = '/products';
 const shopProtectedProducts = '/products/protected';
 
@@ -138,9 +139,10 @@ export const loadTrendingProducts = (isAuth: boolean) => async (dispatch: AppDis
 };
 
 export const fetchShowMoreProducts = (param: string, isAuth: boolean) => async (dispatch: AppDispatch) => {
+  console.log(isAuth ? shopProtectedProducts : shopProducts + `?title=${param}`)
   return await dispatch(
     apiRequest({
-      url: isAuth ? shopProtectedProducts : shopProducts + `?title=%${param}%`,
+      url: isAuth ? shopProtectedProducts : showMoreProducts + `?title=${param}`,
       onStart: slice.actions.specialProductRequested.type,
       onSuccess: slice.actions.showMoreReceived.type,
       onError: slice.actions.specialProductFailed.type,
@@ -200,8 +202,6 @@ export const fetchShopProducts =
 export const loadFilterProducts =
   (isAuth: boolean, params: string = '&limit=15&page=1') =>
   async (dispatch: AppDispatch) => {
-    // console.log(isAuth ? shopProtectedProducts : shopProducts + `?${params}`);
-    console.log(isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`);
     return await dispatch(
       apiRequest({
         url: isAuth ? shopProtectedProducts + `?${params}` : shopProducts + `?${params}`,

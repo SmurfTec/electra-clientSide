@@ -22,7 +22,6 @@ import { useEffect, useState } from 'react';
 import { Filter } from 'tabler-icons-react';
 
 export async function getServerSideProps(context: NextPageContext) {
-  // id: 1 means homepage data
   const categoryId = context.query.category;
   const isAuth = await isAuthenticated(context.req);
   const brandId = context.query.brand;
@@ -39,6 +38,7 @@ export async function getServerSideProps(context: NextPageContext) {
     : '';
 
   const shopProducts = store.dispatch(fetchShopProducts(isAuth, params));
+
   const genericData = categoryId
     ? await store.dispatch(fetchSingleGenericCategory(String(categoryId)))
     : brandId
@@ -78,7 +78,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     return () => {
       unsubscribe = true;
     };
-  }, []);
+  }, [queryParams, dispatch, products, isAuth]);
 
   const [activePage, setPage] = useState(1);
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
@@ -104,7 +104,7 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadFilterProducts(isAuth, paramString));
   };
-  
+
   const [FilterModal, filterOpened, filterHandler] = useFilterModal({
     data: productFilters,
     filter: params,
@@ -178,9 +178,9 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
       </div>
       <SectionTitle title="All Products" />
       <Modal title="Filters" children={FilterModal} onClose={filterHandler.close} open={filterOpened} />
-      <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-4 md:grid-cols-4 place-content-center">
-        {shopProducts?.products?.map((product, index) => {
-          return (
+      {(shopProducts?.products?.length as number) > 0 ? (
+        <div className="grid grid-cols-2 gap-12 mt-5 lg:grid-cols-4 md:grid-cols-4 place-content-center">
+          {shopProducts?.products.map((product, index) => (
             <div key={index} className="min-w-[15%]">
               <ProductCard
                 id={product.id}
@@ -195,9 +195,12 @@ export default function ShopPage({ products, genericData, queryParams, isAuth }:
                 price={Number(product?.user_starting_price)}
               />
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center w-full mt-5">No products found</div>
+      )}
+
       <Group position="center">
         <Text size="sm" color="black" className="font-bold">
           Page

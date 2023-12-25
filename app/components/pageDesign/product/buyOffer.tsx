@@ -45,6 +45,7 @@ export function BuyOfferComponent({
   const isNew = condition === 'new';
   const { listItemPost, setListItemPost } = useContext(ListItemPostContext);
   const discount = useSelector((state: RootState) => state.entities.coupon.list.discount) ?? 0;
+
   const [count, handlers] = useCounter(isNew ? Number(lowestAsk) : 0, { min: 0 });
   const [showNotification, setshowNotification] = useState(false);
   const router = useRouter();
@@ -58,19 +59,6 @@ export function BuyOfferComponent({
     }
     listingVariants[index] = { id, value };
     setListItemPost((prev) => ({ ...prev, ...{ listingVariants: listingVariants } }));
-  };
-
-  const getTotalPrice = () => {
-    let totalPrice = price || 0;
-
-    receiptFee?.forEach((fee) => {
-      if (fee.value_type === 'percentage') {
-        totalPrice += (totalPrice * Number(fee.fees)) / 100;
-      } else {
-        totalPrice += Number(fee.fees);
-      }
-    });
-    return Number(totalPrice.toFixed(2));
   };
 
   useEffect(() => {
@@ -284,10 +272,10 @@ export function BuyOfferComponent({
               />
             );
           })}
-          <PositionApart text={'Discount'} number={Number(discount)} discount />
+          <PositionApart text={'Discount'} sign="-" number={Number(discount)} discount />
         </div>
         <Divider color={'rgba(0, 0, 0, 0.08)'} my={12} variant="dashed" size="sm" />
-        <PositionApart text={'Total Price'} number={getTotalPrice() - Number(discount)} />
+        <PositionApart text={'Total Price'} number={price as number - Number(discount)} />
       </div>
 
       <Grid>

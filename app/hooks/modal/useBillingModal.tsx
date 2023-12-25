@@ -15,6 +15,8 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
   const dispatch = useAppDispatch();
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
+
+  console.log(profile);
   const defaultCountry = 'US';
   const initialValues = {
     address1: profile?.billing_address_line_1 ?? '',
@@ -26,7 +28,7 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
   };
   const schema = Joi.object({
     address1: Joi.string().optional(),
-    address2: Joi.string().optional(),
+    address2: Joi.string().allow('').optional(),
     country: Joi.string().required(),
     state: Joi.string().required(),
     city: Joi.string().required(),
@@ -40,33 +42,32 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
   const handleSubmit = async (values: typeof initialValues) => {
     setLoading(true);
     const country = Country.getCountryByCode(values.country);
-    const state = State.getStateByCodeAndCountry(values.state,values.country);
+    const state = State.getStateByCodeAndCountry(values.state, values.country);
     const data = {
-      billing_address_line_1:values.address1,
-      billing_address_line_2:values.address2,
-      billing_country_code:values.country,
-      billing_country:country?.name,
-      billing_state_or_province_code:values.state,
-      billing_state_or_province:state?.name,
-      billing_city:values.city,
-      billing_postalcode:Number(values.postalCode)
+      billing_address_line_1: values.address1,
+      billing_address_line_2: values.address2,
+      billing_country_code: values.country,
+      billing_country: country?.name,
+      billing_state_or_province_code: values.state,
+      billing_state_or_province: state?.name,
+      billing_city: values.city,
+      billing_postalcode: Number(values.postalCode),
+    };
+    const res = await http.request({
+      url: 'users/me',
+      method: 'PATCH',
+      data,
+    });
+    if (res.isError) {
+      setLoading(false);
+    } else {
+      const user = res.data['user'];
+      const profile = user['profile'];
+      delete user['profile'];
+      dispatch(updateUser({ isAuthenticated: true, user, profile }));
+      setLoading(false);
+      close();
     }
-      const res = await http.request({
-        url: 'users/me',
-        method: 'PATCH',
-        data
-      });
-      if (res.isError) {
-        setLoading(false);
-      } else {
-        const user = res.data['user'];
-        const profile = user['profile'];
-        delete user['profile'];
-        dispatch(updateUser({ isAuthenticated: true, user, profile }));
-        setLoading(false);
-        close()
-    }
-
   };
 
   const countryTransformer = () => {
@@ -80,7 +81,7 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
   const cityTransformer = () => {
     if (form.values.state) {
       const cities = City.getCitiesOfState(defaultCountry, form.values.state);
-      return cities.map((city) => (String(city?.name)));
+      return cities.map((city) => String(city?.name));
     }
     return [];
   };
@@ -163,7 +164,13 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
           </Grid.Col>
           <Grid.Col xs={8}>
             <Group className="ml-55 mt-4" spacing={'xl'}>
-              <Button onClick={close} disabled={loading} className="xs:w-1/3" size={'lg'} classNames={{ root: button.grayButtonRoot }}>
+              <Button
+                onClick={close}
+                disabled={loading}
+                className="xs:w-1/3"
+                size={'lg'}
+                classNames={{ root: button.grayButtonRoot }}
+              >
                 Cancel
               </Button>
               <Button type="submit" loading={loading} className="xs:w-1/3" size={'lg'}>

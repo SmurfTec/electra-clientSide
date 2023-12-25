@@ -138,7 +138,9 @@ export async function getServerSideProps(context: NextPageContext) {
   if (!showMore) {
     return { redirect: { permanent: false, destination: '/404' } };
   }
+
   const products = store.dispatch(fetchShowMoreProducts(String(showMore), isAuth));
+
   await Promise.all([products]);
   return {
     props: {
@@ -167,6 +169,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
   const [params, setParams] = useState<Array<{ id: number; label: string; value: string }>>([]);
   const productFilters = useSelector((state: RootState) => state.entities?.productVariants.list.variants);
   const search = router.query['show-more'];
+
   const handleFilter = async (label: string, value: string, id: number) => {
     const productId = Number(router.query['id']);
     let newParams = params;
@@ -188,6 +191,7 @@ export function ShowingMore({ products, isAuth }: ShowingMore) {
     const paramString = newParams.map((item) => `${item.label}=${item.value}`).join('&');
     dispatch(loadListingProducts(productId, isAuth, '&' + paramString));
   };
+
   return (
     <div>
       <Container fluid>
