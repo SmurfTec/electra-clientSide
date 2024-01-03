@@ -12,6 +12,7 @@ const nextConfig = {
     );
     return config;
   },
+  staticPageGenerationTimeout: 120000,
 };
 
 module.exports = nextConfig;
