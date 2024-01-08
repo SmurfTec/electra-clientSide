@@ -27,7 +27,7 @@ export const useShippingChangeModal = (): [React.ReactNode, boolean, { open: () 
   };
   const schema = Joi.object({
     address1: Joi.string().optional(),
-    address2: Joi.string().optional(),
+    address2: Joi.string().allow('').optional(),
     country: Joi.string().required(),
     state: Joi.string().required(),
     city: Joi.string().required(),

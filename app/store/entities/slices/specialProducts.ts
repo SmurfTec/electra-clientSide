@@ -139,7 +139,6 @@ export const loadTrendingProducts = (isAuth: boolean) => async (dispatch: AppDis
 };
 
 export const fetchShowMoreProducts = (param: string, isAuth: boolean) => async (dispatch: AppDispatch) => {
-  console.log(isAuth ? shopProtectedProducts : shopProducts + `?title=${param}`)
   return await dispatch(
     apiRequest({
       url: isAuth ? shopProtectedProducts : showMoreProducts + `?title=${param}`,
@@ -189,6 +188,7 @@ export const UnlikeProduct = (data: { product?: number; listing?: number }) => a
 export const fetchShopProducts =
   (isAuth: boolean, param: string = '') =>
   async (dispatch: AppDispatch) => {
+    console.log(param);
     const finalUrl = isAuth ? shopProtectedProducts : shopProducts;
     return await dispatch(
       apiRequest({

@@ -49,6 +49,25 @@ export default function PlaceOffer() {
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list);
 
+  const getTotalPrice = () => {
+    let originalTotalPrice = productListingById?.listing?.ask;
+    let percentageIncrease = 0;
+    let fixedValueIncrease = 0;
+
+    // Calculate the total percentage and fixed value increases
+    feeData?.forEach((fee) => {
+      if (fee.value_type === 'percentage') {
+        percentageIncrease += (originalTotalPrice * Number(fee.fees)) / 100;
+      } else {
+        fixedValueIncrease += Number(fee.fees);
+      }
+    });
+
+    // Apply the increases to the original total price
+    let totalPrice = originalTotalPrice + percentageIncrease + fixedValueIncrease;
+    return Number(totalPrice.toFixed(2));
+  };
+
   return (
     <Container fluid>
       <div className="my-10">
@@ -73,7 +92,7 @@ export default function PlaceOffer() {
             description={ListingDescriptionData.description}
             highestAsk={productListingById?.listing?.highest_offer}
             lowestAsk={productListingById?.listing?.lowest_ask}
-            price={Number(productListingById?.listing?.ask)}
+            price={Number(getTotalPrice())}
             averageSalePrice={Number(productListingById.listing.saleprice)}
             isRepairedBefore={productListingById?.listing.is_repaired_before}
             moreInfo={productListingById?.listing.more_info}

@@ -1,4 +1,5 @@
 import { PageTitle, PlaceOfferComponent } from '@elektra/components';
+import NoDataFallback from '@elektra/components/NoDataFallback';
 import { baseURL, isAuthenticated } from '@elektra/customComponents';
 import { RootState, loadFee, useAppDispatch } from '@elektra/store';
 import { Container, Grid, Image } from '@mantine/core';
@@ -22,9 +23,6 @@ type PlaceOfferProps = {
 
 export default function PlaceOffer() {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(loadFee(String(productListingById.category_id)));
-  }, []);
 
   const feeData = useSelector((state: RootState) => state.entities.fee.list.fees);
   const ListingDescriptionData = {
@@ -56,9 +54,25 @@ export default function PlaceOffer() {
   // const [condition, setCondition] = useState<string>('New');
 
   const productListingById = useSelector((state: RootState) => state.entities.productListingById.list.listing);
-console.log(productListingById);
+
   const router = useRouter();
   // const condition = "new";
+
+  useEffect(() => {
+    // Ensure that productListingById is not undefined before dispatching
+    if (productListingById?.category_id) {
+      dispatch(loadFee(String(productListingById.category_id)));
+    }
+  }, [productListingById, dispatch]);
+
+  if (!productListingById) {
+    return (
+      <NoDataFallback
+        message="Product listing not found. Please return to the listing page."
+        redirectPath="/listing" // Change this to your relevant listing page path
+      />
+    );
+  }
   return (
     <Container fluid>
       <div className="my-10">

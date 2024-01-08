@@ -16,7 +16,6 @@ export const useBillingChangeModal = (): [React.ReactNode, boolean, { open: () =
   const { classes: button } = useStylesforGlobal();
   const profile = useSelector((state: RootState) => state.auth.profile);
 
-  console.log(profile);
   const defaultCountry = 'US';
   const initialValues = {
     address1: profile?.billing_address_line_1 ?? '',
