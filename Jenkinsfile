@@ -17,6 +17,6 @@ pipeline {
                     sh "pm2 restart electra-client-dev"
                 }
             }
-        } 
+        }
     }
 }
