@@ -14,7 +14,7 @@ pipeline {
                 dir('/home/projects/next-projects/electra-clientside-uat') {
                     sh "sudo npm install"
                     sh "sudo npm run build"
-              //      sh "pm2 restart electra-client-uat"
+                    sh "pm2 restart electra-client-uat"
                 }
             }
         }
