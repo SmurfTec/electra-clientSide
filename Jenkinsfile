@@ -14,7 +14,7 @@ pipeline {
                 dir('/home/projects/next-projects/electra-clientside-dev') {
                     sh "sudo npm install"
                     sh "sudo npm run build"
-                    sh "pm2 restart electra-client-dev"
+                  //  sh "pm2 restart electra-client-dev"
                 }
             }
         }
